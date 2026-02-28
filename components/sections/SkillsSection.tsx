@@ -3,45 +3,70 @@
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { motion } from "framer-motion";
-import { motionConfig, sectionReveal, staggerItem } from "@/lib/motion";
-import TiltCard from "@/components/ui/TiltCard";
+import { motionConfig, sectionReveal } from "@/lib/motion";
+
+const fadeUp = {
+    hidden: { opacity: 0, y: 12 },
+    show: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: motionConfig.medium, ease: motionConfig.ease },
+    },
+};
+
+const stagger = {
+    hidden: {},
+    show: { transition: { staggerChildren: 0.08 } },
+};
 
 const layers = [
     {
-        title: "Core Programming Foundations",
+        number: "01",
+        title: "Core Programming",
         description:
-            "Building structured logic at the language level — memory-aware design, algorithmic reasoning, and data structure selection driven by problem constraints rather than convenience.",
-        technologies: ["C", "C++", "Java", "Python"],
+            "Structured logic design, algorithmic reasoning, and memory-aware implementation driven by problem constraints.",
+        tech: "C · C++ · Java · Python",
+        emphasis: true,
     },
     {
+        number: "02",
         title: "Backend & System Logic",
         description:
-            "Designing modular server-side flows with clear request lifecycles, role-based access control, and separation between routing, business logic, and data access layers.",
-        technologies: ["Node.js", "Express", "API Design Patterns"],
+            "Modular server flows with clear request lifecycles, role-based access control, and separated business logic layers.",
+        tech: "Node.js · Express · REST Patterns",
+        emphasis: true,
     },
     {
-        title: "Data & Storage Architecture",
+        number: "03",
+        title: "Data & Storage",
         description:
-            "Schema design with normalization awareness, structured persistence strategies, and deliberate selection between relational and document-based models based on access patterns.",
-        technologies: ["MySQL", "PostgreSQL", "MongoDB", "SQLite"],
+            "Schema design with normalization awareness, structured persistence, and deliberate selection between relational and document models.",
+        tech: "MySQL · PostgreSQL · MongoDB · SQLite",
+        emphasis: false,
     },
     {
-        title: "Frontend & Interface Systems",
+        number: "04",
+        title: "Interface Layer",
         description:
-            "Component structuring, state management, and UI-data mapping with focus on clarity and maintainability over visual complexity.",
-        technologies: ["React", "TypeScript", "HTML", "CSS", "Bootstrap"],
+            "Component structuring, state management, and UI-data mapping with focus on clarity over visual complexity.",
+        tech: "React · TypeScript · HTML · CSS",
+        emphasis: false,
     },
     {
-        title: "Infrastructure & Cloud",
+        number: "05",
+        title: "Infrastructure",
         description:
-            "Deployment workflows, environment configuration, and structured exploration of scalable cloud services with a focus on understanding operational fundamentals.",
-        technologies: ["Google Cloud", "CI/CD Basics", "Environment Setup"],
+            "Deployment workflows, environment configuration, and structured exploration of cloud services with operational focus.",
+        tech: "Google Cloud · CI/CD · Environment Setup",
+        emphasis: false,
     },
     {
-        title: "Tooling & Workflow",
+        number: "06",
+        title: "Tooling Discipline",
         description:
-            "Version control discipline, atomic commit practices, modular project organization, and development environment efficiency as daily engineering habits.",
-        technologies: ["Git", "GitHub", "VS Code"],
+            "Version control discipline, atomic commits, modular project organization, and development environment efficiency.",
+        tech: "Git · GitHub · VS Code",
+        emphasis: false,
     },
 ];
 
@@ -49,30 +74,42 @@ export default function SkillsSection() {
     return (
         <SectionWrapper id="skills" surface>
             <motion.div {...sectionReveal}>
-                <SectionHeading number="02">System Capabilities</SectionHeading>
+                <SectionHeading number="02">Engineering Layers</SectionHeading>
+                <p className="mt-3 text-xs tracking-widest uppercase text-neutral-400 dark:text-neutral-500">
+                    Stacked by architecture, not trend
+                </p>
             </motion.div>
 
             <motion.div
-                initial="initial"
-                whileInView="whileInView"
+                variants={stagger}
+                initial="hidden"
+                whileInView="show"
                 viewport={motionConfig.viewport}
-                transition={{ staggerChildren: motionConfig.stagger }}
-                className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6"
+                className="mt-14 max-w-3xl"
             >
-                {layers.map((layer) => (
-                    <motion.div
-                        key={layer.title}
-                        variants={staggerItem}
-                    >
-                        <TiltCard className="rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/50 p-6 transition-colors duration-200 hover:border-neutral-400 dark:hover:border-neutral-600 h-full">
-                            <h3 className="text-lg font-medium">{layer.title}</h3>
-                            <p className="mt-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400 max-w-md">
-                                {layer.description}
-                            </p>
-                            <p className="mt-4 text-xs text-neutral-500 dark:text-neutral-500">
-                                {layer.technologies.join(" · ")}
-                            </p>
-                        </TiltCard>
+                {layers.map((layer, i) => (
+                    <motion.div key={layer.number} variants={fadeUp}>
+                        <div className={`flex gap-6 ${layer.emphasis ? "py-8" : "py-6"}`}>
+                            <div className="flex flex-col items-center shrink-0 w-6">
+                                <span className="text-xs font-mono text-neutral-300 dark:text-neutral-700">
+                                    {layer.number}
+                                </span>
+                                {i < layers.length - 1 && (
+                                    <div className="flex-1 w-px mt-2 bg-neutral-200 dark:bg-neutral-800" />
+                                )}
+                            </div>
+                            <div className="pb-1">
+                                <h3 className={`font-semibold ${layer.emphasis ? "text-lg" : "text-base"}`}>
+                                    {layer.title}
+                                </h3>
+                                <p className="mt-2 text-sm leading-[1.8] text-neutral-600 dark:text-neutral-400 max-w-lg">
+                                    {layer.description}
+                                </p>
+                                <p className="mt-3 text-xs text-neutral-400 dark:text-neutral-500">
+                                    {layer.tech}
+                                </p>
+                            </div>
+                        </div>
                     </motion.div>
                 ))}
             </motion.div>
