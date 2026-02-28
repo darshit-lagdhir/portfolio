@@ -13,9 +13,9 @@ interface CaseStudyTemplateProps {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
     return (
         <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
+            viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: motionConfig.medium, ease: motionConfig.ease }}
             className="mt-16"
         >
