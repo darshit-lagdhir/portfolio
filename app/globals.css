@@ -103,3 +103,16 @@ body {
     opacity: 0.5;
   }
 }
+
+/* Disable tilt on touch devices and reduced motion */
+@media (hover: none) {
+  .tilt-card {
+    transform: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tilt-card {
+    transform: none !important;
+  }
+}

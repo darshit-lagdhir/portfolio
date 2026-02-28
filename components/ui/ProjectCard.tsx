@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Project } from "@/types/project";
+import TiltCard from "@/components/ui/TiltCard";
 
 interface ProjectCardProps {
     project: Project;
@@ -7,7 +8,7 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ project }: ProjectCardProps) {
     return (
-        <div className="rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/50 p-6 transition-colors duration-200 hover:border-neutral-400 dark:hover:border-neutral-600 flex flex-col justify-between">
+        <TiltCard className="rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/50 p-6 transition-colors duration-200 hover:border-neutral-400 dark:hover:border-neutral-600 flex flex-col justify-between h-full">
             <div>
                 {project.tier === 1 && (
                     <span className="text-[11px] uppercase tracking-widest text-neutral-400 dark:text-neutral-500 mb-3 block">
@@ -30,6 +31,6 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                     View System →
                 </Link>
             </div>
-        </div>
+        </TiltCard>
     );
 }
