@@ -3,15 +3,17 @@ import { Project } from "@/types/project";
 export const projects: Project[] = [
     {
         slug: "courier-management-system",
-        title: "Role-Based Courier Management System (CLI Architecture)",
+        title: "Courier Management System",
         shortDescription:
-            "Modular CLI-based system implementing role-driven workflows with structured command parsing, persistent state handling, and separated business logic layers.",
-        techStack: ["C", "Modular CLI", "File-Based Storage"],
+            "Implements role-based CLI workflows with command routing, file-based persistence, and separated data access in C.",
+        techStack: ["C", "File I/O", "CLI"],
         tier: 1,
+        githubRepoName: "courier-management-system",
+        githubUrl: "https://github.com/darshit-lagdhir/courier-management-system",
         overview:
-            "A command-line management system designed to simulate real-world courier operations through structured role separation. The system handles multiple user roles — admin, staff, and customer — each with isolated command sets and permission boundaries. Built entirely in C without external frameworks, forcing deliberate architectural decisions at every layer.",
+            "CLI-based courier operations system handling admin, staff, and customer roles through isolated command sets. Built in C without external frameworks — all routing, persistence, and access control implemented manually.",
         problem:
-            "The system required structured role separation without relying on external authentication frameworks or database engines. All state had to persist across sessions using file-based storage, and the command interface needed to handle complex multi-step workflows without ambiguity. The core challenge was maintaining clean separation between user roles, business logic, and data persistence within the constraints of procedural C programming.",
+            "Required structured role separation without authentication libraries or databases. State had to persist across sessions via flat files. The command interface needed to handle multi-step workflows within procedural C constraints.",
         technicalMeta: {
             systemType: "CLI Application",
             architectureStyle: "Layered Modular",
@@ -29,52 +31,53 @@ export const projects: Project[] = [
             {
                 name: "Input & Command Routing",
                 description:
-                    "Handles command parsing, argument validation, and role-based routing — ensuring each user type only accesses permitted operations through a centralized dispatcher.",
+                    "Parses commands, validates arguments, routes to role-specific handlers through a centralized dispatcher.",
             },
             {
                 name: "Business Logic Modules",
                 description:
-                    "Isolated modules for each domain: order management, user administration, delivery tracking, and reporting. Each module operates independently with well-defined function interfaces.",
+                    "Isolated modules for order management, user administration, delivery tracking. Each operates through defined function interfaces.",
             },
             {
                 name: "Data Access & Persistence",
                 description:
-                    "Centralized I/O abstraction managing file-based persistence using structured flat files with consistent serialization formats. Business logic never touches files directly.",
+                    "Centralized file I/O abstraction using structured flat files. Business logic never touches files directly.",
             },
         ],
         decisions: [
-            "Chose procedural C over C++ to enforce discipline in memory management and manual state handling rather than relying on OOP abstractions.",
-            "Implemented a centralized command router instead of scattered conditional blocks, making the control flow predictable and extensible.",
-            "Separated file I/O into a dedicated data access layer to prevent business logic from directly coupling to storage format.",
-            "Used structured flat files with fixed-width fields rather than CSV to avoid parsing edge cases and maintain consistent record boundaries.",
+            "Chose C over C++ to enforce manual memory management and explicit state handling.",
+            "Centralized command router instead of scattered conditionals for predictable control flow.",
+            "Separated file I/O into dedicated data access layer to decouple storage format from logic.",
+            "Fixed-width field format instead of CSV to avoid parsing edge cases.",
         ],
         tradeoffs: [
-            "File-based storage lacks indexing, making search operations O(n) — acceptable at current scale but would require database migration for production use.",
-            "No concurrent access handling — the system assumes single-user operation per session.",
-            "Error recovery is limited to basic validation; no transaction rollback mechanism exists for partial write failures.",
-            "The procedural architecture, while disciplined, would benefit from modular compilation units for larger-scale maintenance.",
+            "No indexing on flat files — search is O(n). Acceptable at current scale.",
+            "Single-user per session. No concurrent access handling.",
+            "No transaction rollback for partial write failures.",
+            "Procedural architecture limits modular compilation for larger-scale maintenance.",
         ],
         performance:
-            "Memory allocation is manually managed with explicit cleanup on every exit path to prevent leaks. File operations use buffered I/O to minimize system calls. The command parser uses a hash-based lookup for O(1) command resolution instead of sequential string comparison. Record searches use linear scan — sufficient for current data volumes but identified as the first optimization target for scaling.",
+            "Manual memory management with explicit cleanup on every exit path. Buffered I/O for file operations. Hash-based command lookup for O(1) resolution. Linear scan for record search — identified as first scaling target.",
         future: [
-            "Migrate persistence layer from flat files to SQLite for indexed queries and transactional safety.",
-            "Introduce a logging abstraction for operation auditing and debugging.",
-            "Refactor into separately compiled modules to improve build times and enable unit testing per module.",
-            "Add a configuration layer for runtime-adjustable parameters instead of compile-time constants.",
+            "Migrate to SQLite for indexed queries and transactions.",
+            "Add logging abstraction for auditing.",
+            "Refactor into separately compiled modules for unit testing.",
+            "Add runtime configuration layer replacing compile-time constants.",
         ],
-        repositoryLink: "https://github.com/darshitlagdhir",
     },
     {
         slug: "student-record-engine",
-        title: "Student Record Management Engine",
+        title: "Student Record Engine",
         shortDescription:
-            "Structured data management system with CRUD operations, search indexing, and file-based persistence designed around normalized record handling.",
-        techStack: ["C++", "File I/O", "Data Structuring"],
+            "Implements file-based CRUD with binary storage, in-memory indexing, and structured record retrieval in C++.",
+        techStack: ["C++", "Binary File I/O", "OOP"],
         tier: 1,
+        githubRepoName: "student-record-engine",
+        githubUrl: "https://github.com/darshit-lagdhir/student-record-engine",
         overview:
-            "A record management engine built in C++ that handles structured student data through clean CRUD operations. The system emphasizes data integrity, consistent formatting, and efficient retrieval patterns. Designed as a standalone engine that could serve as the data layer for a larger academic management system.",
+            "Record management engine handling structured student data through CRUD operations. Uses binary file storage with fixed record sizes and an in-memory ID-to-offset index for retrieval. Designed as a standalone data layer.",
         problem:
-            "Managing structured records with multiple interdependent fields required careful schema design even without a formal database. The system needed to support creation, retrieval, update, and deletion of records while maintaining referential consistency and handling edge cases like duplicate entries, partial updates, and corrupted file recovery.",
+            "Needed structured record management without a database. Required creation, retrieval, update, deletion with referential consistency, duplicate detection, and corrupted file recovery.",
         technicalMeta: {
             systemType: "Data Management Engine",
             architectureStyle: "Three-Tier OOP",
@@ -90,52 +93,53 @@ export const projects: Project[] = [
             {
                 name: "Interface Layer",
                 description:
-                    "Menu-driven command system with input validation and formatted output display. Separates user interaction from core logic entirely.",
+                    "Menu-driven input with validation and formatted output. User interaction fully separated from core logic.",
             },
             {
                 name: "Service Layer",
                 description:
-                    "Core business logic — record creation with validation, search algorithms, update conflict detection, and deletion with integrity checks.",
+                    "Record creation with validation, search algorithms, update conflict detection, deletion with integrity checks.",
             },
             {
                 name: "Persistence Layer",
                 description:
-                    "Serialization to binary files using structured record objects, with a basic indexing mechanism that maps record IDs to file offsets for faster retrieval.",
+                    "Binary serialization with fixed record sizes. Index maps record IDs to file offsets for direct access.",
             },
         ],
         decisions: [
-            "Used C++ classes to encapsulate record structures, providing type safety and method-based access control over raw struct manipulation.",
-            "Implemented binary file storage instead of text to maintain fixed record sizes, enabling direct offset calculation for random access.",
-            "Built a simple in-memory index loaded at startup to avoid full file scans on every search operation.",
-            "Separated display formatting from data logic to allow future interface changes without modifying core operations.",
+            "C++ classes for type-safe record encapsulation over raw struct manipulation.",
+            "Binary storage for fixed record sizes enabling O(1) offset-based retrieval.",
+            "In-memory index loaded at startup to eliminate repeated file scans.",
+            "Display formatting separated from data logic for interface portability.",
         ],
         tradeoffs: [
-            "Binary storage makes manual inspection and debugging harder compared to human-readable text formats.",
-            "The in-memory index grows linearly with record count — suitable for thousands of records but not millions.",
-            "No multi-user support — concurrent access would require file locking or database migration.",
-            "Schema changes require migration logic since binary format is tightly coupled to struct layout.",
+            "Binary format makes manual inspection and debugging harder.",
+            "In-memory index scales linearly — suitable for thousands, not millions.",
+            "No concurrent access. File locking needed for multi-user.",
+            "Schema changes require migration logic due to fixed binary layout.",
         ],
         performance:
-            "Binary storage with fixed record sizes enables O(1) retrieval by ID through offset calculation. The in-memory index eliminates repeated file scans for search operations. Memory usage is controlled through scoped object lifetimes and RAII patterns. File writes use buffered streams with explicit flush points to balance performance and data safety.",
+            "O(1) retrieval by ID through offset calculation. In-memory index eliminates file scans. RAII patterns for memory management. Buffered streams with explicit flush for write safety.",
         future: [
-            "Implement a proper B-tree index for multi-field search support.",
-            "Add export functionality to CSV and JSON formats for interoperability.",
-            "Introduce schema versioning to handle future field additions without data loss.",
-            "Build a REST API wrapper to expose the engine as a microservice.",
+            "B-tree index for multi-field search.",
+            "CSV and JSON export for interoperability.",
+            "Schema versioning for non-breaking field additions.",
+            "REST API wrapper to expose as microservice.",
         ],
-        repositoryLink: "https://github.com/darshitlagdhir",
     },
     {
         slug: "inventory-control-system",
-        title: "Inventory Control & Tracking System",
+        title: "Inventory Control System",
         shortDescription:
-            "Backend-driven inventory management with role-based access control, transactional state updates, and structured reporting modules.",
-        techStack: ["Java", "OOP Patterns", "Modular Architecture"],
+            "Implements role-based inventory management with Repository pattern, Factory pattern, and transactional stock operations in Java.",
+        techStack: ["Java", "OOP Patterns", "Serialization"],
         tier: 1,
+        githubRepoName: "inventory-control-system",
+        githubUrl: "https://github.com/darshit-lagdhir/inventory-control-system",
         overview:
-            "An inventory management system built in Java that handles product tracking, stock updates, and role-based operations through a cleanly layered OOP architecture. The system demonstrates practical application of design patterns including Repository, Service Layer, and Factory patterns within a real operational context.",
+            "Inventory management system handling product tracking, stock updates, and role-based operations. Applies Repository, Service Layer, and Factory patterns. Serialized file storage designed for database migration through interface contracts.",
         problem:
-            "Inventory systems require precise state management — every stock update must be atomic and auditable. The system needed to handle multiple product categories, support role-based access for different operational levels, and generate structured reports without relying on external reporting frameworks.",
+            "Required atomic stock updates with audit capability. Multiple product categories with role-based access. Structured reporting without external frameworks.",
         technicalMeta: {
             systemType: "Backend Management System",
             architectureStyle: "Layered OOP with Design Patterns",
@@ -152,55 +156,58 @@ export const projects: Project[] = [
             {
                 name: "Presentation Layer",
                 description:
-                    "Structured CLI with role-based menu routing. Each role sees only permitted operations, enforced at the interface level before reaching business logic.",
+                    "CLI with role-based menu routing. Permitted operations enforced at interface level before reaching business logic.",
             },
             {
                 name: "Business Layer",
                 description:
-                    "Inventory operations — stock additions, removals, transfers, and threshold alerts — through service classes with transaction-like semantics and rollback capability.",
+                    "Stock additions, removals, transfers, threshold alerts through service classes with transaction semantics and rollback.",
             },
             {
                 name: "Data Layer",
                 description:
-                    "Repository pattern abstracting storage operations, currently backed by serialized file storage but designed for seamless database migration through interface contracts.",
+                    "Repository pattern abstracting storage. Currently file-backed, designed for database swap via interface contracts.",
             },
         ],
         decisions: [
-            "Applied the Repository pattern to decouple business logic from storage implementation, making future database integration a configuration change rather than a rewrite.",
-            "Used Factory pattern for product creation to handle multiple product categories with shared interfaces but distinct validation rules.",
-            "Implemented service-layer transaction semantics with rollback capability for multi-step inventory operations.",
-            "Chose composition over deep inheritance hierarchies to maintain flexibility as product types evolve.",
+            "Repository pattern decouples storage from logic — database migration becomes configuration change.",
+            "Factory pattern for product creation with category-specific validation rules.",
+            "Service-layer transaction semantics with rollback for multi-step operations.",
+            "Composition over inheritance for flexibility as product types evolve.",
         ],
         tradeoffs: [
-            "File-based serialization introduces startup latency as the full dataset loads into memory — acceptable for current scale.",
-            "Transaction rollback is in-memory only — a crash during file write could leave inconsistent state.",
-            "Report generation is synchronous and blocking — would need async execution for large datasets.",
-            "No real-time notification system for threshold alerts — currently batch-checked on operation execution.",
+            "Full dataset loads into memory at startup. Acceptable at current scale.",
+            "In-memory rollback only — crash during write can leave inconsistent state.",
+            "Synchronous report generation blocks execution on large datasets.",
+            "Threshold alerts batch-checked on operation, no real-time notification.",
         ],
         performance:
-            "Collections are chosen based on access patterns — HashMap for ID-based lookups, ArrayList for sequential reporting. Lazy loading is applied to report generation to avoid computing unused summaries. Memory footprint is managed through explicit nullification of large temporary collections after use.",
+            "HashMap for ID lookups, ArrayList for sequential reporting. Lazy loading on report generation. Explicit nullification of large temporary collections after use.",
         future: [
-            "Integrate with a relational database using JDBC for persistent, queryable storage.",
-            "Add a web-based dashboard using Spring Boot for remote access.",
-            "Implement event-driven architecture for real-time stock threshold notifications.",
-            "Introduce barcode/SKU scanning integration for physical inventory operations.",
+            "JDBC integration for relational persistence.",
+            "Spring Boot web dashboard for remote access.",
+            "Event-driven architecture for real-time threshold alerts.",
+            "Barcode/SKU scanning integration.",
         ],
-        repositoryLink: "https://github.com/darshitlagdhir",
     },
     {
         slug: "task-workflow-engine",
-        title: "Task Workflow Automation Engine",
+        title: "Task Workflow Engine",
         shortDescription:
-            "Workflow orchestration system handling task lifecycle management with priority queuing, status transitions, and persistent state tracking.",
-        techStack: ["Python", "State Management", "CLI Interface"],
+            "Handles task lifecycle management with priority queuing, status transitions, and persistent state tracking in Python.",
+        techStack: ["Python", "State Management", "CLI"],
         tier: 2,
+        githubRepoName: "task-workflow-engine",
+        githubUrl: "https://github.com/darshit-lagdhir/task-workflow-engine",
     },
     {
         slug: "api-gateway-service",
-        title: "RESTful API Gateway Service",
+        title: "API Gateway Service",
         shortDescription:
-            "Structured API layer with route modularization, middleware chaining, request validation, and role-based endpoint access control.",
-        techStack: ["Node.js", "Express", "REST Architecture"],
+            "Structured API layer with route modularization, middleware chaining, request validation, and role-based endpoint access.",
+        techStack: ["Node.js", "Express", "REST"],
         tier: 2,
+        githubRepoName: "api-gateway-service",
+        githubUrl: "https://github.com/darshit-lagdhir/api-gateway-service",
     },
 ];

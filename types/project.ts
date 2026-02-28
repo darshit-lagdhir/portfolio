@@ -26,5 +26,6 @@ export interface Project {
     tradeoffs?: string[];
     performance?: string;
     future?: string[];
-    repositoryLink?: string;
+    githubRepoName?: string;
+    githubUrl?: string;
 }

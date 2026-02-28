@@ -199,15 +199,18 @@ export default function CaseStudyTemplate({ project }: { project: Project }) {
                         </Section>
                     )}
 
-                    {project.repositoryLink && (
+                    {project.githubUrl && (
                         <div className="mt-16">
+                            <p className="text-xs uppercase tracking-widest text-neutral-400 dark:text-neutral-500 mb-2">
+                                Source Repository
+                            </p>
                             <a
-                                href={project.repositoryLink}
+                                href={project.githubUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-sm font-medium underline underline-offset-4 decoration-neutral-400 dark:decoration-neutral-600 hover:decoration-neutral-900 dark:hover:decoration-neutral-200 transition-colors"
+                                className="text-sm font-medium font-mono underline underline-offset-4 decoration-neutral-400 dark:decoration-neutral-600 hover:decoration-neutral-900 dark:hover:decoration-neutral-200 transition-colors"
                             >
-                                View on GitHub →
+                                {project.githubRepoName} →
                             </a>
                         </div>
                     )}
