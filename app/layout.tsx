@@ -2,6 +2,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import AmbientGradient from "@/components/ui/AmbientGradient";
 
 export const metadata = {
   title: "Darshit Lagdhir — Systems-Focused Developer",
@@ -17,6 +18,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-neutral-50 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100 transition-colors duration-300 antialiased">
         <ThemeProvider>
+          <AmbientGradient />
           <Navbar />
           <main>{children}</main>
           <Footer />

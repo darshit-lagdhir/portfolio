@@ -18,6 +18,72 @@ body {
   background-color: rgba(255, 255, 255, 0.12);
 }
 
+/* Ambient gradient blobs */
+.ambient-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  will-change: transform;
+}
+
+.ambient-blob-1 {
+  width: 600px;
+  height: 600px;
+  top: -200px;
+  left: -100px;
+  background: radial-gradient(circle, rgba(120, 120, 140, 0.06), transparent 70%);
+  animation: ambient-drift-1 25s ease-in-out infinite;
+}
+
+.ambient-blob-2 {
+  width: 500px;
+  height: 500px;
+  top: 30%;
+  right: -150px;
+  background: radial-gradient(circle, rgba(100, 110, 130, 0.05), transparent 70%);
+  animation: ambient-drift-2 30s ease-in-out infinite;
+}
+
+.dark .ambient-blob-1 {
+  background: radial-gradient(circle, rgba(80, 80, 110, 0.08), transparent 70%);
+}
+
+.dark .ambient-blob-2 {
+  background: radial-gradient(circle, rgba(60, 70, 100, 0.06), transparent 70%);
+}
+
+@keyframes ambient-drift-1 {
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(40px, 30px) scale(1.05);
+  }
+
+  66% {
+    transform: translate(-20px, 15px) scale(0.97);
+  }
+}
+
+@keyframes ambient-drift-2 {
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(-30px, -20px) scale(0.95);
+  }
+
+  66% {
+    transform: translate(25px, -10px) scale(1.03);
+  }
+}
+
 /* Respect user motion preferences */
 @media (prefers-reduced-motion: reduce) {
 
@@ -28,5 +94,12 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* Reduce ambient on mobile */
+@media (max-width: 768px) {
+  .ambient-blob {
+    opacity: 0.5;
   }
 }
