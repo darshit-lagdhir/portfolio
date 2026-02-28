@@ -3,71 +3,73 @@
 import { motion } from "framer-motion";
 
 export default function BrutalistHero() {
-    return (
-        <section className="min-h-screen w-full flex flex-col justify-center items-start pt-32 pb-20 px-8 md:px-12 bg-[#050505] overflow-hidden snap-start">
-            <div className="w-full max-w-screen-2xl mx-auto grid grid-cols-4 md:grid-cols-12 gap-x-6 z-10 relative">
+    const ease = [0.16, 1, 0.3, 1] as const;
 
-                {/* Hero Main Content */}
-                <div className="col-span-4 md:col-span-12 lg:col-span-10 xl:col-span-8 flex flex-col justify-center h-[70vh]">
+    return (
+        <section className="min-h-screen w-full flex flex-col justify-center items-start bg-[#050505] overflow-hidden snap-start relative px-8 md:px-12 xl:px-32">
+            <div className="w-full max-w-screen-2xl mx-auto z-10 relative">
+
+                {/* Micro Label - Prompt 91 */}
+                <motion.span
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, ease: ease }}
+                    className="font-heading text-step--1 text-neutral-600 uppercase tracking-micro mb-8 block"
+                >
+                    DIGITAL ARCHITECT // PORTFOLIO 25
+                </motion.span>
+
+                {/* Hero Title - Massive but Structured */}
+                <div className="flex flex-col gap-0 select-none">
                     <motion.h1
-                        initial={{ opacity: 0, y: 12 }}
+                        initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                        className="font-title text-[clamp(5rem,12vw,16rem)] leading-[0.85] text-white uppercase tracking-tighter"
+                        transition={{ duration: 1, ease: ease }}
+                        className="font-title text-step-5 leading-tight-title text-white uppercase tracking-tight-title"
                     >
-                        DARSHIT<br />
+                        DARSHIT
+                    </motion.h1>
+                    <motion.h1
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1, delay: 0.1, ease: ease }}
+                        className="font-title text-step-5 leading-tight-title text-white uppercase tracking-tight-title"
+                    >
                         LAGDHIR
                     </motion.h1>
-
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.2, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                        className="mt-16 flex items-center gap-12"
-                    >
-                        <p className="font-body text-xl md:text-3xl text-neutral-500 font-light tracking-wide max-w-[40ch]">
-                            Systems from the inside out. Structural integrity over decorative facade.
-                        </p>
-                    </motion.div>
-
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.4, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                        className="mt-20 flex flex-wrap items-center gap-12"
-                    >
-                        <a href="#projects" className="font-heading text-xs md:text-sm uppercase tracking-widest text-[#050505] bg-white px-10 py-5 hover:bg-neutral-300 transition-colors border border-white">
-                            View Systems
-                        </a>
-                        <a href="https://github.com/darshit-lagdhir" target="_blank" className="font-heading text-xs md:text-sm uppercase tracking-widest text-neutral-500 hover:text-white transition-colors border-b border-transparent hover:border-white pb-1">
-                            GitHub Codebase
-                        </a>
-                    </motion.div>
                 </div>
 
-                {/* Grid Structural Lines */}
-                <div className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 col-span-2 col-start-11 pointer-events-none opacity-20">
-                    <div className="h-[40vh] w-px bg-white mx-auto" />
-                </div>
+                {/* Hero Mission - Space Grotesk Controlled */}
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.6, duration: 1, ease: ease }}
+                    className="mt-12 md:mt-24 max-w-[50ch]"
+                >
+                    <p className="font-body text-step-2 text-neutral-500 font-light tracking-wide leading-snug">
+                        Systems engineering at the intersection of modular logistics and analytical advisory protocols.
+                    </p>
+                </motion.div>
+
+                {/* Navigation / CTA */}
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.8, duration: 1, ease: ease }}
+                    className="mt-12 md:mt-16 flex flex-wrap items-center gap-12"
+                >
+                    <a href="#projects" className="font-heading text-step-0 uppercase tracking-micro text-white hover:text-neutral-500 transition-colors">
+                        View System
+                    </a>
+                    <div className="w-12 h-px bg-neutral-900" />
+                    <a href="https://github.com/darshit-lagdhir" target="_blank" className="font-heading text-step-0 uppercase tracking-micro text-neutral-600 hover:text-white transition-colors">
+                        Source Control
+                    </a>
+                </motion.div>
             </div>
 
-            {/* Minimal Grid Overlay */}
-            <div className="absolute inset-0 pointer-events-none opacity-[0.04]">
-                <div className="w-full max-w-screen-2xl mx-auto h-full grid grid-cols-4 md:grid-cols-12 gap-x-6 px-8 md:px-12">
-                    <div className="border-l border-white h-full" />
-                    <div className="border-l border-white h-full hidden md:block" />
-                    <div className="border-l border-white h-full hidden md:block" />
-                    <div className="border-l border-white h-full hidden md:block" />
-                    <div className="border-l border-white h-full hidden md:block" />
-                    <div className="border-l border-white h-full hidden md:block" />
-                    <div className="border-l border-white h-full hidden md:block" />
-                    <div className="border-l border-white h-full hidden md:block" />
-                    <div className="border-l border-white h-full hidden md:block" />
-                    <div className="border-l border-white h-full hidden md:block" />
-                    <div className="border-l border-white h-full hidden md:block" />
-                    <div className="border-l border-white h-full hidden md:block" />
-                </div>
-            </div>
+            {/* Structural Negative Space Element */}
+            <div className="absolute left-8 md:left-12 xl:left-32 bottom-20 w-px h-[30vh] bg-gradient-to-t from-neutral-900 to-transparent" />
         </section>
     );
 }

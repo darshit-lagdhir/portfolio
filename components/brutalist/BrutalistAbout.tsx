@@ -14,43 +14,40 @@ const aboutBlocks = [
     {
         statement: "Break. Debug. Rebuild.",
         details: "Testing theories against real-world friction. Constant refinement demands controlled failure."
-    },
-    {
-        statement: "Simple. Efficient. Readable.",
-        details: "Code that scales is code that communicates clearly. Unnecessary complexity is a liability."
     }
 ];
 
 export default function BrutalistAbout() {
+    const ease = [0.16, 1, 0.3, 1] as const;
     return (
-        <section className="min-h-screen w-full bg-[#050505] flex flex-col justify-center py-40 overflow-hidden relative border-t border-neutral-900 border-dashed snap-start">
-            <div className="absolute top-10 right-10 z-0">
-                <span className="font-heading text-xs uppercase tracking-[0.5em] text-neutral-600 block mb-2">SECT // 02</span>
+        <section className="min-h-screen w-full bg-[#050505] flex flex-col justify-center py-40 overflow-hidden relative border-t border-neutral-900 border-dashed snap-start px-8 md:px-12 xl:px-32">
+            {/* Micro Label - Section Marker */}
+            <div className="absolute top-10 right-10 z-0 text-right">
+                <span className="font-heading text-step--1 uppercase tracking-micro text-neutral-600 block mb-2 font-bold">SECT // 01</span>
             </div>
 
-            <div className="w-full max-w-screen-2xl mx-auto px-8 md:px-12 flex flex-col gap-32">
+            <div className="w-full max-w-screen-2xl mx-auto flex flex-col gap-40">
                 {aboutBlocks.map((block, i) => {
                     const isEven = i % 2 === 0;
                     return (
                         <motion.div
-                            initial={{ opacity: 0, y: 12 }}
+                            initial={{ opacity: 0, y: 15 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                            transition={{ duration: 0.8, ease: ease }}
                             viewport={{ once: true, margin: "-100px" }}
                             key={i}
-                            className="w-full grid grid-cols-4 md:grid-cols-12 gap-x-6 gap-y-12 items-start"
+                            className="w-full grid grid-cols-4 md:grid-cols-12 gap-x-12 gap-y-12 items-start"
                         >
-                            {/* Left-aligned statement if Even, Right-aligned if Odd */}
-                            <div className={`col-span-4 md:col-span-7 ${isEven ? "md:col-start-1" : "md:col-start-6 md:text-right"}`}>
-                                <h2 className="font-title text-[clamp(3.5rem,7vw,10rem)] leading-[0.9] text-neutral-100 uppercase tracking-tighter">
+                            {/* Left/Right Statement (Aalto Display) */}
+                            <div className={`col-span-4 md:col-span-12 lg:col-span-7 xl:col-span-6 ${isEven ? "" : "lg:col-start-6 xl:col-start-7 lg:text-right"}`}>
+                                <h2 className="font-title text-step-4 leading-tight-title text-neutral-50 uppercase tracking-tight-title">
                                     {block.statement}
                                 </h2>
                             </div>
 
-                            {/* Paragraph opposite to statement */}
-                            <div className={`col-span-4 md:col-span-4 flex flex-col gap-4 mt-4 ${isEven ? "md:col-start-9" : "md:col-start-1 md:row-start-1"}`}>
-                                <div className={`w-12 h-px bg-neutral-700 ${isEven ? "" : "md:ml-auto"}`} />
-                                <p className={`font-body text-xl md:text-2xl text-neutral-400 font-light leading-snug tracking-wide ${isEven ? "max-w-[30ch]" : "max-w-[30ch] md:ml-auto md:text-right"}`}>
+                            {/* Right/Left Paragraph (Space Grotesk) - Controlled Width */}
+                            <div className={`col-span-4 md:col-span-8 lg:col-span-5 xl:col-span-4 mt-8 lg:mt-0 ${isEven ? "lg:col-start-8 xl:col-start-9" : "lg:col-start-1 lg:row-start-1"}`}>
+                                <p className={`font-body text-step-2 text-neutral-500 font-light leading-snug tracking-wide max-w-[30ch] ${isEven ? "" : "lg:ml-0"}`}>
                                     {block.details}
                                 </p>
                             </div>

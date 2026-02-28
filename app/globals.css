@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
-@import "tailwindcss";
+﻿@import "tailwindcss";
 @import "./fonts.css";
 
 @theme {
@@ -9,57 +8,82 @@
   --font-wide: "HK Grotesk Wide", "Space Grotesk", sans-serif;
 
   /* Architectural Color Palette */
-  --color-background: #fafafa;
-  --color-foreground: #090909;
-  --color-accent: #4f46e5;
+  --color-background: #050505;
+  --color-foreground: #ffffff;
+  --color-accent: #ffffff;
   --color-muted: #666666;
-  --color-surface: #ffffff;
+  --color-surface: #0a0a0a;
 
-  /* Typography Scale Overhaul - Adjusted for extreme overflow fix */
+  /* Typography Scale Overhaul - Modular */
   --font-size-mega: clamp(4rem, 10vw, 12rem);
   --font-size-display: clamp(3rem, 8vw, 8rem);
 }
 
 :root {
   --font-sans: "Space Grotesk", sans-serif;
-  --font-display: "Aalto Display Font", sans-serif;
+  --font-display: "Aalto Display Font", "Space Grotesk", sans-serif;
 
-  /* Strict Project Mapping Variables */
+  /* Project Variable Mapping */
   --font-title: "Aalto Display Font", "Space Grotesk", sans-serif;
   --font-heading: "HK Grotesk Wide", "Space Grotesk", sans-serif;
   --font-body: "Space Grotesk", sans-serif;
 
-  --accent: #4f46e5;
+  --accent: #ffffff;
+
+  /* Modular Scale Architecture (Prompt 91) */
+  --step--1: clamp(0.7rem, 0.8vw, 0.8rem);
+  /* Micro Label */
+  --step-0: clamp(0.9rem, 1vw, 1rem);
+  /* UI Utility / Navigation */
+  --step-1: clamp(1rem, 1.2vw, 1.25rem);
+  /* Body Regular */
+  --step-2: clamp(1.25rem, 1.5vw, 1.5rem);
+  /* Body Large / Subheading */
+  --step-3: clamp(2rem, 4vw, 3.5rem);
+  /* Section Heading */
+  --step-4: clamp(3.5rem, 8vw, 8rem);
+  /* Project Title */
+  --step-5: clamp(5rem, 15vw, 18rem);
+  /* Hero Display */
+
+  /* Spacing System */
+  --space-xs: clamp(0.5rem, 1vw, 0.75rem);
+  --space-s: clamp(1rem, 2vw, 1.5rem);
+  --space-m: clamp(2rem, 4vw, 4rem);
+  --space-l: clamp(4rem, 8vw, 8rem);
+  --space-xl: clamp(8rem, 16vw, 16rem);
 }
 
 body {
-  font-family: var(--font-sans);
+  background-color: #050505;
+  color: #ffffff;
+  font-family: var(--font-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  cursor: none;
+  /* Removed custom cursor as per Propmt 91's lean towards minimal noise */
 }
 
-/* Fallback for touch devices */
-@media (pointer: coarse) {
-  body {
-    cursor: auto;
-  }
+/* Base Spacing & Hierarchy */
+section {
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-xl);
 }
 
-@keyframes sweep {
-  0% {
-    transform: translateX(-100%) skewX(12deg);
-  }
-
-  100% {
-    transform: translateX(200%) skewX(12deg);
-  }
+h1,
+h2,
+h3 {
+  margin-bottom: var(--space-m);
 }
 
-.animate-sweep {
-  animation: sweep 1.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+p {
+  max-width: 65ch;
+  /* Prompt 91: Paragraph width control */
+  line-height: 1.6;
 }
 
-/* Kinetic Typography Utilities */
+/* Kinetic Typography Utilities (Kept from User Restore Request) */
 .text-kinetic {
   display: inline-block;
   white-space: nowrap;
@@ -78,11 +102,6 @@ body {
   -webkit-mask-position: 0 0;
   mask-position: 0 0;
   transition: mask-position 0.8s ease;
-}
-
-.text-mask:hover {
-  -webkit-mask-position: 0 100%;
-  mask-position: 0 100%;
 }
 
 /* Layered Depth Stacks */
@@ -104,28 +123,12 @@ body {
   white-space: nowrap;
 }
 
-/* Asymmetrical Layout Fragments */
-.asymmetry-left {
-  padding-left: 5vw;
-  padding-right: 25vw;
-}
-
-.asymmetry-right {
-  padding-right: 5vw;
-  padding-left: 25vw;
-}
-
-/* Diagonal Layout Breaks */
-.diagonal-break {
-  clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 90%);
-}
-
 /* Visual Saturation Overlays */
 .noise-overlay {
   position: fixed;
   inset: -200%;
   background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-  opacity: 0.05;
+  opacity: 0.03;
   pointer-events: none;
   z-index: 9999;
   animation: noise 0.2s infinite;
@@ -177,69 +180,34 @@ body {
   }
 }
 
-/* Organism Visualizers */
-.ambient-blob {
-  position: fixed;
-  border-radius: 50%;
-  filter: blur(120px);
-  z-index: -20;
-  opacity: 0.15;
-  pointer-events: none;
-}
-
-.ambient-blob-1 {
-  width: 60vw;
-  height: 60vw;
-  background: radial-gradient(circle, var(--accent) 0%, transparent 100%);
-  top: -10vh;
-  left: -10vw;
-}
-
-.ambient-blob-2 {
-  width: 50vw;
-  height: 50vw;
-  background: radial-gradient(circle, #f472b6 0%, transparent 100%);
-  bottom: -10vh;
-  right: -10vw;
-}
-
-/* Premium Card Architecture */
-.glass-card {
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.dark .glass-card {
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-/* Performance Guardrails */
-* {
-  box-sizing: border-box;
-  -webkit-font-smoothing: antialiased;
-}
-
+/* Typography Utility layers */
 @layer utilities {
-  .text-mega {
-    font-size: var(--font-size-mega);
-    font-weight: 900;
-    letter-spacing: -0.05em;
-    font-family: var(--font-display);
+  .text-step--1 {
+    font-size: var(--step--1);
   }
 
-  .text-display {
-    font-size: var(--font-size-display);
-    font-weight: 900;
-    letter-spacing: -0.04em;
-    font-family: var(--font-display);
+  .text-step-0 {
+    font-size: var(--step-0);
   }
 
-  .italic-heavy {
-    font-style: italic;
-    font-weight: 300;
+  .text-step-1 {
+    font-size: var(--step-1);
+  }
+
+  .text-step-2 {
+    font-size: var(--step-2);
+  }
+
+  .text-step-3 {
+    font-size: var(--step-3);
+  }
+
+  .text-step-4 {
+    font-size: var(--step-4);
+  }
+
+  .text-step-5 {
+    font-size: var(--step-5);
   }
 
   .font-title {
@@ -253,4 +221,36 @@ body {
   .font-body {
     font-family: var(--font-body);
   }
+
+  .tracking-micro {
+    letter-spacing: 0.3em;
+  }
+
+  .tracking-tight-title {
+    letter-spacing: -0.05em;
+  }
+
+  .leading-extreme {
+    line-height: 0.8;
+  }
+
+  .leading-tight-title {
+    line-height: 0.9;
+  }
+}
+
+/* Scroll Behavior */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }

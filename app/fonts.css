@@ -1,15 +1,111 @@
+/* Space Grotesk - Self Hosted OTF */
 @font-face {
-    font-family: 'Galgo Condensed';
-    src: url('/fonts/GalgoCondensed.woff2') format('woff2');
+    font-family: 'Space Grotesk';
+    src: url('/fonts/SpaceGrotesk-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
     font-display: swap;
 }
 
+@font-face {
+    font-family: 'Space Grotesk';
+    src: url('/fonts/SpaceGrotesk-Medium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Space Grotesk';
+    src: url('/fonts/SpaceGrotesk-SemiBold.otf') format('opentype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Space Grotesk';
+    src: url('/fonts/SpaceGrotesk-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Space Grotesk';
+    src: url('/fonts/SpaceGrotesk-Light.otf') format('opentype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Aalto Display Font - Self Hosted OTF */
 @font-face {
     font-family: 'Aalto Display Font';
-    src: url('/fonts/AaltoDisplay.woff2') format('woff2');
+    src: url('/fonts/aalto.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
     font-display: swap;
 }
 
+/* HK Grotesk Wide - Self Hosted OTF */
+@font-face {
+    font-family: 'HK Grotesk Wide';
+    src: url('/fonts/hkgroteskwide-regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'HK Grotesk Wide';
+    src: url('/fonts/hkgroteskwide-medium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'HK Grotesk Wide';
+    src: url('/fonts/hkgroteskwide-semibold.otf') format('opentype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'HK Grotesk Wide';
+    src: url('/fonts/hkgroteskwide-bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'HK Grotesk Wide';
+    src: url('/fonts/hkgroteskwide-extrabold.otf') format('opentype');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'HK Grotesk Wide';
+    src: url('/fonts/hkgroteskwide-black.otf') format('opentype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'HK Grotesk Wide';
+    src: url('/fonts/hkgroteskwide-light.otf') format('opentype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Maintaining placeholders for other fonts (Woff2 fallback logic) */
 @font-face {
     font-family: 'Mamen Chisa';
     src: url('/fonts/MamenChisa.woff2') format('woff2');
@@ -23,8 +119,8 @@
 }
 
 @font-face {
-    font-family: 'HK Grotesk Wide';
-    src: url('/fonts/HKGroteskWide.woff2') format('woff2');
+    font-family: 'Galgo Condensed';
+    src: url('/fonts/GalgoCondensed.woff2') format('woff2');
     font-display: swap;
 }
 
