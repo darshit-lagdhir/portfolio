@@ -18,12 +18,14 @@ export interface Project {
     tier: 1 | 2 | 3;
     overview?: string;
     problem?: string;
+    constraints?: string[];
     technicalMeta?: TechnicalMeta;
     diagramLayers?: { label: string }[];
     architectureLayers?: ArchitectureLayer[];
     architecture?: string;
     decisions?: string[];
     tradeoffs?: string[];
+    limitations?: string[];
     performance?: string;
     future?: string[];
     githubRepoName?: string;

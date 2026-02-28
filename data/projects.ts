@@ -14,6 +14,12 @@ export const projects: Project[] = [
             "CLI-based courier operations system handling admin, staff, and customer roles through isolated command sets. Built in C without external frameworks — all routing, persistence, and access control implemented manually.",
         problem:
             "Required structured role separation without authentication libraries or databases. State had to persist across sessions via flat files. The command interface needed to handle multi-step workflows within procedural C constraints.",
+        constraints: [
+            "Strictly bounded by procedural C paradigms.",
+            "No dynamic memory allocation for bulk record retrieval to avoid fragmentation.",
+            "File-based storage with no external database layer allowed.",
+            "Text-based purely procedural CLI, no advanced UI frameworks.",
+        ],
         technicalMeta: {
             systemType: "CLI Application",
             architectureStyle: "Layered Modular",
@@ -53,8 +59,12 @@ export const projects: Project[] = [
         tradeoffs: [
             "No indexing on flat files — search is O(n). Acceptable at current scale.",
             "Single-user per session. No concurrent access handling.",
-            "No transaction rollback for partial write failures.",
             "Procedural architecture limits modular compilation for larger-scale maintenance.",
+        ],
+        limitations: [
+            "Not production ready for concurrent environments.",
+            "Lacks row-level locking mechanism.",
+            "No transaction rollback for partial write failures.",
         ],
         performance:
             "Manual memory management with explicit cleanup on every exit path. Buffered I/O for file operations. Hash-based command lookup for O(1) resolution. Linear scan for record search — identified as first scaling target.",
