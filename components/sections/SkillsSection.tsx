@@ -95,14 +95,14 @@ export default function SkillsSection() {
                                     {layer.number}
                                 </span>
                                 {i < layers.length - 1 && (
-                                    <div className="flex-1 w-px mt-2 bg-neutral-200 dark:bg-neutral-800" />
+                                    <div className="flex-1 w-px mt-2 bg-neutral-200/60 dark:bg-neutral-800/60" />
                                 )}
                             </div>
                             <div className="pb-1">
                                 <h3 className={`font-semibold ${layer.emphasis ? "text-lg" : "text-base"}`}>
                                     {layer.title}
                                 </h3>
-                                <p className="mt-2 text-sm leading-[1.8] text-neutral-600 dark:text-neutral-400 max-w-lg">
+                                <p className="mt-2 text-sm leading-[1.7] text-neutral-600 dark:text-neutral-400 max-w-lg">
                                     {layer.description}
                                 </p>
                                 <p className="mt-3 text-xs text-neutral-400 dark:text-neutral-500">

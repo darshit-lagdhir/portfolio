@@ -82,9 +82,9 @@ export default function PhilosophySection() {
                             <span className="text-xs font-mono text-neutral-300 dark:text-neutral-700 pt-1 shrink-0">
                                 {p.number}
                             </span>
-                            <div className="border-l border-neutral-200 dark:border-neutral-800 pl-6">
+                            <div className="border-l border-neutral-200/60 dark:border-neutral-800/60 pl-6">
                                 <h3 className="text-lg font-semibold">{p.title}</h3>
-                                <p className="mt-3 text-sm leading-[1.8] text-neutral-600 dark:text-neutral-400">
+                                <p className="mt-3 text-sm leading-[1.7] text-neutral-600 dark:text-neutral-400 max-w-xl">
                                     {p.body}
                                 </p>
                                 <ul className="mt-4 space-y-1.5">
@@ -101,7 +101,7 @@ export default function PhilosophySection() {
                             </div>
                         </div>
                         {i < philosophies.length - 1 && (
-                            <hr className="border-neutral-100 dark:border-neutral-900" />
+                            <hr className="border-neutral-200/30 dark:border-neutral-800/30" />
                         )}
                     </motion.div>
                 ))}

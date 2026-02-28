@@ -34,7 +34,7 @@ export default function HeroSection() {
     const scale = useTransform(scrollYProgress, [0, 1], [1, 0.97]);
 
     return (
-        <section ref={ref} className="py-24">
+        <section ref={ref} className="py-28">
             <Container>
                 <motion.div style={{ opacity, y, scale }} className="max-w-3xl">
                     <motion.div
@@ -44,14 +44,14 @@ export default function HeroSection() {
                     >
                         <motion.h1
                             variants={fadeUp}
-                            className="text-5xl md:text-6xl font-semibold tracking-[-0.03em] leading-[1.1]"
+                            className="text-5xl md:text-6xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50 leading-[1.1]"
                         >
                             {identity.name}
                         </motion.h1>
 
                         <motion.p
                             variants={fadeUp}
-                            className="mt-3 text-xs tracking-widest uppercase text-neutral-400 dark:text-neutral-500"
+                            className="mt-4 text-xs tracking-widest uppercase text-neutral-400 dark:text-neutral-500"
                         >
                             {identity.degree} · {identity.university} · Backend · Systems · Infrastructure
                         </motion.p>
@@ -65,7 +65,7 @@ export default function HeroSection() {
 
                         <motion.p
                             variants={fadeUp}
-                            className="mt-4 text-base md:text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed"
+                            className="mt-5 text-base md:text-lg text-neutral-600 dark:text-neutral-400 leading-[1.7] max-w-2xl"
                         >
                             I approach software as layered architecture — designing for
                             clarity, separation, and long-term maintainability before
@@ -78,14 +78,14 @@ export default function HeroSection() {
                         >
                             <a
                                 href="#projects"
-                                className="px-6 py-3 rounded-md bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 text-sm font-medium transition-transform hover:scale-[1.02] active:scale-[0.97] text-center"
+                                className="px-6 py-3 rounded-lg bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 text-sm font-medium transition-transform hover:scale-[1.02] active:scale-[0.97] text-center"
                             >
                                 Explore Systems
                             </a>
 
                             <a
                                 href={identity.resume}
-                                className="px-6 py-3 rounded-md border border-neutral-300 dark:border-neutral-700 text-sm font-medium transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-800 text-center"
+                                className="px-6 py-3 rounded-lg border border-neutral-300 dark:border-neutral-700/50 text-sm font-medium transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-800 text-center"
                             >
                                 View Resume
                             </a>

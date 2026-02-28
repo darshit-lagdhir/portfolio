@@ -10,7 +10,7 @@ export default function SectionWrapper({ id, children, surface }: SectionWrapper
     return (
         <section
             id={id}
-            className={`py-20 ${surface ? "bg-neutral-100/40 dark:bg-neutral-900/20" : ""}`}
+            className={`py-28 ${surface ? "bg-neutral-50/50 dark:bg-neutral-900/10 border-y border-neutral-100 dark:border-neutral-900/50" : ""}`}
         >
             <Container>{children}</Container>
         </section>

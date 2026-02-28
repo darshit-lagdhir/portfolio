@@ -15,7 +15,7 @@ export default function ProjectsSection() {
     const rest = sorted.slice(1);
 
     return (
-        <section id="projects" className="pt-28 pb-20">
+        <section id="projects" className="py-28">
             <div className="mx-auto max-w-6xl px-6">
                 <motion.div {...sectionReveal}>
                     <SectionHeading number="03">Selected Systems</SectionHeading>

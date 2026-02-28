@@ -35,8 +35,8 @@ export default function Navbar() {
                                     key={link.id}
                                     href={link.href}
                                     className={`transition-colors ${isActive
-                                            ? "text-neutral-900 dark:text-neutral-100"
-                                            : "text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100"
+                                        ? "text-neutral-900 dark:text-neutral-100"
+                                        : "text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100"
                                         }`}
                                 >
                                     {link.label}
@@ -45,7 +45,7 @@ export default function Navbar() {
                         })}
                         <button
                             onClick={toggleTheme}
-                            className="border border-neutral-300 dark:border-neutral-700 px-3 py-1 rounded-md text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+                            className="border border-neutral-300 dark:border-neutral-700 px-3 py-1 rounded-lg text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
                         >
                             Theme
                         </button>

@@ -39,7 +39,7 @@ export default function FootprintSection() {
             <div className="mt-14 max-w-3xl">
                 {/* Philosophy statement */}
                 <motion.div {...sectionReveal}>
-                    <p className="text-sm md:text-base leading-[1.8] text-neutral-600 dark:text-neutral-400">
+                    <p className="text-sm md:text-base leading-[1.7] text-neutral-600 dark:text-neutral-400 max-w-2xl">
                         Repositories are not project dumps. They reflect the same structural
                         discipline applied in this portfolio — every commit intentional,
                         every module separated, every file named for clarity.
@@ -87,7 +87,7 @@ export default function FootprintSection() {
                             <span className="text-xs font-mono text-neutral-300 dark:text-neutral-700 pt-0.5 shrink-0">
                                 {String(i + 1).padStart(2, "0")}
                             </span>
-                            <div className="flex-1 border-b border-neutral-100 dark:border-neutral-900 pb-5">
+                            <div className="flex-1 border-b border-neutral-200/50 dark:border-neutral-800/50 pb-5">
                                 <h3 className="text-sm font-medium font-mono group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors">
                                     {repo.githubRepoName}
                                     <span className="ml-2 text-neutral-300 dark:text-neutral-700 group-hover:text-neutral-500 transition-colors">→</span>

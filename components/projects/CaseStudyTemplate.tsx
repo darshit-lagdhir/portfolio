@@ -11,23 +11,21 @@ import { Project } from "@/types/project";
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: motionConfig.medium, ease: motionConfig.ease }}
-            className="mt-16"
-        >
-            <SectionHeading as="h3">{title}</SectionHeading>
-            <div className="mt-4">
-                <ContentBlock>{children}</ContentBlock>
+        <section className="grid grid-cols-1 md:grid-cols-[1fr_2.5fr] gap-6 md:gap-12 py-10">
+            <div>
+                <h3 className="text-sm font-medium text-neutral-900 dark:text-neutral-100 sticky top-24">
+                    {title}
+                </h3>
             </div>
-        </motion.div>
+            <div className="text-sm leading-[1.7] text-neutral-600 dark:text-neutral-400 max-w-2xl">
+                {children}
+            </div>
+        </section>
     );
 }
 
 function Divider() {
-    return <hr className="mt-16 border-neutral-200/60 dark:border-neutral-800/60" />;
+    return <hr className="border-neutral-200/50 dark:border-neutral-800/50" />;
 }
 
 export default function CaseStudyTemplate({ project }: { project: Project }) {
@@ -54,7 +52,7 @@ export default function CaseStudyTemplate({ project }: { project: Project }) {
                             </p>
                         )}
                         <SectionHeading as="h1">{project.title}</SectionHeading>
-                        <p className="mt-4 text-base md:text-lg text-neutral-600 dark:text-neutral-400">
+                        <p className="mt-4 text-base md:text-lg text-neutral-600 dark:text-neutral-400 leading-[1.7] max-w-3xl">
                             {project.shortDescription}
                         </p>
                         <p className="mt-4 text-xs text-neutral-500">
@@ -146,12 +144,12 @@ export default function CaseStudyTemplate({ project }: { project: Project }) {
                                     {project.architectureLayers.map((layer) => (
                                         <div
                                             key={layer.name}
-                                            className="rounded-md border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/40 p-4"
+                                            className="rounded-lg border border-neutral-200/60 dark:border-neutral-800/60 bg-white/50 dark:bg-neutral-900/20 p-5"
                                         >
                                             <h4 className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
                                                 {layer.name}
                                             </h4>
-                                            <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                                            <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400 leading-[1.7]">
                                                 {layer.description}
                                             </p>
                                         </div>
