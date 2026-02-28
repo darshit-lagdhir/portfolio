@@ -44,7 +44,7 @@ export default function CaseStudyTemplate({ project }: { project: Project }) {
                     <motion.div
                         initial={{ opacity: 0, y: 16 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: motionConfig.medium, ease: motionConfig.ease }}
+                        transition={{ duration: motionConfig.medium, ease: motionConfig.cinematic }}
                         className="mt-10"
                     >
                         {project.technicalMeta?.systemType && (

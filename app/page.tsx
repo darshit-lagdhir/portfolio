@@ -1,8 +1,9 @@
 import HeroSection from "@/components/sections/HeroSection";
 import PhilosophySection from "@/components/sections/PhilosophySection";
-import SkillsSection from "@/components/sections/SkillsSection";
-import SystemMapSection from "@/components/sections/SystemMapSection";
-import ProjectsSection from "@/components/sections/ProjectsSection";
+import MoveXScene from "@/components/sections/MoveXScene";
+import UIDAIAdvisoryScene from "@/components/sections/UIDAIAdvisoryScene";
+import PFCVScene from "@/components/sections/PFCVScene";
+import CurrentFocusSection from "@/components/sections/CurrentFocusSection";
 import FootprintSection from "@/components/sections/FootprintSection";
 
 export default function Home() {
@@ -10,9 +11,10 @@ export default function Home() {
     <>
       <HeroSection />
       <PhilosophySection />
-      <SkillsSection />
-      <SystemMapSection />
-      <ProjectsSection />
+      <MoveXScene />
+      <UIDAIAdvisoryScene />
+      <PFCVScene />
+      <CurrentFocusSection />
       <FootprintSection />
     </>
   );

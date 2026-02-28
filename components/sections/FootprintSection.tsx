@@ -1,126 +1,126 @@
 "use client";
 
 import SectionWrapper from "@/components/ui/SectionWrapper";
-import SectionHeading from "@/components/ui/SectionHeading";
-import { identity } from "@/data/identity";
 import { projects } from "@/data/projects";
-import { motion } from "framer-motion";
-import { motionConfig, sectionReveal } from "@/lib/motion";
-
-const fadeUp = {
-    hidden: { opacity: 0, y: 12 },
-    show: {
-        opacity: 1,
-        y: 0,
-        transition: { duration: motionConfig.medium, ease: motionConfig.ease },
-    },
-};
-
-const stagger = {
-    hidden: {},
-    show: { transition: { staggerChildren: 0.1 } },
-};
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { useRef } from "react";
 
 const featured = projects.filter((p) => p.githubUrl && p.tier === 1);
 
-const signals = [
-    { label: "Commit Discipline", detail: "Atomic, descriptive commits with clear intent" },
-    { label: "Modular Organization", detail: "Separated concerns, clean file structure" },
-    { label: "Readable Code", detail: "Written for future developers, not just compilers" },
-];
-
 export default function FootprintSection() {
+    const sectionRef = useRef(null);
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ["start end", "end start"]
+    });
+
+    const springProgress = useSpring(scrollYProgress, { stiffness: 60, damping: 20 });
+
+    // Parallax Depth Stacks
+    const bgX1 = useTransform(springProgress, [0, 1], ["5%", "-15%"]);
+    const bgX2 = useTransform(springProgress, [0, 1], ["-10%", "20%"]);
+    const bgY1 = useTransform(springProgress, [0, 1], ["-10%", "10%"]);
+
+    // Type Compression
+    const disciplineTracking = useTransform(springProgress, [0.3, 0.6], ["-0.08em", "0.05em"]);
+
     return (
-        <SectionWrapper id="footprint" surface>
-            <motion.div {...sectionReveal}>
-                <SectionHeading number="04" systemLabel="SYS-04">Engineering Footprint</SectionHeading>
-            </motion.div>
+        <section ref={sectionRef} className="relative h-[250vh] bg-white dark:bg-[#080808] overflow-hidden z-20">
+            {/* Split Screen Diagonal Cut */}
+            <div className="absolute top-0 right-0 w-[50vw] h-full bg-[#fcfcfc] dark:bg-[#050505] diagonal-break origin-top-right transform -scale-x-100 opacity-50 z-0 pointer-events-none" />
 
-            <div className="mt-14 max-w-3xl">
-                {/* Philosophy statement */}
-                <motion.div {...sectionReveal}>
-                    <p className="text-sm md:text-base leading-[1.7] text-neutral-600 dark:text-neutral-400 max-w-2xl">
-                        Repositories are not project dumps. They reflect the same structural
-                        discipline applied in this portfolio — every commit intentional,
-                        every module separated, every file named for clarity.
-                    </p>
+            <div className="sticky top-0 h-screen w-full flex items-center overflow-hidden">
+
+                {/* FOREGROUND & BACKGROUND DEPTH STACKS */}
+                <motion.div style={{ x: bgX1, y: bgY1 }} className="absolute top-[30%] left-0 pointer-events-none select-none z-0 whitespace-nowrap">
+                    <span className="text-display opacity-[0.03] font-black tracking-tighter uppercase">GITHUB // FOOTPRINT</span>
+                </motion.div>
+                <motion.div style={{ x: bgX2 }} className="absolute top-[60%] left-0 pointer-events-none select-none z-0 whitespace-nowrap">
+                    <span className="text-display opacity-[0.03] font-black color-transparent stroke-neutral-900 dark:stroke-white uppercase" style={{ WebkitTextStroke: "2px currentColor" }}>
+                        OPEN SOURCE // ARCHIVE
+                    </span>
                 </motion.div>
 
-                {/* Engineering signals */}
-                <motion.div
-                    variants={stagger}
-                    initial="hidden"
-                    whileInView="show"
-                    viewport={motionConfig.viewport}
-                    className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-6"
-                >
-                    {signals.map((s) => (
-                        <motion.div key={s.label} variants={fadeUp}>
-                            <p className="text-sm font-medium">{s.label}</p>
-                            <p className="mt-1 text-xs text-neutral-500 dark:text-neutral-500 leading-relaxed">
-                                {s.detail}
-                            </p>
-                        </motion.div>
-                    ))}
-                </motion.div>
+                <div className="px-8 md:px-20 grid grid-cols-1 lg:grid-cols-[1.2fr,1fr] gap-[10vw] items-center w-full relative z-10 h-full">
 
-                {/* Repositories */}
-                <motion.div
-                    variants={stagger}
-                    initial="hidden"
-                    whileInView="show"
-                    viewport={motionConfig.viewport}
-                    className="mt-12 space-y-0"
-                >
-                    <p className="text-xs uppercase tracking-widest text-neutral-400 dark:text-neutral-500 mb-4">
-                        Public Repositories
-                    </p>
-                    {featured.map((repo, i) => (
-                        <motion.a
-                            key={repo.slug}
-                            variants={fadeUp}
-                            href={repo.githubUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-start gap-6 py-5 group"
-                        >
-                            <span className="text-xs font-mono text-neutral-300 dark:text-neutral-700 pt-0.5 shrink-0">
-                                {String(i + 1).padStart(2, "0")}
-                            </span>
-                            <div className="flex-1 border-b border-neutral-200/50 dark:border-neutral-800/50 pb-5">
-                                <h3 className="text-sm font-medium font-mono group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors">
-                                    {repo.githubRepoName}
-                                    <span className="ml-2 text-neutral-300 dark:text-neutral-700 group-hover:text-neutral-500 transition-colors">→</span>
-                                </h3>
-                                <p className="mt-1.5 text-sm text-neutral-500 dark:text-neutral-500 leading-relaxed">
-                                    {repo.shortDescription}
-                                </p>
-                                <p className="mt-2 text-xs text-neutral-400 dark:text-neutral-600">
-                                    {repo.techStack.join(" · ")}
-                                </p>
-                            </div>
-                        </motion.a>
-                    ))}
-                </motion.div>
-
-                {/* Profile link */}
-                <motion.div {...sectionReveal} className="mt-8">
-                    <a
-                        href={identity.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-sm font-medium underline underline-offset-4 decoration-neutral-400 dark:decoration-neutral-600 hover:decoration-neutral-900 dark:hover:decoration-neutral-200 transition-colors"
+                    {/* Left Heavy Asymmetry */}
+                    <motion.div
+                        style={{
+                            opacity: useTransform(springProgress, [0, 0.4, 0.8, 1], [0, 1, 1, 0]),
+                            y: useTransform(springProgress, [0, 0.4], [100, 0]),
+                        }}
+                        className="flex flex-col items-start"
                     >
-                        View full profile on GitHub →
-                    </a>
-                </motion.div>
-                {/* Closing Signal */}
-                <motion.div {...sectionReveal} className="mt-28 py-8 border-t border-neutral-200/50 dark:border-neutral-800/50">
-                    <p className="text-xl md:text-2xl font-medium text-neutral-900 dark:text-neutral-100 italic tracking-tight">
-                        Engineered with structure. Built with discipline.
-                    </p>
-                </motion.div>
+                        <span className="text-[10px] tracking-[1.5em] text-accent font-mono mb-12 block font-black uppercase">Trace 04 // Footprint</span>
+
+                        <div className="relative mb-20 overflow-hidden flex flex-col group">
+                            <motion.h2
+                                className="text-mega text-neutral-900 dark:text-neutral-50 uppercase leading-[0.75] font-black tracking-tighter text-mask origin-left"
+                            >
+                                CODE IS
+                            </motion.h2>
+                            <motion.h2
+                                style={{ letterSpacing: disciplineTracking }}
+                                className="text-mega text-neutral-900 dark:text-neutral-50 uppercase leading-[0.75] font-black group-hover:italic transition-all duration-700 text-mask"
+                            >
+                                DISCIPLINE.
+                            </motion.h2>
+                        </div>
+
+                        <a
+                            href="https://github.com/darshit-lagdhir"
+                            target="_blank"
+                            className="group inline-block text-[11px] font-mono uppercase tracking-[0.5em] pb-4 relative overflow-hidden font-bold"
+                        >
+                            <span className="relative z-10 group-hover:tracking-widest transition-all duration-500">Review Matrix</span>
+                            <div className="absolute bottom-0 left-0 w-full h-[2px] bg-neutral-200 dark:bg-neutral-800" />
+                            <div className="absolute bottom-0 left-0 w-0 h-[2px] bg-neutral-900 dark:bg-white group-hover:w-full transition-all duration-700" />
+                        </a>
+                    </motion.div>
+
+                    {/* Nodes Offset Reveal */}
+                    <div className="flex flex-col justify-center h-full space-y-[8vh]">
+                        {featured.map((repo, i) => {
+                            // eslint-disable-next-line react-hooks/rules-of-hooks
+                            const nodeOpacity = useTransform(springProgress, [0.3 + (i * 0.1), 0.5 + (i * 0.1), 0.8 + (i * 0.1), 1], [0, 1, 1, 0]);
+                            // eslint-disable-next-line react-hooks/rules-of-hooks
+                            const nodeX = useTransform(springProgress, [0.3 + (i * 0.1), 0.5 + (i * 0.1)], [100, i % 2 === 0 ? 0 : -50]);
+
+                            return (
+                                <motion.a
+                                    key={repo.slug}
+                                    style={{ opacity: nodeOpacity, x: nodeX }}
+                                    href={repo.githubUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="group block relative pl-12 border-l-2 border-transparent hover:border-accent transition-colors duration-500 ml-auto w-full max-w-lg"
+                                >
+                                    {/* Offset Decorative Marker */}
+                                    <span className="text-[9px] font-mono text-neutral-400 absolute -left-8 top-0 -rotate-90 origin-top-left uppercase tracking-widest translate-y-8 font-bold group-hover:text-accent transition-colors">
+                                        NODE // 0{i + 1}
+                                    </span>
+
+                                    {/* Kinetic Header */}
+                                    <div className="overflow-hidden mb-4">
+                                        <h3 className="text-4xl md:text-6xl font-black text-neutral-900 dark:text-neutral-50 group-hover:skew-x-[5deg] group-hover:scale-[1.05] origin-left transition-transform duration-500 tracking-tighter uppercase whitespace-nowrap inline-block relative">
+                                            {repo.title}
+                                            <div className="absolute bottom-1 left-0 w-0 h-1 bg-neutral-900 dark:bg-white group-hover:w-full transition-all duration-500" />
+                                        </h3>
+                                    </div>
+
+                                    <div className="flex flex-wrap gap-4">
+                                        {repo.techStack.slice(0, 3).map(tech => (
+                                            <span key={tech} className="text-[10px] font-mono uppercase tracking-[0.4em] text-neutral-400 group-hover:text-neutral-900 dark:group-hover:text-white transition-colors">
+                                                {tech}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </motion.a>
+                            );
+                        })}
+                    </div>
+                </div>
             </div>
-        </SectionWrapper>
+        </section>
     );
 }

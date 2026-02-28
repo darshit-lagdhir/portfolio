@@ -1,118 +1,103 @@
 "use client";
 
-import SectionWrapper from "@/components/ui/SectionWrapper";
-import SectionHeading from "@/components/ui/SectionHeading";
-import { motion } from "framer-motion";
-import { motionConfig, sectionReveal } from "@/lib/motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 
-const fadeUp = {
-    hidden: { opacity: 0, y: 12 },
-    show: {
-        opacity: 1,
-        y: 0,
-        transition: { duration: motionConfig.medium, ease: motionConfig.ease },
-    },
-};
-
-const stagger = {
-    hidden: {},
-    show: { transition: { staggerChildren: 0.08 } },
-};
-
-const layers = [
-    {
-        number: "01",
-        title: "Core Programming",
-        description:
-            "Structured logic design, algorithmic reasoning, and memory-aware implementation driven by problem constraints.",
-        tech: "C · C++ · Java · Python",
-        emphasis: true,
-    },
-    {
-        number: "02",
-        title: "Backend & System Logic",
-        description:
-            "Modular server flows with clear request lifecycles, role-based access control, and separated business logic layers.",
-        tech: "Node.js · Express · REST Patterns",
-        emphasis: true,
-    },
-    {
-        number: "03",
-        title: "Data & Storage",
-        description:
-            "Schema design with normalization awareness, structured persistence, and deliberate selection between relational and document models.",
-        tech: "MySQL · PostgreSQL · MongoDB · SQLite",
-        emphasis: false,
-    },
-    {
-        number: "04",
-        title: "Interface Layer",
-        description:
-            "Component structuring, state management, and UI-data mapping with focus on clarity over visual complexity.",
-        tech: "React · TypeScript · HTML · CSS",
-        emphasis: false,
-    },
-    {
-        number: "05",
-        title: "Infrastructure",
-        description:
-            "Deployment workflows, environment configuration, and structured exploration of cloud services with operational focus.",
-        tech: "Google Cloud · CI/CD · Environment Setup",
-        emphasis: false,
-    },
-    {
-        number: "06",
-        title: "Tooling Discipline",
-        description:
-            "Version control discipline, atomic commits, modular project organization, and development environment efficiency.",
-        tech: "Git · GitHub · VS Code",
-        emphasis: false,
-    },
+const expertise = [
+    { title: "SYSTEMS", tech: ["C++", "C", "Rust"], id: "ARCH-01", offset: "-10vw" },
+    { title: "DYNAMICS", tech: ["GSAP", "Three.js", "SVG"], id: "ARCH-02", offset: "15vw" },
+    { title: "STABILITY", tech: ["PostgreSQL", "Go", "AWS"], id: "ARCH-03", offset: "-5vw" },
+    { title: "INTERFACE", tech: ["React", "TypeScript", "Next.js"], id: "ARCH-04", offset: "20vw" }
 ];
 
 export default function SkillsSection() {
-    return (
-        <SectionWrapper id="skills" surface>
-            <motion.div {...sectionReveal}>
-                <SectionHeading number="02" systemLabel="SYS-02">Engineering Layers</SectionHeading>
-                <p className="mt-3 text-xs tracking-widest uppercase text-neutral-400 dark:text-neutral-500">
-                    Principles shape structure. Stacked by architecture, not trend.
-                </p>
-            </motion.div>
+    const containerRef = useRef<HTMLDivElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start start", "end end"]
+    });
 
-            <motion.div
-                variants={stagger}
-                initial="hidden"
-                whileInView="show"
-                viewport={motionConfig.viewport}
-                className="mt-14 max-w-3xl"
-            >
-                {layers.map((layer, i) => (
-                    <motion.div key={layer.number} variants={fadeUp}>
-                        <div className={`flex gap-6 ${layer.emphasis ? "py-8" : "py-6"}`}>
-                            <div className="flex flex-col items-center shrink-0 w-6">
-                                <span className="text-xs font-mono text-neutral-300 dark:text-neutral-700">
-                                    {layer.number}
-                                </span>
-                                {i < layers.length - 1 && (
-                                    <div className="flex-1 w-px mt-2 bg-neutral-200/60 dark:bg-neutral-800/60" />
-                                )}
-                            </div>
-                            <div className="pb-1">
-                                <h3 className={`font-semibold ${layer.emphasis ? "text-lg" : "text-base"}`}>
-                                    {layer.title}
-                                </h3>
-                                <p className="mt-2 text-sm leading-[1.7] text-neutral-600 dark:text-neutral-400 max-w-lg">
-                                    {layer.description}
-                                </p>
-                                <p className="mt-3 text-xs text-neutral-400 dark:text-neutral-500">
-                                    {layer.tech}
-                                </p>
-                            </div>
-                        </div>
-                    </motion.div>
-                ))}
-            </motion.div>
-        </SectionWrapper>
+    const springProgress = useSpring(scrollYProgress, { stiffness: 60, damping: 25 });
+
+    return (
+        <section ref={containerRef} className="relative h-[400vh] bg-white dark:bg-[#050505]">
+            <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
+
+                {/* OVERLAPPING TYPOGRAPHY STACK: Asymmetrical Background Fragment */}
+                <motion.div
+                    style={{
+                        x: useTransform(springProgress, [0, 1], ["20%", "-20%"]),
+                        opacity: 0.03
+                    }}
+                    className="absolute top-1/2 left-0 -translate-y-1/2 pointer-events-none select-none whitespace-nowrap"
+                >
+                    <span className="text-[clamp(4rem,20vw,25rem)] font-black uppercase tracking-[-0.05em]">KINETIC REVEAL // MODULE SYNC</span>
+                </motion.div>
+
+                <div className="relative z-10 w-full px-8 md:px-20 grid grid-cols-1 md:grid-cols-2 gap-y-[10vh] gap-x-20 max-w-7xl">
+
+                    {/* ASYMMETRICAL OFFSET GRID */}
+                    {expertise.map((item, i) => {
+                        const start = 0.4 + (i * 0.1);
+                        const end = start + 0.3;
+
+                        // eslint-disable-next-line react-hooks/rules-of-hooks
+                        const opacity = useTransform(springProgress, [start, start + 0.1, end - 0.1, end], [0, 1, 1, 0]);
+                        // eslint-disable-next-line react-hooks/rules-of-hooks
+                        const x = useTransform(springProgress, [start, end], [i % 2 === 0 ? -100 : 100, i % 2 === 0 ? 50 : -50]);
+                        // eslint-disable-next-line react-hooks/rules-of-hooks
+                        const rotate = useTransform(springProgress, [start, end], [i % 2 === 0 ? -5 : 5, i % 2 === 0 ? 5 : -5]);
+
+                        return (
+                            <motion.div
+                                key={item.title}
+                                style={{
+                                    opacity,
+                                    x: `calc(${item.offset} + ${x}px)`,
+                                    rotate,
+                                    transformStyle: "preserve-3d"
+                                }}
+                                className={`glass-card p-12 rounded-[2.5rem] flex flex-col justify-between h-[45vh] lg:h-[40vh] ${i % 2 !== 0 ? "mt-32" : ""}`}
+                            >
+                                <div className="space-y-4">
+                                    <span className="text-[9px] font-mono tracking-[1em] text-neutral-400 uppercase font-bold">{item.id}</span>
+                                    <h3
+                                        className="text-4xl md:text-6xl font-black tracking-tighter uppercase leading-[0.8] transition-all hover:tracking-widest duration-500"
+                                    >
+                                        {item.title}
+                                    </h3>
+                                </div>
+
+                                <div className="flex flex-wrap gap-4 mt-8">
+                                    {item.tech.map(t => (
+                                        <span key={t} className="px-5 py-2 rounded-full border border-neutral-200 dark:border-neutral-800 text-[10px] font-mono uppercase text-neutral-400 font-bold">
+                                            {t}
+                                        </span>
+                                    ))}
+                                </div>
+
+                                <motion.div
+                                    className="absolute -right-10 -bottom-10 opacity-5 pointer-events-none"
+                                    style={{ transform: "translateZ(-20px)" }}
+                                >
+                                    <span className="text-[12rem] font-black">{i + 1}</span>
+                                </motion.div>
+                            </motion.div>
+                        );
+                    })}
+                </div>
+
+                {/* ASYMMETRICAL ANCHOR: Vertical Typography */}
+                <motion.div
+                    style={{
+                        opacity: useTransform(springProgress, [0, 0.4], [1, 0]),
+                        y: useTransform(springProgress, [0, 0.4], [0, -100])
+                    }}
+                    className="absolute left-10 top-1/2 -translate-y-1/2 rotate-[-90deg] origin-left"
+                >
+                    <h2 className="text-mega text-neutral-900 dark:text-neutral-50 tracking-[-0.1em]">STACK</h2>
+                </motion.div>
+            </div>
+        </section>
     );
 }

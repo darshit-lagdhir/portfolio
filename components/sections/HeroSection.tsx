@@ -1,116 +1,151 @@
 "use client";
 
-import { useRef } from "react";
-import Container from "@/components/layout/Container";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { motionConfig } from "@/lib/motion";
+import { useRef, useState, useEffect } from "react";
+import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
 import { identity } from "@/data/identity";
-
-const stagger = {
-    hidden: {},
-    show: {
-        transition: { staggerChildren: 0.08, delayChildren: 0.1 },
-    },
-};
-
-const fadeUp = {
-    hidden: { opacity: 0, y: 14 },
-    show: {
-        opacity: 1,
-        y: 0,
-        transition: { duration: motionConfig.medium, ease: motionConfig.ease },
-    },
-};
+import HeroVisuals from "@/components/ui/HeroVisuals";
+import MagneticButton from "@/components/ui/MagneticButton";
 
 export default function HeroSection() {
-    const ref = useRef<HTMLElement>(null);
+    const containerRef = useRef<HTMLElement>(null);
     const { scrollYProgress } = useScroll({
-        target: ref,
-        offset: ["start start", "end start"],
+        target: containerRef,
+        offset: ["start start", "end end"],
     });
 
-    const opacity = useTransform(scrollYProgress, [0, 1], [1, 0.3]);
-    const y = useTransform(scrollYProgress, [0, 1], [0, 40]);
-    const scale = useTransform(scrollYProgress, [0, 1], [1, 0.97]);
+    // Mouse Tracking for Asymmetrical 3D Tension
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+
+    const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [12, -12]), { stiffness: 80, damping: 25 });
+    const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-8, 8]), { stiffness: 80, damping: 25 });
+
+    const handleMouseMove = (e: React.MouseEvent) => {
+        const { clientX, clientY } = e;
+        const x = (clientX / window.innerWidth) - 0.5;
+        const y = (clientY / window.innerHeight) - 0.5;
+        mouseX.set(x);
+        mouseY.set(y);
+    };
+
+    // Kinetic Typography Timeline
+    const scrollVelocityY = useTransform(scrollYProgress, [0, 1], [0, -600]);
+    const letterSpacing = useTransform(scrollYProgress, [0, 0.5], ["-0.05em", "0.2em"]);
+    const blur = useTransform(scrollYProgress, [0, 0.3, 0.6], [0, 8, 20]);
+    const skew = useTransform(scrollYProgress, [0, 0.5], [0, 10]);
+
+    const nameFirst = identity.name.split(" ")[0].split("");
+    const nameLast = identity.name.split(" ")[1].split("");
 
     return (
-        <section ref={ref} className="py-28">
-            <Container>
-                <motion.div style={{ opacity, y, scale }} className="max-w-3xl">
+        <section
+            ref={containerRef}
+            onMouseMove={handleMouseMove}
+            className="relative h-[300vh] z-20"
+        >
+            {/* Pinned Scenography */}
+            <div className="sticky top-0 h-screen w-full flex items-center overflow-hidden">
+                <HeroVisuals />
+
+                {/* ASYMMETRICAL INFRASTRUCTURE: Left-Heavy Grid */}
+                <div className="relative z-10 w-full px-8 md:px-20 grid grid-cols-1 lg:grid-cols-[1.5fr,1fr] items-center gap-20">
+
                     <motion.div
-                        variants={stagger}
-                        initial="hidden"
-                        animate="show"
+                        style={{
+                            y: useTransform(scrollYProgress, [0, 1], [0, -150]),
+                            opacity: useTransform(scrollYProgress, [0, 0.8], [1, 0]),
+                            rotateX,
+                            rotateY,
+                            transformStyle: "preserve-3d"
+                        }}
+                        className="flex flex-col items-start text-left"
                     >
-                        <motion.h1
-                            variants={fadeUp}
-                            className="text-5xl md:text-6xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50 leading-[1.1]"
-                        >
-                            {identity.name}
-                        </motion.h1>
-
-                        <motion.p
-                            variants={fadeUp}
-                            className="mt-4 text-xs tracking-widest uppercase text-neutral-400 dark:text-neutral-500"
-                        >
-                            {identity.degree} · {identity.university} · Backend · Systems · Infrastructure
-                        </motion.p>
-
-                        <motion.p
-                            variants={fadeUp}
-                            className="mt-8 text-xl md:text-2xl text-neutral-700 dark:text-neutral-300 font-medium"
-                        >
-                            Building structured systems, not just applications.
-                        </motion.p>
-
-                        <motion.p
-                            variants={fadeUp}
-                            className="mt-5 text-base md:text-lg text-neutral-600 dark:text-neutral-400 leading-[1.7] max-w-2xl"
-                        >
-                            I approach software as layered architecture — designing for
-                            clarity, separation, and long-term maintainability before
-                            writing the first line of code.
-                        </motion.p>
-
                         <motion.div
-                            variants={fadeUp}
-                            className="mt-10 flex flex-col sm:flex-row gap-4"
+                            initial={{ opacity: 0, x: -50 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 1 }}
+                            className="mb-16"
                         >
-                            <a
-                                href="#projects"
-                                className="px-6 py-3 rounded-lg bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 text-sm font-medium transition-transform hover:scale-[1.02] active:scale-[0.97] text-center"
-                            >
-                                Explore Systems
-                            </a>
-
-                            <a
-                                href={identity.resume}
-                                className="px-6 py-3 rounded-lg border border-neutral-300 dark:border-neutral-700/50 text-sm font-medium transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-800 text-center"
-                            >
-                                View Resume
-                            </a>
+                            <span className="text-[10px] tracking-[1.8em] uppercase text-neutral-400 font-mono font-bold block mb-4">
+                                KINETIC // NODE 01
+                            </span>
+                            <div className="w-40 h-[2px] bg-neutral-900 dark:bg-white origin-left" />
                         </motion.div>
 
-                        <motion.div
-                            variants={fadeUp}
-                            className="mt-4 flex gap-5 text-[10px] sm:text-xs text-neutral-400 dark:text-neutral-500"
-                        >
-                            <span>PDF Format</span>
-                            <span>·</span>
-                            <span>Updated 2026</span>
-                            <span>·</span>
-                            <span>ATS-Optimized</span>
-                        </motion.div>
+                        {/* KINETIC TYPOGRAPHY: Letter-by-Letter Stagger */}
+                        <div className="relative leading-[0.7] mb-12">
+                            <h1 className="text-mega uppercase tracking-tighter flex flex-wrap relative z-10">
+                                {nameFirst.map((char, i) => (
+                                    <motion.span
+                                        key={i}
+                                        initial={{ opacity: 0, y: 100, rotate: 10, z: 100 }}
+                                        animate={{ opacity: 1, y: 0, rotate: 0, z: 100 }}
+                                        transition={{ duration: 1, delay: i * 0.05, ease: [0.16, 1, 0.3, 1] }}
+                                        style={{ letterSpacing }}
+                                        className="inline-block"
+                                    >
+                                        {char}
+                                    </motion.span>
+                                ))}
+                            </h1>
+                            <h1 className="text-mega text-transparent stroke-neutral-900 dark:stroke-neutral-50 flex flex-wrap mt-4 relative z-0" style={{ WebkitTextStroke: "2px currentColor" }}>
+                                {nameLast.map((char, i) => (
+                                    <motion.span
+                                        key={i}
+                                        initial={{ opacity: 0, y: 100, rotate: -10, z: 50, skewX: 0 }}
+                                        animate={{ opacity: 1, y: 0, rotate: 0, z: 50 }}
+                                        transition={{ duration: 1, delay: 0.5 + i * 0.05, ease: [0.16, 1, 0.3, 1] }}
+                                        style={{ skewX: skew }}
+                                        className="inline-block"
+                                    >
+                                        {char}
+                                    </motion.span>
+                                ))}
+                            </h1>
+                        </div>
 
-                        <motion.p
-                            variants={fadeUp}
-                            className="mt-12 text-[11px] tracking-widest uppercase text-neutral-300 dark:text-neutral-700"
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 1.5, delay: 1 }}
+                            className="max-w-xl"
                         >
-                            Scroll
-                        </motion.p>
+                            <p className="text-3xl md:text-5xl text-neutral-500 font-light italic lowercase leading-tight tracking-tighter mb-16">
+                                Engineering <span className="text-neutral-900 dark:text-neutral-50 font-black not-italic border-b-8 border-accent">Resilience.</span>
+                            </p>
+
+                            <div className="flex gap-10 mt-16 scale-100 origin-left">
+                                <MagneticButton
+                                    href="#projects"
+                                    className="px-16 py-6 rounded-full bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 font-black uppercase tracking-[0.5em] text-[10px]"
+                                >
+                                    Observe
+                                </MagneticButton>
+                            </div>
+                        </motion.div>
                     </motion.div>
-                </motion.div>
-            </Container>
+
+                    {/* OVERLAPPING TYPOGRAPHY STACK: Asymmetrical Background Layer */}
+                    <motion.div
+                        style={{
+                            y: useTransform(scrollYProgress, [0, 1], [0, 400]),
+                            opacity: useTransform(scrollYProgress, [0, 0.5], [0.03, 0]),
+                            filter: useTransform(blur, v => `blur(${v}px)`)
+                        }}
+                        className="hidden lg:block absolute right-[-10%] top-1/2 -translate-y-1/2 pointer-events-none select-none"
+                    >
+                        <span className="text-[clamp(10rem,30vw,35rem)] font-black leading-none opacity-10 rotate-90 block">
+                            ARCH
+                        </span>
+                    </motion.div>
+                </div>
+            </div>
+
+            {/* Kinetic Progress Indicator */}
+            <motion.div
+                style={{ scaleX: scrollYProgress }}
+                className="fixed top-0 left-0 w-full h-1 bg-accent z-[101] origin-left"
+            />
         </section>
     );
 }
