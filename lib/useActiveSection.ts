@@ -20,7 +20,7 @@ export function useActiveSection() {
                         setActive(id);
                     }
                 },
-                { rootMargin: "-40% 0px -50% 0px" }
+                { rootMargin: "-30% 0px -60% 0px", threshold: 0.2 }
             );
 
             observer.observe(el);
