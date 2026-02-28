@@ -3,24 +3,62 @@
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { motion } from "framer-motion";
-import { motionConfig, sectionReveal, staggerItem } from "@/lib/motion";
+import { motionConfig, sectionReveal } from "@/lib/motion";
 
-const pillars = [
+const fadeUp = {
+    hidden: { opacity: 0, y: 12 },
+    show: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: motionConfig.medium, ease: motionConfig.ease },
+    },
+};
+
+const stagger = {
+    hidden: {},
+    show: { transition: { staggerChildren: 0.12 } },
+};
+
+const philosophies = [
     {
+        number: "01",
         title: "Systems Thinking",
-        body: "I prioritize understanding how components relate to each other before optimizing individual parts. Structure dictates stability — if the architecture is clear, the implementation follows naturally.",
+        body: "I understand component relationships before optimizing individual parts. Structure dictates stability — if the architecture is clear, implementation follows naturally.",
+        principles: [
+            "Understand relationships before optimizing parts",
+            "Stability emerges from structural clarity",
+            "Layered architecture reduces fragility",
+        ],
     },
     {
+        number: "02",
         title: "Practical Execution",
-        body: "I build for constraints, not for ideals. Every decision weighs tradeoffs between complexity, time, and maintainability. Working software that handles real scenarios matters more than theoretical perfection.",
+        body: "I build for constraints, not ideals. Every decision weighs tradeoffs between complexity, time, and maintainability. Working software that handles real scenarios matters more than theoretical perfection.",
+        principles: [
+            "Constraints drive better design decisions",
+            "Ship working systems, then iterate",
+            "Tradeoff awareness over blind optimization",
+        ],
     },
     {
+        number: "03",
         title: "Structured Growth",
-        body: "I explore cloud infrastructure, applied AI/ML, and security not as trends to chase, but as layers to understand deliberately. Each new domain is approached with the same discipline as core engineering.",
+        body: "I explore cloud infrastructure, applied AI/ML, and security not as trends to chase, but as layers to understand deliberately. Each domain is approached with the same discipline as core engineering.",
+        principles: [
+            "Depth over breadth in new domains",
+            "Same discipline across every layer",
+            "Deliberate exploration over trend-chasing",
+        ],
     },
     {
+        number: "04",
         title: "Simplicity & Efficiency",
         body: "Good software should be readable, minimal, and effective. Unnecessary abstraction adds fragility. I write code that future developers — including myself — can understand without documentation archaeology.",
+        principles: [
+            "Readable code over clever code",
+            "Minimal abstraction, maximum clarity",
+            "Build for the next developer",
+        ],
     },
 ];
 
@@ -32,25 +70,52 @@ export default function PhilosophySection() {
             </motion.div>
 
             <motion.div
-                initial="initial"
-                whileInView="whileInView"
+                variants={stagger}
+                initial="hidden"
+                whileInView="show"
                 viewport={motionConfig.viewport}
-                transition={{ staggerChildren: motionConfig.stagger }}
-                className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6"
+                className="mt-14 max-w-2xl space-y-0"
             >
-                {pillars.map((pillar) => (
-                    <motion.div
-                        key={pillar.title}
-                        variants={staggerItem}
-                        className="rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/50 p-6 transition-colors duration-200 hover:border-neutral-400 dark:hover:border-neutral-600"
-                    >
-                        <h3 className="text-lg font-medium">{pillar.title}</h3>
-                        <p className="mt-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400 max-w-md">
-                            {pillar.body}
-                        </p>
+                {philosophies.map((p, i) => (
+                    <motion.div key={p.number} variants={fadeUp}>
+                        <div className="flex gap-6 py-10">
+                            <span className="text-xs font-mono text-neutral-300 dark:text-neutral-700 pt-1 shrink-0">
+                                {p.number}
+                            </span>
+                            <div className="border-l border-neutral-200 dark:border-neutral-800 pl-6">
+                                <h3 className="text-lg font-semibold">{p.title}</h3>
+                                <p className="mt-3 text-sm leading-[1.8] text-neutral-600 dark:text-neutral-400">
+                                    {p.body}
+                                </p>
+                                <ul className="mt-4 space-y-1.5">
+                                    {p.principles.map((pr) => (
+                                        <li
+                                            key={pr}
+                                            className="text-sm text-neutral-500 dark:text-neutral-500 flex gap-2"
+                                        >
+                                            <span className="text-neutral-300 dark:text-neutral-700 shrink-0">—</span>
+                                            {pr}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+                        {i < philosophies.length - 1 && (
+                            <hr className="border-neutral-100 dark:border-neutral-900" />
+                        )}
                     </motion.div>
                 ))}
             </motion.div>
+
+            <motion.p
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                className="mt-6 text-sm italic text-neutral-400 dark:text-neutral-600 max-w-2xl"
+            >
+                Good systems are intentional, not accidental.
+            </motion.p>
         </SectionWrapper>
     );
 }
