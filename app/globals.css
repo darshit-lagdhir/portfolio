@@ -1,4 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@300;400;700&family=Outfit:wght@200;400;600;900&family=Syne:wght@400;700;800&family=VT323&display=swap');
 @import "tailwindcss";
+@import "./fonts.css";
 
 @theme {
   /* Premium Typeface Architecture */
@@ -21,13 +23,18 @@
   --font-size-display: clamp(3rem, 8vw, 8rem);
 }
 
-/* Base Styles */
 :root {
   --font-sans: "Neue Metana Next", "Inter", sans-serif;
   --font-display: "Dirtyline 36Daysoftype 2022", sans-serif;
-  --font-ui: "Aalto Display Font", sans-serif;
-  --font-wide: "HK Grotesk Wide", sans-serif;
-  --font-mono: "OffBit - Free Font", monospace;
+
+  /* Strict Project Mapping Variables with High-End Fallbacks */
+  --font-title: "Aalto Display Font", "Galgo Condensed", "Anton", sans-serif;
+  --font-micro: "OffBit - Free Font", "VT323", monospace;
+  --font-caption: "HK Grotesk Wide", "Syne", sans-serif;
+  --font-accent: "Neue Metana Next", "Outfit", sans-serif;
+  --font-light: "Black Sansa Thin", "Space Grotesk", sans-serif;
+  --font-ui: "Mamen Chisa", "Space Grotesk", sans-serif;
+
   --accent: #4f46e5;
 }
 
@@ -124,7 +131,7 @@ body {
   position: fixed;
   inset: -200%;
   background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-  opacity: 0.15;
+  opacity: 0.05;
   pointer-events: none;
   z-index: 9999;
   animation: noise 0.2s infinite;
@@ -182,7 +189,7 @@ body {
   border-radius: 50%;
   filter: blur(120px);
   z-index: -20;
-  opacity: 0.3;
+  opacity: 0.15;
   pointer-events: none;
 }
 
@@ -239,5 +246,29 @@ body {
   .italic-heavy {
     font-style: italic;
     font-weight: 300;
+  }
+
+  .font-title {
+    font-family: var(--font-title);
+  }
+
+  .font-micro {
+    font-family: var(--font-micro);
+  }
+
+  .font-caption {
+    font-family: var(--font-caption);
+  }
+
+  .font-accent {
+    font-family: var(--font-accent);
+  }
+
+  .font-light {
+    font-family: var(--font-light);
+  }
+
+  .font-ui {
+    font-family: var(--font-ui);
   }
 }

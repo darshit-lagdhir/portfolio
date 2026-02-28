@@ -36,7 +36,7 @@ export default function FootprintSection() {
                     <span className="text-display opacity-[0.03] font-black tracking-tighter uppercase">GITHUB // FOOTPRINT</span>
                 </motion.div>
                 <motion.div style={{ x: bgX2 }} className="absolute top-[60%] left-0 pointer-events-none select-none z-0 whitespace-nowrap">
-                    <span className="text-display opacity-[0.03] font-black color-transparent stroke-neutral-900 dark:stroke-white uppercase" style={{ WebkitTextStroke: "2px currentColor" }}>
+                    <span className="text-display opacity-[0.03] font-black text-neutral-900 dark:text-white uppercase" style={{ WebkitTextStroke: "2px currentColor", WebkitTextFillColor: "transparent" }}>
                         OPEN SOURCE // ARCHIVE
                     </span>
                 </motion.div>

@@ -24,8 +24,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="selection:bg-indigo-500 selection:text-white">
-      <body className="bg-[#fafafa] text-neutral-900 dark:bg-[#050505] dark:text-neutral-50 transition-colors duration-[1500ms] antialiased overflow-x-hidden">
+    <html lang="en" className="selection:bg-indigo-500 selection:text-white" suppressHydrationWarning>
+      <body className="bg-[#fafafa] text-neutral-900 dark:bg-[#050505] dark:text-neutral-50 transition-colors duration-[1500ms] antialiased overflow-x-hidden" suppressHydrationWarning>
         <ThemeProvider>
           <SmoothScroll>
             {/* Layered Saturation Environment */}

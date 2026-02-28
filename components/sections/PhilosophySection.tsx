@@ -4,10 +4,10 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 
 const identityScenes = [
-    { main: "SYSTEMS", sub: "Built from the inside out.", id: "01" },
-    { main: "LOGIC", sub: "First. Aesthetics second.", id: "02" },
-    { main: "BREAK", sub: "Debug. Rebuild.", id: "03" },
-    { main: "SIMPLE", sub: "Efficient. Readable.", id: "04" },
+    { main: "SYSTEMS", sub: "From the inside out.", id: "01" },
+    { main: "LOGIC-FIRST", sub: "Engineering.", id: "02" },
+    { main: "BREAK.", sub: "Debug. Rebuild.", id: "03" },
+    { main: "SIMPLE.", sub: "Efficient. Readable.", id: "04" },
 ];
 
 export default function PhilosophySection() {
@@ -20,7 +20,7 @@ export default function PhilosophySection() {
     const springProgress = useSpring(scrollYProgress, { stiffness: 60, damping: 20 });
 
     return (
-        <section ref={containerRef} className="relative h-[500vh] bg-transparent overflow-visible" id="philosophy">
+        <section ref={containerRef} className="relative h-[400vh] bg-transparent overflow-visible" id="philosophy">
             <div className="sticky top-0 h-screen w-full flex items-center overflow-hidden">
                 {identityScenes.map((scene, i) => {
                     const sceneLength = 1 / identityScenes.length;
@@ -32,35 +32,38 @@ export default function PhilosophySection() {
                         [0, 1, 1, 0]
                     );
 
-                    const scale = useTransform(springProgress, [start, end], [0.85, 1.15]);
-                    const rotate = useTransform(springProgress, [start, end], [i % 2 === 0 ? -2 : 2, i % 2 === 0 ? 2 : -2]);
-                    const letterSpacing = useTransform(springProgress, [start, end], ["-0.05em", "0.2em"]);
+                    const filter = useTransform(springProgress,
+                        [start, start + 0.1, end - 0.1, end],
+                        ["blur(20px)", "blur(0px)", "blur(0px)", "blur(20px)"]
+                    );
 
+                    const x = useTransform(springProgress, [start, end], [i % 2 === 0 ? -50 : 50, i % 2 === 0 ? 50 : -50]);
+                    const letterSpacing = useTransform(springProgress, [start, end], ["-0.05em", "0.2em"]);
                     const isEven = i % 2 === 0;
 
                     return (
                         <motion.div
                             key={scene.main}
-                            style={{ opacity, scale, rotate, transformStyle: "preserve-3d" }}
+                            style={{ opacity, filter, x }}
                             className={`absolute inset-0 flex flex-col justify-center px-8 md:px-40 ${isEven ? "items-start text-left" : "items-end text-right"}`}
                         >
                             <motion.span
                                 style={{
-                                    x: useTransform(springProgress, [start, end], [isEven ? -200 : 200, isEven ? 200 : -200]),
-                                    opacity: 0.03
+                                    x: useTransform(springProgress, [start, end], [isEven ? -100 : 100, isEven ? 100 : -100]),
+                                    opacity: 0.1
                                 }}
-                                className="text-[clamp(8rem,30vw,35rem)] absolute inset-0 flex items-center justify-center font-black pointer-events-none uppercase tracking-[-0.05em]"
+                                className="text-[clamp(8rem,25vw,30rem)] font-title text-neutral-800 dark:text-neutral-200 absolute inset-0 flex items-center justify-center pointer-events-none uppercase tracking-[-0.05em]"
                             >
                                 {scene.main}
                             </motion.span>
 
                             <div className="relative z-10 flex flex-col gap-6 max-w-5xl">
-                                <span className="text-[10px] tracking-[1em] uppercase text-accent font-mono font-bold">
-                                    IDENTITY // {scene.id}
+                                <span className="text-[10px] tracking-[0.5em] uppercase text-accent font-micro font-bold">
+                                    NODE // {scene.id}
                                 </span>
                                 <motion.h2
                                     style={{ letterSpacing }}
-                                    className="text-mega text-neutral-900 dark:text-neutral-50 leading-[0.75] uppercase"
+                                    className="font-title text-[clamp(4rem,10vw,12rem)] text-neutral-900 dark:text-neutral-50 leading-none uppercase"
                                 >
                                     {scene.main}
                                 </motion.h2>

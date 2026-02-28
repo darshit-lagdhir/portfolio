@@ -88,7 +88,7 @@ export default function HeroSection() {
                                     </motion.span>
                                 ))}
                             </h1>
-                            <h1 className="text-mega text-transparent stroke-neutral-900 dark:stroke-neutral-50 flex flex-wrap mt-4 relative z-0" style={{ WebkitTextStroke: "2px currentColor" }}>
+                            <h1 className="text-mega text-neutral-900 dark:text-neutral-50 flex flex-wrap mt-4 relative z-0" style={{ WebkitTextStroke: "2px currentColor", WebkitTextFillColor: "transparent" }}>
                                 {nameLast.map((char, i) => (
                                     <motion.span
                                         key={i}
@@ -129,12 +129,12 @@ export default function HeroSection() {
                     <motion.div
                         style={{
                             y: useTransform(scrollYProgress, [0, 1], [0, 400]),
-                            opacity: useTransform(scrollYProgress, [0, 0.5], [0.03, 0]),
+                            opacity: useTransform(scrollYProgress, [0, 0.5], [0.15, 0]),
                             filter: useTransform(blur, v => `blur(${v}px)`)
                         }}
-                        className="hidden lg:block absolute right-[-10%] top-1/2 -translate-y-1/2 pointer-events-none select-none"
+                        className="hidden lg:block absolute right-[-10%] top-1/2 -translate-y-1/2 pointer-events-none select-none z-0"
                     >
-                        <span className="text-[clamp(10rem,30vw,35rem)] font-black leading-none opacity-10 rotate-90 block">
+                        <span className="text-[clamp(10rem,30vw,35rem)] font-title leading-none rotate-90 block text-neutral-800 dark:text-neutral-200">
                             ARCH
                         </span>
                     </motion.div>

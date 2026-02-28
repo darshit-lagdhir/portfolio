@@ -1,0 +1,41 @@
+@font-face {
+    font-family: 'Galgo Condensed';
+    src: url('/fonts/GalgoCondensed.woff2') format('woff2');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Aalto Display Font';
+    src: url('/fonts/AaltoDisplay.woff2') format('woff2');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mamen Chisa';
+    src: url('/fonts/MamenChisa.woff2') format('woff2');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Neue Metana Next';
+    src: url('/fonts/NeueMetanaNext.woff2') format('woff2');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'HK Grotesk Wide';
+    src: url('/fonts/HKGroteskWide.woff2') format('woff2');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'OffBit - Free Font';
+    src: url('/fonts/OffBit.woff2') format('woff2');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Black Sansa Thin';
+    src: url('/fonts/BlackSansaThin.woff2') format('woff2');
+    font-display: swap;
+}

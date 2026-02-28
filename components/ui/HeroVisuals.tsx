@@ -27,15 +27,15 @@ const fragmentShader = `
     vec3 color2 = vec3(0.2, 0.15, 0.8);  // Primary Accent
     vec3 color3 = vec3(0.8, 0.1, 0.5);   // Secondary Accent
     
-    float mixFactor = (noise1 + noise2 + 1.0) * 0.5;
-    vec3 finalColor = mix(color1, mix(color2, color3, noise2), mixFactor * 0.3);
+    float mixFactor = (noise1 + noise2 + 1.0) * 0.35; // lowered intensity
+    vec3 finalColor = mix(color1, mix(color2, color3, noise2), mixFactor * 0.2);
     
     // Interactive Spotlight
     float dist = distance(vUv, uMouse);
     float spotlight = smoothstep(0.7, 0.0, dist);
-    finalColor += color2 * spotlight * 0.12;
+    finalColor += color2 * spotlight * 0.06;
 
-    gl_FragColor = vec4(finalColor, 1.0);
+    gl_FragColor = vec4(finalColor, 0.85);
   }
 `;
 
@@ -85,7 +85,7 @@ function FluidBackground() {
 function FloatingParticles() {
     const pointsRef = useRef<THREE.Points>(null);
     const { scrollYProgress } = useScroll();
-    const count = 400;
+    const count = 250;
 
     const positions = useMemo(() => {
         const pos = new Float32Array(count * 3);
@@ -106,7 +106,7 @@ function FloatingParticles() {
         const progress = scrollYProgress.get();
         pointsRef.current.position.z = -progress * 8;
         if (pointsRef.current.material) {
-            (pointsRef.current.material as THREE.Material).opacity = 0.2 * (1 - progress);
+            (pointsRef.current.material as THREE.Material).opacity = 0.1 * (1 - progress);
         }
     });
 
@@ -118,7 +118,7 @@ function FloatingParticles() {
                 size={0.015}
                 sizeAttenuation={true}
                 depthWrite={false}
-                opacity={0.2}
+                opacity={0.1}
             />
         </Points>
     );
