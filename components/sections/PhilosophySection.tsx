@@ -1,8 +1,9 @@
 "use client";
 
-import Container from "@/components/layout/Container";
+import SectionWrapper from "@/components/ui/SectionWrapper";
+import SectionHeading from "@/components/ui/SectionHeading";
 import { motion } from "framer-motion";
-import { sectionReveal, motionConfig, staggerItem } from "@/lib/motion";
+import { motionConfig, sectionReveal, staggerItem } from "@/lib/motion";
 
 const pillars = [
     {
@@ -25,35 +26,31 @@ const pillars = [
 
 export default function PhilosophySection() {
     return (
-        <section id="philosophy" className="py-20">
-            <Container>
-                <motion.div {...sectionReveal}>
-                    <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">
-                        Engineering Philosophy
-                    </h2>
-                </motion.div>
+        <SectionWrapper id="philosophy">
+            <motion.div {...sectionReveal}>
+                <SectionHeading>Engineering Philosophy</SectionHeading>
+            </motion.div>
 
-                <motion.div
-                    initial="initial"
-                    whileInView="whileInView"
-                    viewport={motionConfig.viewport}
-                    transition={{ staggerChildren: motionConfig.stagger }}
-                    className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6"
-                >
-                    {pillars.map((pillar) => (
-                        <motion.div
-                            key={pillar.title}
-                            variants={staggerItem}
-                            className="rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/50 p-6 transition-colors duration-200 hover:border-neutral-400 dark:hover:border-neutral-600"
-                        >
-                            <h3 className="text-lg font-medium">{pillar.title}</h3>
-                            <p className="mt-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400 max-w-md">
-                                {pillar.body}
-                            </p>
-                        </motion.div>
-                    ))}
-                </motion.div>
-            </Container>
-        </section>
+            <motion.div
+                initial="initial"
+                whileInView="whileInView"
+                viewport={motionConfig.viewport}
+                transition={{ staggerChildren: motionConfig.stagger }}
+                className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6"
+            >
+                {pillars.map((pillar) => (
+                    <motion.div
+                        key={pillar.title}
+                        variants={staggerItem}
+                        className="rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/50 p-6 transition-colors duration-200 hover:border-neutral-400 dark:hover:border-neutral-600"
+                    >
+                        <h3 className="text-lg font-medium">{pillar.title}</h3>
+                        <p className="mt-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400 max-w-md">
+                            {pillar.body}
+                        </p>
+                    </motion.div>
+                ))}
+            </motion.div>
+        </SectionWrapper>
     );
 }

@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import Container from "@/components/layout/Container";
+import SectionHeading from "@/components/ui/SectionHeading";
+import ContentBlock from "@/components/ui/ContentBlock";
 import { motion } from "framer-motion";
 import { motionConfig, sectionReveal } from "@/lib/motion";
 import { Project } from "@/types/project";
@@ -15,9 +17,9 @@ function Section({ title, children }: { title: string; children: React.ReactNode
             transition={{ duration: motionConfig.medium, ease: motionConfig.ease }}
             className="mt-16"
         >
-            <h2 className="text-xl md:text-2xl font-semibold tracking-tight">{title}</h2>
-            <div className="mt-4 text-sm md:text-base leading-relaxed text-neutral-700 dark:text-neutral-300">
-                {children}
+            <SectionHeading as="h3">{title}</SectionHeading>
+            <div className="mt-4">
+                <ContentBlock>{children}</ContentBlock>
             </div>
         </motion.div>
     );
@@ -45,9 +47,7 @@ export default function CaseStudyTemplate({ project }: { project: Project }) {
                         transition={{ duration: motionConfig.medium, ease: motionConfig.ease }}
                         className="mt-10"
                     >
-                        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight leading-tight">
-                            {project.title}
-                        </h1>
+                        <SectionHeading as="h1">{project.title}</SectionHeading>
                         <p className="mt-4 text-base md:text-lg text-neutral-600 dark:text-neutral-400">
                             {project.shortDescription}
                         </p>
@@ -56,7 +56,6 @@ export default function CaseStudyTemplate({ project }: { project: Project }) {
                         </p>
                     </motion.div>
 
-                    {/* Technical Summary Panel */}
                     {project.technicalMeta && (
                         <motion.div
                             {...sectionReveal}
@@ -103,7 +102,6 @@ export default function CaseStudyTemplate({ project }: { project: Project }) {
                         </>
                     )}
 
-                    {/* Structured Architecture Layers */}
                     {project.architectureLayers && project.architectureLayers.length > 0 && (
                         <>
                             <Section title="System Architecture">
@@ -113,9 +111,9 @@ export default function CaseStudyTemplate({ project }: { project: Project }) {
                                             key={layer.name}
                                             className="rounded-md border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/40 p-4"
                                         >
-                                            <h3 className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
+                                            <h4 className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
                                                 {layer.name}
-                                            </h3>
+                                            </h4>
                                             <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
                                                 {layer.description}
                                             </p>
@@ -127,7 +125,6 @@ export default function CaseStudyTemplate({ project }: { project: Project }) {
                         </>
                     )}
 
-                    {/* Fallback to plain architecture text */}
                     {!project.architectureLayers && project.architecture && (
                         <>
                             <Section title="System Architecture">
@@ -183,18 +180,16 @@ export default function CaseStudyTemplate({ project }: { project: Project }) {
                     )}
 
                     {project.future && project.future.length > 0 && (
-                        <>
-                            <Section title="Future Improvements">
-                                <ul className="space-y-3">
-                                    {project.future.map((f, i) => (
-                                        <li key={i} className="flex gap-3">
-                                            <span className="mt-1 text-neutral-400 dark:text-neutral-600 text-xs font-mono shrink-0">→</span>
-                                            <span>{f}</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </Section>
-                        </>
+                        <Section title="Future Improvements">
+                            <ul className="space-y-3">
+                                {project.future.map((f, i) => (
+                                    <li key={i} className="flex gap-3">
+                                        <span className="mt-1 text-neutral-400 dark:text-neutral-600 text-xs font-mono shrink-0">→</span>
+                                        <span>{f}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </Section>
                     )}
 
                     {project.repositoryLink && (
