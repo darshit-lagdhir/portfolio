@@ -6,7 +6,18 @@ import AmbientGradient from "@/components/ui/AmbientGradient";
 
 export const metadata = {
   title: "Darshit Lagdhir — Systems-Focused Developer",
-  description: "Portfolio of Darshit Lagdhir",
+  description:
+    "Portfolio of Darshit Lagdhir. Backend systems, clean architecture, and practical engineering under real constraints.",
+  openGraph: {
+    title: "Darshit Lagdhir — Systems-Focused Developer",
+    description:
+      "Backend systems, clean architecture, and practical engineering.",
+    url: "https://darshitlagdhir.dev",
+    type: "website",
+  },
+  other: {
+    "profile:username": "darshit-lagdhir",
+  },
 };
 
 export default function RootLayout({

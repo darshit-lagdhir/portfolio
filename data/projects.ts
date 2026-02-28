@@ -190,24 +190,5 @@ export const projects: Project[] = [
             "Barcode/SKU scanning integration.",
         ],
     },
-    {
-        slug: "task-workflow-engine",
-        title: "Task Workflow Engine",
-        shortDescription:
-            "Handles task lifecycle management with priority queuing, status transitions, and persistent state tracking in Python.",
-        techStack: ["Python", "State Management", "CLI"],
-        tier: 2,
-        githubRepoName: "task-workflow-engine",
-        githubUrl: "https://github.com/darshit-lagdhir/task-workflow-engine",
-    },
-    {
-        slug: "api-gateway-service",
-        title: "API Gateway Service",
-        shortDescription:
-            "Structured API layer with route modularization, middleware chaining, request validation, and role-based endpoint access.",
-        techStack: ["Node.js", "Express", "REST"],
-        tier: 2,
-        githubRepoName: "api-gateway-service",
-        githubUrl: "https://github.com/darshit-lagdhir/api-gateway-service",
-    },
 ];
+

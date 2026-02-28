@@ -4,6 +4,7 @@ import { useRef } from "react";
 import Container from "@/components/layout/Container";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { motionConfig } from "@/lib/motion";
+import { identity } from "@/data/identity";
 
 const stagger = {
     hidden: {},
@@ -45,14 +46,14 @@ export default function HeroSection() {
                             variants={fadeUp}
                             className="text-5xl md:text-6xl font-semibold tracking-[-0.03em] leading-[1.1]"
                         >
-                            Darshit Lagdhir
+                            {identity.name}
                         </motion.h1>
 
                         <motion.p
                             variants={fadeUp}
                             className="mt-3 text-xs tracking-widest uppercase text-neutral-400 dark:text-neutral-500"
                         >
-                            BCA · Kristu Jayanti University · Backend · Systems · Infrastructure
+                            {identity.degree} · {identity.university} · Backend · Systems · Infrastructure
                         </motion.p>
 
                         <motion.p
@@ -83,16 +84,38 @@ export default function HeroSection() {
                             </a>
 
                             <a
-                                href="/resume.pdf"
+                                href={identity.resume}
                                 className="px-6 py-3 rounded-md border border-neutral-300 dark:border-neutral-700 text-sm font-medium transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-800 text-center"
                             >
                                 View Resume
                             </a>
                         </motion.div>
 
+                        <motion.div
+                            variants={fadeUp}
+                            className="mt-8 flex gap-5 text-xs text-neutral-400 dark:text-neutral-500"
+                        >
+                            <a
+                                href={identity.github}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors"
+                            >
+                                GitHub
+                            </a>
+                            <a
+                                href={identity.linkedin}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors"
+                            >
+                                LinkedIn
+                            </a>
+                        </motion.div>
+
                         <motion.p
                             variants={fadeUp}
-                            className="mt-16 text-[11px] tracking-widest uppercase text-neutral-300 dark:text-neutral-700"
+                            className="mt-12 text-[11px] tracking-widest uppercase text-neutral-300 dark:text-neutral-700"
                         >
                             Scroll
                         </motion.p>

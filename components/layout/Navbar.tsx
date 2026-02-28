@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "@/context/ThemeContext";
 import { useActiveSection } from "@/lib/useActiveSection";
+import { identity } from "@/data/identity";
 import Container from "@/components/layout/Container";
 
 const navLinks = [
@@ -23,7 +24,7 @@ export default function Navbar() {
             <Container>
                 <div className="py-4 flex items-center justify-between">
                     <Link href="/" className="font-semibold text-lg">
-                        Darshit Lagdhir
+                        {identity.name}
                     </Link>
 
                     <nav className="flex items-center gap-6 text-sm">
