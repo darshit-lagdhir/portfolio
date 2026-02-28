@@ -5,6 +5,22 @@ import Container from "@/components/layout/Container";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { motionConfig } from "@/lib/motion";
 
+const stagger = {
+    hidden: {},
+    show: {
+        transition: { staggerChildren: 0.08, delayChildren: 0.1 },
+    },
+};
+
+const fadeUp = {
+    hidden: { opacity: 0, y: 14 },
+    show: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: motionConfig.medium, ease: motionConfig.ease },
+    },
+};
+
 export default function HeroSection() {
     const ref = useRef<HTMLElement>(null);
     const { scrollYProgress } = useScroll({
@@ -19,46 +35,67 @@ export default function HeroSection() {
     return (
         <section ref={ref} className="py-24">
             <Container>
-                <motion.div
-                    style={{ opacity, y, scale }}
-                    className="max-w-3xl"
-                >
+                <motion.div style={{ opacity, y, scale }} className="max-w-3xl">
                     <motion.div
-                        initial={{ opacity: 0, y: 16 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{
-                            duration: motionConfig.medium,
-                            ease: motionConfig.ease,
-                        }}
+                        variants={stagger}
+                        initial="hidden"
+                        animate="show"
                     >
-                        <h1 className="text-5xl md:text-6xl font-semibold tracking-[-0.02em]">
+                        <motion.h1
+                            variants={fadeUp}
+                            className="text-5xl md:text-6xl font-semibold tracking-[-0.03em] leading-[1.1]"
+                        >
                             Darshit Lagdhir
-                        </h1>
+                        </motion.h1>
 
-                        <p className="mt-6 text-xl md:text-2xl text-neutral-600 dark:text-neutral-400">
-                            Systems-Focused Developer
-                        </p>
+                        <motion.p
+                            variants={fadeUp}
+                            className="mt-3 text-xs tracking-widest uppercase text-neutral-400 dark:text-neutral-500"
+                        >
+                            BCA · Kristu Jayanti University · Backend · Systems · Infrastructure
+                        </motion.p>
 
-                        <p className="mt-6 text-base md:text-lg text-neutral-700 dark:text-neutral-300 leading-relaxed">
-                            Focused on backend systems, clean architecture, and practical
-                            execution under real constraints.
-                        </p>
+                        <motion.p
+                            variants={fadeUp}
+                            className="mt-8 text-xl md:text-2xl text-neutral-700 dark:text-neutral-300 font-medium"
+                        >
+                            Building structured systems, not just applications.
+                        </motion.p>
 
-                        <div className="mt-10 flex flex-col sm:flex-row gap-4">
+                        <motion.p
+                            variants={fadeUp}
+                            className="mt-4 text-base md:text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed"
+                        >
+                            I approach software as layered architecture — designing for
+                            clarity, separation, and long-term maintainability before
+                            writing the first line of code.
+                        </motion.p>
+
+                        <motion.div
+                            variants={fadeUp}
+                            className="mt-10 flex flex-col sm:flex-row gap-4"
+                        >
                             <a
                                 href="#projects"
-                                className="px-6 py-3 rounded-md bg-black text-white dark:bg-white dark:text-black text-sm font-medium transition-transform hover:scale-[1.02] active:scale-[0.98] text-center"
+                                className="px-6 py-3 rounded-md bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 text-sm font-medium transition-transform hover:scale-[1.02] active:scale-[0.97] text-center"
                             >
-                                View Systems
+                                Explore Systems
                             </a>
 
                             <a
                                 href="/resume.pdf"
-                                className="px-6 py-3 rounded-md border border-neutral-400 dark:border-neutral-600 text-sm font-medium transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-800 text-center"
+                                className="px-6 py-3 rounded-md border border-neutral-300 dark:border-neutral-700 text-sm font-medium transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-800 text-center"
                             >
-                                Download Resume
+                                View Resume
                             </a>
-                        </div>
+                        </motion.div>
+
+                        <motion.p
+                            variants={fadeUp}
+                            className="mt-16 text-[11px] tracking-widest uppercase text-neutral-300 dark:text-neutral-700"
+                        >
+                            Scroll
+                        </motion.p>
                     </motion.div>
                 </motion.div>
             </Container>
