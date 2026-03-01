@@ -8,16 +8,11 @@ export default function MoveXPage() {
 
     return (
         <div className="min-h-screen w-full bg-background text-foreground">
-            <div className="grid-layout py-32 lg:py-48 gap-y-32">
+            <div className="grid-layout py-32 lg:py-48 flex flex-col gap-y-40 md:gap-y-64">
 
-                {/* PROJECT HEADER (AALTO) */}
+                {/* PROJECT HEADER (IDENTITY PANEL) */}
                 <div className="col-span-12 lg:col-span-10">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, ease }}
-                        className="flex flex-col gap-8"
-                    >
+                    <div className="flex flex-col gap-12">
                         <span className="font-wide text-step--1 text-muted uppercase tracking-micro font-bold">
                             SYSTEM // ARCHIVE-001
                         </span>
@@ -27,38 +22,38 @@ export default function MoveXPage() {
                         <p className="font-body text-step-1 text-muted font-light max-w-[50ch] leading-relaxed">
                             Modular backend infrastructure for role-isolated logistics management. Built with absolute integrity in Node.js and PostgreSQL.
                         </p>
-                    </motion.div>
+                    </div>
                 </div>
 
-                {/* EDITORIAL ROW 01: OVERVIEW */}
-                <div className="col-span-12 border-t border-border pt-16">
+                {/* ANALYTICAL ROW 01: OVERVIEW */}
+                <div className="col-span-12 border-t border-border pt-12">
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
-                        <div className="md:col-span-4">
+                        <div className="md:col-span-4 lg:col-span-3">
                             <span className="font-wide text-step--1 text-muted uppercase tracking-micro font-bold">
-                                01 // OVERVIEW
+                                // 01 ANALYTICS
                             </span>
                         </div>
-                        <div className="md:col-span-8">
-                            <h2 className="font-title text-step-2 text-white uppercase tracking-tight-title mb-8">
+                        <div className="md:col-span-8 md:col-start-6 lg:col-start-6">
+                            <h2 className="font-title text-step-3 text-white uppercase tracking-tight-title mb-8">
                                 Secure Logistics Pathway
                             </h2>
-                            <p className="font-body text-step-0 text-muted font-light leading-relaxed max-w-[60ch]">
+                            <p className="font-body text-step-0 text-muted font-light leading-relaxed">
                                 Engineering a multi-tenant logistics environment required a zero-trust approach to data access. MoveX implements strict role-based pathway isolation, ensuring that every interaction—from administrative oversight to individual user state tracking—is cryptographically secure and auditable.
                             </p>
                         </div>
                     </div>
                 </div>
 
-                {/* EDITORIAL ROW 02: MODULES */}
-                <div className="col-span-12 border-t border-border pt-16">
+                {/* ANALYTICAL ROW 02: ARCHITECTURE */}
+                <div className="col-span-12 border-t border-border pt-12">
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
-                        <div className="md:col-span-4">
+                        <div className="md:col-span-4 lg:col-span-3">
                             <span className="font-wide text-step--1 text-muted uppercase tracking-micro font-bold">
-                                02 // MODULES
+                                // 02 ARCHITECTURE
                             </span>
                         </div>
-                        <div className="md:col-span-8">
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-16">
+                        <div className="md:col-span-8 md:col-start-6 lg:col-start-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-16 gap-y-24">
                                 {[
                                     { title: "Isolated Dashboarding", desc: "Granular UI/UX separation based on verified role signatures." },
                                     { title: "Prisma Layering", desc: "Type-safe relational mapping for complex supply chain telemetry." },
@@ -79,28 +74,28 @@ export default function MoveXPage() {
                     </div>
                 </div>
 
-                {/* EDITORIAL ROW 03: REFLECTION */}
-                <div className="col-span-12 border-t border-border pt-16">
+                {/* ANALYTICAL ROW 03: REFLECTION */}
+                <div className="col-span-12 border-t border-border pt-12">
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
-                        <div className="md:col-span-4">
+                        <div className="md:col-span-4 lg:col-span-3">
                             <span className="font-wide text-step--1 text-muted uppercase tracking-micro font-bold">
-                                03 // REFLECTION
+                                // 03 REFLECTION
                             </span>
                         </div>
-                        <div className="md:col-span-8">
-                            <p className="font-body text-step-1 text-muted font-light italic leading-relaxed max-w-[55ch]">
+                        <div className="md:col-span-8 md:col-start-6 lg:col-start-6">
+                            <p className="font-body text-step-1 text-muted font-light italic leading-relaxed">
                                 The focus was not on visual complexity, but on the architectural purity of the backend. Truth exists in the logic, not the interface.
                             </p>
                         </div>
                     </div>
                 </div>
 
-                {/* EXIT NAVIGATION */}
+                {/* SYSTEM EXIT NAVIGATION */}
                 <div className="col-span-12 border-t border-border pt-24 pb-12 flex justify-between items-baseline">
                     <Link href="/" className="font-wide text-step-0 text-muted uppercase tracking-micro font-bold hover:text-white transition-colors duration-200">
-                        &larr; INDEX
+                        // INDEX
                     </Link>
-                    <Link href="/uidai" className="font-wide text-step-0 text-white uppercase tracking-micro font-bold hover:text-muted transition-colors duration-200">
+                    <Link href="/uidai" className="font-wide text-step-0 text-muted uppercase tracking-micro font-bold hover:text-white transition-colors duration-200">
                         NEXT SYSTEM &rarr;
                     </Link>
                 </div>
@@ -109,6 +104,7 @@ export default function MoveXPage() {
         </div>
     );
 }
+
 
 
 

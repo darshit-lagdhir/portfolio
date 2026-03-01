@@ -3,22 +3,16 @@
 
 /* 
   DARSHIT LAGDHIR — ARCHITECTURAL INDEX
-  RECONSTRUCTION PASS 97: VISUAL MATURITY
+  RECONSTRUCTION PASS 99: STRUCTURE > STYLE
 */
-
-/* ------------------------------------------------------------
-   ROOT DESIGN TOKENS (REFINED)
-   ------------------------------------------------------------ */
 
 :root {
   /* Core Foundation */
   --background: #050505;
   --bg-subtle: #080808;
-  /* 1-2% shift */
   --foreground: #ffffff;
   --accent: #ffffff;
   --muted: #525252;
-  /* Refined visibility */
   --border: #141414;
   --surface: #070707;
 
@@ -31,32 +25,26 @@
   --font-heading: var(--font-wide);
   --font-body: var(--font-sans);
 
-  /* Refined Type Scale (Slightly Smaller for Maturity) */
+  /* Architectural Type Scale */
   --step--1: clamp(0.65rem, 0.75vw, 0.75rem);
   --step-0: clamp(0.85rem, 0.9vw, 0.95rem);
   --step-1: clamp(1rem, 1.1vw, 1.15rem);
   --step-2: clamp(1.2rem, 1.4vw, 1.5rem);
   --step-3: clamp(1.8rem, 3.5vw, 2.5rem);
-  --step-4: clamp(2.5rem, 6vw, 5rem);
-  --step-5: clamp(3.5rem, 9vw, 10rem);
+  --step-4: clamp(2.5rem, 6vw, 4.5rem);
+  --step-5: clamp(3.5rem, 8vw, 8rem);
 
-  /* Spacing Discipline — strict 8px base */
+  /* Spacing Discipline */
   --gap-xs: 0.5rem;
-  /* 8px */
   --gap-s: 1rem;
-  /* 16px */
   --gap-m: 2rem;
-  /* 32px */
   --gap-l: 4rem;
-  /* 64px */
   --gap-xl: 8rem;
-  /* 128px */
-  --gap-section: clamp(10rem, 15vh, 14rem);
+  --gap-section: clamp(8rem, 12vh, 10rem);
 
   /* Standardized Motion System */
   --ease-control: cubic-bezier(0.16, 1, 0.3, 1);
   --duration-fast: 200ms;
-  --duration-normal: 500ms;
 }
 
 /* Tailwind 4 Theme Mapping */
@@ -75,15 +63,6 @@
 
   --ease-out: var(--ease-control);
 }
-
-/* ------------------------------------------------------------
-   UTILITY — SECTION LAYERING (PROMPT 97 PHASE 3)
-   ------------------------------------------------------------ */
-
-.section-bg-alt {
-  background-color: var(--bg-subtle) !important;
-}
-
 
 /* ------------------------------------------------------------
    BASE RESET
@@ -119,7 +98,7 @@ body {
 }
 
 /* ------------------------------------------------------------
-   TYPOGRAPHIC TENSION
+   TYPOGRAPHIC AUTHORITY (PROMPT 99)
    ------------------------------------------------------------ */
 
 @layer base {
@@ -133,8 +112,8 @@ body {
     font-family: var(--font-title);
     text-transform: uppercase;
     font-weight: 400;
-    line-height: 0.92;
-    letter-spacing: -0.045em;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
     color: var(--foreground);
     text-rendering: optimizeLegibility;
   }
@@ -142,12 +121,10 @@ body {
   p {
     font-family: var(--font-body);
     font-weight: 300;
-    line-height: 1.6;
+    line-height: 1.65;
     letter-spacing: 0.01em;
-    /* Subtle tension */
     max-width: 60ch;
     color: var(--muted);
-    text-rendering: optimizeLegibility;
   }
 }
 
@@ -181,7 +158,8 @@ body {
   }
 
   .tracking-micro {
-    letter-spacing: 0.35em;
+    letter-spacing: 0.15em;
+    /* Reduced for structural authority */
     text-transform: uppercase;
   }
 
@@ -194,7 +172,7 @@ body {
   }
 
   /* ------------------------------------------------------------
-     GRID SYSTEM (12-COLUMN MATURITY)
+     GRID ARCHITECTURE (12-COLUMN DISCIPLINE)
      ------------------------------------------------------------ */
 
   .grid-layout {
@@ -218,44 +196,20 @@ body {
     .grid-layout {
       grid-template-columns: repeat(12, 1fr);
       gap: var(--gap-l);
-      max-width: 1440px;
-      /* Reduced for better proportion */
-      padding-inline: 0;
+      max-width: 1600px;
+      /* Wider for structural panels */
+      padding-inline: 6rem;
     }
   }
 }
 
 /* ------------------------------------------------------------
-   SUBTLE ARTISTIC ELEMENT: ATMOSPHERIC DRIFT
-   ------------------------------------------------------------ */
-
-.atmospheric-drift {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: radial-gradient(circle at 50% 50%,
-      rgba(255, 255, 255, 0.015) 0%,
-      transparent 60%);
-  animation: drift 20s ease-in-out infinite alternate;
-}
-
-@keyframes drift {
-  0% {
-    transform: scale(1) translate(-2%, -2%);
-  }
-
-  100% {
-    transform: scale(1.1) translate(2%, 2%);
-  }
-}
-
-/* ------------------------------------------------------------
-   SECTION SYSTEM
+   PANEL SYSTEM (STRUCTURAL ZONES)
    ------------------------------------------------------------ */
 
 .snap-section {
   min-height: 100vh;
+  /* Restore 100vh for panels */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -265,15 +219,15 @@ body {
 }
 
 .section-bg-alt {
-  background-color: var(--bg-subtle);
+  background-color: var(--bg-subtle) !important;
 }
 
 /* ------------------------------------------------------------
-   SCROLLBAR
+   BRUTAL SCROLLBAR
    ------------------------------------------------------------ */
 
 ::-webkit-scrollbar {
-  width: 3px;
+  width: 2px;
 }
 
 ::-webkit-scrollbar-track {
@@ -281,9 +235,9 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #141414;
+  background: #181818;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #333333;
+  background: #222222;
 }

@@ -18,40 +18,33 @@ export default function BrutalistFocus() {
 
     return (
         <section className="snap-section section-bg-alt" id="focus">
-            <div className="grid-layout gap-y-32 lg:gap-y-40">
-                {/* Identification Label */}
+            <div className="grid-layout items-start">
+                {/* Identification Label (Grid Zone 1) */}
                 <div className="col-span-12 mb-16 lg:mb-24">
                     <span className="font-wide text-step--1 text-muted uppercase tracking-micro font-bold">
-                        RESEARCH ARCHIVE // ACTIVE DOMAINS
+                        RESEARCH ARCHIVE // 004
                     </span>
                 </div>
 
                 {/* Primary Research Bricks */}
-                <div className="col-span-12 flex flex-col gap-24 md:gap-32">
+                <div className="col-span-12 flex flex-col">
                     {domains.map((d, i) => (
-                        <div key={i} className="grid grid-cols-1 md:grid-cols-12 gap-12 items-baseline">
-                            <div className="md:col-span-12 lg:col-span-6">
-                                <motion.h2
-                                    initial={{ opacity: 0, y: 15 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.8, ease }}
-                                    viewport={{ once: true, margin: "-10%" }}
-                                    className="font-title text-step-4 text-white uppercase tracking-tight-title"
-                                    style={{ willChange: "transform, opacity" }}
-                                >
+                        <div key={i} className="grid grid-cols-1 md:grid-cols-12 gap-12 items-baseline border-t border-border pt-12 pb-24 md:pb-32">
+                            {/* Domain (Grid Zone 1-6) */}
+                            <div className="md:col-span-6">
+                                <h2 className="font-title text-step-3 text-white uppercase tracking-tight-title">
                                     {d.title}
-                                </motion.h2>
+                                </h2>
                             </div>
-                            <div className="md:col-span-12 lg:col-span-6 border-l border-border pl-8 md:pl-16">
-                                <motion.p
-                                    initial={{ opacity: 0 }}
-                                    whileInView={{ opacity: 1 }}
-                                    transition={{ duration: 0.8, delay: 0.1, ease }}
-                                    viewport={{ once: true }}
-                                    className="font-body text-step-1 text-muted font-light leading-relaxed max-w-[40ch]"
-                                >
+
+                            {/* Narrative (Grid Zone 9-12: R-Aligned) */}
+                            <div className="md:col-span-4 md:col-start-9">
+                                <span className="font-wide text-step--1 text-muted uppercase tracking-micro block mb-6">
+                                    // ARCHIVE LOG
+                                </span>
+                                <p className="font-body text-step-0 text-muted font-light leading-relaxed">
                                     {d.description}
-                                </motion.p>
+                                </p>
                             </div>
                         </div>
                     ))}
@@ -60,6 +53,8 @@ export default function BrutalistFocus() {
         </section>
     );
 }
+
+
 
 
 

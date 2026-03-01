@@ -27,23 +27,22 @@ export default function BrutalistNavbar() {
         <header
             className={`
                 fixed top-0 left-0 w-full z-100 transition-all duration-300 ease-control
-                ${scrolled ? "py-4 bg-background/95 backdrop-blur-md border-b border-border shadow-[0_1px_12px_rgba(0,0,0,0.5)]" : "py-8 bg-transparent border-b border-transparent"}
+                ${scrolled ? "py-4 bg-background/95 backdrop-blur-md border-b border-border" : "py-8 md:py-12 bg-transparent border-b border-transparent"}
             `}
         >
-            <nav className="grid-layout">
+            <nav className="grid-layout items-baseline">
                 {/* Brand Execution (Aalto) */}
-                <div className="col-span-12 md:col-span-4">
+                <div className="col-span-12 md:col-span-4 lg:col-span-3">
                     <Link
                         href="/"
                         className="font-title text-step-0 text-white uppercase tracking-tight-title font-bold hover:text-muted transition-colors duration-200"
-                        style={{ letterSpacing: "-0.05em" }}
                     >
-                        DARSHIT LAGDHIR
+                        // DARSHIT LAGDHIR
                     </Link>
                 </div>
 
                 {/* System Navigation (HK Grotesk Wide) */}
-                <div className="hidden md:flex md:col-start-7 md:col-span-6 justify-end gap-x-12 lg:gap-x-16">
+                <div className="hidden md:flex md:col-start-7 md:col-span-6 lg:col-start-9 lg:col-span-4 justify-end gap-x-12 lg:gap-x-16">
                     {navLinks.map((link) => {
                         const isActive = pathname === link.href;
                         return (
@@ -57,10 +56,6 @@ export default function BrutalistNavbar() {
                                 `}
                             >
                                 {link.name}
-                                <span className={`
-                                    absolute -bottom-1.5 left-0 h-[1px] bg-white transition-all duration-300
-                                    ${isActive ? "w-full" : "w-0 group-hover:w-full"}
-                                `} />
                             </Link>
                         );
                     })}
@@ -69,6 +64,8 @@ export default function BrutalistNavbar() {
         </header>
     );
 }
+
+
 
 
 

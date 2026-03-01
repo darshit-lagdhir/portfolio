@@ -8,40 +8,35 @@ export default function BrutalistContact() {
     return (
         <section className="snap-section" id="contact">
             <div className="grid-layout items-end">
-                {/* Conclusion Identifier */}
+                {/* Identification Label (Grid Zone 1) */}
                 <div className="col-span-12 mb-20 lg:mb-32">
                     <span className="font-wide text-step--1 text-muted uppercase tracking-micro font-bold">
-                        NETWORK CHANNEL // SELECTION
+                        SYSTEM TERMINAL // 005
                     </span>
                 </div>
 
-                {/* Signature Statement */}
+                {/* Primary Anchor (Grid Zone 1-12) */}
                 <div className="col-span-12 lg:col-span-10 flex flex-col gap-10">
-                    <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, ease }}
-                        viewport={{ once: true, margin: "-10%" }}
-                        className="font-title text-step-5 text-white uppercase tracking-tight-title"
-                        style={{ willChange: "transform, opacity" }}
-                    >
+                    <h2 className="font-title text-step-5 text-white uppercase tracking-tight-title">
                         CONNECT.
-                    </motion.h2>
-                    <p className="font-body text-step-1 text-muted font-light max-w-[45ch] leading-relaxed">
-                        Systems are active. Logic is priority. <br />
-                        Archive is always open for modular collaboration and high-authority engineering.
+                    </h2>
+                    <p className="font-body text-step-0 text-muted font-light max-w-[45ch] leading-relaxed">
+                        Architectural systems are active. Archive is open for high-authority collaboration and technical modularity.
                     </p>
                 </div>
 
-                {/* Final Architectural Footer */}
-                <div className="col-span-12 border-t border-border pt-16 lg:pt-24 mt-32 lg:mt-48">
+                {/* Structural Footer (Grid Zone 1-12) */}
+                <div className="col-span-12 border-t border-border pt-12 mt-40 lg:mt-64 pb-8">
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-baseline w-full">
+                        {/* Selector Context (Grid Zone 1-7) */}
                         <div className="md:col-span-7">
                             <span className="font-wide text-step--1 text-muted uppercase tracking-micro font-bold">
                                 DARSHIT LAGDHIR // ARCHITECTURAL INDEX
                             </span>
                         </div>
-                        <div className="md:col-span-5 flex justify-end gap-12 lg:gap-16">
+
+                        {/* Network Channels (Grid Zone 9-12: R-Aligned) */}
+                        <div className="md:col-span-4 md:col-start-9 flex justify-end gap-12 lg:gap-16">
                             {[
                                 { name: "GITHUB", url: "https://github.com/darshit-lagdhir" },
                                 { name: "LINKEDIN", url: "https://linkedin.com/in/darshit-lagdhir" }
@@ -50,9 +45,9 @@ export default function BrutalistContact() {
                                     key={i}
                                     href={l.url}
                                     target="_blank"
-                                    className="font-wide text-step-0 text-white uppercase tracking-micro hover:text-muted transition-colors duration-200 font-bold"
+                                    className="font-wide text-step-0 text-muted uppercase tracking-micro hover:text-white transition-colors duration-200 font-bold"
                                 >
-                                    {l.name}
+                                    // {l.name}
                                 </a>
                             ))}
                         </div>
@@ -62,6 +57,8 @@ export default function BrutalistContact() {
         </section>
     );
 }
+
+
 
 
 

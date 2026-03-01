@@ -22,44 +22,34 @@ export default function BrutalistAbout() {
 
     return (
         <section className="snap-section section-bg-alt" id="about">
-            <div className="grid-layout gap-y-32 lg:gap-y-40">
+            <div className="grid-layout items-start">
+                {/* Identification Label (Grid Zone 1) */}
+                <div className="col-span-12 mb-16 lg:mb-24">
+                    <span className="font-wide text-step--1 text-muted uppercase tracking-micro font-bold">
+                        SYSTEM PHILOSOPHY // 002
+                    </span>
+                </div>
+
                 {principles.map((p, i) => (
                     <div
                         key={i}
-                        className="col-span-12 grid grid-cols-1 md:grid-cols-12 gap-12 items-start border-t border-border pt-16 lg:pt-24"
+                        className="col-span-12 grid grid-cols-1 md:grid-cols-12 gap-12 border-t border-border pt-12 pb-24 md:pb-32"
                     >
-                        {/* Principle Selector (HK Grotesk Wide) */}
-                        <div className="md:col-span-3 lg:col-span-2">
-                            <span className="font-wide text-step--1 text-muted uppercase tracking-micro font-bold">
-                                SELECT // 0{i + 1}
-                            </span>
-                        </div>
-
-                        {/* Concept Headline (Aalto) */}
-                        <div className="md:col-span-5 lg:col-span-6">
-                            <motion.h2
-                                initial={{ opacity: 0, y: 15 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, margin: "-10%" }}
-                                transition={{ duration: 0.8, ease }}
-                                className="font-title text-step-3 text-white uppercase tracking-tight-title"
-                                style={{ willChange: "transform, opacity" }}
-                            >
+                        {/* Principle Heading (Grid Zone 1-6) */}
+                        <div className="md:col-span-6">
+                            <h2 className="font-title text-step-3 text-white uppercase tracking-tight-title max-w-[20ch]">
                                 {p.statement}
-                            </motion.h2>
+                            </h2>
                         </div>
 
-                        {/* Support Context (Space Grotesk) */}
-                        <div className="md:col-span-4 flex justify-end">
-                            <motion.p
-                                initial={{ opacity: 0 }}
-                                whileInView={{ opacity: 1 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: 0.2, duration: 0.8, ease }}
-                                className="font-body text-step-0 text-muted font-light leading-relaxed max-w-[32ch]"
-                            >
+                        {/* Principle Documentation (Grid Zone 8-12: R-Aligned) */}
+                        <div className="md:col-span-5 md:col-start-8">
+                            <span className="font-wide text-step--1 text-muted uppercase tracking-micro block mb-6">
+                                // DOCUMENTATION
+                            </span>
+                            <p className="font-body text-step-0 text-muted font-light leading-relaxed">
                                 {p.details}
-                            </motion.p>
+                            </p>
                         </div>
                     </div>
                 ))}
@@ -67,6 +57,7 @@ export default function BrutalistAbout() {
         </section>
     );
 }
+
 
 
 

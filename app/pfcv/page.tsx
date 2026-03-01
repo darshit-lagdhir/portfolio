@@ -8,16 +8,11 @@ export default function PFCVSystemPage() {
 
     return (
         <div className="min-h-screen w-full bg-background text-foreground">
-            <div className="grid-layout py-32 lg:py-48 gap-y-32">
+            <div className="grid-layout py-32 lg:py-48 flex flex-col gap-y-40 md:gap-y-64">
 
-                {/* PROJECT HEADER (AALTO) */}
+                {/* PROJECT HEADER (IDENTITY PANEL) */}
                 <div className="col-span-12 lg:col-span-10">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, ease }}
-                        className="flex flex-col gap-8"
-                    >
+                    <div className="flex flex-col gap-12">
                         <span className="font-wide text-step--1 text-muted uppercase tracking-micro font-bold">
                             SYSTEM // ARCHIVE-003
                         </span>
@@ -27,38 +22,38 @@ export default function PFCVSystemPage() {
                         <p className="font-body text-step-1 text-muted font-light max-w-[50ch] leading-relaxed">
                             Cross-language contract verification pipeline for memory-safe FFI boundaries.
                         </p>
-                    </motion.div>
+                    </div>
                 </div>
 
-                {/* EDITORIAL ROW 01: OVERVIEW */}
-                <div className="col-span-12 border-t border-border pt-16">
+                {/* ANALYTICAL ROW 01: OVERVIEW */}
+                <div className="col-span-12 border-t border-border pt-12">
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
-                        <div className="md:col-span-4">
+                        <div className="md:col-span-4 lg:col-span-3">
                             <span className="font-wide text-step--1 text-muted uppercase tracking-micro font-bold">
-                                01 // OVERVIEW
+                                // 01 ANALYTICS
                             </span>
                         </div>
-                        <div className="md:col-span-8">
-                            <h2 className="font-title text-step-2 text-white uppercase tracking-tight-title mb-8">
+                        <div className="md:col-span-8 md:col-start-6 lg:col-start-6">
+                            <h2 className="font-title text-step-3 text-white uppercase tracking-tight-title mb-8">
                                 Binary Contract Enforcement
                             </h2>
-                            <p className="font-body text-step-0 text-muted font-light leading-relaxed max-w-[60ch]">
+                            <p className="font-body text-step-0 text-muted font-light leading-relaxed">
                                 Polyglot FFI is an automated verification pipeline designed to eliminate memory layout uncertainty at the boundary between Rust, C++, and WebAssembly. By synthesizing a language-agnostic intermediate representation, the system validates memory alignment, padding invariants, and calling convention adherence before execution.
                             </p>
                         </div>
                     </div>
                 </div>
 
-                {/* EDITORIAL ROW 02: PIPELINE */}
-                <div className="col-span-12 border-t border-border pt-16">
+                {/* ANALYTICAL ROW 02: PIPELINE */}
+                <div className="col-span-12 border-t border-border pt-12">
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
-                        <div className="md:col-span-4">
+                        <div className="md:col-span-4 lg:col-span-3">
                             <span className="font-wide text-step--1 text-muted uppercase tracking-micro font-bold">
-                                02 // PIPELINE
+                                // 02 PIPELINE
                             </span>
                         </div>
-                        <div className="md:col-span-8">
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-16">
+                        <div className="md:col-span-8 md:col-start-6 lg:col-start-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-16 gap-y-24">
                                 {[
                                     { title: "IR Normalization", desc: "Synthesis of Language-agnostic Intermediate Representation." },
                                     { title: "Layout Verifier", desc: "Validation of memory alignment and padding invariants." },
@@ -79,28 +74,28 @@ export default function PFCVSystemPage() {
                     </div>
                 </div>
 
-                {/* EDITORIAL ROW 03: REFLECTION */}
-                <div className="col-span-12 border-t border-border pt-16">
+                {/* ANALYTICAL ROW 03: REFLECTION */}
+                <div className="col-span-12 border-t border-border pt-12">
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
-                        <div className="md:col-span-4">
+                        <div className="md:col-span-4 lg:col-span-3">
                             <span className="font-wide text-step--1 text-muted uppercase tracking-micro font-bold">
-                                03 // REFLECTION
+                                // 03 REFLECTION
                             </span>
                         </div>
-                        <div className="md:col-span-8">
-                            <p className="font-body text-step-1 text-muted font-light italic leading-relaxed max-w-[55ch]">
+                        <div className="md:col-span-8 md:col-start-6 lg:col-start-6">
+                            <p className="font-body text-step-1 text-muted font-light italic leading-relaxed">
                                 Uncertainty is the root of memory corruption. Formalizing the contract between languages is the only path to absolute binary safety.
                             </p>
                         </div>
                     </div>
                 </div>
 
-                {/* EXIT NAVIGATION */}
+                {/* SYSTEM EXIT NAVIGATION */}
                 <div className="col-span-12 border-t border-border pt-24 pb-12 flex justify-between items-baseline">
                     <Link href="/" className="font-wide text-step-0 text-muted uppercase tracking-micro font-bold hover:text-white transition-colors duration-200">
-                        &larr; INDEX
+                        // INDEX
                     </Link>
-                    <Link href="/movex" className="font-wide text-step-0 text-white uppercase tracking-micro font-bold hover:text-muted transition-colors duration-200">
+                    <Link href="/movex" className="font-wide text-step-0 text-muted uppercase tracking-micro font-bold hover:text-white transition-colors duration-200">
                         NEXT SYSTEM &rarr;
                     </Link>
                 </div>
@@ -109,3 +104,4 @@ export default function PFCVSystemPage() {
         </div>
     );
 }
+

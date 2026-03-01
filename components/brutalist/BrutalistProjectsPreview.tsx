@@ -30,41 +30,46 @@ export default function BrutalistProjectsPreview() {
     return (
         <section className="snap-section" id="projects">
             <div className="grid-layout">
-                {/* Selector Label */}
+                {/* Identification Label (Grid Zone 1) */}
                 <div className="col-span-12 mb-16 lg:mb-24">
                     <span className="font-wide text-step--1 text-muted uppercase tracking-micro font-bold">
-                        SYSTEMS ARCHIVE // SELECTION
+                        SYSTEM ARCHIVE // 003
                     </span>
                 </div>
 
-                {/* 3 Physical Panels */}
-                <div className="col-span-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+                {/* Structural Entry Catalog */}
+                <div className="col-span-12 flex flex-col">
                     {projects.map((p, i) => (
-                        <Link key={i} href={p.slug} className="group flex">
+                        <Link key={i} href={p.slug} className="group block border-t border-border first:border-t-0 hover:bg-surface transition-colors duration-300">
                             <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.8, delay: i * 0.1, ease }}
+                                initial={{ opacity: 0 }}
+                                whileInView={{ opacity: 1 }}
+                                transition={{ duration: 0.6, delay: i * 0.1, ease }}
                                 viewport={{ once: true }}
-                                whileHover={{ y: -4 }}
-                                className="w-full min-h-[520px] border border-border bg-surface p-12 flex flex-col justify-between hover:border-muted transition-all duration-300"
+                                className="grid grid-cols-1 md:grid-cols-12 gap-8 py-16 md:py-24"
                             >
-                                <div className="flex flex-col gap-10">
-                                    <span className="font-wide text-step--1 text-muted uppercase tracking-micro">
-                                        INDEX // {p.index}
-                                    </span>
-                                    <h3 className="font-title text-step-3 text-white uppercase tracking-tight-title group-hover:text-muted transition-colors duration-300">
+                                {/* Core Identity (Grid Zone 1-7) */}
+                                <div className="md:col-span-7 flex flex-col justify-between h-full">
+                                    <h3 className="font-title text-step-4 text-white uppercase tracking-tight-title group-hover:text-muted transition-colors duration-300">
                                         {p.name}
                                     </h3>
-                                    <p className="font-body text-step-0 text-muted font-light leading-snug max-w-[22ch]">
-                                        {p.descriptor}
-                                    </p>
+                                    <div className="mt-12">
+                                        <span className="font-wide text-step--1 text-muted group-hover:text-white uppercase tracking-micro font-bold transition-colors duration-200">
+                                            // ACCESS SYSTEM &rarr;
+                                        </span>
+                                    </div>
                                 </div>
 
-                                <div className="border-t border-border pt-10 flex items-center group-hover:border-muted transition-colors duration-300">
-                                    <span className="font-wide text-step--1 text-white uppercase tracking-micro font-bold">
-                                        ENTER SYSTEM &rarr;
-                                    </span>
+                                {/* Engineering Context (Grid Zone 8-12) */}
+                                <div className="md:col-span-4 md:col-start-9 flex flex-col justify-between items-end text-right">
+                                    <div className="flex flex-col gap-4">
+                                        <span className="font-wide text-step--1 text-muted uppercase tracking-micro">
+                                            INDEX // {p.index}
+                                        </span>
+                                        <p className="font-body text-step-0 text-muted font-light leading-relaxed max-w-[28ch]">
+                                            {p.descriptor}
+                                        </p>
+                                    </div>
                                 </div>
                             </motion.div>
                         </Link>
@@ -74,5 +79,7 @@ export default function BrutalistProjectsPreview() {
         </section>
     );
 }
+
+
 
 
