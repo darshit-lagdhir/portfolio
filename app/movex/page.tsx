@@ -7,29 +7,50 @@ export default function MoveXPage() {
     const ease = [0.16, 1, 0.3, 1] as const;
 
     return (
-        <div className="min-h-screen w-full bg-background text-foreground">
-            <div className="grid-layout py-32 lg:py-48 flex flex-col gap-y-40 md:gap-y-64">
+        <div className="min-h-screen w-full bg-background text-foreground relative overflow-hidden">
+
+            {/* PROJECT MOOD: MECHANICAL STRUCTURE (PHASE 4) */}
+            <div className="absolute inset-0 z-0 pointer-events-none opacity-20">
+                <div className="grid grid-cols-24 gap-8 rotate-3 skew-x-12 h-full w-full">
+                    {Array.from({ length: 48 }).map((_, i) => (
+                        <div key={i} className="border-l border-white/5 h-full" />
+                    ))}
+                </div>
+            </div>
+
+            <div className="grid-layout py-32 lg:py-48 flex flex-col gap-y-40 md:gap-y-64 relative z-10">
 
                 {/* PROJECT HEADER */}
-                <div className="col-span-12 lg:col-span-10">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1, ease }}
+                    className="col-span-12 lg:col-span-10"
+                >
                     <div className="flex flex-col gap-8">
                         <span className="font-wide text-step--1 text-muted uppercase tracking-micro font-bold">
-                            01 LOGISTICS
+                            01 LOGISTICS // MECHANICAL MOOD
                         </span>
-                        <h1 className="font-title text-step-5 leading-tight-title uppercase tracking-tight-title">
+                        <h1 className="font-title text-step-5 leading-tight-title uppercase tracking-tight-title text-physical italic first-letter:not-italic">
                             MoveX
                         </h1>
                         <p className="font-body text-step-1 text-muted font-light max-w-[50ch] leading-relaxed">
                             Modular backend infrastructure for role-isolated logistics management. Built with Node.js and PostgreSQL.
                         </p>
                     </div>
-                </div>
+                </motion.div>
 
                 {/* ANALYTICAL ROW 01: OVERVIEW */}
                 <div className="col-span-12 border-t border-border pt-12">
-                    <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1 }}
+                        className="grid grid-cols-1 md:grid-cols-12 gap-12"
+                    >
                         <div className="md:col-span-4 lg:col-span-3">
-                            <span className="font-wide text-step--1 text-muted uppercase tracking-micro font-bold">
+                            <span className="font-wide text-step--1 text-muted uppercase tracking-micro font-bold link-underline">
                                 OVERVIEW
                             </span>
                         </div>
@@ -41,14 +62,20 @@ export default function MoveXPage() {
                                 MoveX implements strict role-based pathway isolation, ensuring that interactions are secure and auditable. The architecture focuses on data access integrity and zero-trust reliability.
                             </p>
                         </div>
-                    </div>
+                    </motion.div>
                 </div>
 
                 {/* ANALYTICAL ROW 02: ARCHITECTURE */}
                 <div className="col-span-12 border-t border-border pt-12">
-                    <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1 }}
+                        className="grid grid-cols-1 md:grid-cols-12 gap-12"
+                    >
                         <div className="md:col-span-4 lg:col-span-3">
-                            <span className="font-wide text-step--1 text-muted uppercase tracking-micro font-bold">
+                            <span className="font-wide text-step--1 text-muted uppercase tracking-micro font-bold link-underline">
                                 ARCHITECTURE
                             </span>
                         </div>
@@ -71,7 +98,7 @@ export default function MoveXPage() {
                                 ))}
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
                 </div>
 
                 {/* SYSTEM EXIT NAVIGATION */}
@@ -79,8 +106,8 @@ export default function MoveXPage() {
                     <Link href="/" className="font-wide text-step-0 text-muted uppercase tracking-micro font-bold hover:text-white transition-colors duration-200">
                         INDEX
                     </Link>
-                    <Link href="/uidai" className="font-wide text-step-0 text-muted uppercase tracking-micro font-bold hover:text-white transition-colors duration-200">
-                        NEXT &rarr;
+                    <Link href="/uidai" className="font-wide text-step-0 text-muted uppercase tracking-micro font-bold hover:text-white transition-colors duration-200 group">
+                        NEXT <span className="group-hover:translate-x-2 inline-block transition-transform duration-300 italic">&rarr;</span>
                     </Link>
                 </div>
 

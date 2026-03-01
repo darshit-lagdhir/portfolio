@@ -2,12 +2,12 @@
 @import "./fonts.css";
 
 /* 
-  DARSHIT LAGDHIR — CINEMATIC REFINEMENT 105
-  PHASE 5: CINEMATIC FLOW + VISUAL CONTROL
+  DARSHIT LAGDHIR — FEATURE EXPANSION 108
+  PHASE 8: FULL INTERACTION & EFFECT INTEGRATION
 */
 
 :root {
-  /* Core Foundation — Dimensional Palette */
+  /* Core Foundation — Expansion Palette */
   --background: #050505;
   --bg-subtle: #080808;
   --bg-elevated: #0a0a0a;
@@ -16,8 +16,7 @@
   --muted: #525252;
   --border: #141414;
   --surface: #070707;
-  --glow: rgba(255, 255, 255, 0.02);
-  /* Reduced for atmospheric refinement */
+  --glow: rgba(255, 255, 255, 0.05);
 
   /* Font Families */
   --font-sans: "Space Grotesk", system-ui, sans-serif;
@@ -38,20 +37,15 @@
   --step-5: clamp(4.5rem, 10vw, 10rem);
 
   /* Spacing Discipline */
-  --gap-xs: 0.5rem;
-  --gap-s: 1rem;
-  --gap-m: 2rem;
-  --gap-l: 4rem;
-  --gap-xl: 8rem;
-  --gap-section: clamp(10rem, 20vh, 15rem);
+  --gap-section: clamp(8rem, 15vh, 12rem);
 
-  /* Cinematic Timing & Physics (PHASE 9) */
+  /* Expansion Timing (PHASE 9: VISUAL TEMPO) */
   --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-heavy: cubic-bezier(0.25, 0.1, 0.25, 1);
-  --duration-hover: 200ms;
-  --duration-reveal: 450ms;
-  --duration-transition: 600ms;
-  --duration-env: 40s;
+  --ease-spring: cubic-bezier(0.3, 0, 0, 1);
+
+  --duration-hover: 250ms;
+  --duration-reveal: 600ms;
 }
 
 @theme {
@@ -61,8 +55,6 @@
   --color-muted: var(--muted);
   --color-border: var(--border);
   --color-surface: var(--surface);
-  --color-bg-subtle: var(--bg-subtle);
-  --color-bg-elevated: var(--bg-elevated);
 
   --font-sans: var(--font-sans);
   --font-display: var(--font-display);
@@ -72,14 +64,21 @@
 }
 
 /* ------------------------------------------------------------
-   BASE ARCHITECTURE & SPATIAL ROOT
+   BASE ARCHITECTURE & EXPANSION ROOT
    ------------------------------------------------------------ */
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  -webkit-tap-highlight-color: transparent;
+  cursor: none !important;
+  /* Enable Custom Cursor */
+}
+
+@media (max-width: 768px) {
+  * {
+    cursor: auto !important;
+  }
 }
 
 html {
@@ -92,189 +91,115 @@ body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-body);
-  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  position: relative;
   min-height: 100vh;
-  perspective: 1200px;
-  /* Standardized for cinematic feel */
-  perspective-origin: 50% 50%;
+  perspective: 1500px;
   overflow-x: hidden;
 }
 
-/* Micro-Grain Overlay */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  pointer-events: none;
-  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-  opacity: 0.04;
-  mix-blend-mode: soft-light;
-}
-
-/* Atmospheric Dynamics (PHASE 5: ATMOSPHERE, NOT EFFECT) */
-@keyframes bg-drift {
+/* Mesh Gradient Backdrop (PHASE 12) */
+@keyframes mesh-drift {
   0% {
-    transform: translate(-5%, -5%) rotate(0deg);
+    transform: translate(-2%, -2%) rotate(0deg);
   }
 
   50% {
-    transform: translate(5%, 5%) rotate(2deg);
+    transform: translate(2%, 2%) rotate(0.5deg);
   }
 
   100% {
-    transform: translate(-5%, -5%) rotate(0deg);
+    transform: translate(-2%, -2%) rotate(0deg);
   }
 }
 
-.atmospheric-canvas {
+.mesh-container {
   position: fixed;
-  inset: -20%;
-  z-index: -1;
-  background:
-    radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-      rgba(255, 255, 255, 0.02) 0%,
-      /* Reduced intensity */
-      rgba(0, 0, 0, 0) 70%),
-    linear-gradient(135deg, #050505, #080808, #050505);
-  background-size: 200% 200%;
-  animation: bg-drift var(--duration-env) ease-in-out infinite;
+  inset: -10%;
+  z-index: -2;
+  filter: blur(100px);
+  opacity: 0.15;
+  animation: mesh-drift 40s linear infinite;
   pointer-events: none;
-  transform: translateZ(-500px);
-  filter: blur(40px);
-  /* Softer lighting */
+}
+
+.mesh-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
 }
 
 /* ------------------------------------------------------------
-   TYPOGRAPHIC SPECTACLE
+   EXPANSION UTILITIES
    ------------------------------------------------------------ */
 
-@layer base {
+@layer utilities {
 
-  h1,
-  h2,
-  h3 {
-    font-family: var(--font-title);
-    text-transform: uppercase;
-    font-weight: 400;
-    line-height: 0.8;
-    letter-spacing: -0.06em;
-    color: var(--foreground);
-    text-rendering: optimizeLegibility;
-    transform-style: preserve-3d;
+  /* Glassmorphism Overlay (PHASE 17) */
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
   }
 
-  /* Refined Micro Bevel (PHASE 7) */
+  /* Physical Text Signature */
   .text-physical {
     text-shadow:
-      0.5px 0.5px 0px rgba(255, 255, 255, 0.04),
-      -0.5px -0.5px 0px rgba(0, 0, 0, 0.4);
+      0.5px 0.5px 0px rgba(255, 255, 255, 0.06),
+      -0.5px -0.5px 0px rgba(0, 0, 0, 0.5);
   }
 
-  p {
-    font-family: var(--font-body);
-    font-weight: 300;
-    line-height: 1.6;
-    letter-spacing: 0.01em;
-    color: var(--muted);
-  }
-}
+  /* Glare Sweep (PHASE 11) */
+  @keyframes glare-sweep {
+    from {
+      transform: translateX(-150%) skewX(-20deg);
+    }
 
-@layer utilities {
-  .text-step-3 {
-    font-size: var(--step-3);
-  }
-
-  .text-step-4 {
-    font-size: var(--step-4);
-  }
-
-  .text-step-5 {
-    font-size: var(--step-5);
-  }
-
-  .tracking-micro {
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-  }
-
-  /* Interactive Text Emphasis (PHASE 9) */
-  .link-underline {
-    position: relative;
-    display: inline-block;
-  }
-
-  .link-underline::after {
-    content: "";
-    position: absolute;
-    width: 100%;
-    transform: scaleX(0);
-    height: 1px;
-    bottom: -1px;
-    left: 0;
-    background-color: currentColor;
-    transform-origin: bottom right;
-    transition: transform var(--duration-hover) var(--ease-cinematic);
-  }
-
-  .link-underline:hover::after {
-    transform: scaleX(1);
-    transform-origin: bottom left;
-  }
-
-  /* Dimensional Containers */
-  .grid-layout {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: var(--gap-m);
-    width: 100%;
-    margin: 0 auto;
-    padding-inline: 1.5rem;
-    max-width: 1600px;
-    transform-style: preserve-3d;
-  }
-
-  @media (min-width: 768px) {
-    .grid-layout {
-      gap: var(--gap-l);
-      padding-inline: 4rem;
+    to {
+      transform: translateX(150%) skewX(-20deg);
     }
   }
 
-  /* Z-Hierarchy (PHASE 10) */
-  .z-back {
-    transform: translateZ(-100px);
+  .glare-effect {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1s var(--ease-cinematic);
   }
 
-  .z-base {
-    transform: translateZ(0);
+  .spatial-card:hover .glare-effect {
+    opacity: 1;
+    animation: glare-sweep 2s var(--ease-cinematic) forwards;
   }
 
-  .z-mid {
-    transform: translateZ(40px);
+  /* SVG Line Draw (PHASE 16) */
+  .line-draw {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 1s var(--ease-cinematic);
   }
 
-  .z-front {
-    transform: translateZ(80px);
+  /* Skeleton Loading Shimmer (PHASE 15) */
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+
+    100% {
+      background-position: 200% 0;
+    }
   }
 
-  .z-overlay {
-    transform: translateZ(120px);
-  }
-
-  .bg-radial-glow {
-    background: radial-gradient(circle at center,
-        rgba(255, 255, 255, 0.06) 0%,
-        rgba(255, 255, 255, 0) 70%);
+  .skeleton {
+    background: linear-gradient(90deg, #0a0a0a 25%, #121212 50%, #0a0a0a 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite linear;
+    border-radius: 2px;
   }
 }
 
-/* ------------------------------------------------------------
-   SPATIAL INTERFACES
-   ------------------------------------------------------------ */
-
+/* Standard Section Layout */
 .spatial-section {
   position: relative;
   width: 100%;
@@ -285,36 +210,41 @@ body::after {
   padding-block: var(--gap-section);
 }
 
-.morph-surface {
-  transition: transform var(--duration-reveal) var(--ease-cinematic), filter var(--duration-reveal) var(--ease-cinematic);
-  will-change: transform, filter;
-}
-
-.spatial-card {
-  transition: transform var(--duration-hover) var(--ease-heavy), background var(--duration-hover) var(--ease-heavy), border-color var(--duration-hover) var(--ease-heavy);
+.grid-layout {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 2rem;
+  width: 100%;
+  margin: 0 auto;
+  padding-inline: 1.5rem;
+  max-width: 1600px;
   transform-style: preserve-3d;
-  will-change: transform;
 }
 
-.spatial-card:hover {
-  background: var(--surface);
-  border-color: rgba(255, 255, 255, 0.12);
-}
-
-@keyframes spatial-breath {
-
-  0%,
-  100% {
-    transform: translateZ(0);
-  }
-
-  50% {
-    transform: translateZ(10px);
+@media (min-width: 768px) {
+  .grid-layout {
+    padding-inline: 4rem;
   }
 }
 
-.animate-spatial-breath {
-  animation: spatial-breath 12s ease-in-out infinite;
+/* Vertical Progress Bar (PHASE 19) */
+.progress-bar {
+  position: fixed;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 15vh;
+  background: rgba(255, 255, 255, 0.05);
+  z-index: 100;
+}
+
+.progress-fill {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  background: white;
+  transition: height 0.3s var(--ease-cinematic);
 }
 
 /* ------------------------------------------------------------
@@ -330,5 +260,6 @@ body::after {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #121212;
+  background: #1a1a1a;
+  border-radius: 10px;
 }

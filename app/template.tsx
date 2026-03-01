@@ -8,9 +8,22 @@ export default function Template({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
     const prevPathname = useRef(pathname);
     const [direction, setDirection] = useState<"forward" | "backward">("forward");
+    const lastClickTime = useRef(Date.now());
+
+    // TRANSITION MODE INTELLIGENCE
+    const [duration, setDuration] = useState(0.8);
 
     useEffect(() => {
-        // TRANSITION INTELLIGENCE (PHASE 7: DIRECTIONAL AWARENESS)
+        const now = Date.now();
+        const timeSinceLastAction = now - lastClickTime.current;
+
+        if (timeSinceLastAction < 2000) {
+            setDuration(0.5); // Faster for rapid nav
+        } else {
+            setDuration(0.7); // Cinematic
+        }
+        lastClickTime.current = now;
+
         if (pathname === "/" && prevPathname.current !== "/") {
             setDirection("backward");
         } else if (pathname !== "/" && prevPathname.current === "/") {
@@ -21,21 +34,27 @@ export default function Template({ children }: { children: React.ReactNode }) {
 
     const ease = [0.16, 1, 0.3, 1] as const;
 
+    // PROJECT PAGE ENTRY DEPTH SLAM (PHASE 7)
+    // Forward nav: Home slams back, Project slams forward
+    // Backward nav: Project pulls back, Home pulls forward
     const variants = {
         initial: (dir: string) => ({
             opacity: 0,
-            translateZ: dir === "forward" ? -250 : 250,
-            filter: "blur(20px)",
+            translateZ: dir === "forward" ? 400 : -400, // Sharp Slam
+            rotateX: dir === "forward" ? -5 : 5, // Extra tension
+            filter: "blur(12px)",
         }),
         animate: {
             opacity: 1,
             translateZ: 0,
+            rotateX: 0,
             filter: "blur(0px)",
         },
         exit: (dir: string) => ({
             opacity: 0,
-            translateZ: dir === "forward" ? 250 : -250,
-            filter: "blur(10px)",
+            translateZ: dir === "forward" ? -400 : 400,
+            rotateX: dir === "forward" ? 5 : -5,
+            filter: "blur(8px)",
         }),
     };
 
@@ -48,19 +67,31 @@ export default function Template({ children }: { children: React.ReactNode }) {
                 initial="initial"
                 animate="animate"
                 exit="exit"
-                transition={{ duration: 1.2, ease }}
+                transition={{ duration, ease }}
                 className="page-fade"
                 style={{ transformStyle: "preserve-3d" }}
             >
-                {/* SYSTEM TRANSITION VEIL (PHASE 8: SPACE SHIFT) */}
+                {/* SYSTEM TRANSITION VEIL */}
                 <motion.div
-                    initial={{ transform: direction === "forward" ? "translateY(100%)" : "translateY(-100%)" }}
-                    animate={{ transform: "translateY(-100%)" }}
-                    exit={{ transform: direction === "forward" ? "translateY(-100%)" : "translateY(100%)" }}
-                    transition={{ duration: 1, ease }}
+                    initial={{ translateY: direction === "forward" ? "100%" : "-100%" }}
+                    animate={{ translateY: "-100%" }}
+                    exit={{ translateY: direction === "forward" ? "-100%" : "100%" }}
+                    transition={{ duration: duration + 0.15, ease }}
                     className="fixed inset-0 bg-background z-[1000] pointer-events-none"
                 />
-                {children}
+
+                {/* SKELETON LOADING SHIMMER (PHASE 15) */}
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: [0, 1, 0] }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: duration, ease: "linear" }}
+                    className="fixed inset-0 z-[999] pointer-events-none skeleton mix-blend-overlay"
+                />
+
+                <div className="relative z-10">
+                    {children}
+                </div>
             </motion.div>
         </AnimatePresence>
     );
