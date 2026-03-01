@@ -7,68 +7,75 @@ const projects = [
     {
         name: "MoveX",
         slug: "/movex",
-        descriptor: "Secure Backend Logistics Architecture"
+        descriptor: "Secure Backend Logistics Architecture",
+        index: "001"
     },
     {
         name: "UIDAI SYSTEM",
         slug: "/uidai",
-        descriptor: "Advisory Intelligence Pattern Detection"
+        descriptor: "Advisory Intelligence Pattern Detection",
+        index: "002"
     },
     {
         name: "POLYGLOT FFI",
         slug: "/pfcv",
-        descriptor: "Cross-Language Contract Verifier"
+        descriptor: "Cross-Language Contract Verifier",
+        index: "003"
     }
 ];
 
 export default function BrutalistProjectsPreview() {
     const ease = [0.16, 1, 0.3, 1] as const;
+
     return (
-        <section className="relative w-full bg-[#050505] snap-start py-40 overflow-hidden border-t border-neutral-900 border-dashed" id="projects">
-            {/* Micro Label - Section Marker */}
-            <div className="absolute top-10 right-10 z-10 hidden md:block">
-                <span className="font-heading text-step--1 uppercase tracking-micro text-neutral-600 block mb-2 font-bold">SECT // 02</span>
-            </div>
+        <section className="snap-section" id="projects">
+            <div className="grid-layout px-8 md:px-0 gap-y-12 md:gap-y-16">
+                {/* Section Header */}
+                <div className="col-span-12 mb-8">
+                    <span className="font-wide text-step--2 text-neutral-800 uppercase tracking-micro font-bold">
+                        SYSTEMS ARCHIVE // SELECTION
+                    </span>
+                </div>
 
-            <div className="w-full max-w-screen-2xl mx-auto px-8 md:px-12 xl:px-32 flex flex-col gap-60">
+                {/* Vertical Project Cards */}
                 {projects.map((project, i) => (
-                    <div
+                    <motion.div
                         key={i}
-                        className="w-full h-full flex-shrink-0 flex flex-col justify-center items-center py-20 px-8 relative border border-neutral-900 bg-layered overflow-hidden transition-all duration-300 group hover:border-neutral-700"
+                        initial={{ opacity: 0, y: 12 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-10%" }}
+                        transition={{ duration: 0.7, ease }}
+                        className="col-span-12"
                     >
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            transition={{ duration: 1, ease: ease }}
-                            viewport={{ once: true }}
-                            className="w-full h-full max-w-screen-2xl mx-auto grid grid-cols-4 md:grid-cols-12 gap-x-6 gap-y-12 content-center items-end py-20 relative"
-                        >
-                            {/* Project Header - Micro Label Style */}
-                            <div className="col-span-4 md:col-span-12 lg:col-span-10 z-10 flex flex-col gap-10">
-                                <span className="font-heading text-step--1 uppercase tracking-micro text-neutral-500 block mb-8 transition-colors duration-200 group-hover:text-neutral-400">
-                                    SYS // 0{i + 1}
-                                </span>
-
-                                {/* Title - Magazine Cover Aesthetic */}
-                                <h3 className="font-title text-step-5 leading-tight-title text-white uppercase tracking-tight-title transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1">
-                                    {project.name}
-                                </h3>
-
-                                {/* Descriptor - Space Grotesk Neutral */}
-                                <p className="font-body text-step-2 text-neutral-400 font-light mt-12 mb-20 tracking-wide max-w-[40ch] leading-tight transition-colors duration-200 group-hover:text-neutral-300">
-                                    {project.descriptor}
-                                </p>
-
-                                {/* Action Link - HK Grotesk Wide Uppercase Wide Tracking */}
-                                <Link
-                                    href={project.slug}
-                                    className="font-heading text-step-0 uppercase tracking-micro text-white link-precision pb-2 inline-block max-w-fit"
-                                >
-                                    Enter System
-                                </Link>
-                            </div>
-                        </motion.div>
-                    </div>
+                        <Link href={project.slug}>
+                            <motion.div
+                                whileHover={{ scale: 1.01 }}
+                                transition={{ duration: 0.4, ease }}
+                                className="w-full min-h-[40vh] md:min-h-[50vh] border border-neutral-900 bg-[#070707] p-12 md:p-20 flex flex-col justify-center hover:border-neutral-700 transition-colors duration-300 relative group overflow-hidden"
+                            >
+                                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center cursor-pointer">
+                                    <div className="md:col-span-1">
+                                        <span className="font-wide text-step--1 text-neutral-800 uppercase tracking-micro block">
+                                            {project.index}
+                                        </span>
+                                    </div>
+                                    <div className="md:col-span-7">
+                                        <h3 className="font-title text-step-4 text-white uppercase tracking-tight-title mb-4">
+                                            {project.name}
+                                        </h3>
+                                        <p className="font-body text-step-0 text-neutral-600 font-light max-w-[40ch]">
+                                            {project.descriptor}
+                                        </p>
+                                    </div>
+                                    <div className="md:col-span-4 flex justify-end">
+                                        <span className="font-wide text-step--1 text-neutral-800 uppercase tracking-micro font-bold group-hover:text-white transition-colors duration-200">
+                                            ENTER SYSTEM &rarr;
+                                        </span>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        </Link>
+                    </motion.div>
                 ))}
             </div>
         </section>

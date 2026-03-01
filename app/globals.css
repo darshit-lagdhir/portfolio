@@ -2,77 +2,58 @@
 @import "./fonts.css";
 
 /* 
-  DARSHIT LAGDHIR — SUPREME ARCHITECTURAL MANIFEST
-  PHASE 93: VISUAL IDENTITY DEPTH + ATMOSPHERE CONTROL SYSTEM
+  DARSHIT LAGDHIR — ARCHITECTURAL MANIFEST
+  PROMPT 90: MOTION ENGINEERING — SMOOTHNESS OVER SPECTACLE
   
-  Created with restraint. Cold but artistic. 
-  Layered darkness. Subtle material depth. Intentional texture.
+  Transform + Opacity only. GPU-accelerated.
+  Premium easing. Standardized durations. 0 jank.
 */
 
 /* ------------------------------------------------------------
-   ROOT DESIGN TOKENS (CSS VARIABLE ENGINE)
-   Enforced at :root level for maximum IDE compatibility.
+   ROOT DESIGN TOKENS
    ------------------------------------------------------------ */
 
 :root {
-  /* Core Brand Colors */
+  /* Core Palette */
   --background: #050505;
   --foreground: #ffffff;
   --accent: #ffffff;
   --muted: #6b6b6b;
   --border: #1a1a1a;
   --surface: #0a0a0a;
-  --glass: rgba(5, 5, 5, 0.8);
 
-  /* Font Families - Strict Self-Hosted Hierarchy */
+  /* Font Families — Strict 3-Font System */
   --font-sans: "Space Grotesk", system-ui, sans-serif;
   --font-display: "Aalto Display Font", "Space Grotesk", sans-serif;
   --font-wide: "HK Grotesk Wide", "Space Grotesk", sans-serif;
 
-  /* Typed Font Classes */
   --font-title: "Aalto Display Font", "Space Grotesk", sans-serif;
   --font-heading: "HK Grotesk Wide", "Space Grotesk", sans-serif;
   --font-body: "Space Grotesk", sans-serif;
 
-  /* Modular Scale steps (Prompt 91) */
+  /* Modular Type Scale — Refined for Stability (Prompt 95) */
   --step--1: clamp(0.7rem, 0.8vw, 0.8rem);
   --step-0: clamp(0.9rem, 1vw, 1rem);
-  --step-1: clamp(1rem, 1.2vw, 1.25rem);
-  --step-2: clamp(1.25rem, 1.5vw, 1.5rem);
-  --step-3: clamp(2rem, 4vw, 3.5rem);
-  --step-4: clamp(3.5rem, 8vw, 8rem);
-  --step-5: clamp(5rem, 15vw, 18rem);
+  --step-1: clamp(1rem, 1.25vw, 1.25rem);
+  --step-2: clamp(1.25rem, 1.5vw, 1.75rem);
+  --step-3: clamp(2rem, 4vw, 3rem);
+  --step-4: clamp(3rem, 7vw, 6rem);
+  --step-5: clamp(4rem, 10vw, 12rem);
 
-  /* Advanced Spacing Tokens */
-  --space-micro: 0.25rem;
-  --space-xs: clamp(0.5rem, 1vw, 0.75rem);
-  --space-s: clamp(1rem, 2vw, 1.5rem);
-  --space-m: clamp(2rem, 4vw, 4rem);
-  --space-l: clamp(4rem, 8vw, 8rem);
-  --space-xl: clamp(8rem, 16vw, 16rem);
-  --space-section: clamp(10rem, 20vw, 25rem);
+  /* Spacing Tokens — Strict Scale */
+  --gap-s: 1rem;
+  --gap-m: 2rem;
+  --gap-l: 4rem;
+  --gap-section: 8rem;
 
-  /* High-Performance Interaction Timing */
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-  --duration-micro: 100ms;
-  --duration-fast: 200ms;
-  --duration-normal: 400ms;
-  --duration-slow: 800ms;
-  --duration-luxury: 1200ms;
-
-  /* Design Accents */
-  --border-radius: 0px;
-
-  /* Atmosphere Constants */
-  --bg-deep: #050505;
-  --bg-secondary: #080808;
-  --text-primary: #ffffff;
-  --text-muted: #6b6b6b;
-  --border-subtle: rgba(255, 255, 255, 0.05);
+  /* Standardized Motion System (Prompt 90) */
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-micro: 200ms;
+  --duration-normal: 500ms;
+  --duration-page: 700ms;
 }
 
-/* Mapping Root to Tailwind 4 @theme */
+/* Tailwind 4 Theme Mapping */
 @theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -84,10 +65,13 @@
   --font-sans: var(--font-sans);
   --font-display: var(--font-display);
   --font-wide: var(--font-wide);
+
+  --ease-out: var(--ease-premium);
+  --ease-in-out: var(--ease-premium);
 }
 
 /* ------------------------------------------------------------
-   BASE RESET & ARCHITECTURAL FOUNDATION
+   BASE RESET
    ------------------------------------------------------------ */
 
 * {
@@ -120,35 +104,7 @@ body {
 }
 
 /* ------------------------------------------------------------
-   LAYOUT GEOMETRY (GLOBAL)
-   ------------------------------------------------------------ */
-
-.container-grid {
-  display: grid;
-  width: 100%;
-  margin-inline: auto;
-  padding-inline: 2rem;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
-}
-
-@media (min-width: 768px) {
-  .container-grid {
-    grid-template-columns: repeat(12, 1fr);
-    padding-inline: 4rem;
-    gap: 2rem;
-  }
-}
-
-@media (min-width: 1536px) {
-  .container-grid {
-    max-width: 1536px;
-    padding-inline: 0;
-  }
-}
-
-/* ------------------------------------------------------------
-   TYPOGRAPHIC DOMINANCE SYSTEM (PROMPT 91)
+   TYPOGRAPHIC SYSTEM
    ------------------------------------------------------------ */
 
 @layer base {
@@ -162,9 +118,12 @@ body {
     font-family: var(--font-title);
     text-transform: uppercase;
     font-weight: 400;
-    line-height: 0.9;
-    letter-spacing: -0.05em;
-    color: var(--text-primary);
+    line-height: 0.95;
+    /* Soften from 0.9 for better balance */
+    letter-spacing: -0.04em;
+    /* Soften from -0.05em */
+    color: var(--foreground);
+    text-rendering: optimizeLegibility;
   }
 
   p {
@@ -172,13 +131,14 @@ body {
     font-weight: 300;
     line-height: 1.6;
     max-width: 65ch;
-    color: var(--text-muted);
+    color: var(--muted);
+    text-rendering: optimizeLegibility;
   }
 }
 
 @layer utilities {
 
-  /* Scale Primitive Classes */
+  /* Type Scale */
   .text-step--1 {
     font-size: var(--step--1);
   }
@@ -207,7 +167,7 @@ body {
     font-size: var(--step-5);
   }
 
-  /* Font Family Mappings */
+  /* Font Families */
   .font-title {
     font-family: var(--font-title);
   }
@@ -220,7 +180,7 @@ body {
     font-family: var(--font-body);
   }
 
-  /* Tracking & Leading Precision */
+  /* Tracking & Leading */
   .tracking-micro {
     letter-spacing: 0.3em;
     text-transform: uppercase;
@@ -234,10 +194,6 @@ body {
     letter-spacing: -0.05em;
   }
 
-  .leading-extreme {
-    line-height: 0.8;
-  }
-
   .leading-tight-title {
     line-height: 0.9;
   }
@@ -246,51 +202,62 @@ body {
     line-height: 1;
   }
 
-  /* Architectural Components */
-  .hr-architectural {
-    border: none;
-    border-top: 1px solid var(--border-subtle);
-    margin-block: var(--space-l);
-    position: relative;
+  /* ------------------------------------------------------------
+     GRID SYSTEM (12-COLUMN DISCIPLINE)
+     ------------------------------------------------------------ */
+
+  .grid-layout {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--gap-s);
     width: 100%;
+    margin: 0 auto;
   }
 
-  .hr-architectural::after {
-    content: "/////";
-    position: absolute;
-    right: 0;
-    top: 0.5rem;
-    font-family: var(--font-heading);
-    font-size: var(--step--1);
-    color: var(--border-subtle);
-    letter-spacing: 0.3em;
+  @media (min-width: 768px) {
+    .grid-layout {
+      grid-template-columns: repeat(8, 1fr);
+      gap: var(--gap-m);
+    }
   }
 
-  .border-architectural {
-    border: 1px solid var(--border-subtle);
+  @media (min-width: 1280px) {
+    .grid-layout {
+      grid-template-columns: repeat(12, 1fr);
+      gap: var(--gap-l);
+      max-width: 1600px;
+    }
   }
 
-  .bg-layered {
-    background-color: var(--bg-deep);
-    position: relative;
+  /* ------------------------------------------------------------
+     TRANSITION DISCIPLINE
+     ------------------------------------------------------------ */
+
+  .page-fade {
+    animation: fade-through-black var(--duration-page) var(--ease-premium) forwards;
+    will-change: opacity;
   }
 
-  .bg-layered::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.01) 100%);
-    pointer-events: none;
+  @keyframes fade-through-black {
+    0% {
+      opacity: 0;
+      background-color: #000;
+    }
+
+    100% {
+      opacity: 1;
+      background-color: transparent;
+    }
   }
 }
 
 /* ------------------------------------------------------------
-   INTERACTION PRECISION SYSTEM (PROMPT 92)
+   INTERACTION SYSTEM
    ------------------------------------------------------------ */
 
 .link-precision {
   position: relative;
-  transition: color var(--duration-fast) var(--ease-out);
+  transition: color var(--duration-micro) var(--ease-premium);
   cursor: pointer;
 }
 
@@ -302,36 +269,11 @@ body {
   bottom: -4px;
   left: 0;
   background-color: currentColor;
-  transition: width var(--duration-fast) var(--ease-out);
+  transition: width var(--duration-micro) var(--ease-premium);
 }
 
 .link-precision:hover::after {
   width: 100%;
-}
-
-.btn-precision {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1.25rem 2.5rem;
-  border: 1px solid var(--border);
-  transition: all var(--duration-fast) var(--ease-out);
-  text-transform: uppercase;
-  font-family: var(--font-heading);
-  font-size: var(--step--1);
-  letter-spacing: 0.25em;
-  background: transparent;
-  color: var(--foreground);
-}
-
-.btn-precision:hover {
-  background-color: var(--foreground);
-  color: var(--background);
-  transform: translateY(-2px);
-}
-
-.btn-precision:active {
-  transform: translateY(0) scale(0.98);
 }
 
 *:focus-visible {
@@ -340,11 +282,7 @@ body {
 }
 
 /* ------------------------------------------------------------
-   REMOVED KINETIC MASKS FOR ATMOSPHERE RESTRAINT (PROMPT 93)
-   ------------------------------------------------------------ */
-
-/* ------------------------------------------------------------
-   HIGH-FIDELITY VISUAL TEXTURE
+   SUBTLE TEXTURE
    ------------------------------------------------------------ */
 
 .noise-overlay {
@@ -405,14 +343,13 @@ body {
   z-index: -1;
   pointer-events: none;
   background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.01) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
   background-size: clamp(4rem, 10vw, 10rem) clamp(4rem, 10vw, 10rem);
-  opacity: 1;
 }
 
 /* ------------------------------------------------------------
-   SCROLLBAR & ASYMMETRIC UTILITY
+   SCROLLBAR
    ------------------------------------------------------------ */
 
 ::-webkit-scrollbar {
@@ -425,54 +362,60 @@ body {
 
 ::-webkit-scrollbar-thumb {
   background: #1a1a1a;
-  transition: background var(--duration-fast) var(--ease-out);
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: #404040;
 }
 
-section {
-  position: relative;
-  width: 100%;
-  padding-block: var(--space-xl);
-}
+/* ------------------------------------------------------------
+   SNAP SCROLL SYSTEM (HOME)
+   ------------------------------------------------------------ */
 
 .snap-container {
-  height: 100vh;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
+  height: 100dvh;
+  overflow-y: auto;
+  /* Revert to auto if mandatory is too aggressive */
+  scroll-snap-type: y proximity;
+  /* Soften from mandatory */
   scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 }
 
 .snap-section {
-  height: 100vh;
+  min-height: 100dvh;
   scroll-snap-align: start;
   scroll-snap-stop: always;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  padding-inline: 2rem;
 }
 
-.asymmetric-right {
-  margin-left: auto;
-  text-align: right;
+@media (min-width: 768px) {
+  .snap-section {
+    padding-inline: 3rem;
+  }
 }
 
-.asymmetric-left {
-  margin-right: auto;
-  text-align: left;
+@media (min-width: 1280px) {
+  .snap-section {
+    padding-inline: 0;
+    width: 100%;
+    max-width: 1600px;
+    margin-inline: auto;
+  }
 }
 
-.border-dashed-v {
-  border-left: 1px dashed var(--border);
-}
-
-.border-dashed-h {
-  border-top: 1px dashed var(--border);
-}
+/* ------------------------------------------------------------
+   MOBILE ADJUSTMENTS
+   ------------------------------------------------------------ */
 
 @media (max-width: 768px) {
-
-  .asymmetric-right,
-  .asymmetric-left {
-    text-align: left;
+  .hide-mobile {
+    display: none;
   }
 }

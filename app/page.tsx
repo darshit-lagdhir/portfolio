@@ -6,7 +6,7 @@ import BrutalistContact from "@/components/brutalist/BrutalistContact";
 
 export default function Home() {
   return (
-    <div className="w-full bg-[#050505] text-neutral-50">
+    <div className="snap-container">
       <BrutalistHero />
       <BrutalistAbout />
       <BrutalistProjectsPreview />

@@ -6,70 +6,63 @@ export default function BrutalistHero() {
     const ease = [0.16, 1, 0.3, 1] as const;
 
     return (
-        <section className="min-h-screen w-full flex flex-col justify-center items-start bg-[#050505] overflow-hidden snap-start relative px-8 md:px-12 xl:px-32 py-60">
-            <div className="w-full max-w-screen-2xl mx-auto z-10 relative">
-
-                {/* Micro Label - Prompt 91 */}
-                <motion.span
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: ease }}
-                    className="font-heading text-step--1 text-neutral-600 uppercase tracking-micro mb-8 block"
-                >
-                    DIGITAL ARCHITECT // PORTFOLIO 25
-                </motion.span>
-
-                {/* Hero Title - Massive but Structured */}
-                <div className="flex flex-col gap-0 select-none">
-                    <motion.h1
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1, ease: ease }}
-                        className="font-title text-step-5 leading-tight-title text-white uppercase tracking-tight-title"
+        <section className="snap-section" id="hero">
+            <div className="grid-layout px-8 md:px-0">
+                {/* 1. Micro-Label */}
+                <div className="col-span-12 mb-8 md:mb-12">
+                    <motion.span
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.5, ease }}
+                        className="font-wide text-step--2 text-neutral-800 uppercase tracking-micro block font-bold"
                     >
-                        DARSHIT
-                    </motion.h1>
+                        ARCHITECTURAL INDEX // 2025
+                    </motion.span>
+                </div>
+
+                {/* 2. Primary Headline */}
+                <div className="col-span-12 lg:col-span-10">
                     <motion.h1
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 12 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1, delay: 0.1, ease: ease }}
-                        className="font-title text-step-5 leading-tight-title text-white uppercase tracking-tight-title"
+                        transition={{ duration: 0.7, ease }}
+                        className="font-title text-step-5 leading-tight-title text-white uppercase tracking-tight-title select-none"
+                        style={{ willChange: "transform, opacity" }}
                     >
-                        LAGDHIR
+                        DARSHIT LAGDHIR
                     </motion.h1>
                 </div>
 
-                {/* Hero Mission - Space Grotesk Controlled */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.6, duration: 1, ease: ease }}
-                    className="mt-12 md:mt-24 max-w-[50ch]"
-                >
-                    <p className="font-body text-step-2 text-neutral-500 font-light tracking-wide leading-snug">
-                        Systems engineering at the intersection of modular logistics and analytical advisory protocols.
-                    </p>
-                </motion.div>
+                {/* 3. Subline & CTA */}
+                <div className="col-span-12 md:col-span-6 lg:col-span-5 mt-16 md:mt-24">
+                    <motion.p
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2, duration: 0.7, ease }}
+                        className="font-body text-step-0 text-neutral-600 font-light mb-16 tracking-wide leading-relaxed max-w-[45ch]"
+                        style={{ willChange: "transform, opacity" }}
+                    >
+                        Engineering high-authority systems for logistics, advisory intelligence, and formal contract verification with architectural integrity.
+                    </motion.p>
 
-                {/* Navigation / CTA */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.8, duration: 1, ease: ease }}
-                    className="mt-12 md:mt-16 flex flex-wrap items-center gap-12"
-                >
-                    <a href="#projects" className="font-heading text-step-0 uppercase tracking-micro text-white link-precision transition-colors duration-200">
-                        View System
-                    </a>
-                    <div className="w-12 h-px bg-neutral-900" />
-                    <a href="https://github.com/darshit-lagdhir" target="_blank" className="font-heading text-step-0 uppercase tracking-micro text-neutral-600 hover:text-white link-precision transition-colors duration-200">
-                        Source Control
-                    </a>
-                </motion.div>
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.4, duration: 0.5, ease }}
+                        className="flex items-center gap-10"
+                    >
+                        <a href="#projects" className="font-wide text-step--1 uppercase tracking-micro text-white link-precision pb-2 font-bold">
+                            VIEW SYSTEMS
+                        </a>
+                        <div className="w-8 h-px bg-neutral-900" />
+                        <a href="#about" className="font-wide text-step--1 uppercase tracking-micro text-neutral-800 hover:text-white transition-colors duration-200 font-bold">
+                            ABOUT
+                        </a>
+                    </motion.div>
+                </div>
             </div>
-
-            {/* Structural Negative Space Element */}
-            <div className="absolute left-8 md:left-12 xl:left-32 bottom-20 w-px h-[30vh] bg-gradient-to-t from-neutral-900 to-transparent" />
         </section>
     );
 }
+
+

@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 
 export default function BrutalistNavbar() {
     const pathname = usePathname();
@@ -11,49 +10,53 @@ export default function BrutalistNavbar() {
 
     useEffect(() => {
         const handleScroll = () => {
-            setScrolled(window.scrollY > 50);
+            setScrolled(window.scrollY > 40);
         };
-        window.addEventListener("scroll", handleScroll);
+        window.addEventListener("scroll", handleScroll, { passive: true });
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    const navLinks = [
+        { name: "Home", href: "/" },
+        { name: "Systems", href: "/#projects" },
+        { name: "About", href: "/#about" },
+        { name: "Contact", href: "/#contact" },
+    ];
+
     return (
-        <motion.header
-            initial={{ y: -100 }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
-            className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? "bg-[#050505] border-b border-neutral-900 py-4" : "bg-transparent py-8 pt-12"
-                }`}
+        <header
+            className={`
+                fixed top-0 left-0 w-full z-100 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]
+                ${scrolled ? "py-4 bg-[#050505]/95 backdrop-blur-md border-b border-neutral-900" : "py-10 bg-transparent border-b border-transparent"}
+            `}
         >
-            <div className="w-full max-w-screen-2xl mx-auto px-8 md:px-12 xl:px-32 grid grid-cols-4 md:grid-cols-12 items-center">
-                {/* Brand / Name */}
-                <div className="col-span-2 md:col-span-4 lg:col-span-3">
-                    <Link href="/" className="font-heading text-step-0 uppercase tracking-micro text-neutral-100 hover:text-neutral-400 transition-colors">
-                        Darshit Lagdhir.
+            <nav className="grid-layout px-8 md:px-0">
+                {/* Brand — Col 1-4 */}
+                <div className="col-span-12 md:col-span-4">
+                    <Link href="/" className="font-title text-step-0 tracking-tight-title text-white uppercase select-none font-bold">
+                        DARSHIT LAGDHIR
                     </Link>
                 </div>
 
-                {/* Navigation Links */}
-                <nav className="col-span-2 md:col-span-8 lg:col-span-9 flex justify-end gap-16">
-                    {[
-                        { name: "Home", href: "/" },
-                        { name: "Systems", href: "/#projects" },
-                        { name: "Archive", href: "https://github.com/darshit-lagdhir" }
-                    ].map((link, i) => {
+                {/* Links — Optimized for 12-col grid */}
+                <div className="hidden md:flex md:col-start-8 md:col-span-5 justify-end gap-x-12">
+                    {navLinks.map((link) => {
                         const isActive = pathname === link.href;
                         return (
                             <Link
-                                key={i}
+                                key={link.name}
                                 href={link.href}
-                                className={`font-heading text-step--1 uppercase tracking-micro link-precision transition-colors duration-200 ${isActive ? "text-white after:w-full" : "text-neutral-500 hover:text-white"
+                                className={`font-wide text-step--2 uppercase tracking-micro transition-colors duration-200 font-bold ${isActive ? "text-white" : "text-neutral-800 hover:text-white"
                                     }`}
                             >
                                 {link.name}
                             </Link>
                         );
                     })}
-                </nav>
-            </div>
-        </motion.header>
+                </div>
+            </nav>
+        </header>
     );
 }
+
+

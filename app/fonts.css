@@ -105,33 +105,4 @@
     font-display: swap;
 }
 
-/* Maintaining placeholders for other fonts (Woff2 fallback logic) */
-@font-face {
-    font-family: 'Mamen Chisa';
-    src: url('/fonts/MamenChisa.woff2') format('woff2');
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Neue Metana Next';
-    src: url('/fonts/NeueMetanaNext.woff2') format('woff2');
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Galgo Condensed';
-    src: url('/fonts/GalgoCondensed.woff2') format('woff2');
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'OffBit - Free Font';
-    src: url('/fonts/OffBit.woff2') format('woff2');
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Black Sansa Thin';
-    src: url('/fonts/BlackSansaThin.woff2') format('woff2');
-    font-display: swap;
-}
+/* FONT SYSTEM LOCKED: Aalto Display + HK Grotesk Wide + Space Grotesk ONLY */

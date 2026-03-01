@@ -1,11 +1,10 @@
 import "./globals.css";
-import { ThemeProvider } from "@/context/ThemeContext";
 import BrutalistNavbar from "@/components/brutalist/BrutalistNavbar";
 
 export const metadata = {
   title: "Darshit Lagdhir — Digital Architect",
   description:
-    "Creative Developer Portfolio of Darshit Lagdhir. Systems engineering meets high-fidelity digital performance.",
+    "Systems-focused developer portfolio. Modular logistics, advisory intelligence, and cross-language contract verification.",
   openGraph: {
     title: "Darshit Lagdhir — Digital Architect",
     description: "Systems engineering meets high-fidelity digital performance.",
@@ -20,15 +19,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="selection:bg-white selection:text-black" suppressHydrationWarning>
-      <body className="bg-[#050505] text-neutral-50 antialiased overflow-x-hidden snap-y snap-mandatory scroll-smooth" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
+      <body className="bg-[#050505] text-neutral-50 antialiased overflow-x-hidden" suppressHydrationWarning>
         <div className="noise-overlay" />
         <div className="grid-lines" />
 
-        <ThemeProvider>
-          <BrutalistNavbar />
-          <main className="relative z-10">{children}</main>
-        </ThemeProvider>
+        <BrutalistNavbar />
+        <main className="relative z-10">{children}</main>
       </body>
     </html>
   );
