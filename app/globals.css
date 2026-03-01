@@ -2,11 +2,8 @@
 @import "./fonts.css";
 
 /* 
-  DARSHIT LAGDHIR — ARCHITECTURAL MANIFEST
-  PROMPT 90: MOTION ENGINEERING — SMOOTHNESS OVER SPECTACLE
-  
-  Transform + Opacity only. GPU-accelerated.
-  Premium easing. Standardized durations. 0 jank.
+  DARSHIT LAGDHIR — ARCHITECTURAL INDEX
+  RECONSTRUCTION PASS 96: CLEAN SLATE
 */
 
 /* ------------------------------------------------------------
@@ -373,26 +370,20 @@ body {
    ------------------------------------------------------------ */
 
 .snap-container {
-  height: 100dvh;
-  overflow-y: auto;
-  /* Revert to auto if mandatory is too aggressive */
-  scroll-snap-type: y proximity;
-  /* Soften from mandatory */
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
+  height: auto;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
 .snap-section {
-  min-height: 100dvh;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   position: relative;
   width: 100%;
   padding-inline: 2rem;
+  padding-block: var(--gap-section);
 }
 
 @media (min-width: 768px) {

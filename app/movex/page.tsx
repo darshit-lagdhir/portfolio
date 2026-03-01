@@ -7,144 +7,101 @@ export default function MoveXPage() {
     const ease = [0.16, 1, 0.3, 1] as const;
 
     return (
-        <div className="min-h-screen w-full bg-[#050505] text-neutral-50 relative">
-            <div className="grid-layout px-8 md:px-0 py-40 gap-y-32 md:gap-y-48">
+        <div className="min-h-screen w-full bg-[#050505] text-white">
+            <div className="grid-layout px-8 md:px-0 py-32 md:py-48 gap-y-32">
 
-                {/* 1. Project Header */}
+                {/* 1. Project Title (Aalto) */}
                 <div className="col-span-12 lg:col-span-10">
                     <motion.div
-                        initial={{ opacity: 0, y: 12 }}
+                        initial={{ opacity: 0, y: 15 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.7, ease }}
-                        style={{ willChange: "transform, opacity" }}
+                        className="flex flex-col gap-8"
                     >
-                        <span className="font-wide text-step--2 uppercase tracking-micro text-neutral-800 font-bold block mb-4">
-                            Logistics // System
+                        <span className="font-wide text-step--1 text-neutral-800 uppercase tracking-micro font-bold">
+                            SYSTEM // ARCHIVE-001
                         </span>
-                        <h1 className="font-title text-step-5 leading-tight-title text-white uppercase tracking-tight-title mb-8">
+                        <h1 className="font-title text-step-5 leading-tight-title uppercase tracking-tight-title">
                             MoveX
                         </h1>
-                        <p className="font-body text-step-0 text-neutral-600 uppercase tracking-micro">
-                            Modern Logistics System / Role-based backend architecture
+                        <p className="font-body text-step-1 text-neutral-600 font-light max-w-[50ch] leading-relaxed">
+                            Modular backend infrastructure for role-isolated logistics management. Built with absolute integrity in Node.js and PostgreSQL.
                         </p>
                     </motion.div>
                 </div>
 
-                {/* 2. Overview Block */}
-                <div className="col-span-12 grid grid-cols-1 md:grid-cols-12 gap-x-12 items-start border-t border-neutral-900 pt-24">
-                    <div className="md:col-span-4 mb-8 md:mb-0">
-                        <span className="font-wide text-step--2 uppercase tracking-micro text-neutral-800 font-bold block">
-                            01 // Overview
-                        </span>
-                    </div>
-                    <div className="md:col-span-8">
-                        <p className="font-body text-step-1 text-neutral-600 font-light leading-relaxed max-w-[60ch]">
-                            A modern logistics system built with Node.js, Express, and PostgreSQL. Engineered to manage complex supply chain interactions through secure, role-isolated pathways.
-                        </p>
-                    </div>
-                </div>
-
-                {/* 3. System Core */}
-                <div className="col-span-12 grid grid-cols-1 md:grid-cols-12 gap-x-12 items-start border-t border-neutral-900 pt-24">
-                    <div className="md:col-span-4 mb-16 md:mb-0">
-                        <span className="font-wide text-step--2 uppercase tracking-micro text-neutral-800 font-bold block">
-                            02 // System Core
-                        </span>
-                    </div>
-                    <div className="md:col-span-8">
-                        <h2 className="font-title text-step-3 text-white uppercase tracking-tight-title mb-12">
-                            Role-Based Architecture
-                        </h2>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-12">
-                            {[
-                                { title: "Admin", desc: "Global system oversight and fleet management." },
-                                { title: "Franchisee", desc: "Regional territory control and resource tracking." },
-                                { title: "Staff", desc: "Operational dispatch and parcel coordination." },
-                                { title: "User", desc: "Secure parcel submission and real-time state tracking." }
-                            ].map((role, i) => (
-                                <div key={i} className="flex flex-col gap-4">
-                                    <span className="font-wide text-step--2 uppercase tracking-micro text-neutral-800 font-bold">Role::{role.title}</span>
-                                    <p className="font-body text-step-0 text-neutral-600 font-light leading-snug">{role.desc}</p>
-                                </div>
-                            ))}
+                {/* 2. Technical Stack (Editorial Rows) */}
+                <div className="col-span-12 border-t border-neutral-900 pt-16">
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
+                        <div className="md:col-span-4">
+                            <span className="font-wide text-step--1 text-neutral-800 uppercase tracking-micro font-bold">
+                                01 // OVERVIEW
+                            </span>
                         </div>
-                    </div>
-                </div>
-
-                {/* 4. Technical Depth */}
-                <div className="col-span-12 grid grid-cols-1 md:grid-cols-12 gap-x-12 items-start border-t border-neutral-900 pt-24">
-                    <div className="md:col-span-4 mb-16 md:mb-0">
-                        <span className="font-wide text-step--2 uppercase tracking-micro text-neutral-800 font-bold block">
-                            03 // Technical Depth
-                        </span>
-                    </div>
-                    <div className="md:col-span-8 flex flex-col gap-16">
-                        <div className="flex flex-col gap-6">
-                            <h3 className="font-wide text-step--1 text-white uppercase tracking-micro font-bold">Session Control</h3>
-                            <p className="font-body text-step-0 text-neutral-600 font-light leading-relaxed max-w-[55ch]">
-                                Implementing secure session persistence through JWT-based authentication with isolated pathway enforcement.
-                            </p>
-                        </div>
-                        <div className="flex flex-col gap-6">
-                            <h3 className="font-wide text-step--1 text-white uppercase tracking-micro font-bold">Security Layers</h3>
-                            <p className="font-body text-step-0 text-neutral-600 font-light leading-relaxed max-w-[55ch]">
-                                Argon2id key derivation for password hashing and strict CORS policies to block cross-origin contamination.
-                            </p>
-                        </div>
-                        <div className="flex flex-col gap-6">
-                            <h3 className="font-wide text-step--1 text-white uppercase tracking-micro font-bold">Database Structure</h3>
-                            <p className="font-body text-step-0 text-neutral-600 font-light leading-relaxed max-w-[55ch]">
-                                Relational schema optimization in PostgreSQL using Prisma ORM for structured data isolation and efficient tracking queries.
+                        <div className="md:col-span-8">
+                            <h2 className="font-title text-step-2 text-white uppercase tracking-tight-title mb-8">
+                                Secure Logistics Pathway
+                            </h2>
+                            <p className="font-body text-step-0 text-neutral-600 font-light leading-relaxed max-w-[60ch]">
+                                Engineering a multi-tenant logistics environment required a zero-trust approach to data access. MoveX implements strict role-based pathway isolation, ensuring that every interaction—from administrative oversight to individual user state tracking—is cryptographically secure and auditable.
                             </p>
                         </div>
                     </div>
                 </div>
 
-                {/* 5. Key Highlights */}
-                <div className="col-span-12 grid grid-cols-1 md:grid-cols-12 gap-x-12 items-start border-t border-neutral-900 pt-24">
-                    <div className="md:col-span-4 mb-16 md:mb-0">
-                        <span className="font-wide text-step--2 uppercase tracking-micro text-neutral-800 font-bold block">
-                            04 // Highlights
-                        </span>
-                    </div>
-                    <div className="md:col-span-8">
-                        <ul className="flex flex-col gap-8">
-                            {[
-                                "Secure session persistence",
-                                "Role-based dashboard separation",
-                                "Modular backend routing",
-                                "Real-time state tracing ledger"
-                            ].map((highlight, i) => (
-                                <li key={i} className="flex items-center gap-6">
-                                    <div className="w-2 h-2 bg-neutral-900" />
-                                    <span className="font-body text-step-1 text-white font-light">{highlight}</span>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                </div>
-
-                {/* 6. Final Reflection */}
-                <div className="col-span-12 grid grid-cols-1 md:grid-cols-12 gap-x-12 items-start border-t border-neutral-900 pt-24">
-                    <div className="md:col-span-4 mb-16 md:mb-0">
-                        <span className="font-wide text-step--2 uppercase tracking-micro text-neutral-800 font-bold block">
-                            05 // Reflection
-                        </span>
-                    </div>
-                    <div className="md:col-span-8">
-                        <p className="font-body text-step-1 text-neutral-600 font-light italic leading-relaxed max-w-[55ch]">
-                            Focused on building a structured backend with real-world security considerations. The project prioritizes architectural integrity over visual complexity.
-                        </p>
+                {/* 3. Core Modules */}
+                <div className="col-span-12 border-t border-neutral-900 pt-16">
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
+                        <div className="md:col-span-4">
+                            <span className="font-wide text-step--1 text-neutral-800 uppercase tracking-micro font-bold">
+                                02 // MODULES
+                            </span>
+                        </div>
+                        <div className="md:col-span-8">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-16">
+                                {[
+                                    { title: "Isolated Dashboarding", desc: "Granular UI/UX separation based on verified role signatures." },
+                                    { title: "Prisma Layering", desc: "Type-safe relational mapping for complex supply chain telemetry." },
+                                    { title: "Session Enforcement", desc: "Stateless JWT propagation with rotating secret validation." },
+                                    { title: "Audit Logging", desc: "Immutable state-change ledger for every parcel transaction." }
+                                ].map((m, i) => (
+                                    <div key={i} className="flex flex-col gap-4">
+                                        <h3 className="font-wide text-step-0 text-white uppercase tracking-micro font-bold">
+                                            {m.title}
+                                        </h3>
+                                        <p className="font-body text-step--1 text-neutral-600 font-light leading-snug">
+                                            {m.desc}
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                {/* 7. Exit Navigation */}
-                <div className="col-span-12 border-t border-neutral-900 pt-20 flex justify-between items-baseline">
-                    <Link href="/" className="font-wide text-step--1 text-neutral-800 uppercase tracking-micro font-bold link-precision">
+                {/* 4. Reflection */}
+                <div className="col-span-12 border-t border-neutral-900 pt-16">
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
+                        <div className="md:col-span-4">
+                            <span className="font-wide text-step--1 text-neutral-800 uppercase tracking-micro font-bold">
+                                03 // REFLECTION
+                            </span>
+                        </div>
+                        <div className="md:col-span-8">
+                            <p className="font-body text-step-1 text-neutral-600 font-light italic leading-relaxed max-w-[55ch]">
+                                The focus was not on visual complexity, but on the architectural purity of the backend. Truth exists in the logic, not the interface.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* 5. Return (Signature) */}
+                <div className="col-span-12 border-t border-neutral-900 pt-24 pb-12 flex justify-between items-baseline">
+                    <Link href="/" className="font-wide text-step-0 text-neutral-800 uppercase tracking-micro font-bold hover:text-white transition-colors duration-200">
                         &larr; INDEX
                     </Link>
-                    <Link href="/uidai" className="font-wide text-step-0 text-white uppercase tracking-micro link-precision font-bold">
-                        NEXT PROJECT: UIDAI &rarr;
+                    <Link href="/uidai" className="font-wide text-step-0 text-white uppercase tracking-micro font-bold hover:text-neutral-400 transition-colors duration-200">
+                        NEXT SYSTEM &rarr;
                     </Link>
                 </div>
 
@@ -152,5 +109,6 @@ export default function MoveXPage() {
         </div>
     );
 }
+
 
 

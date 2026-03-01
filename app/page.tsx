@@ -6,7 +6,7 @@ import BrutalistContact from "@/components/brutalist/BrutalistContact";
 
 export default function Home() {
   return (
-    <div className="snap-container">
+    <div className="w-full">
       <BrutalistHero />
       <BrutalistAbout />
       <BrutalistProjectsPreview />
