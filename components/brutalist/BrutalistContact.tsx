@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useScene } from "@/context/SceneContext";
 
 // PHASE 1: CENTRAL MOTION CONTROLLER
@@ -16,8 +16,16 @@ const contactLinks = [
 
 export default function BrutalistContact() {
     const sectionRef = useRef<HTMLElement>(null);
-    const { setActiveSection, mode } = useScene();
+    const { setActiveSection, mode, activeSection } = useScene();
     const [isHovered, setIsHovered] = useState<number | null>(null);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
 
     const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
     const rotateX = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], mode === 'depth' ? [2.5, 0, 0, -2.5] : [1, 0, 0, -1]);
@@ -26,7 +34,8 @@ export default function BrutalistContact() {
         <section
             onPointerEnter={() => setActiveSection("contact")}
             ref={sectionRef}
-            className="spatial-section relative flex items-center justify-center section-tone-shift tone-02"
+            style={{ opacity: activeSection === "contact" ? 1 : 0.94 }} // PHASE 6: ACTIVE SECTION FOCUS DIMMING
+            className="spatial-section relative flex items-center justify-center section-tone-shift tone-02 transition-opacity duration-1000"
             id="contact"
         >
             <motion.div
@@ -62,7 +71,7 @@ export default function BrutalistContact() {
                                 initial={{ opacity: 0, y: 15 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ delay: i * 0.1, duration: 0.8, ease: GLOBAL_EASE }}
-                                className={`heavy-panel btn-signature signature-bracket elastic-micro light-beam-pass p-8 md:p-10 flex flex-col justify-between h-48 md:h-56 transition-all duration-500 relative group overflow-hidden ${mode === 'minimal' ? 'hover:bg-[#0c0c0c]' : 'mat-matte'}`}
+                                className={`heavy-panel btn-signature signature-bracket elastic-micro light-beam-pass p-8 md:p-10 flex flex-col justify-between h-48 md:h-56 transition-all duration-500 relative group overflow-hidden ${mode === 'minimal' ? 'hover:bg-[#0c0c0c]' : 'mat-matte'} ${i % 2 !== 0 ? 'mt-4' : ''}`} // PHASE 5: PREMIUM VISUAL TENSION
                             >
                                 <span className="text-micro font-bold text-muted group-hover:text-white transition-all opacity-40">
                                     {link.label}

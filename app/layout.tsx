@@ -8,8 +8,13 @@ import SmoothScroll from "@/components/brutalist/SmoothScroll";
 import BrutalistNavbar from "@/components/brutalist/BrutalistNavbar";
 import { SceneProvider, useScene } from "@/context/SceneContext";
 
-// PHASE 1: CENTRAL MOTION CONTROLLER
-const GLOBAL_EASE = [0.33, 1, 0.68, 1] as [number, number, number, number];
+// PHASE 1: GLOBAL MOTION RHYTHM SYSTEM
+const GLOBAL_EASE = [0.22, 1, 0.36, 1] as [number, number, number, number]; // Optimized Slow/Medium
+const RHYTHM = {
+  SLOW: 1.4,
+  MEDIUM: 0.6,
+  FAST: 0.2
+};
 
 function HUDOverlay() {
   const { activeSection, mode } = useScene();
@@ -68,11 +73,12 @@ function HUDOverlay() {
 export function CustomCursor() {
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
-  const ringX = useSpring(mouseX, { damping: 40, stiffness: 500 });
-  const ringY = useSpring(mouseY, { damping: 40, stiffness: 500 });
+  const ringX = useSpring(mouseX, { damping: 50, stiffness: 350 });
+  const ringY = useSpring(mouseY, { damping: 50, stiffness: 350 });
 
   const [isHovering, setIsHovering] = useState(false);
   const [isHoveringProject, setIsHoveringProject] = useState(false);
+  const [isClicking, setIsClicking] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   const [isMounted, setIsMounted] = useState(false);
@@ -91,11 +97,18 @@ export function CustomCursor() {
       }
     };
 
+    const handleMouseDown = () => setIsClicking(true);
+    const handleMouseUp = () => setIsClicking(false);
+
     window.addEventListener("resize", handleResize);
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    window.addEventListener("mousedown", handleMouseDown);
+    window.addEventListener("mouseup", handleMouseUp);
     return () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mousedown", handleMouseDown);
+      window.removeEventListener("mouseup", handleMouseUp);
     }
   }, [mouseX, mouseY]);
 
@@ -107,15 +120,18 @@ export function CustomCursor() {
         style={{ x: mouseX, y: mouseY, translateX: "-50%", translateY: "-50%" }}
         className="fixed top-0 left-0 w-1 h-1 bg-white rounded-full z-[100000] pointer-events-none"
       />
+      {/* PHASE 1 & 2: CONTEXT-AWARE CURSOR & CHOREOGRAPHY */}
       <motion.div
         style={{ x: ringX, y: ringY, translateX: "-50%", translateY: "-50%" }}
         animate={{
-          scale: isHoveringProject ? 3.5 : isHovering ? 2.5 : 1,
-          opacity: isHovering || isHoveringProject ? 0.3 : 0.6,
-          borderRadius: isHoveringProject ? "0px" : "50%",
-          rotate: isHoveringProject ? 45 : 0
+          scale: isClicking ? 0.8 : isHoveringProject ? 4 : isHovering ? 2.5 : 1,
+          opacity: isClicking ? 0.8 : isHovering || isHoveringProject ? 0.3 : 0.6,
+          borderRadius: isHoveringProject ? "2px" : "50%",
+          borderWidth: isHoveringProject ? "1px" : "1px",
+          rotate: isHoveringProject ? 45 : 0,
+          backgroundColor: isClicking ? "white" : "transparent"
         }}
-        transition={{ duration: 0.15, ease: "linear" }}
+        transition={{ duration: 0.2, ease: "easeOut" }}
         className="fixed top-0 left-0 w-8 h-8 rounded-full border border-white mix-blend-difference z-[99999] pointer-events-none"
       />
     </>
@@ -128,6 +144,19 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   const mouseY = useMotionValue(0);
   const smoothMouseX = useSpring(mouseX, { damping: 50, stiffness: 400 });
   const smoothMouseY = useSpring(mouseY, { damping: 50, stiffness: 400 });
+
+  // PHASE 126.3: DISTORTION STATE
+  const [isDistorting, setIsDistorting] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsDistorting(true);
+      const timer = setTimeout(() => setIsDistorting(false), 200);
+      return () => clearTimeout(timer);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const { scrollY, scrollYProgress } = useScroll();
   const [scrollVelocityValue, setScrollVelocityValue] = useState(0);
@@ -203,10 +232,41 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       case "focus": base = "#020303"; break;
       case "contact": base = "#040202"; break;
     }
-    // Deepen tone slightly when scrolling fast
-    if (velocity > 0.1) return `color-mix(in srgb, ${base}, black ${velocity * 5}%)`;
+    // PHASE 9: REACTIVE BACKGROUND INTENSITY
+    const saturation = 100 + (velocity * 20);
+    if (velocity > 0.05) return `color-mix(in srgb, ${base}, black ${velocity * 4}%)`;
     return base;
   };
+
+  // PHASE 1: REACTIVE GEOMETRY ENGINE
+  const ReactiveArchitectureBackground = () => (
+    <div className="fixed inset-0 z-[-3] pointer-events-none overflow-hidden">
+      <motion.div
+        style={{
+          x: useTransform(smoothMouseX, [0, 1920], [-10, 10]),
+          y: useTransform(smoothMouseY, [0, 1080], [-10, 10]),
+          rotate: useTransform(scrollYProgress, [0, 1], [0, 5])
+        }}
+        className="absolute inset-[-5%] opacity-[0.03] flex items-center justify-center"
+      >
+        {/* Minimal Wireframe Grid */}
+        <div className="w-full h-full border border-white/20 grid grid-cols-12 grid-rows-12 gap-px">
+          {Array.from({ length: 144 }).map((_, i) => (
+            <div key={i} className="border-[0.5px] border-white/10" />
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Angular Framing Element */}
+      <motion.div
+        style={{
+          x: useTransform(smoothMouseX, [0, 1920], [20, -20]),
+          opacity: useTransform(scrollYProgress, [0, 0.5, 1], [0.02, 0.05, 0.02])
+        }}
+        className="absolute top-[20%] right-[5%] w-[40vw] h-px bg-white"
+      />
+    </div>
+  );
 
   return (
     <>
@@ -222,49 +282,52 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
         className="fixed inset-0 z-[-5] pointer-events-none"
       />
 
-      {/* PHASE 2 & 5: DYNAMIC LIGHTING OVERLAY (SYNCED AMBIENT TEMPO) */}
+      {/* PHASE 2, 5 & 9: DYNAMIC LIGHTING OVERLAY (SYNCED AMBIENT BREATH + LIGHT SOURCE) */}
       <motion.div
         style={{ x: lightX, y: lightY }}
-        animate={{ opacity: [0.02, 0.04, 0.02] }}
-        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-        className="fixed inset-[-10%] z-[-4] pointer-events-none bg-radial-glow mix-blend-overlay"
+        animate={{ opacity: [0.015, 0.035, 0.015] }}
+        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+        className="fixed inset-[-10%] z-[-4] pointer-events-none bg-radial-glow mix-blend-overlay origin-top-left"
       />
 
-      {/* PHASE 5 & 12: MESH REFINEMENT (SYNCED PULSE) */}
+      {/* PHASE 2 & 14: MESH REFINEMENT (ENVIRONMENTAL BREATH) */}
       <motion.div
-        animate={{ opacity: [0.4, 0.6, 0.4] }}
-        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+        animate={{ opacity: [0.35, 0.55, 0.35], scale: [1, 1.02, 1] }}
+        transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
         className="fixed inset-0 z-[-4] pointer-events-none overflow-hidden mix-blend-screen"
       >
-        <div className="absolute w-[50vw] h-[50vw] bg-white opacity-5 left-0 top-0 rounded-full blur-[100px]" />
-        <div className="absolute w-[40vw] h-[40vw] bg-white opacity-2 right-0 bottom-0 rounded-full blur-[100px]" />
+        <div className="absolute w-[60vw] h-[60vw] bg-white opacity-5 left-[-10%] top-[-10%] rounded-full blur-[120px]" />
+        <div className="absolute w-[50vw] h-[50vw] bg-white opacity-2 right-[-5%] bottom-[-5%] rounded-full blur-[120px]" />
       </motion.div>
       {/* PHASE 8, 117.3, 121.1 & 122.7: REACTIVE GRID DISTORTION With DEPTH BLUR */}
       <motion.div
         style={{
           y: gridShiftY,
           x: isMounted ? gridBendX : 0,
-          skewY: isMounted ? gridBendY : 0,
+          skewY: isMounted ? (isDistorting ? 0 : gridBendY) : 0, // Disable during scroll
           rotate: isMounted ? gridBendX : 0,
           filter: bgBlur
         }}
-        className="fixed inset-[-10%] z-[-2] pointer-events-none opacity-[0.2]"
+        className="fixed inset-[-10%] z-[-2] pointer-events-none opacity-[0.15]"
       >
         <div className="w-full h-full grid-blueprint transition-opacity duration-1000" />
       </motion.div>
 
+      <ReactiveArchitectureBackground />
+
       <BrutalistNavbar />
 
-      {/* PHASE 118.4, 120.13, 121.10 & 122.1: SECTION ENTRY / FOCUS WRAPPER */}
+      {/* PHASE 5 & 6: SECTION ENTRY IMMERSION (RISE + LAYER STACK) */}
       <motion.main
         key={activeSection}
-        initial={{ opacity: 0.95, scale: 0.99 }}
+        initial={{ opacity: 0, y: 20, scale: 0.995 }}
         animate={{
           opacity: 1,
+          y: 0,
           scale: 1,
         }}
         style={{ filter: mainContrast }}
-        transition={{ duration: 0.4, ease: GLOBAL_EASE }}
+        transition={{ duration: RHYTHM.MEDIUM, ease: GLOBAL_EASE }}
         className="relative z-10 w-full min-h-screen origin-top pt-24"
       >
         {children}

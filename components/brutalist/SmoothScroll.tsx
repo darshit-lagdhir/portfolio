@@ -8,11 +8,12 @@ export default function SmoothScroll() {
 
     useEffect(() => {
         // PHASE 3: SMOOTH INERTIA CALIBRATION (WEIGHTED SCROLL)
+        // PHASE 125.15: SCROLL MOMENTUM & FRICTION POLISH
         const lenis = new Lenis({
-            duration: 1.5, // Increased for "Heavier" feel
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Exponential decay
-            touchMultiplier: 1.5,
-            wheelMultiplier: 1.1, // Slight boost for precision
+            duration: 1.8, // More "Sculpted" weight
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            touchMultiplier: 1.8,
+            wheelMultiplier: 1,
             infinite: false,
             smoothWheel: true,
             syncTouch: true,

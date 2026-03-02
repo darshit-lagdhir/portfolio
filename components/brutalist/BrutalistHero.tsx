@@ -33,65 +33,99 @@ const ScrambleText = ({ text, delay = 0 }: { text: string; delay?: number }) => 
 
 export default function BrutalistHero() {
     const sectionRef = useRef<HTMLElement>(null);
-    const { mode, setActiveSection, setIsFocusing } = useScene();
+    const { mode, setActiveSection, setIsFocusing, activeSection } = useScene();
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+    const [isMobile, setIsMobile] = useState(false);
 
     const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
 
     // PHASE 118.2, 122.7 & 123.12: HERO EXIT & DEPTH PARALLAX
-    const cameraZ = useTransform(scrollYProgress, [0, 1], [0, -50]);
-    const heroOpacity = useTransform(scrollYProgress, [0, 0.8, 1], [1, 0.5, 0]);
     const heroScale = useTransform(scrollYProgress, [0, 1], [1.02, 1]); // PHASE 12: MICRO SCALE PARALLAX
-    const heroFilter = useTransform(scrollYProgress, [0, 1], ["blur(0px)", "blur(10px)"]);
-    const contentTilt = useTransform(scrollYProgress, [0, 1], [0, -3]);
 
     // PHASE 123.2: MICRO LETTER SHIFT
     const letterSpacingShift = useTransform(scrollYProgress, [0, 0.2, 0.5], ["0.04em", "0.05em", "0.04em"]);
 
     useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+
         const handleMouseMove = (e: MouseEvent) => {
+            if (window.innerWidth < 1024) return;
             setMousePos({
                 x: (e.clientX / window.innerWidth - 0.5) * 10,
                 y: (e.clientY / window.innerHeight - 0.5) * 10
             });
         };
         window.addEventListener("mousemove", handleMouseMove, { passive: true });
-        return () => window.removeEventListener("mousemove", handleMouseMove);
+        return () => {
+            window.removeEventListener("mousemove", handleMouseMove);
+            window.removeEventListener("resize", checkMobile);
+        };
     }, []);
 
-    const springConfig = { damping: 40, stiffness: 200 };
+    const springConfig = { damping: 50, stiffness: 100 }; // PHASE 125.4 SLOWER INTERPOLATION
     const springX = useSpring(mousePos.x, springConfig);
     const springY = useSpring(mousePos.y, springConfig);
 
-    const rotateY = useTransform(springX, (v) => v * (mode === "depth" ? 0.08 : 0.04));
-    const rotateX = useTransform(springY, (v) => v * (mode === "depth" ? -0.08 : -0.04));
+    // PHASE 126.10: REACTIVE SHADOW ENGINE
+    const shadowX = useTransform(springX, [-5, 5], [10, -10]);
+    const shadowY = useTransform(springY, [-5, 5], [10, -10]);
+
+    // PHASE 126.3 & 8: CONTROLLED TEXT DISTORTION
+    const textDistortX = useSpring(0, { damping: 40, stiffness: 200 });
+    const textSkewX = useSpring(0, { damping: 40, stiffness: 200 });
+
+    useEffect(() => {
+        if (mode === "depth") {
+            const interval = setInterval(() => {
+                textDistortX.set(Math.random() * 0.5 - 0.25);
+                textSkewX.set(Math.random() * 0.2 - 0.1);
+            }, 3000);
+            return () => clearInterval(interval);
+        }
+    }, [mode, textDistortX, textSkewX]);
+
+    // PHASE 125.4: PERSPECTIVE TILT (MAX 3 DEG)
+    const perspectiveRotateY = useTransform(springX, [-5, 5], ["2deg", "-2deg"]);
+    const perspectiveRotateX = useTransform(springY, [-5, 5], ["-2deg", "2deg"]);
+
+    const rotateY = useTransform(springX, (v) => isMobile ? 0 : v as number * (mode === "depth" ? 0.08 : 0.04));
+    const rotateX = useTransform(springY, (v) => isMobile ? 0 : v as number * (mode === "depth" ? -0.08 : -0.04));
 
     return (
         <section
             onPointerEnter={() => setActiveSection("hero")}
             ref={sectionRef}
-            className="spatial-section relative flex items-center justify-center section-tone-shift tone-01"
+            style={{ opacity: activeSection === "hero" ? 1 : 0.94 }} // PHASE 6: ACTIVE SECTION FOCUS DIMMING
+            className="spatial-section relative flex items-center justify-center section-tone-shift tone-01 transition-opacity duration-1000"
             id="hero"
         >
             <div className="absolute inset-0 z-0 bg-radial-glow opacity-10" />
 
-            {/* PHASE 4: ASYMMETRICAL POSTER COMPOSITION */}
+            {/* PHASE 3 & 125.4: CONTROLLED 3D HERO CONTAINER */}
             <motion.div
+                style={{ rotateX: perspectiveRotateX, rotateY: perspectiveRotateY, transformStyle: "preserve-3d" }}
                 className="w-full relative z-10"
             >
                 <div className="grid-poster">
                     {/* PHASE 3: LEFT-DOMINANT LAYOUT */}
                     <div className="col-span-12 md:col-span-10 lg:col-span-8 flex flex-col items-start text-left">
 
-                        {/* PHASE 118.6: MICRO SCALE DRAMA */}
+                        {/* PHASE 118.6 & 126.5: MICRO SCALE DRAMA + PREMIUM TENSION */}
                         <motion.div
                             initial={{ opacity: 0, scale: 1.05, x: -20 }}
                             animate={{ opacity: 1, scale: 1, x: 0 }}
                             transition={{ duration: 1.8, ease: GLOBAL_EASE, delay: 0.1 }}
-                            onMouseEnter={() => setIsFocusing(true)}
-                            onMouseLeave={() => setIsFocusing(false)}
-                            style={{ scale: heroScale, letterSpacing: letterSpacingShift }}
-                            className="relative group h-auto"
+                            onMouseEnter={() => { setIsFocusing(true); textDistortX.set(0.8); textSkewX.set(0.4); }}
+                            onMouseLeave={() => { setIsFocusing(false); textDistortX.set(0); textSkewX.set(0); }} // PHASE 4: DECAY
+                            style={{
+                                scale: heroScale,
+                                letterSpacing: letterSpacingShift,
+                                x: textDistortX,
+                                skewX: textSkewX
+                            }}
+                            className="relative group h-auto ml-[-2vw]" // PHASE 5: OFFSET ALIGNMENT
                         >
                             {/* PHASE 6: SECTION ENTRY LIGHT SWEEP (INTERNAL) */}
                             <motion.div
@@ -101,7 +135,7 @@ export default function BrutalistHero() {
                                 className="absolute inset-0 z-30 pointer-events-none bg-gradient-to-r from-transparent via-white/[0.03] to-transparent skew-x-[-20deg]"
                             />
                             {/* PHASE 7: SUBTLE TYPOGRAPHY MASK REVEAL */}
-                            <h1 className="text-massive text-white flex flex-col italic first-letter:not-italic select-none pointer-events-none mb-14 overflow-hidden">
+                            <h1 className="text-massive text-white flex flex-col italic first-letter:not-italic select-none pointer-events-none mb-14 overflow-hidden relative">
                                 <motion.span
                                     initial={{ y: "100%" }}
                                     animate={{ y: 0 }}
@@ -120,11 +154,20 @@ export default function BrutalistHero() {
                                     <ScrambleText text="LAGDHIR" delay={0.25} />
                                 </motion.span>
 
-                                {/* PHASE 4: TYPOGRAPHY DEPTH ILLUSION (EMBOSSED SHADOW) */}
-                                <div className="absolute inset-0 z-[-1] opacity-20 blur-[1px] translate-x-[2px] translate-y-[2px] pointer-events-none text-black select-none italic">
+                                {/* PHASE 126.10: REACTIVE SHADOW ENGINE (Drop shadows obey cursor) */}
+                                <motion.div
+                                    style={{
+                                        x: shadowX,
+                                        y: shadowY,
+                                        opacity: 0.2,
+                                        filter: "blur(2px)",
+                                        transform: "translate(2px, 2px)"
+                                    }}
+                                    className="absolute inset-0 z-[-1] pointer-events-none text-black select-none italic"
+                                >
                                     <span className="block mb-[0.2em] whitespace-nowrap">DARSHIT</span>
                                     <span className="block pl-[1.5em] whitespace-nowrap">LAGDHIR</span>
-                                </div>
+                                </motion.div>
                             </h1>
 
                             {/* PHASE 7 & 117.2: LOW POLY HERO ARCHITECTURAL FORM */}
@@ -178,17 +221,20 @@ export default function BrutalistHero() {
                             </p>
                         </motion.div>
 
-                        {/* PHASE 4: MINIMAL CTA */}
                         <motion.div
                             initial={{ opacity: 0, y: 5 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.78, duration: 1, ease: GLOBAL_EASE }}
                             className="mt-12"
                         >
-                            <a href="#projects" className="text-micro font-bold text-white group flex items-center gap-6 elastic-micro btn-signature signature-bracket p-4 border border-white/5 bg-white/[0.02] light-beam-pass">
+                            <motion.a
+                                href="#projects"
+                                whileTap={{ scale: 0.95, y: 2 }} // PHASE 9: ACTIVE PRESS FEEDBACK
+                                className="text-micro font-bold text-white group flex items-center gap-6 elastic-micro btn-signature signature-bracket p-4 border border-white/5 bg-white/[0.02] light-beam-pass"
+                            >
                                 <div className="w-12 h-px bg-white/20 group-hover:w-20 transition-all duration-500" />
                                 [ INITIALIZE_SESSION ]
-                            </a>
+                            </motion.a>
                         </motion.div>
 
                     </div>

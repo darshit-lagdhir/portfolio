@@ -30,7 +30,7 @@ const principles = [
 
 export default function BrutalistAbout() {
     const sectionRef = useRef<HTMLElement>(null);
-    const { mode, setActiveSection } = useScene();
+    const { mode, setActiveSection, activeSection } = useScene();
 
     const { scrollYProgress: sectionScroll } = useScroll({
         target: sectionRef,
@@ -44,7 +44,8 @@ export default function BrutalistAbout() {
         <section
             onPointerEnter={() => setActiveSection("about")}
             ref={sectionRef}
-            className="spatial-section relative flex items-center justify-center section-tone-shift tone-02"
+            style={{ opacity: activeSection === "about" ? 1 : 0.94 }} // PHASE 6: ACTIVE SECTION FOCUS DIMMING
+            className="spatial-section relative flex items-center justify-center section-tone-shift tone-02 transition-opacity duration-1000"
             id="about"
         >
             <motion.div
@@ -104,8 +105,9 @@ export default function BrutalistAbout() {
                                     whileInView={{ opacity: 1, scale: 1, x: 0 }}
                                     viewport={{ margin: "-10%" }}
                                     transition={{ duration: 0.6, delay: i * 0.1, ease: GLOBAL_EASE }}
-                                    // PHASE 5 & 119: HEAVY PANEL + TACTILE MATTE + BRACKET
-                                    className="heavy-panel signature-bracket mat-paper btn-signature elastic-micro min-w-[320px] md:min-w-[400px] p-12 pr-24 flex flex-col gap-10 group"
+                                    // PHASE 5, 119 & 124.9: HEAVY PANEL + TACTILE MATTE + PHYSICAL FEEDBACK
+                                    whileTap={{ scale: 0.98, backgroundColor: "rgba(10,10,10,1)" }}
+                                    className={`heavy-panel signature-bracket mat-paper btn-signature elastic-micro min-w-[320px] md:min-w-[400px] p-12 pr-24 flex flex-col gap-10 group relative ${i % 2 !== 0 ? 'translate-y-8' : 'translate-y-0'}`} // PHASE 5: PREMIUM VISUAL TENSION
                                 >
                                     <div className="flex justify-between items-start">
                                         <span className="text-micro font-bold text-muted group-hover:text-white transition-colors tracking-widest">{p.label}</span>

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useScene } from "@/context/SceneContext";
 
 // PHASE 1: CENTRAL MOTION CONTROLLER
@@ -108,8 +108,16 @@ function BentoCard({ cell, isActive, onToggle, activeId }: { cell: any, isActive
 
 export default function BrutalistFocus() {
     const sectionRef = useRef<HTMLElement>(null);
-    const { mode, setActiveSection } = useScene();
+    const { mode, setActiveSection, activeSection } = useScene();
     const [activeId, setActiveId] = useState<string | null>(null);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
 
     const { scrollYProgress: sectionScroll } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
     const rotateX = useTransform(sectionScroll, [0, 0.4, 0.6, 1], mode === 'depth' ? [2.5, 0, 0, -2.5] : [1.2, 0, 0, -1.2]);
@@ -118,7 +126,8 @@ export default function BrutalistFocus() {
         <section
             onPointerEnter={() => setActiveSection("focus")}
             ref={sectionRef}
-            className="spatial-section relative flex items-center justify-center section-tone-shift tone-01"
+            style={{ opacity: activeSection === "focus" ? 1 : 0.94 }} // PHASE 6: ACTIVE SECTION FOCUS DIMMING
+            className="spatial-section relative flex items-center justify-center section-tone-shift tone-01 transition-opacity duration-1000"
             id="focus"
         >
             <motion.div
@@ -160,14 +169,15 @@ export default function BrutalistFocus() {
                 </div>
 
                 <div className="col-span-12 grid grid-cols-12 gap-8 relative mt-10">
-                    {bentoCells.map((cell) => (
-                        <BentoCard
-                            key={cell.id}
-                            cell={cell}
-                            isActive={activeId === cell.id}
-                            onToggle={setActiveId}
-                            activeId={activeId}
-                        />
+                    {bentoCells.map((cell, i) => (
+                        <div key={cell.id} className={`${cell.span} ${i % 2 !== 0 ? 'translate-y-6' : 'translate-y-0'} transition-transform duration-1000`}> {/* PHASE 5: PREMIUM VISUAL TENSION */}
+                            <BentoCard
+                                cell={cell}
+                                isActive={activeId === cell.id}
+                                onToggle={setActiveId}
+                                activeId={activeId}
+                            />
+                        </div>
                     ))}
                 </div>
             </motion.div>
