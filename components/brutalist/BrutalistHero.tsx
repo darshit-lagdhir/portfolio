@@ -33,17 +33,20 @@ const ScrambleText = ({ text, delay = 0 }: { text: string; delay?: number }) => 
 
 export default function BrutalistHero() {
     const sectionRef = useRef<HTMLElement>(null);
-    const { mode, setActiveSection } = useScene();
+    const { mode, setActiveSection, setIsFocusing } = useScene();
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
     const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
 
-    // PHASE 118.2: HERO EXIT DOMINANCE (COMPRESS + BLUR)
+    // PHASE 118.2, 122.7 & 123.12: HERO EXIT & DEPTH PARALLAX
     const cameraZ = useTransform(scrollYProgress, [0, 1], [0, -50]);
     const heroOpacity = useTransform(scrollYProgress, [0, 0.8, 1], [1, 0.5, 0]);
-    const heroScale = useTransform(scrollYProgress, [0, 1], [1, 0.95]);
+    const heroScale = useTransform(scrollYProgress, [0, 1], [1.02, 1]); // PHASE 12: MICRO SCALE PARALLAX
     const heroFilter = useTransform(scrollYProgress, [0, 1], ["blur(0px)", "blur(10px)"]);
     const contentTilt = useTransform(scrollYProgress, [0, 1], [0, -3]);
+
+    // PHASE 123.2: MICRO LETTER SHIFT
+    const letterSpacingShift = useTransform(scrollYProgress, [0, 0.2, 0.5], ["0.04em", "0.05em", "0.04em"]);
 
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
@@ -82,19 +85,46 @@ export default function BrutalistHero() {
 
                         {/* PHASE 118.6: MICRO SCALE DRAMA */}
                         <motion.div
-                            initial={{ opacity: 0.6, scale: 0.98, x: -20 }}
+                            initial={{ opacity: 0, scale: 1.05, x: -20 }}
                             animate={{ opacity: 1, scale: 1, x: 0 }}
-                            transition={{ duration: 1.2, ease: GLOBAL_EASE, delay: 0.1 }}
+                            transition={{ duration: 1.8, ease: GLOBAL_EASE, delay: 0.1 }}
+                            onMouseEnter={() => setIsFocusing(true)}
+                            onMouseLeave={() => setIsFocusing(false)}
+                            style={{ scale: heroScale, letterSpacing: letterSpacingShift }}
                             className="relative group h-auto"
                         >
-                            <h1 className="text-massive text-white flex flex-col italic first-letter:not-italic select-none pointer-events-none mb-14 tracking-[0.04em]">
-                                <span className="block drop-shadow-xl z-20 mb-[0.2em] whitespace-nowrap">
+                            {/* PHASE 6: SECTION ENTRY LIGHT SWEEP (INTERNAL) */}
+                            <motion.div
+                                initial={{ x: "-150%" }}
+                                animate={{ x: "150%" }}
+                                transition={{ duration: 0.8, ease: GLOBAL_EASE, delay: 0.1 }}
+                                className="absolute inset-0 z-30 pointer-events-none bg-gradient-to-r from-transparent via-white/[0.03] to-transparent skew-x-[-20deg]"
+                            />
+                            {/* PHASE 7: SUBTLE TYPOGRAPHY MASK REVEAL */}
+                            <h1 className="text-massive text-white flex flex-col italic first-letter:not-italic select-none pointer-events-none mb-14 overflow-hidden">
+                                <motion.span
+                                    initial={{ y: "100%" }}
+                                    animate={{ y: 0 }}
+                                    transition={{ duration: 0.8, ease: GLOBAL_EASE, delay: 0.2 }}
+                                    className="block drop-shadow-xl z-20 mb-[0.2em] whitespace-nowrap"
+                                >
                                     <ScrambleText text="DARSHI" delay={0.1} />
                                     <span className="text-outline border-text stroke-white transition-colors duration-[2000ms] ml-[0.1em] inline-block">T</span>
-                                </span>
-                                <span className="block drop-shadow-xl z-10 pl-[1.5em] whitespace-nowrap">
+                                </motion.span>
+                                <motion.span
+                                    initial={{ y: "100%" }}
+                                    animate={{ y: 0 }}
+                                    transition={{ duration: 0.8, ease: GLOBAL_EASE, delay: 0.35 }}
+                                    className="block drop-shadow-xl z-10 pl-[1.5em] whitespace-nowrap"
+                                >
                                     <ScrambleText text="LAGDHIR" delay={0.25} />
-                                </span>
+                                </motion.span>
+
+                                {/* PHASE 4: TYPOGRAPHY DEPTH ILLUSION (EMBOSSED SHADOW) */}
+                                <div className="absolute inset-0 z-[-1] opacity-20 blur-[1px] translate-x-[2px] translate-y-[2px] pointer-events-none text-black select-none italic">
+                                    <span className="block mb-[0.2em] whitespace-nowrap">DARSHIT</span>
+                                    <span className="block pl-[1.5em] whitespace-nowrap">LAGDHIR</span>
+                                </div>
                             </h1>
 
                             {/* PHASE 7 & 117.2: LOW POLY HERO ARCHITECTURAL FORM */}
@@ -103,31 +133,48 @@ export default function BrutalistHero() {
                                 className="absolute -right-20 md:-right-40 top-10 w-64 h-64 hidden lg:block z-[-10] pointer-events-none"
                             >
                                 <motion.div
-                                    animate={{ rotateZ: [0, 360] }}
-                                    transition={{ duration: 180, repeat: Infinity, ease: "linear" }}
+                                    animate={{
+                                        rotateZ: [0, 360],
+                                        scale: [1, 1.02, 1], // PHASE 2: SUBTLE GEOMETRIC PULSE
+                                        filter: ["brightness(1)", "brightness(1.1)", "brightness(1)"]
+                                    }}
+                                    transition={{
+                                        rotateZ: { duration: 180, repeat: Infinity, ease: "linear" },
+                                        scale: { duration: 10, repeat: Infinity, ease: "easeInOut" },
+                                        filter: { duration: 10, repeat: Infinity, ease: "easeInOut" }
+                                    }}
                                     className="w-full h-full relative"
                                     style={{ transformStyle: "preserve-3d" }}
                                 >
                                     {/* Primary Low-Poly Slab */}
-                                    <div className="absolute inset-0 bg-white/[0.02] border border-white/10 backdrop-blur-md isometric-slab" />
+                                    <div className="absolute inset-0 bg-white/[0.02] border border-white/10 backdrop-blur-md isometric-slab group-hover:bg-white/[0.04] transition-all duration-700" />
+
+                                    {/* PHASE 7: SIGNATURE SHAPE TRANSFORM (CORNER NOTCH EXTENDS) */}
+                                    <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/40 group-hover:w-6 group-hover:h-6 transition-all duration-500" />
+
                                     {/* Inner Structural Wireframe */}
-                                    <div className="absolute inset-4 border border-white/20" style={{ transform: "translateZ(30px)" }} />
+                                    <div className="absolute inset-4 border border-white/20 transition-all duration-700 group-hover:inset-3" style={{ transform: "translateZ(30px)" }} />
                                     {/* Core Anchor Node */}
-                                    <div className="absolute inset-1/2 w-2 h-2 -translate-x-1/2 -translate-y-1/2 bg-white/50 shadow-[0_0_20px_2px_rgba(255,255,255,0.8)]" style={{ transform: "translateZ(60px)" }} />
+                                    <motion.div
+                                        animate={{ opacity: [0.3, 0.6, 0.3] }}
+                                        transition={{ duration: 4, repeat: Infinity }}
+                                        className="absolute inset-1/2 w-2 h-2 -translate-x-1/2 -translate-y-1/2 bg-white/50 shadow-[0_0_20px_2px_rgba(255,255,255,0.8)]" style={{ transform: "translateZ(60px)" }} />
                                 </motion.div>
                             </motion.div>
                         </motion.div>
 
-                        {/* PHASE 2: SHORT DENSE CONTENT (TAGLINE) */}
+                        {/* PHASE 1 & 6: SECTION HEADING LAYER & CREATIVE WORD EMPHASIS */}
                         <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.7, duration: 1, ease: GLOBAL_EASE }}
                             className="max-w-[40ch] mt-4"
                         >
-                            <h2 className="text-medium text-white/40 font-bold mb-4 text-highlight-sweep tracking-[0.3em]">SYSTEM_ARCHITECT</h2>
-                            <p className="text-small text-muted font-light tracking-wide max-w-[50ch]">
-                                Engineering high-precision digital environments through logic-first architecture and structural visual power.
+                            <h2 className="text-medium text-white/40 font-bold mb-4 text-highlight-sweep tracking-[0.3em] uppercase">
+                                SYSTEM_<span className="text-white brightness-125 transition-all duration-700 animate-pulse-subtle">ARCHITECT</span>
+                            </h2>
+                            <p className="text-small text-muted font-light tracking-wide max-w-[50ch] opacity-60">
+                                Engineering high-precision digital environments through <span className="italic text-white/80">logic-first</span> architecture and structural visual power.
                             </p>
                         </motion.div>
 

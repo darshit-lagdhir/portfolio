@@ -13,6 +13,8 @@ interface SceneContextType {
     setActiveSection: (id: SectionId) => void;
     isNavigating: boolean;
     setIsNavigating: (val: boolean) => void;
+    isFocusing: boolean;
+    setIsFocusing: (val: boolean) => void;
 }
 
 const SceneContext = createContext<SceneContextType | undefined>(undefined);
@@ -21,6 +23,7 @@ export function SceneProvider({ children }: { children: React.ReactNode }) {
     const [mode, setMode] = useState<SceneMode>("standard");
     const [activeSection, setActiveSection] = useState<SectionId>("hero");
     const [isNavigating, setIsNavigating] = useState(false);
+    const [isFocusing, setIsFocusing] = useState(false);
     const pathname = usePathname();
 
     // Reset navigating state after transitions
@@ -38,7 +41,7 @@ export function SceneProvider({ children }: { children: React.ReactNode }) {
     }, [pathname]);
 
     return (
-        <SceneContext.Provider value={{ mode, setMode, activeSection, setActiveSection, isNavigating, setIsNavigating }}>
+        <SceneContext.Provider value={{ mode, setMode, activeSection, setActiveSection, isNavigating, setIsNavigating, isFocusing, setIsFocusing }}>
             <div className={`scene-mode-${mode}`}>
                 {children}
             </div>

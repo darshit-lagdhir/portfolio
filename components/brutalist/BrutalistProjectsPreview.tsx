@@ -34,7 +34,7 @@ const projects = [
 function InteractiveProjectPanel({ project, index, activeProject, setActiveProject }: { project: any, index: number, activeProject: string | null, setActiveProject: (s: string | null) => void }) {
     const cardRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
-    const { mode } = useScene();
+    const { mode, setIsFocusing } = useScene();
     const [isHovered, setIsHovered] = useState(false);
 
     const mouseX = useMotionValue(0);
@@ -96,8 +96,8 @@ function InteractiveProjectPanel({ project, index, activeProject, setActiveProje
             <motion.div
                 ref={cardRef}
                 onMouseMove={handleMouseMove}
-                onMouseEnter={() => !activeProject && setIsHovered(true)}
-                onMouseLeave={() => { mouseX.set(0); mouseY.set(0); setIsHovered(false); }}
+                onMouseEnter={() => { !activeProject && setIsHovered(true); setIsFocusing(true); }}
+                onMouseLeave={() => { mouseX.set(0); mouseY.set(0); setIsHovered(false); setIsFocusing(false); }}
                 // PHASE 120.4: CARD ENTRY ANIMATION SYNC (FADE + Y, NO SCALE)
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -127,27 +127,50 @@ function InteractiveProjectPanel({ project, index, activeProject, setActiveProje
                 className={`h-full flex flex-col justify-between heavy-panel signature-bracket p-10 md:p-14 md:min-h-[60vh] lg:min-h-[70vh] cursor-none overflow-hidden ${isTakingOver ? 'z-50' : 'z-10'}`}
                 data-project="true"
             >
-                {/* PHASE 9: LIGHT ACCENT EDGE GLOW */}
-                <div className="absolute inset-0 z-0 pointer-events-none rim-highlight opacity-10 group-hover:opacity-40 transition-opacity" />
-
-                {mode !== 'minimal' && (
-                    <motion.div style={{ background: backgroundGlare }} className="absolute inset-0 z-0 pointer-events-none opacity-40 transition-opacity" />
-                )}
-
                 <div className="flex justify-between items-start opacity-20">
                     <span className="text-micro font-bold">{project.index}</span>
-                    <div className="w-10 h-[1px] bg-white" />
+                    <div className="w-10 h-[1px] bg-white group-hover:w-16 transition-all duration-700" />
                 </div>
 
-                <Link href={project.slug} onClick={handleClick} className="relative z-10 flex flex-col gap-6 mt-auto outline-none border-none group-hover/link:opacity-100">
-                    {/* PHASE 120.7: MICRO OPACITY LAYERS (TEXT OPACITY SHIFT ON HOVER) */}
-                    <h3 className="text-large text-white uppercase tracking-widest italic first-letter:not-italic group-hover:tracking-tighter transition-all duration-700 opacity-90 group-hover:opacity-100">
-                        {project.name}
-                    </h3>
+                {/* PHASE 3: DYNAMIC CORNER BRACKETS (ENHANCED) */}
+                <div className="absolute top-0 left-0 w-4 h-4 border-t border-l border-white/20 z-20 transition-all duration-700 group-hover:w-10 group-hover:h-10 group-hover:border-white/60" />
+                <div className="absolute top-0 right-0 w-4 h-4 border-t border-r border-white/20 z-20 transition-all duration-700 group-hover:w-10 group-hover:h-10 group-hover:border-white/60" />
+                <div className="absolute bottom-0 left-0 w-4 h-4 border-b border-l border-white/20 z-20 transition-all duration-700 group-hover:w-10 group-hover:h-10 group-hover:border-white/60" />
+                <div className="absolute bottom-0 right-0 w-4 h-4 border-b border-r border-white/20 z-20 transition-all duration-700 group-hover:w-10 group-hover:h-10 group-hover:border-white/60" />
 
-                    <p className="text-micro text-muted font-bold tracking-[0.3em] opacity-30 group-hover:opacity-100 group-hover:text-white transition-opacity duration-500 delay-75">
-                        {project.descriptor}
-                    </p>
+                {/* PHASE 4: REACTIVE EDGE HIGHLIGHT */}
+                <motion.div
+                    style={{ x: mouseX, y: mouseY, translateX: "-50%", translateY: "-50%" }}
+                    className="absolute inset-0 pointer-events-none z-30 opacity-0 group-hover:opacity-10 transition-opacity bg-radial-glow blur-3xl w-64 h-64"
+                />
+
+                {/* PHASE 8 & 12: REFINED LIGHT BLOOM & EMPHASIS */}
+                <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 mix-blend-overlay pointer-events-none" />
+                <motion.div
+                    animate={isHovered ? { opacity: 1 } : { opacity: 0 }}
+                    transition={{ duration: 1 }}
+                    className="absolute inset-0 bg-gradient-to-tr from-white/[0.02] to-transparent z-0 pointer-events-none"
+                />
+
+                <Link href={project.slug} onClick={handleClick} className="relative z-10 flex flex-col gap-6 mt-auto outline-none border-none group-hover/link:opacity-100 group">
+                    <motion.div
+                        style={{ x: useTransform(mouseX, [-250, 250], [-3, 3]), y: useTransform(mouseY, [-250, 250], [-3, 3]) }}
+                        className="flex flex-col gap-6"
+                    >
+                        {/* PHASE 1, 4 & 5: TYPOGRAPHY DEPTH STACK (Z-SHIFT) */}
+                        <h3 className="text-large text-white uppercase tracking-widest italic first-letter:not-italic group-hover:tracking-tighter transition-all duration-700 opacity-90 group-hover:opacity-100 relative">
+                            {project.name}
+                            {/* PHASE 10: SIGNATURE UNDERLINE EVOLUTION */}
+                            <div className="absolute -bottom-2 left-0 w-0 h-[1px] bg-white transition-all duration-700 group-hover:w-[120%] group-hover:-left-[10%] opacity-0 group-hover:opacity-100" />
+                        </h3>
+
+                        <motion.p
+                            style={{ x: useTransform(mouseX, [-250, 250], [1, -1]) }}
+                            className="text-micro text-muted font-bold tracking-[0.3em] opacity-30 group-hover:opacity-100 group-hover:text-white transition-opacity duration-500 delay-75"
+                        >
+                            {project.descriptor}
+                        </motion.p>
+                    </motion.div>
 
                     {/* MINIMAL CTA ACTION (PHASE 2) */}
                     <span className="mt-10 inline-block text-[10px] text-white tracking-widest font-bold opacity-0 group-hover:opacity-40 transition-opacity duration-500 delay-150">
@@ -177,12 +200,31 @@ export default function BrutalistProjectsPreview() {
         >
             <div className="grid-poster py-24 flex flex-col gap-y-16">
 
-                {/* PHASE 3: LEFT-DOMINANT LAYOUT */}
-                <div className="col-span-12 lg:col-span-8 flex flex-col items-start gap-12">
+                {/* PHASE 1, 6 & 9: SECTION HEADING LAYER & STRUCTURAL TENSION */}
+                <div className="col-span-12 lg:col-span-8 flex flex-col items-start gap-12 group">
                     <div className="flex flex-col gap-6 items-start">
-                        <span className="text-micro font-bold text-muted border-l border-white/20 pl-6 h-4 flex items-center">SECTION_ID_03</span>
-                        <h2 className="text-large text-white flex flex-col italic first-letter:not-italic select-none pointer-events-none border-b border-white/5 pb-10 w-full">
-                            PROJECTS_ARCHIVE // SYSTEMS
+                        <motion.span
+                            initial={{ opacity: 0, x: -10 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.6, delay: 0.2 }}
+                            className="text-micro font-bold text-muted border-l border-white/20 pl-6 h-4 flex items-center"
+                        >
+                            SECTION_ID_03
+                        </motion.span>
+                        <h2 className="text-large text-white flex flex-col italic first-letter:not-italic select-none pointer-events-none border-b border-white/5 pb-10 w-full overflow-hidden relative">
+                            <motion.span
+                                initial={{ y: "100%" }}
+                                whileInView={{ y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6, ease: GLOBAL_EASE, delay: 0.3 }}
+                            >
+                                PROJECTS_ARCHIVE // <span className="text-white brightness-125 font-black tracking-tighter animation-pulse-subtle">SYSTEMS</span>
+                            </motion.span>
+
+                            {/* PHASE 4: TYPOGRAPHY DEPTH */}
+                            <div className="absolute inset-x-0 bottom-10 z-[-1] opacity-10 blur-[2px] translate-x-[2px] translate-y-[2px] pointer-events-none text-black transition-all group-hover:opacity-20">
+                                PROJECTS_ARCHIVE // SYSTEMS
+                            </div>
                         </h2>
                     </div>
                 </div>
@@ -190,13 +232,14 @@ export default function BrutalistProjectsPreview() {
                 {/* PHASE 5: PROJECT PREVIEW REBUILD - THREE LARGE PANELS SIDE-BY-SIDE */}
                 <div className="col-span-12 flex flex-col md:flex-row gap-8 lg:gap-12 mt-10">
                     {projects.map((p, i) => (
-                        <InteractiveProjectPanel
-                            key={i}
-                            project={p}
-                            index={i}
-                            activeProject={activeProject}
-                            setActiveProject={setActiveProject}
-                        />
+                        <div key={i} className={i === 0 ? "md:ml-[-2vw]" : ""}>
+                            <InteractiveProjectPanel
+                                project={p}
+                                index={i}
+                                activeProject={activeProject}
+                                setActiveProject={setActiveProject}
+                            />
+                        </div>
                     ))}
                 </div>
             </div>

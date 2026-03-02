@@ -61,11 +61,30 @@ export default function BrutalistAbout() {
                         transition={{ duration: 1, ease: GLOBAL_EASE }}
                         className="col-span-12 md:col-span-8 lg:col-span-6 flex flex-col items-start gap-12"
                     >
-                        {/* PHASE 9: TYPOGRAPHY HIERARCHY (FS-SECTION) */}
-                        <div className="flex flex-col gap-6 items-start">
-                            <span className="text-micro font-bold text-muted border-l border-white/20 pl-6 h-4 flex items-center">SECTION_ID_02</span>
-                            <h2 className="text-large text-white flex flex-col border-b border-white/5 pb-10 w-full italic first-letter:not-italic select-none pointer-events-none transition-all duration-700 hover:tracking-tighter text-highlight-sweep">
-                                SYSTEM_ARCHITECT // PHILOSOPHY
+                        {/* PHASE 1, 4 & 6: SECTION HEADING LAYER & DEPTH ILLUSION */}
+                        <div className="flex flex-col gap-6 items-start group">
+                            <motion.span
+                                initial={{ opacity: 0, x: -10 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.6, delay: 0.2 }}
+                                className="text-micro font-bold text-muted border-l border-white/20 pl-6 h-4 flex items-center"
+                            >
+                                SECTION_ID_02
+                            </motion.span>
+                            <h2 className="text-large text-white flex flex-col border-b border-white/5 pb-10 w-full italic first-letter:not-italic select-none pointer-events-none transition-all duration-700 relative text-highlight-sweep overflow-hidden">
+                                <motion.span
+                                    initial={{ y: "100%" }}
+                                    whileInView={{ y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.6, ease: GLOBAL_EASE, delay: 0.3 }}
+                                >
+                                    SYSTEM_ARCHITECT // <span className="text-white brightness-125 font-black tracking-tighter animation-pulse-subtle">PHILOSOPHY</span>
+                                </motion.span>
+
+                                {/* PHASE 4: TYPOGRAPHY DEPTH (EMBOSSED EFFECT) */}
+                                <div className="absolute inset-x-0 bottom-10 z-[-1] opacity-10 blur-[2px] translate-x-[2px] translate-y-[2px] pointer-events-none text-black transition-all group-hover:opacity-20">
+                                    SYSTEM_ARCHITECT // PHILOSOPHY
+                                </div>
                             </h2>
                         </div>
 
@@ -89,15 +108,16 @@ export default function BrutalistAbout() {
                                     className="heavy-panel signature-bracket mat-paper btn-signature elastic-micro min-w-[320px] md:min-w-[400px] p-12 pr-24 flex flex-col gap-10 group"
                                 >
                                     <div className="flex justify-between items-start">
-                                        <span className="text-micro font-bold text-muted group-hover:text-white transition-colors">{p.label}</span>
-                                        <span className="text-micro opacity-10">{p.index}</span>
+                                        <span className="text-micro font-bold text-muted group-hover:text-white transition-colors tracking-widest">{p.label}</span>
+                                        <span className="text-micro opacity-10 font-bold">{p.index}</span>
                                     </div>
 
-                                    <h3 className="text-massive-mini text-step-2 md:text-step-3 text-white tracking-widest italic group-hover:tracking-tighter transition-all duration-700">
+                                    {/* PHASE 3 & 6: VARIABLE WEIGHT TRANSITION & EMPHASIS */}
+                                    <h3 className="text-massive-mini text-step-2 md:text-step-3 text-white tracking-widest italic transition-all duration-700 group-hover:font-black group-hover:tracking-tighter group-hover:text-highlight-sweep">
                                         {p.statement}
                                     </h3>
 
-                                    <p className="text-body text-step-0 text-muted leading-relaxed font-light group-hover:text-white transition-colors">
+                                    <p className="text-body text-step-0 text-muted leading-relaxed font-light group-hover:text-white group-hover:opacity-100 transition-all duration-500 opacity-60">
                                         {p.details}
                                     </p>
 

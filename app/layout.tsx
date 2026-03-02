@@ -123,12 +123,61 @@ export function CustomCursor() {
 }
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-  const { scrollYProgress } = useScroll();
+  const [isMounted, setIsMounted] = useState(false);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const smoothMouseX = useSpring(mouseX, { damping: 50, stiffness: 400 });
+  const smoothMouseY = useSpring(mouseY, { damping: 50, stiffness: 400 });
+
+  const { scrollY, scrollYProgress } = useScroll();
+  const [scrollVelocityValue, setScrollVelocityValue] = useState(0);
+
+  useEffect(() => {
+    setIsMounted(true);
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
+    };
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+
+    // PHASE 8: REACTIVE BACKGROUND INTENSITY (SCROLL VELOCITY)
+    let lastScroll = 0;
+    const scrollInterval = setInterval(() => {
+      const current = scrollY.get();
+      const velocity = Math.abs(current - lastScroll);
+      setScrollVelocityValue(Math.min(velocity / 100, 1));
+      lastScroll = current;
+    }, 100);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      clearInterval(scrollInterval);
+    };
+  }, [mouseX, mouseY, scrollY]);
+
   const gridShiftY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
+
+  // PHASE 1: REACTIVE GRID DISTORTION
+  const gridBendX = useTransform(smoothMouseX, (v) => {
+    if (typeof window === "undefined") return 0;
+    return (v / window.innerWidth - 0.5) * 2;
+  });
+  const gridBendY = useTransform(smoothMouseY, (v) => {
+    if (typeof window === "undefined") return 0;
+    return (v / window.innerHeight - 0.5) * 2;
+  });
+
   // PHASE 116.10: SUBTLE PERSPECTIVE SHIFT
   const sceneTiltX = useTransform(scrollYProgress, [0, 1], [0, 1.5]);
-  const { setActiveSection, activeSection } = useScene();
+  const { setActiveSection, activeSection, isFocusing } = useScene();
+
+  // PHASE 2: DYNAMIC LIGHTING RESPONSE (IMAGINARY KEY LIGHT)
+  const lightX = useTransform(smoothMouseX, (v) => (v / (typeof window !== 'undefined' ? window.innerWidth : 1) - 0.5) * 40);
+  const lightY = useTransform(smoothMouseY, (v) => (v / (typeof window !== 'undefined' ? window.innerHeight : 1) - 0.5) * 40);
+
+  // PHASE 7: DEPTH FOCUS SHIFT ON SCROLL
+  const bgBlur = useTransform(scrollYProgress, [0, 1], ["blur(0px)", "blur(2px)"]);
+  const mainContrast = useTransform(scrollYProgress, [0, 1], ["contrast(1)", "contrast(1.05)"]);
 
   useEffect(() => {
     const sections = ["hero", "about", "projects", "focus", "contact"];
@@ -144,49 +193,91 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
     return () => observers.forEach(o => o?.disconnect());
   }, [setActiveSection]);
 
-  // PHASE 10: DYNAMIC AMBIENT TONE SHIFT
-  const getEnvColor = (section: string) => {
+  // PHASE 10: DYNAMIC AMBIENT TONE SHIFT + PHASE 8 INTENSITY
+  const getEnvColor = (section: string, velocity: number) => {
+    let base = "#030303";
     switch (section) {
-      case "hero": return "#030303";
-      case "projects": return "#020305"; // slightly cooler
-      case "about": return "#040302"; // slightly warmer
-      case "focus": return "#020303"; // subtle teal
-      case "contact": return "#040202"; // subtle warm
-      default: return "#030303";
+      case "hero": base = "#030303"; break;
+      case "projects": base = "#020305"; break;
+      case "about": base = "#040302"; break;
+      case "focus": base = "#020303"; break;
+      case "contact": base = "#040202"; break;
     }
+    // Deepen tone slightly when scrolling fast
+    if (velocity > 0.1) return `color-mix(in srgb, ${base}, black ${velocity * 5}%)`;
+    return base;
   };
 
   return (
     <>
       <SmoothScroll />
 
-      {/* PHASE 1 & 10: BASE TONE SHIFT */}
+      {/* PHASE 1 & 10: BASE TONE SHIFT (DIMMED IF FOCUSING) */}
       <motion.div
-        animate={{ backgroundColor: getEnvColor(activeSection) }}
+        animate={{
+          backgroundColor: getEnvColor(activeSection, scrollVelocityValue),
+          opacity: isFocusing ? 0.92 : 1
+        }}
         transition={{ duration: 1.5, ease: GLOBAL_EASE }}
         className="fixed inset-0 z-[-5] pointer-events-none"
       />
 
-      {/* PHASE 12: MESH REFINEMENT (SUBTLE DUST/MESH) */}
-      <div className="fixed inset-0 z-[-4] pointer-events-none opacity-50 overflow-hidden mix-blend-screen">
+      {/* PHASE 2 & 5: DYNAMIC LIGHTING OVERLAY (SYNCED AMBIENT TEMPO) */}
+      <motion.div
+        style={{ x: lightX, y: lightY }}
+        animate={{ opacity: [0.02, 0.04, 0.02] }}
+        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+        className="fixed inset-[-10%] z-[-4] pointer-events-none bg-radial-glow mix-blend-overlay"
+      />
+
+      {/* PHASE 5 & 12: MESH REFINEMENT (SYNCED PULSE) */}
+      <motion.div
+        animate={{ opacity: [0.4, 0.6, 0.4] }}
+        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+        className="fixed inset-0 z-[-4] pointer-events-none overflow-hidden mix-blend-screen"
+      >
         <div className="absolute w-[50vw] h-[50vw] bg-white opacity-5 left-0 top-0 rounded-full blur-[100px]" />
         <div className="absolute w-[40vw] h-[40vw] bg-white opacity-2 right-0 bottom-0 rounded-full blur-[100px]" />
-      </div>
-
-      {/* PHASE 8 & 117.3: SPATIAL GRID SYSTEM OVERLAY */}
+      </motion.div>
+      {/* PHASE 8, 117.3, 121.1 & 122.7: REACTIVE GRID DISTORTION With DEPTH BLUR */}
       <motion.div
-        style={{ y: gridShiftY }}
-        className="fixed inset-[-10%] z-[-2] pointer-events-none opacity-[0.4]"
+        style={{
+          y: gridShiftY,
+          x: isMounted ? gridBendX : 0,
+          skewY: isMounted ? gridBendY : 0,
+          rotate: isMounted ? gridBendX : 0,
+          filter: bgBlur
+        }}
+        className="fixed inset-[-10%] z-[-2] pointer-events-none opacity-[0.2]"
       >
         <div className="w-full h-full grid-blueprint transition-opacity duration-1000" />
       </motion.div>
 
       <BrutalistNavbar />
 
-      {/* PHASE 118.4 & 120.13: ZERO-BUG ROUTE TRANSITION */}
-      <main className="relative z-10 w-full min-h-screen origin-top pt-24">
+      {/* PHASE 118.4, 120.13, 121.10 & 122.1: SECTION ENTRY / FOCUS WRAPPER */}
+      <motion.main
+        key={activeSection}
+        initial={{ opacity: 0.95, scale: 0.99 }}
+        animate={{
+          opacity: 1,
+          scale: 1,
+        }}
+        style={{ filter: mainContrast }}
+        transition={{ duration: 0.4, ease: GLOBAL_EASE }}
+        className="relative z-10 w-full min-h-screen origin-top pt-24"
+      >
         {children}
-      </main>
+      </motion.main>
+
+      {/* PHASE 3: CINEMATIC OVERLAY CURTAIN */}
+      <motion.div
+        key={`curtain-${activeSection}`}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: [0, 0.4, 0] }}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
+        className="fixed inset-0 z-[99999] bg-black pointer-events-none backdrop-blur-sm"
+      />
 
       <CustomCursor />
       <HUDOverlay />
