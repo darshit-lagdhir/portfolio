@@ -1,23 +1,48 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
 import { useScene } from "@/context/SceneContext";
 
-const GLOBAL_EASE = [0.25, 1, 0.5, 1] as [number, number, number, number];
+const GLOBAL_EASE = [0.33, 1, 0.68, 1] as [number, number, number, number];
 
 export default function BrutalistHero() {
     const sectionRef = useRef<HTMLElement>(null);
     const { setActiveSection } = useScene();
+
+    // MOUSE PARALLAX — PHASE 4
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+    const smoothMouseX = useSpring(mouseX, { damping: 50, stiffness: 400 });
+    const smoothMouseY = useSpring(mouseY, { damping: 50, stiffness: 400 });
+
+    const rotateX = useTransform(smoothMouseY, [-0.5, 0.5], [0.4, -0.4]);
+    const rotateY = useTransform(smoothMouseX, [-0.5, 0.5], [-0.4, 0.4]);
+
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            const { clientX, clientY } = e;
+            const { innerWidth, innerHeight } = window;
+            mouseX.set(clientX / innerWidth - 0.5);
+            mouseY.set(clientY / innerHeight - 0.5);
+        };
+        window.addEventListener("mousemove", handleMouseMove);
+        return () => window.removeEventListener("mousemove", handleMouseMove);
+    }, []);
+
     const { scrollYProgress } = useScroll({
         target: sectionRef,
         offset: ["start start", "end start"]
     });
 
-    // PHASE 3 — DEPTH CONTROL
-    const textScale = useTransform(scrollYProgress, [0, 1], [1, 0.85]);
-    const textOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-    const verticalShift = useTransform(scrollYProgress, [0, 1], ["0px", "-200px"]);
+    // DEPTH SCALES — PHASE 4
+    const heroScale = useTransform(scrollYProgress, [0, 1], [1, 0.92]);
+    const mainTextOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+    const stackTextOpacity = useTransform(scrollYProgress, [0, 0.4], [0.15, 0]);
+
+    // LAYERED PARALLAX — PHASE 4
+    const frontY = useTransform(scrollYProgress, [0, 1], ["0%", "-10%"]);
+    const backY = useTransform(scrollYProgress, [0, 1], ["0%", "-25%"]);
 
     return (
         <section
@@ -26,42 +51,72 @@ export default function BrutalistHero() {
             id="hero"
             onPointerEnter={() => setActiveSection("hero")}
         >
-            <div className="grid grid-cols-12 gap-10 items-end w-full max-w-[1800px] mx-auto pt-32">
+            {/* BREATHING BACKGROUND — PHASE 4 */}
+            <motion.div
+                animate={{ scale: [1, 1.005, 1] }}
+                transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-0 z-0 pointer-events-none opacity-20"
+                style={{
+                    background: "radial-gradient(circle at 50% 50%, rgba(255,255,255,0.03) 0%, transparent 70%)"
+                }}
+            />
 
-                {/* LEFT 60% — TYPOGRAPHIC DOMINANCE */}
-                <motion.div
-                    style={{ scale: textScale, opacity: textOpacity, y: verticalShift }}
-                    className="col-span-12 lg:col-span-8 flex flex-col items-start gap-4 z-10"
-                >
-                    <div className="overflow-hidden">
+            <motion.div
+                style={{ scale: heroScale, rotateX, rotateY, perspective: 1000 }}
+                className="grid grid-cols-12 gap-10 items-end w-full max-w-[1800px] mx-auto pt-32"
+            >
+                {/* LEFT 60% — TYPOGRAPHIC STACKING — PHASE 4 */}
+                <div className="col-span-12 lg:col-span-8 flex flex-col items-start gap-0 z-10">
+
+                    {/* DARSHIT LAYER STACK */}
+                    <div className="relative group overflow-visible">
+                        {/* BACK LAYER */}
+                        <motion.span
+                            style={{ y: backY, opacity: stackTextOpacity }}
+                            className="absolute -top-4 -left-2 text-massive italic text-white depth-layer select-none pointer-events-none"
+                        >
+                            DARSHIT
+                        </motion.span>
+                        {/* FRONT LAYER */}
                         <motion.h1
                             initial={{ y: "110%" }}
                             animate={{ y: 0 }}
-                            transition={{ duration: 1, ease: GLOBAL_EASE }}
-                            className="text-massive italic leading-[0.75] -ml-[0.05em] whitespace-nowrap"
+                            style={{ y: frontY, opacity: mainTextOpacity }}
+                            transition={{ duration: 1.2, ease: GLOBAL_EASE }}
+                            className="text-massive italic leading-[0.8] -ml-[0.05em] whitespace-nowrap relative z-10"
                         >
                             DARSHIT
                         </motion.h1>
                     </div>
 
-                    <div className="overflow-hidden pl-[15vw]">
+                    {/* LAGDHIR LAYER STACK */}
+                    <div className="relative group overflow-visible mt-2 pl-[15vw]">
+                        {/* BACK LAYER */}
+                        <motion.span
+                            style={{ y: backY, opacity: stackTextOpacity, scale: 0.98 }}
+                            className="absolute -top-4 -left-2 text-massive text-white depth-layer select-none pointer-events-none"
+                        >
+                            LAGDHIR
+                        </motion.span>
+                        {/* FRONT LAYER */}
                         <motion.h1
                             initial={{ y: "110%" }}
                             animate={{ y: 0 }}
-                            transition={{ duration: 1, delay: 0.2, ease: GLOBAL_EASE }}
-                            className="text-massive text-white leading-[0.75] whitespace-nowrap"
+                            style={{ y: frontY, opacity: mainTextOpacity }}
+                            transition={{ duration: 1.2, delay: 0.1, ease: GLOBAL_EASE }}
+                            className="text-massive text-white leading-[0.8] whitespace-nowrap relative z-10"
                         >
                             LAGDHIR
                         </motion.h1>
                     </div>
 
                     <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 0.5 }}
-                        transition={{ duration: 1, delay: 1 }}
-                        className="divider-h mt-20"
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: 1 }}
+                        transition={{ duration: 1.5, delay: 1, ease: GLOBAL_EASE }}
+                        className="divider-h mt-20 opacity-30"
                     />
-                </motion.div>
+                </div>
 
                 {/* RIGHT 40% — ARCHITECTURAL TENSION */}
                 <motion.div
@@ -88,7 +143,7 @@ export default function BrutalistHero() {
                         </p>
                     </div>
                 </motion.div>
-            </div>
+            </motion.div>
 
             {/* ASYMMETRIC OVERFLOW DECOR (TIER 3) */}
             <motion.div

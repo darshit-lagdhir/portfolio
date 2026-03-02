@@ -14,37 +14,83 @@ export function CustomCursor() {
   const dotX = useSpring(mouseX, { damping: 30, stiffness: 800 });
   const dotY = useSpring(mouseY, { damping: 30, stiffness: 800 });
   const ringX = useSpring(mouseX, { damping: 40, stiffness: 400 });
-  const ringY = useSpring(mouseY, { damping: 40, stiffness: 400 });
+  // PHASE 4 — REFINED CURSOR MOTION VALUES
+  const mouse = {
+    x: useMotionValue(-100),
+    y: useMotionValue(-100),
+  };
+  const ring = {
+    x: useSpring(mouse.x, { damping: 40, stiffness: 400 }),
+    y: useSpring(mouse.y, { damping: 40, stiffness: 400 }),
+  };
 
-  const [isHovering, setIsHovering] = useState(false);
+  const [cursorVariant, setCursorVariant] = useState("default");
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
-    const handleMouseMove = (e: MouseEvent) => {
-      mouseX.set(e.clientX);
-      mouseY.set(e.clientY);
-      const target = e.target as Element;
-      setIsHovering(!!target?.closest("a, button, [role='button'], [data-project='true']"));
+    const moveMouse = (e: MouseEvent) => {
+      mouse.x.set(e.clientX);
+      mouse.y.set(e.clientY);
+
+      // STATE DETECTION
+      const target = e.target as HTMLElement;
+      const isLink = target.closest("a, button, [role='button']");
+      const isProject = target.closest("[data-project='true']");
+      const isWhiteSection = target.closest(".bg-white");
+
+      if (isProject) setCursorVariant("project");
+      else if (isLink) setCursorVariant("link");
+      else setCursorVariant("default");
+
+      // INVERSION LOGIC
+      if (isWhiteSection) document.body.classList.add("cursor-invert");
+      else document.body.classList.remove("cursor-invert");
     };
 
-    window.addEventListener("mousemove", handleMouseMove, { passive: true });
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [mouseX, mouseY]);
+    window.addEventListener("mousemove", moveMouse, { passive: true });
+    return () => window.removeEventListener("mousemove", moveMouse);
+  }, [mouse.x, mouse.y]);
+
+  const variants = {
+    default: {
+      width: 40,
+      height: 40,
+      borderRadius: "100%",
+      borderWidth: "1px",
+      backgroundColor: "rgba(255, 255, 255, 0)",
+    },
+    link: {
+      width: 80,
+      height: 80,
+      borderRadius: "100%",
+      borderWidth: "1px",
+      backgroundColor: "rgba(255, 255, 255, 0.1)",
+    },
+    project: {
+      width: 100,
+      height: 100,
+      borderRadius: "4px",
+      borderWidth: "2px",
+      backgroundColor: "rgba(255, 255, 255, 0.05)",
+    },
+  };
 
   if (!isMounted) return null;
 
   return (
     <>
+      {/* PHASE 4 — REFINED CURSOR */}
       <motion.div
-        style={{ x: dotX, y: dotY, translateX: "-50%", translateY: "-50%" }}
-        animate={{ scale: isHovering ? 0 : 1 }}
-        className="fixed top-0 left-0 w-1.5 h-1.5 bg-white rounded-full z-[100000] pointer-events-none cursor-invert"
+        className="fixed top-0 left-0 w-4 h-4 bg-white rounded-full pointer-events-none z-[9999] mix-blend-difference"
+        style={{ x: mouse.x, y: mouse.y, translateX: "-50%", translateY: "-50%" }}
       />
       <motion.div
-        style={{ x: ringX, y: ringY, translateX: "-50%", translateY: "-50%" }}
-        animate={{ scale: isHovering ? 2 : 1 }}
-        className="fixed top-0 left-0 w-8 h-8 border border-white rounded-full z-[100000] pointer-events-none cursor-invert"
+        className="fixed top-0 left-0 border border-white pointer-events-none z-[9998] mix-blend-difference"
+        animate={cursorVariant}
+        variants={variants}
+        transition={{ duration: 0.4, ease: [0.33, 1, 0.68, 1] }}
+        style={{ x: ring.x, y: ring.y, translateX: "-50%", translateY: "-50%" }}
       />
     </>
   );
@@ -52,6 +98,18 @@ export function CustomCursor() {
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
   const { scrollYProgress } = useScroll();
+  const [showGrid, setShowGrid] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key.toLowerCase() === "g") setShowGrid((prev) => !prev);
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   return (
     <>
@@ -69,6 +127,9 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
           className="w-full h-full bg-white"
         />
       </div>
+
+      {/* PHASE 4 — ARCHITECTURAL GRID */}
+      <div className={`grid-overlay ${showGrid ? "visible" : ""}`} />
     </>
   );
 }

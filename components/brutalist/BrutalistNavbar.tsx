@@ -41,28 +41,37 @@ export default function BrutalistNavbar() {
                     <span className="text-medium text-white font-ui tracking-tight italic">DARSHIT.L</span>
                 </Link>
 
-                {/* SECTION INDEX — RIGHT ALIGNED */}
+                {/* SECTION INDEX — RIGHT ALIGNED — PHASE 4 */}
                 <div className="hidden md:flex gap-12 items-baseline">
-                    {navLinks.map((link) => {
+                    {navLinks.map((link, i) => {
                         const isActive = activeSection === link.id;
 
                         return (
-                            <Link
+                            <motion.div
                                 key={link.name}
-                                href={link.href}
-                                className={`
-                                    relative text-micro font-bold tracking-[0.4em] transition-all duration-300
-                                    font-ui ${isActive ? "text-white opacity-100" : "text-white/40 hover:text-white/80"} 
-                                `}
+                                whileHover={{ scale: 1.1 }}
+                                className="relative group"
                             >
-                                {link.name}
+                                <Link
+                                    href={link.href}
+                                    className={`
+                                        flex items-baseline gap-2 text-micro font-bold tracking-[0.4em] transition-all duration-300
+                                        font-ui ${isActive ? "text-white opacity-100" : "text-white/40 hover:text-white/80"} 
+                                    `}
+                                >
+                                    <span className={`text-[8px] opacity-40 ${isActive ? "opacity-100 scale-125" : ""} transition-all`}>
+                                        {`0${i + 1}`}
+                                    </span>
+                                    {link.name.replace(/^\d+_/, '')}
+                                </Link>
                                 {isActive && (
                                     <motion.div
                                         layoutId="nav-line"
                                         className="absolute -bottom-2 left-0 w-full h-[2px] bg-white translate-y-1"
+                                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
                                     />
                                 )}
-                            </Link>
+                            </motion.div>
                         );
                     })}
                 </div>

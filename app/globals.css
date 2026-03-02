@@ -15,12 +15,13 @@
   --fs-sub: clamp(1rem, 2vw, 1.5rem);
   --fs-body: 1.125rem;
   --fs-micro: 0.7rem;
+  --white-bg: #ffffff;
+  --black-bg: #000000;
 
-  /* MOTION TOKENS — PHASE 3 PRECISION */
-  --m-fast: 0.2s;
-  --m-med: 0.4s;
-  --m-slow: 0.8s;
-  --m-ease: cubic-bezier(0.25, 1, 0.5, 1);
+  /* MOTION TOKENS — PHASE 4 */
+  --m-ease-out: cubic-bezier(0.33, 1, 0.68, 1);
+  --m-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --m-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
   /* FONTS — STEP 3 STRICT LOCK */
   --font-hero: 'Clash Display', sans-serif;
@@ -69,7 +70,78 @@ body {
 }
 
 .border-inverse {
-  border-color: #000000 !important;
+  border-color: var(--black-bg);
+}
+
+/* PHASE 4 UTILITIES */
+.mask-reveal {
+  overflow: hidden;
+  position: relative;
+}
+
+.mask-inner {
+  display: block;
+}
+
+.white-wipe {
+  position: relative;
+  z-index: 10;
+  background: var(--white-bg);
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1.2s var(--m-ease-out);
+}
+
+.white-wipe.active {
+  clip-path: inset(0 0 0 0);
+}
+
+.magnetic-wrap {
+  display: inline-block;
+  transition: transform 0.3s var(--m-ease-out);
+}
+
+.text-scramble {
+  font-variant-numeric: tabular-nums;
+}
+
+.depth-layer {
+  pointer-events: none;
+  user-select: none;
+}
+
+.flash-invert {
+  animation: flash 0.15s var(--m-ease-out);
+}
+
+@keyframes flash {
+  0% {
+    filter: invert(0);
+  }
+
+  50% {
+    filter: invert(1);
+  }
+
+  100% {
+    filter: invert(0);
+  }
+}
+
+.grid-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 10vw 10vh;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.grid-overlay.visible {
+  opacity: 1;
 }
 
 .grid-poster {

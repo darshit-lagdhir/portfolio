@@ -1,73 +1,113 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
 import { useScene } from "@/context/SceneContext";
 
-const GLOBAL_EASE = [0.25, 1, 0.5, 1] as [number, number, number, number];
+const GLOBAL_EASE = [0.33, 1, 0.68, 1] as [number, number, number, number];
+
+// TEXT SCRAMBLE HOOK — PHASE 4
+const useScramble = (text: string, active: boolean) => {
+    const [display, setDisplay] = useState(text);
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_//";
+
+    useEffect(() => {
+        if (!active) return;
+        let iteration = 0;
+        const interval = setInterval(() => {
+            setDisplay(prev => prev.split("").map((_, i) => {
+                if (i < iteration) return text[i];
+                return chars[Math.floor(Math.random() * chars.length)];
+            }).join(""));
+            if (iteration >= text.length) clearInterval(interval);
+            iteration += 1 / 3;
+        }, 30);
+        return () => clearInterval(interval);
+    }, [active, text]);
+
+    return display;
+};
 
 export default function BrutalistAbout() {
     const { setActiveSection } = useScene();
+    const containerRef = useRef<HTMLElement>(null);
+    const inView = useInView(containerRef, { once: false, amount: 0.1 });
+    const scrambledTitle = useScramble("CORE_SYSTEM_LOGIC", inView);
 
     return (
         <section
+            ref={containerRef}
             id="about"
             onPointerEnter={() => setActiveSection("about")}
-            className="relative min-h-screen flex flex-col justify-center px-[10vw] py-40 border-t border-white"
+            className="relative min-h-screen py-40 overflow-hidden bg-black"
         >
-            <div className="grid grid-cols-12 gap-10 items-start w-full max-w-[1800px] mx-auto">
+            {/* WHITE WIPE TRANSITION — PHASE 4 (STEP 3) */}
+            <div className={`absolute inset-0 z-0 bg-white transition-all duration-1000 ease-out clip-path-wipe ${inView ? "clip-path-full" : "clip-path-empty"}`}
+                style={{
+                    clipPath: inView ? "inset(0 0 0 0)" : "inset(100% 0 0 0)",
+                    transition: "clip-path 1.2s cubic-bezier(0.33, 1, 0.68, 1)"
+                }}
+            />
 
-                {/* LARGE ASYMMETRIC HEADER — PHASE 3 */}
-                <motion.div
-                    initial={{ opacity: 0, x: -50 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, margin: "-10%" }}
-                    transition={{ duration: 1, ease: GLOBAL_EASE }}
-                    className="col-span-12 lg:col-span-10 flex flex-col items-start gap-12"
-                >
-                    <span className="text-micro font-bold tracking-[1em] opacity-40">03_PHILOSOPHY</span>
-                    <h2 className="text-large text-white italic tracking-tighter font-heading leading-[0.85] uppercase max-w-[12ch]">
-                        Logic is the absolute <br />
-                        foundation of <br />
-                        experience.
+            <div className="relative z-10 w-full max-w-[1800px] mx-auto px-[5vw] flex flex-col gap-32">
+
+                {/* SECTION HEADING — TEXT SCRAMBLE — PHASE 4 */}
+                <div className="flex flex-col gap-6 items-start self-start text-black">
+                    <span className="text-micro font-bold tracking-[0.8em] opacity-40">03_IDENTITY</span>
+                    <h2 className={`text-large font-heading italic leading-none uppercase tracking-tighter w-full border-b border-black/10 pb-8 transition-opacity duration-1000 ${inView ? "opacity-100" : "opacity-0"}`}>
+                        {scrambledTitle}
                     </h2>
-                </motion.div>
-
-                {/* TWO-COLUMN STRUCTURAL DESCRIPTION — PHASE 3 */}
-                <div className="col-span-12 lg:col-span-10 grid grid-cols-1 md:grid-cols-2 gap-20 mt-32 border-t border-white/20 pt-16">
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 0.6 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1, delay: 0.4 }}
-                        className="flex flex-col gap-8"
-                    >
-                        <span className="text-micro font-bold tracking-[0.4em] text-white">SYSTEM_LOGIC</span>
-                        <p className="text-short-body italic">
-                            EVERY INTERACTION IS A CALCULATED RESPONSE <br />
-                            TO SYSTEM PERFORMANCE.
-                        </p>
-                    </motion.div>
-
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 0.4 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1, delay: 0.6 }}
-                        className="flex flex-col gap-8"
-                    >
-                        <span className="text-micro font-bold tracking-[0.4em] text-white">VISUAL_ATMOSPHERE</span>
-                        <p className="text-short-body">
-                            I DEFINE THE BOUNDARY <br />
-                            BETWEEN SYSTEM LOGIC <br />
-                            AND VISUAL POWER.
-                        </p>
-                    </motion.div>
                 </div>
 
-                {/* ARCHITECTURAL CORNER BLOCK (TIER 3) */}
-                <div className="absolute right-0 top-0 w-32 h-32 border-l border-b border-white opacity-20 pointer-events-none" />
-                <div className="absolute left-0 bottom-0 w-20 h-[50vh] border-r border-white opacity-10 pointer-events-none" />
+                {/* EDITORIAL OVERFLOW TYPOGRAPHY — PHASE 4 (STEP 12) */}
+                <div className="grid grid-cols-12 gap-10 items-start">
+                    <div className="col-span-12 lg:col-span-11 relative">
+                        <motion.h3
+                            initial={{ x: -100, opacity: 0 }}
+                            whileInView={{ x: -20, opacity: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 1.2, ease: GLOBAL_EASE }}
+                            className="text-[12vw] md:text-[8vw] font-heading font-black text-black leading-[0.85] uppercase -ml-[10vw] whitespace-nowrap"
+                        >
+                            ENGINEERED <br />
+                            <span className="pl-[20vw]">EMOTION.</span>
+                        </motion.h3>
+
+                        <div className="mt-20 grid grid-cols-1 md:grid-cols-2 gap-20">
+                            <motion.p
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 1, delay: 0.4 }}
+                                className="text-short-body text-black/60 italic leading-relaxed"
+                            >
+                                I build systems that live at the intersection of architectural precision and digital expression.
+                                My work is focused on the tension between pure logic and human interaction.
+                            </motion.p>
+                            <motion.p
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 1, delay: 0.6 }}
+                                className="text-short-body text-black/60 italic leading-relaxed"
+                            >
+                                Based in Bangalore, I specialize in systems-focused development, creating
+                                robust backends and expressive frontends that prioritize smoothness and authority.
+                            </motion.p>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            {/* DECORATIVE TERMINAL BLOCK (TIER 3) */}
+            <div className="absolute bottom-20 left-[5vw] flex items-end gap-12 opacity-5 text-black">
+                <span className="text-[15vw] leading-none font-hero font-bold">INFO</span>
+                <div className="flex flex-col gap-2 pb-10">
+                    <span className="text-micro font-bold tracking-widest whitespace-nowrap">STATUS: ARCHITECT_ACTIVE</span>
+                    <span className="text-micro font-bold tracking-widest whitespace-nowrap">LAST_BUILD: MARCH_2024</span>
+                </div>
+            </div>
+
         </section>
     );
 }
