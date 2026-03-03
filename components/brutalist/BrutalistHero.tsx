@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
-import { useRef, useEffect, useState, useCallback } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useScene } from "@/context/SceneContext";
 
 const GLOBAL_EASE = [0.33, 1, 0.68, 1] as [number, number, number, number];
@@ -32,9 +32,6 @@ export default function BrutalistHero() {
         offset: ["start start", "end start"]
     });
 
-    // Weight interpolates slightly: 300 (thin) to 500 (normal)
-    const fontWeight = useTransform(scrollYProgress, [0, 0.2], [400, 600]);
-
     // PHASE 7: LINE SYSTEM (Architectural Spine)
     const spineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
@@ -58,69 +55,21 @@ export default function BrutalistHero() {
     const frontY = useTransform(scrollYProgress, [0, 1], ["0%", "-10%"]);
     const backY = useTransform(scrollYProgress, [0, 1], ["0%", "-25%"]);
 
-    // PHASE 7: LETTER PRESSURE
+    // PHASE 7: LETTER PRESSURE DISTORTION (FIXED — BOLD)
     const textArray1 = "DARSHIT".split("");
     const textArray2 = "LAGDHIR".split("");
 
     const Letter = ({ char, index, total }: { char: string, index: number, total: number }) => {
-        // Approximate distance based on array index relative to mouse position (-0.5 to 0.5)
-        const relPos = index / total; // 0 to 1
-        // Map mouseX (-0.5 to 0.5) to (0 to 1) 
+        const relPos = index / total;
         const mappedMouse = useTransform(smoothMouseX, x => x + 0.5);
         const dist = useTransform(mappedMouse, m => Math.abs(m - relPos));
-
-        // Pressure affects nearby letters (dist < 0.2)
-        const pressureY = useTransform(dist, [0, 0.2], [index % 2 === 0 ? 6 : -6, 0]);
-        const smoothPressureY = useSpring(pressureY, { damping: 20, stiffness: 300 });
+        const pressureY = useTransform(dist, [0, 0.15], [index % 2 === 0 ? 4 : -4, 0]);
+        const smoothPressureY = useSpring(pressureY, { damping: 25, stiffness: 300 });
 
         return (
             <motion.span style={{ display: "inline-block", y: smoothPressureY }}>{char}</motion.span>
         );
     };
-
-    // PHASE 7: SLICE TEXT EFFECT
-    const SliceReveal = ({ text, delay }: { text: string[], delay: number }) => (
-        <div className="relative">
-            {/* TOP SLICE */}
-            <motion.div
-                initial={{ y: "100%", clipPath: "inset(0 0 100% 0)" }}
-                animate={{ y: "0%", clipPath: "inset(0 0 50% 0)" }}
-                transition={{ duration: 0.8, delay: delay, ease: GLOBAL_EASE }}
-                className="absolute inset-0 flex"
-            >
-                {text.map((char, i) => <Letter key={i} char={char} index={i} total={text.length} />)}
-            </motion.div>
-            {/* BOTTOM SLICE */}
-            <motion.div
-                initial={{ y: "-100%", clipPath: "inset(100% 0 0 0)" }}
-                animate={{ y: "0%", clipPath: "inset(50% 0 0 0)" }}
-                transition={{ duration: 0.8, delay: delay + 0.05, ease: GLOBAL_EASE }}
-                className="flex"
-            >
-                {text.map((char, i) => <Letter key={i} char={char} index={i} total={text.length} />)}
-            </motion.div>
-        </div>
-    );
-
-    // PHASE 8 STEP 9: LETTER TRAIL
-    const [trailLetters, setTrailLetters] = useState<{ char: string, x: number, y: number, id: number }[]>([]);
-    const trailIdRef = useRef(0);
-
-    const handleHeroMouseMove = useCallback((e: React.MouseEvent) => {
-        const rect = sectionRef.current?.getBoundingClientRect();
-        if (!rect) return;
-        const relX = e.clientX - rect.left;
-        const relY = e.clientY - rect.top;
-        // Only spawn trail near the headline area (top 60%)
-        if (relY > rect.height * 0.7) return;
-        const chars = "DARSHITLAGDHIR";
-        const char = chars[Math.floor(Math.random() * chars.length)];
-        const id = trailIdRef.current++;
-        setTrailLetters(prev => [...prev.slice(-6), { char, x: relX, y: relY, id }]);
-        setTimeout(() => {
-            setTrailLetters(prev => prev.filter(t => t.id !== id));
-        }, 400);
-    }, []);
 
     return (
         <section
@@ -128,7 +77,6 @@ export default function BrutalistHero() {
             className="relative h-[110vh] flex flex-col justify-center overflow-hidden bg-background px-[5vw] section-boundary-flash"
             id="hero"
             onPointerEnter={() => setActiveSection("hero")}
-            onMouseMove={handleHeroMouseMove}
         >
             {/* BREATHING BACKGROUND — PHASE 4 */}
             <motion.div
@@ -145,22 +93,6 @@ export default function BrutalistHero() {
                 <motion.div style={{ height: spineHeight }} className="w-full bg-white" />
             </div>
 
-            {/* PHASE 8 STEP 9: LETTER TRAIL LAYER */}
-            <div className="absolute inset-0 z-[5] pointer-events-none">
-                {trailLetters.map(t => (
-                    <motion.span
-                        key={t.id}
-                        initial={{ opacity: 0.15, scale: 1.2 }}
-                        animate={{ opacity: 0, scale: 0.8, y: -20 }}
-                        transition={{ duration: 0.4, ease: "easeOut" }}
-                        className="absolute text-massive italic text-white/10 pointer-events-none select-none glitch-safe"
-                        style={{ left: t.x, top: t.y, transform: "translate(-50%, -50%)" }}
-                    >
-                        {t.char}
-                    </motion.span>
-                ))}
-            </div>
-
             <motion.div
                 style={{ scale: heroScale, rotateX, rotateY, perspective: 1000 }}
                 className="grid grid-cols-12 gap-10 items-end w-full max-w-[1800px] mx-auto pt-32"
@@ -170,55 +102,63 @@ export default function BrutalistHero() {
 
                     {/* DARSHIT LAYER STACK */}
                     <div className="relative group overflow-visible preserve-3d">
-                        {/* BACK LAYER - THIN FRAME SHADOW */}
+                        {/* GREY SHADOW LAYER — VISIBLE DEPTH */}
                         <motion.span
-                            style={{ y: backY, opacity: stackTextOpacity, z: -50, fontWeight }}
-                            className="absolute text-massive italic text-white/10 depth-layer select-none pointer-events-none perspective-tilt text-shadow-architectural flex"
+                            style={{ y: backY, opacity: stackTextOpacity, z: -50 }}
+                            className="absolute text-massive italic depth-layer select-none pointer-events-none perspective-tilt"
+                            aria-hidden
                         >
-                            {textArray1.join("")}
+                            <span style={{ color: 'transparent', textShadow: '0 0 80px rgba(255,255,255,0.15), 0 0 40px rgba(255,255,255,0.08)' }}>
+                                DARSHIT
+                            </span>
                         </motion.span>
-                        {/* MID LAYER - SHADOW */}
+                        {/* MID LAYER - GREY SHADOW */}
                         <motion.span
-                            style={{ y: backY, opacity: stackTextOpacity, z: -25, fontWeight }}
-                            className="absolute -top-2 -left-1 text-massive italic text-white/30 depth-layer select-none pointer-events-none perspective-tilt flex"
+                            style={{ y: backY, opacity: stackTextOpacity, z: -25 }}
+                            className="absolute -top-2 -left-1 text-massive italic text-white/20 depth-layer select-none pointer-events-none perspective-tilt"
                         >
-                            {textArray1.join("")}
+                            DARSHIT
                         </motion.span>
-                        {/* FRONT LAYER - FOREGROUND + PHASE 8 GLITCH */}
+                        {/* FRONT LAYER - BOLD + PRESSURE + GLITCH + GREY SHADOW */}
                         <motion.h1
-                            initial={{ translateZ: 50 }}
-                            animate={{ translateZ: 50 }}
-                            style={{ y: frontY, opacity: mainTextOpacity, fontWeight }}
-                            className={`text-massive italic leading-[0.8] -ml-[0.05em] whitespace-nowrap relative z-10 perspective-tilt flex glitch-safe ${glitchFired ? 'hero-glitch-once' : ''}`}
+                            initial={{ y: "110%", translateZ: 50 }}
+                            animate={{ y: 0, translateZ: 50 }}
+                            style={{ y: frontY, opacity: mainTextOpacity, textShadow: '4px 4px 30px rgba(150,150,150,0.25), 0 0 60px rgba(200,200,200,0.1)' }}
+                            transition={{ duration: 1.2, ease: GLOBAL_EASE }}
+                            className={`text-massive italic leading-[0.8] -ml-[0.05em] whitespace-nowrap relative z-10 perspective-tilt glitch-safe ${glitchFired ? 'hero-glitch-once' : ''}`}
                         >
-                            <SliceReveal text={textArray1} delay={0} />
+                            {textArray1.map((char, i) => <Letter key={i} char={char} index={i} total={textArray1.length} />)}
                         </motion.h1>
                     </div>
 
                     {/* LAGDHIR LAYER STACK */}
                     <div className="relative group overflow-visible mt-2 pl-[15vw] preserve-3d">
-                        {/* BACK LAYER */}
+                        {/* GREY SHADOW LAYER — VISIBLE DEPTH */}
                         <motion.span
-                            style={{ y: backY, opacity: stackTextOpacity, scale: 0.98, z: -50, fontWeight }}
-                            className="absolute text-massive text-white/10 depth-layer select-none pointer-events-none perspective-tilt flex"
+                            style={{ y: backY, opacity: stackTextOpacity, scale: 0.98, z: -50 }}
+                            className="absolute text-massive depth-layer select-none pointer-events-none perspective-tilt"
+                            aria-hidden
                         >
-                            {textArray2.join("")}
+                            <span style={{ color: 'transparent', textShadow: '0 0 80px rgba(255,255,255,0.15), 0 0 40px rgba(255,255,255,0.08)' }}>
+                                LAGDHIR
+                            </span>
                         </motion.span>
-                        {/* MID LAYER */}
+                        {/* MID LAYER - GREY SHADOW */}
                         <motion.span
-                            style={{ y: backY, opacity: stackTextOpacity, scale: 0.98, z: -25, fontWeight }}
-                            className="absolute -top-2 -left-1 text-massive text-white/30 depth-layer select-none pointer-events-none perspective-tilt flex"
+                            style={{ y: backY, opacity: stackTextOpacity, scale: 0.98, z: -25 }}
+                            className="absolute -top-2 -left-1 text-massive text-white/20 depth-layer select-none pointer-events-none perspective-tilt"
                         >
-                            {textArray2.join("")}
+                            LAGDHIR
                         </motion.span>
-                        {/* FRONT LAYER + PHASE 8 GLITCH */}
+                        {/* FRONT LAYER - BOLD + PRESSURE + GLITCH + GREY SHADOW */}
                         <motion.h1
-                            initial={{ translateZ: 50 }}
-                            animate={{ translateZ: 50 }}
-                            style={{ y: frontY, opacity: mainTextOpacity, fontWeight }}
-                            className={`text-massive text-white leading-[0.8] whitespace-nowrap relative z-10 perspective-tilt flex glitch-safe ${glitchFired ? 'hero-glitch-once' : ''}`}
+                            initial={{ y: "110%", translateZ: 50 }}
+                            animate={{ y: 0, translateZ: 50 }}
+                            style={{ y: frontY, opacity: mainTextOpacity, textShadow: '4px 4px 30px rgba(150,150,150,0.25), 0 0 60px rgba(200,200,200,0.1)' }}
+                            transition={{ duration: 1.2, delay: 0.1, ease: GLOBAL_EASE }}
+                            className={`text-massive text-white leading-[0.8] whitespace-nowrap relative z-10 perspective-tilt glitch-safe ${glitchFired ? 'hero-glitch-once' : ''}`}
                         >
-                            <SliceReveal text={textArray2} delay={0.1} />
+                            {textArray2.map((char, i) => <Letter key={i} char={char} index={i} total={textArray2.length} />)}
                         </motion.h1>
                     </div>
 
