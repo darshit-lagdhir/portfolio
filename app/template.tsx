@@ -36,24 +36,24 @@ export default function Template({ children }: { children: React.ReactNode }) {
 
     const ease = [0.16, 1, 0.3, 1] as const;
 
-    // PHASE 5: DIMENSIONAL Z-LAYER ENTRY
-    // Strict adherence to Z-depth + opacity only. No blur (Performance Safety)
+    // PHASE 6: MASK REVEAL ENTRY (STEP 2)
     const variants = {
         initial: (dir: string) => ({
-            opacity: 0,
-            scale: dir === "forward" ? 0.98 : 1.02,
-            translateZ: dir === "forward" ? -100 : 100, // Depth drop
+            clipPath: dir === "forward" ? "inset(100% 0 0 0)" : "inset(0 0 100% 0)",
+            translateY: dir === "forward" ? "20%" : "-20%",
+            zIndex: 10,
         }),
         animate: {
-            opacity: 1,
-            scale: 1,
-            translateZ: 0,
+            clipPath: "inset(0% 0 0 0)",
+            translateY: "0%",
+            zIndex: 10,
             transition: { duration, ease, delay: 0.1 }
         },
         exit: (dir: string) => ({
-            opacity: 0,
-            scale: dir === "forward" ? 1.02 : 0.98,
-            translateZ: dir === "forward" ? 100 : -100,
+            clipPath: dir === "forward" ? "inset(0 0 100% 0)" : "inset(100% 0 0 0)",
+            translateY: dir === "forward" ? "-20%" : "20%",
+            zIndex: 0,
+            transition: { duration: duration * 0.8, ease }
         }),
     };
 

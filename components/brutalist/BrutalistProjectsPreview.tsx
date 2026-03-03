@@ -109,12 +109,17 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
         >
             <Link href={project.href} className="flex flex-col md:flex-row md:items-center justify-between py-16 gap-8 px-4 group-hover:bg-black group-hover:text-white transition-colors duration-200">
 
-                {/* ID + TITLE — MASK REVEAL — PHASE 4 */}
-                <div className="flex items-center gap-12 mask-reveal overflow-visible">
-                    <span className="text-[14px] font-bold opacity-30 group-hover:opacity-100">{project.id}</span>
+                {/* ID + TITLE — SCALED FRAMED TEXT — PHASE 6 */}
+                <div className="flex items-center gap-12 mask-reveal overflow-visible origin-left">
+                    <motion.span
+                        animate={{ letterSpacing: isHovered ? "0.2em" : "0.02em", x: isHovered ? 20 : 0 }}
+                        className="text-[14px] font-bold opacity-30 group-hover:opacity-100 transition-all duration-300"
+                    >
+                        {project.id}
+                    </motion.span>
                     <motion.h3
-                        animate={{ letterSpacing: isHovered ? "0.15em" : "0.02em" }}
-                        className="text-large-mini md:text-large font-heading italic uppercase transition-all duration-500"
+                        animate={{ letterSpacing: isHovered ? "0.08em" : "0.02em", scale: isHovered ? 1.05 : 1 }}
+                        className="text-large-mini md:text-large font-heading italic uppercase transition-all duration-300 origin-left"
                     >
                         {project.name}
                     </motion.h3>

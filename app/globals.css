@@ -50,13 +50,46 @@
   -webkit-font-smoothing: antialiased;
 }
 
-html,
+html.lenis,
+html.lenis body {
+  height: auto;
+  min-height: 100%;
+}
+
+html {
+  scrollbar-width: none;
+}
+
 body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-body);
   overflow-x: hidden;
   line-height: 1.4;
+  -ms-overflow-style: none;
+  /* Keep cleaner */
+}
+
+/* SECTION CHOREOGRAPHY — PHASE 6 */
+.section-frame-outer {
+  position: relative;
+  background-color: var(--black-bg);
+  width: 100vw;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.gallery-inset {
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  margin: 1vh 1vw;
+  /* Frame inset */
+  border-radius: 4px;
+}
+
+.page-fade {
+  position: relative;
+  width: 100%;
 }
 
 /* COMPOSITION UTILITIES */

@@ -144,8 +144,9 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  // Use suppressHydrationWarning effectively allowing runtime script DOM extensions like class injection
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className="antialiased selection:bg-white selection:text-black bg-[#000000] text-white overflow-x-hidden uppercase">
         <SceneProvider>
           <LayoutContent>{children}</LayoutContent>
