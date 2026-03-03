@@ -32,9 +32,14 @@ export default function MoveXPage() {
                         <span className="text-micro font-bold text-white tracking-[0.8em]">
                             01_LOGISTICS // MECHANICAL_SYNC
                         </span>
-                        <h1 className="text-large md:text-massive italic text-white font-heading leading-none uppercase tracking-tight-title">
+                        <motion.h1
+                            initial={{ scaleX: 1.5, opacity: 0 }}
+                            animate={{ scaleX: 1, opacity: 1 }}
+                            transition={{ duration: 0.2, ease: "easeOut" }}
+                            className="text-large md:text-massive italic text-white font-heading leading-none uppercase tracking-tight-title origin-left"
+                        >
                             MOVEX_SYSTEM
-                        </h1>
+                        </motion.h1>
                         <p className="text-short-body text-white/40 italic">
                             Modular backend infrastructure for role-isolated logistics management. Built with Node.js and PostgreSQL.
                         </p>

@@ -100,11 +100,20 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   const { scrollY, scrollYProgress } = useScroll();
   const [showGrid, setShowGrid] = useState(false);
 
-  // PHASE 5: PERSPECTIVE SCROLL SHIFT (STEP 6)
+  // PHASE 5 & 7: ADVANCED SCROLL PHYSICS
   const { useVelocity, useSpring, useTransform } = require("framer-motion");
   const scrollVelocity = useVelocity(scrollY);
   const smoothVelocity = useSpring(scrollVelocity, { damping: 50, stiffness: 400 });
-  const scrollTiltX = useTransform(smoothVelocity, [-2000, 2000], [-1.5, 1.5]); // Microscopic tilt
+
+  // STEP 6: Microscopic tilt
+  const scrollTiltX = useTransform(smoothVelocity, [-2000, 2000], [-1.5, 1.5]);
+
+  // STEP 10: Reactive Border Brightness
+  const borderOpacity = useTransform(smoothVelocity, [-1000, 0, 1000], [0.3, 0.05, 0.3]);
+
+  // STEP 11: Dynamic Spacing Adjustment (Density narrative)
+  const layoutLineHeight = useTransform(scrollYProgress, [0, 1], [1.4, 1.3]);
+  const layoutLetterSpacing = useTransform(scrollYProgress, [0, 1], ["0em", "-0.01em"]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -122,15 +131,26 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       <SmoothScroll />
       <BrutalistNavbar />
       <motion.main
-        style={{ rotateX: scrollTiltX }}
+        style={{ rotateX: scrollTiltX, lineHeight: layoutLineHeight, letterSpacing: layoutLetterSpacing }}
         className="relative z-10 w-full perspective-root"
       >
         {children}
       </motion.main>
       <CustomCursor />
 
+      {/* PHASE 7: FRAME EDGE REACTIVE SYSTEM (STEP 10) */}
+      <motion.div style={{ opacity: borderOpacity }} className="fixed inset-0 border-[1px] border-white pointer-events-none z-50" />
+
+      {/* PHASE 7: ARCHITECTURAL SPINE (STEP 3 & 6) */}
+      <div className="fixed left-[4.8vw] top-0 h-full w-[1px] bg-white/5 z-[40] pointer-events-none mix-blend-difference hidden md:block">
+        <motion.div
+          style={{ scaleY: scrollYProgress, transformOrigin: "top" }}
+          className="w-full h-full bg-white/30"
+        />
+      </div>
+
       {/* SHARP SCROLL INDICATOR — PHASE 3 */}
-      <div className="fixed right-0 top-0 h-full w-[1px] bg-white/10 z-50">
+      <div className="fixed right-0 top-0 h-full w-[1px] bg-white/5 z-50">
         <motion.div
           style={{ scaleY: scrollYProgress, transformOrigin: "top" }}
           className="w-full h-full bg-white"

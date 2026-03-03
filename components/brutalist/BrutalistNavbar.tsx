@@ -50,18 +50,25 @@ export default function BrutalistNavbar() {
                             <motion.div
                                 key={link.name}
                                 whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.97 }}
+                                transition={{ scale: { type: "spring", stiffness: 400, damping: 15 } }}
                                 className="relative group"
                             >
                                 <Link
                                     href={link.href}
                                     className={`
                                         flex items-baseline gap-2 text-micro font-bold tracking-[0.4em] transition-all duration-300
-                                        font-ui ${isActive ? "text-white opacity-100" : "text-white/40 hover:text-white/80"} 
+                                        font-ui ${isActive ? "text-white" : "text-white/40 hover:text-white/80"} 
                                     `}
                                 >
-                                    <span className={`text-[8px] opacity-40 ${isActive ? "opacity-100 scale-125" : ""} transition-all`}>
+                                    <motion.span
+                                        initial={false}
+                                        animate={isActive ? { rotateX: [-90, 0], opacity: 1, scale: 1.25 } : { rotateX: 0, opacity: 0.4, scale: 1 }}
+                                        transition={{ duration: 0.3, ease: GLOBAL_EASE }}
+                                        className="text-[8px] transform-gpu origin-bottom inline-block"
+                                    >
                                         {`0${i + 1}`}
-                                    </span>
+                                    </motion.span>
                                     {link.name.replace(/^\d+_/, '')}
                                 </Link>
                                 {isActive && (

@@ -94,13 +94,14 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
 
     return (
         <motion.div
-            initial={{ opacity: 0, y: 50, z: 0 }}
-            whileInView={{ opacity: 1, y: 0, z: 0 }}
-            whileHover={{ scale: 1.02, z: 20 }}
+            initial={{ opacity: 0, y: 50, z: 0, skewX: 0 }}
+            whileInView={{ opacity: 1, y: 0, z: 0, skewX: 0 }}
+            whileHover={{ scale: 1.02, z: 20, skewX: -1.5 }}
+            whileTap={{ scale: 0.97 }}
             viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.1 + index * 0.1, ease: GLOBAL_EASE }}
+            transition={{ duration: 1, delay: 0.1 + index * 0.1, ease: GLOBAL_EASE, scale: { type: "spring", stiffness: 300, damping: 15 } }}
             className={`
-                relative w-full border-b border-black group cursor-none project-row-transition
+                relative w-full border-b border-black group cursor-none project-row-transition origin-left
                 ${isHovered ? "flash-invert" : ""}
             `}
             onMouseEnter={() => setIsHovered(true)}

@@ -19,6 +19,18 @@ export default function BrutalistHero() {
     const rotateX = useTransform(smoothMouseY, [-0.5, 0.5], [2, -2]); // MAX TILT: 2 DEGREES
     const rotateY = useTransform(smoothMouseX, [-0.5, 0.5], [-2, 2]); // COMPLEMENTARY TILT
 
+    // PHASE 7: VARIABLE TYPOGRAPHY MOTION
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ["start start", "end start"]
+    });
+
+    // Weight interpolates slightly: 300 (thin) to 500 (normal)
+    const fontWeight = useTransform(scrollYProgress, [0, 0.2], [400, 600]);
+
+    // PHASE 7: LINE SYSTEM (Architectural Spine)
+    const spineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
             const { clientX, clientY } = e;
@@ -30,11 +42,6 @@ export default function BrutalistHero() {
         return () => window.removeEventListener("mousemove", handleMouseMove);
     }, []);
 
-    const { scrollYProgress } = useScroll({
-        target: sectionRef,
-        offset: ["start start", "end start"]
-    });
-
     // DEPTH SCALES — PHASE 4
     const heroScale = useTransform(scrollYProgress, [0, 1], [1, 0.92]);
     const mainTextOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
@@ -43,6 +50,50 @@ export default function BrutalistHero() {
     // LAYERED PARALLAX — PHASE 4
     const frontY = useTransform(scrollYProgress, [0, 1], ["0%", "-10%"]);
     const backY = useTransform(scrollYProgress, [0, 1], ["0%", "-25%"]);
+
+    // PHASE 7: LETTER PRESSURE
+    const textArray1 = "DARSHIT".split("");
+    const textArray2 = "LAGDHIR".split("");
+
+    const Letter = ({ char, index, total }: { char: string, index: number, total: number }) => {
+        // Approximate distance based on array index relative to mouse position (-0.5 to 0.5)
+        const relPos = index / total; // 0 to 1
+        // Map mouseX (-0.5 to 0.5) to (0 to 1) 
+        const mappedMouse = useTransform(smoothMouseX, x => x + 0.5);
+        const dist = useTransform(mappedMouse, m => Math.abs(m - relPos));
+
+        // Pressure affects nearby letters (dist < 0.2)
+        const pressureY = useTransform(dist, [0, 0.2], [index % 2 === 0 ? 6 : -6, 0]);
+        const smoothPressureY = useSpring(pressureY, { damping: 20, stiffness: 300 });
+
+        return (
+            <motion.span style={{ display: "inline-block", y: smoothPressureY }}>{char}</motion.span>
+        );
+    };
+
+    // PHASE 7: SLICE TEXT EFFECT
+    const SliceReveal = ({ text, delay }: { text: string[], delay: number }) => (
+        <div className="relative">
+            {/* TOP SLICE */}
+            <motion.div
+                initial={{ y: "100%", clipPath: "inset(0 0 100% 0)" }}
+                animate={{ y: "0%", clipPath: "inset(0 0 50% 0)" }}
+                transition={{ duration: 0.8, delay: delay, ease: GLOBAL_EASE }}
+                className="absolute inset-0 flex"
+            >
+                {text.map((char, i) => <Letter key={i} char={char} index={i} total={text.length} />)}
+            </motion.div>
+            {/* BOTTOM SLICE */}
+            <motion.div
+                initial={{ y: "-100%", clipPath: "inset(100% 0 0 0)" }}
+                animate={{ y: "0%", clipPath: "inset(50% 0 0 0)" }}
+                transition={{ duration: 0.8, delay: delay + 0.05, ease: GLOBAL_EASE }}
+                className="flex"
+            >
+                {text.map((char, i) => <Letter key={i} char={char} index={i} total={text.length} />)}
+            </motion.div>
+        </div>
+    );
 
     return (
         <section
@@ -61,6 +112,11 @@ export default function BrutalistHero() {
                 }}
             />
 
+            {/* PHASE 7: ARCHITECTURAL SPINE LINE */}
+            <div className="absolute top-0 left-[5vw] w-px h-full bg-white/10 z-0">
+                <motion.div style={{ height: spineHeight }} className="w-full bg-white" />
+            </div>
+
             <motion.div
                 style={{ scale: heroScale, rotateX, rotateY, perspective: 1000 }}
                 className="grid grid-cols-12 gap-10 items-end w-full max-w-[1800px] mx-auto pt-32"
@@ -72,29 +128,26 @@ export default function BrutalistHero() {
                     <div className="relative group overflow-visible preserve-3d">
                         {/* BACK LAYER - THIN FRAME SHADOW */}
                         <motion.span
-                            style={{ y: backY, opacity: stackTextOpacity, z: -50 }}
+                            style={{ y: backY, opacity: stackTextOpacity, z: -50, fontWeight }}
                             className="absolute text-massive italic text-white/10 depth-layer select-none pointer-events-none perspective-tilt text-shadow-architectural flex"
                         >
-                            <span>DAR</span><span>SH</span><span>IT</span>
+                            {textArray1.join("")}
                         </motion.span>
                         {/* MID LAYER - SHADOW */}
                         <motion.span
-                            style={{ y: backY, opacity: stackTextOpacity, z: -25 }}
+                            style={{ y: backY, opacity: stackTextOpacity, z: -25, fontWeight }}
                             className="absolute -top-2 -left-1 text-massive italic text-white/30 depth-layer select-none pointer-events-none perspective-tilt flex"
                         >
-                            <span>DAR</span><span>SH</span><span>IT</span>
+                            {textArray1.join("")}
                         </motion.span>
-                        {/* FRONT LAYER - FOREGROUND WITH MICRO MOTION (STEP 9) */}
+                        {/* FRONT LAYER - FOREGROUND WITH MICRO MOTION & SLICES (PHASE 7) */}
                         <motion.h1
-                            initial={{ y: "110%", translateZ: 50 }}
-                            animate={{ y: 0, translateZ: 50 }}
-                            style={{ y: frontY, opacity: mainTextOpacity }}
-                            transition={{ duration: 1.2, ease: GLOBAL_EASE }}
+                            initial={{ translateZ: 50 }}
+                            animate={{ translateZ: 50 }}
+                            style={{ y: frontY, opacity: mainTextOpacity, fontWeight }}
                             className="text-massive italic leading-[0.8] -ml-[0.05em] whitespace-nowrap relative z-10 perspective-tilt flex"
                         >
-                            <motion.span style={{ y: useTransform(smoothMouseY, [-0.5, 0.5], [10, -10]) }}>DAR</motion.span>
-                            <motion.span style={{ y: useTransform(smoothMouseY, [-0.5, 0.5], [-5, 5]) }}>SH</motion.span>
-                            <motion.span style={{ y: useTransform(smoothMouseY, [-0.5, 0.5], [15, -15]) }}>IT</motion.span>
+                            <SliceReveal text={textArray1} delay={0} />
                         </motion.h1>
                     </div>
 
@@ -102,29 +155,26 @@ export default function BrutalistHero() {
                     <div className="relative group overflow-visible mt-2 pl-[15vw] preserve-3d">
                         {/* BACK LAYER */}
                         <motion.span
-                            style={{ y: backY, opacity: stackTextOpacity, scale: 0.98, z: -50 }}
+                            style={{ y: backY, opacity: stackTextOpacity, scale: 0.98, z: -50, fontWeight }}
                             className="absolute text-massive text-white/10 depth-layer select-none pointer-events-none perspective-tilt flex"
                         >
-                            <span>LA</span><span>GD</span><span>HIR</span>
+                            {textArray2.join("")}
                         </motion.span>
                         {/* MID LAYER */}
                         <motion.span
-                            style={{ y: backY, opacity: stackTextOpacity, scale: 0.98, z: -25 }}
+                            style={{ y: backY, opacity: stackTextOpacity, scale: 0.98, z: -25, fontWeight }}
                             className="absolute -top-2 -left-1 text-massive text-white/30 depth-layer select-none pointer-events-none perspective-tilt flex"
                         >
-                            <span>LA</span><span>GD</span><span>HIR</span>
+                            {textArray2.join("")}
                         </motion.span>
                         {/* FRONT LAYER */}
                         <motion.h1
-                            initial={{ y: "110%", translateZ: 50 }}
-                            animate={{ y: 0, translateZ: 50 }}
-                            style={{ y: frontY, opacity: mainTextOpacity }}
-                            transition={{ duration: 1.2, delay: 0.1, ease: GLOBAL_EASE }}
+                            initial={{ translateZ: 50 }}
+                            animate={{ translateZ: 50 }}
+                            style={{ y: frontY, opacity: mainTextOpacity, fontWeight }}
                             className="text-massive text-white leading-[0.8] whitespace-nowrap relative z-10 perspective-tilt flex"
                         >
-                            <motion.span style={{ y: useTransform(smoothMouseY, [-0.5, 0.5], [5, -5]) }}>LA</motion.span>
-                            <motion.span style={{ y: useTransform(smoothMouseY, [-0.5, 0.5], [-12, 12]) }}>GD</motion.span>
-                            <motion.span style={{ y: useTransform(smoothMouseY, [-0.5, 0.5], [8, -8]) }}>HIR</motion.span>
+                            <SliceReveal text={textArray2} delay={0.1} />
                         </motion.h1>
                     </div>
 
