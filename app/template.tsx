@@ -36,35 +36,24 @@ export default function Template({ children }: { children: React.ReactNode }) {
 
     const ease = [0.16, 1, 0.3, 1] as const;
 
-    // PHASE 10: DYNAMIC CLIP + ISOMETRIC STACK (PHASE 12)
+    // PHASE 5: DIMENSIONAL Z-LAYER ENTRY
+    // Strict adherence to Z-depth + opacity only. No blur (Performance Safety)
     const variants = {
         initial: (dir: string) => ({
             opacity: 0,
-            scale: 0.95,
-            translateZ: dir === "forward" ? 800 : -800,
-            rotateX: dir === "forward" ? -12 : 12,
-            rotateY: dir === "forward" ? 5 : -5,  // Isometric shift (PHASE 12)
-            filter: "blur(30px) contrast(1.2)",
-            clipPath: "inset(10% 10% 10% 10%)"
+            scale: dir === "forward" ? 0.98 : 1.02,
+            translateZ: dir === "forward" ? -100 : 100, // Depth drop
         }),
         animate: {
             opacity: 1,
             scale: 1,
             translateZ: 0,
-            rotateX: 0,
-            rotateY: 0,
-            filter: "blur(0px) contrast(1)",
-            clipPath: "inset(0% 0% 0% 0%)",
             transition: { duration, ease, delay: 0.1 }
         },
         exit: (dir: string) => ({
             opacity: 0,
-            scale: 0.95,
-            translateZ: dir === "forward" ? -800 : 800,
-            rotateX: dir === "forward" ? 12 : -12,
-            rotateY: dir === "forward" ? -5 : 5,
-            filter: "blur(30px) contrast(1.2)",
-            clipPath: "inset(10% 10% 10% 10%)"
+            scale: dir === "forward" ? 1.02 : 0.98,
+            translateZ: dir === "forward" ? 100 : -100,
         }),
     };
 

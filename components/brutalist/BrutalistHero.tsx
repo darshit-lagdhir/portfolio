@@ -16,8 +16,8 @@ export default function BrutalistHero() {
     const smoothMouseX = useSpring(mouseX, { damping: 50, stiffness: 400 });
     const smoothMouseY = useSpring(mouseY, { damping: 50, stiffness: 400 });
 
-    const rotateX = useTransform(smoothMouseY, [-0.5, 0.5], [0.4, -0.4]);
-    const rotateY = useTransform(smoothMouseX, [-0.5, 0.5], [-0.4, 0.4]);
+    const rotateX = useTransform(smoothMouseY, [-0.5, 0.5], [2, -2]); // MAX TILT: 2 DEGREES
+    const rotateY = useTransform(smoothMouseX, [-0.5, 0.5], [-2, 2]); // COMPLEMENTARY TILT
 
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
@@ -69,44 +69,62 @@ export default function BrutalistHero() {
                 <div className="col-span-12 lg:col-span-8 flex flex-col items-start gap-0 z-10">
 
                     {/* DARSHIT LAYER STACK */}
-                    <div className="relative group overflow-visible">
-                        {/* BACK LAYER */}
+                    <div className="relative group overflow-visible preserve-3d">
+                        {/* BACK LAYER - THIN FRAME SHADOW */}
                         <motion.span
-                            style={{ y: backY, opacity: stackTextOpacity }}
-                            className="absolute -top-4 -left-2 text-massive italic text-white depth-layer select-none pointer-events-none"
+                            style={{ y: backY, opacity: stackTextOpacity, z: -50 }}
+                            className="absolute text-massive italic text-white/10 depth-layer select-none pointer-events-none perspective-tilt text-shadow-architectural flex"
                         >
-                            DARSHIT
+                            <span>DAR</span><span>SH</span><span>IT</span>
                         </motion.span>
-                        {/* FRONT LAYER */}
+                        {/* MID LAYER - SHADOW */}
+                        <motion.span
+                            style={{ y: backY, opacity: stackTextOpacity, z: -25 }}
+                            className="absolute -top-2 -left-1 text-massive italic text-white/30 depth-layer select-none pointer-events-none perspective-tilt flex"
+                        >
+                            <span>DAR</span><span>SH</span><span>IT</span>
+                        </motion.span>
+                        {/* FRONT LAYER - FOREGROUND WITH MICRO MOTION (STEP 9) */}
                         <motion.h1
-                            initial={{ y: "110%" }}
-                            animate={{ y: 0 }}
+                            initial={{ y: "110%", translateZ: 50 }}
+                            animate={{ y: 0, translateZ: 50 }}
                             style={{ y: frontY, opacity: mainTextOpacity }}
                             transition={{ duration: 1.2, ease: GLOBAL_EASE }}
-                            className="text-massive italic leading-[0.8] -ml-[0.05em] whitespace-nowrap relative z-10"
+                            className="text-massive italic leading-[0.8] -ml-[0.05em] whitespace-nowrap relative z-10 perspective-tilt flex"
                         >
-                            DARSHIT
+                            <motion.span style={{ y: useTransform(smoothMouseY, [-0.5, 0.5], [10, -10]) }}>DAR</motion.span>
+                            <motion.span style={{ y: useTransform(smoothMouseY, [-0.5, 0.5], [-5, 5]) }}>SH</motion.span>
+                            <motion.span style={{ y: useTransform(smoothMouseY, [-0.5, 0.5], [15, -15]) }}>IT</motion.span>
                         </motion.h1>
                     </div>
 
                     {/* LAGDHIR LAYER STACK */}
-                    <div className="relative group overflow-visible mt-2 pl-[15vw]">
+                    <div className="relative group overflow-visible mt-2 pl-[15vw] preserve-3d">
                         {/* BACK LAYER */}
                         <motion.span
-                            style={{ y: backY, opacity: stackTextOpacity, scale: 0.98 }}
-                            className="absolute -top-4 -left-2 text-massive text-white depth-layer select-none pointer-events-none"
+                            style={{ y: backY, opacity: stackTextOpacity, scale: 0.98, z: -50 }}
+                            className="absolute text-massive text-white/10 depth-layer select-none pointer-events-none perspective-tilt flex"
                         >
-                            LAGDHIR
+                            <span>LA</span><span>GD</span><span>HIR</span>
+                        </motion.span>
+                        {/* MID LAYER */}
+                        <motion.span
+                            style={{ y: backY, opacity: stackTextOpacity, scale: 0.98, z: -25 }}
+                            className="absolute -top-2 -left-1 text-massive text-white/30 depth-layer select-none pointer-events-none perspective-tilt flex"
+                        >
+                            <span>LA</span><span>GD</span><span>HIR</span>
                         </motion.span>
                         {/* FRONT LAYER */}
                         <motion.h1
-                            initial={{ y: "110%" }}
-                            animate={{ y: 0 }}
+                            initial={{ y: "110%", translateZ: 50 }}
+                            animate={{ y: 0, translateZ: 50 }}
                             style={{ y: frontY, opacity: mainTextOpacity }}
                             transition={{ duration: 1.2, delay: 0.1, ease: GLOBAL_EASE }}
-                            className="text-massive text-white leading-[0.8] whitespace-nowrap relative z-10"
+                            className="text-massive text-white leading-[0.8] whitespace-nowrap relative z-10 perspective-tilt flex"
                         >
-                            LAGDHIR
+                            <motion.span style={{ y: useTransform(smoothMouseY, [-0.5, 0.5], [5, -5]) }}>LA</motion.span>
+                            <motion.span style={{ y: useTransform(smoothMouseY, [-0.5, 0.5], [-12, 12]) }}>GD</motion.span>
+                            <motion.span style={{ y: useTransform(smoothMouseY, [-0.5, 0.5], [8, -8]) }}>HIR</motion.span>
                         </motion.h1>
                     </div>
 

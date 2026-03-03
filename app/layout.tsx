@@ -97,8 +97,14 @@ export function CustomCursor() {
 }
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
-  const { scrollYProgress } = useScroll();
+  const { scrollY, scrollYProgress } = useScroll();
   const [showGrid, setShowGrid] = useState(false);
+
+  // PHASE 5: PERSPECTIVE SCROLL SHIFT (STEP 6)
+  const { useVelocity, useSpring, useTransform } = require("framer-motion");
+  const scrollVelocity = useVelocity(scrollY);
+  const smoothVelocity = useSpring(scrollVelocity, { damping: 50, stiffness: 400 });
+  const scrollTiltX = useTransform(smoothVelocity, [-2000, 2000], [-1.5, 1.5]); // Microscopic tilt
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -115,9 +121,12 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
     <>
       <SmoothScroll />
       <BrutalistNavbar />
-      <main className="relative z-10 w-full">
+      <motion.main
+        style={{ rotateX: scrollTiltX }}
+        className="relative z-10 w-full perspective-root"
+      >
         {children}
-      </main>
+      </motion.main>
       <CustomCursor />
 
       {/* SHARP SCROLL INDICATOR — PHASE 3 */}

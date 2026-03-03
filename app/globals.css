@@ -104,6 +104,71 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+/* PHASE 5: DIMENSIONAL INTELLIGENCE SYSTEM */
+/* Note: Designed specifically to avoid WebGL "heaviness" */
+
+/* BASE Z-CONTEXT */
+.perspective-root {
+  perspective: var(--p-context);
+  perspective-origin: center center;
+  transform-style: preserve-3d;
+}
+
+/* HARDWARE ACCELERATION LOCK */
+.preserve-3d {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* Z-AXIS SEPARATION SCALES */
+.z-depth-far {
+  transform: translateZ(var(--z-far));
+}
+
+.z-depth-mid {
+  transform: translateZ(var(--z-mid));
+}
+
+.z-depth-near {
+  transform: translateZ(var(--z-near));
+}
+
+.z-depth-front {
+  transform: translateZ(var(--z-front));
+}
+
+/* SMOOTH TILT PHYSICS */
+.perspective-tilt {
+  /* Requires framer-motion rotate variables applied inline */
+  transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* WHITE SECTION INSET DEPTH (STEP 7) */
+.white-section-depth {
+  background-color: var(--white-bg);
+  color: var(--black-bg);
+  /* Creates a subtle card elevation effect against the black abyss */
+  box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.05),
+    inset 0 0 1px rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  /* Contrast lip */
+}
+
+/* SECTION TRANSITION DROP LOGIC */
+.section-layer-transition {
+  transition: transform 0.8s var(--m-ease-out), opacity 0.8s var(--m-ease-out);
+}
+
+.layer-exit {
+  transform: translateZ(var(--z-far)) scale(0.95);
+  opacity: 0.5;
+}
+
+.layer-enter {
+  transform: translateZ(var(--z-base)) scale(1);
+  opacity: 1;
+}
+
 .depth-layer {
   pointer-events: none;
   user-select: none;

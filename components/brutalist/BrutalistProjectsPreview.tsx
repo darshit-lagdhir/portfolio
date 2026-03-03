@@ -54,7 +54,7 @@ export default function BrutalistProjectsPreview() {
             ref={containerRef}
             id="projects"
             onPointerEnter={() => setActiveSection("projects")}
-            className="relative min-h-screen bg-white text-black py-40 flex flex-col items-center overflow-hidden"
+            className="relative min-h-screen bg-white text-black py-40 flex flex-col items-center overflow-hidden white-section-depth preserve-3d"
         >
             <motion.div
                 onViewportEnter={() => setInView(true)}
@@ -94,8 +94,9 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
 
     return (
         <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 50, z: 0 }}
+            whileInView={{ opacity: 1, y: 0, z: 0 }}
+            whileHover={{ scale: 1.02, z: 20 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.1 + index * 0.1, ease: GLOBAL_EASE }}
             className={`
