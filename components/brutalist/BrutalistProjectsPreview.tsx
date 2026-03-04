@@ -51,6 +51,30 @@ export default function BrutalistProjectsPreview() {
     // PHASE 9 STEP 9: SCROLL VELOCITY STRETCH
     const velocityStretchY = useTransform(smoothVelocity, [-0.5, 0, 0.5], [0.995, 1, 1.005]);
 
+    // PHASE 13 STEP 14: MOBILE DETECTION FOR SIMPLIFICATIONS
+    const [isMobile, setIsMobile] = useState(false);
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
+    // PHASE 13 STEP 2, 7, 11: PANEL MORPH, COLLAPSE, & DEPTH STACK
+    const panelScale = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0.96, 1, 1, 0.96]);
+
+    // PHASE 13 STEP 4: PANEL SLIDE FRAMES
+    const panelSlide = useTransform(scrollYProgress, [0, 1], ["0%", isMobile ? "0%" : "-4%"]);
+
+    // PHASE 13 STEP 8 & 13: PANEL EDGE LIGHTING & SHADOW
+    const panelEdgeLight = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], ["rgba(255,255,255,0)", "rgba(255,255,255,0.3)", "rgba(255,255,255,0.3)", "rgba(255,255,255,0)"]);
+    const panelShadow = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [
+        "0 0px 0px rgba(0,0,0,0)",
+        "0 30px 60px rgba(0,0,0,0.15)",
+        "0 30px 60px rgba(0,0,0,0.15)",
+        "0 0px 0px rgba(0,0,0,0)"
+    ]);
+
     const projects = [
         { id: "01", name: "MOVEX_SYSTEM", type: "LOGISTICS / BACKEND", href: "/movex" },
         { id: "02", name: "UIDAI_AI", type: "PATTERN / AUTH", href: "/uidai" },
@@ -58,19 +82,34 @@ export default function BrutalistProjectsPreview() {
     ];
 
     return (
-        <section
+        <motion.section
             ref={containerRef}
             id="projects"
+            style={{
+                scale: panelScale,
+                x: panelSlide,
+                borderColor: panelEdgeLight,
+                boxShadow: panelShadow,
+                borderTopWidth: "1px",
+                borderBottomWidth: "1px"
+            }}
             onPointerEnter={() => setActiveSection("projects")}
-            className="relative min-h-screen bg-white text-black py-40 flex flex-col items-center overflow-hidden white-section-depth preserve-3d section-boundary-flash"
+            className="relative min-h-screen bg-white text-black py-40 px-[5vw] flex flex-col items-center overflow-hidden preserve-3d transition-colors duration-500 rounded-[8px]"
         >
             {/* PHASE 10 STEP 8: GHOST TEXT BACKDROP */}
             <span className="ghost-text text-[30vw] font-heading font-black leading-none top-[20%] right-[-5%] text-black">
                 BUILD
             </span>
+
+            {/* PHASE 13 STEP 10: STORYTELLING TIMELINE LINE */}
+            <motion.div
+                className="absolute left-[8vw] top-0 w-px bg-black/10 origin-top z-0"
+                style={{ height: useTransform(scrollYProgress, [0, 1], ["0%", "100%"]) }}
+            />
+
             <motion.div
                 onViewportEnter={() => setInView(true)}
-                className="w-full max-w-[1800px] mx-auto px-[5vw] flex flex-col gap-24"
+                className="w-full max-w-[1700px] mx-auto flex flex-col gap-24 relative z-10"
             >
 
                 {/* SECTION HEADING — TEXT SCRAMBLE — PHASE 4 */}
@@ -119,7 +158,7 @@ export default function BrutalistProjectsPreview() {
                 <span className="text-micro font-bold tracking-[0.6em]">SYS_NAV_02</span>
                 <div className="w-20 h-px bg-black" />
             </div>
-        </section>
+        </motion.section>
     );
 }
 

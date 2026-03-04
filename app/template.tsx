@@ -36,31 +36,52 @@ export default function Template({ children }: { children: React.ReactNode }) {
 
     const ease = [0.16, 1, 0.3, 1] as const;
 
-    // PHASE 9 STEP 12: CAMERA ZOOM ENTRY FOR PROJECT PAGES
+    // PHASE 13 STEP 9 & 2: PROJECT ENTRY MORPH & PANEL TRANSITIONS
     const isProjectPage = pathname !== "/";
 
-    // PHASE 6: MASK REVEAL ENTRY (STEP 2) + PHASE 9 STEP 4: VIEWPORT SHUTTER
     const variants = {
-        initial: (dir: string) => ({
-            clipPath: dir === "forward" ? "inset(100% 0 0 0)" : "inset(0 0 100% 0)",
-            translateY: dir === "forward" ? "20%" : "-20%",
-            scale: isProjectPage ? 1.02 : 1,
-            zIndex: 10,
-        }),
+        initial: (dir: string) => {
+            if (isProjectPage) {
+                // Morph from panel shape
+                return {
+                    clipPath: "inset(20% 5vw 20% 5vw)",
+                    scale: 0.95,
+                    transformPerspective: 1000,
+                    zIndex: 10,
+                };
+            }
+            return {
+                clipPath: dir === "forward" ? "inset(100% 0 0 0)" : "inset(0 0 100% 0)",
+                translateY: dir === "forward" ? "10%" : "-10%",
+                scale: 0.98,
+                zIndex: 10,
+            };
+        },
         animate: {
             clipPath: "inset(0% 0 0 0)",
             translateY: "0%",
             scale: 1,
             zIndex: 10,
-            transition: { duration, ease, delay: 0.1 }
+            transition: { duration: duration * 1.2, ease, delay: 0.05 }
         },
-        exit: (dir: string) => ({
-            clipPath: dir === "forward" ? "inset(0 0 100% 0)" : "inset(100% 0 0 0)",
-            translateY: dir === "forward" ? "-20%" : "20%",
-            scale: 0.98,
-            zIndex: 0,
-            transition: { duration: duration * 0.8, ease }
-        }),
+        exit: (dir: string) => {
+            if (isProjectPage) {
+                // Collapse into panel shape
+                return {
+                    clipPath: "inset(10% 5vw 10% 5vw)",
+                    scale: 0.95,
+                    zIndex: 0,
+                    transition: { duration: duration * 0.8, ease }
+                };
+            }
+            return {
+                clipPath: dir === "forward" ? "inset(0 0 100% 0)" : "inset(100% 0 0 0)",
+                translateY: dir === "forward" ? "-10%" : "10%",
+                scale: 0.96,
+                zIndex: 0,
+                transition: { duration: duration * 0.8, ease }
+            };
+        },
     };
 
     return (
