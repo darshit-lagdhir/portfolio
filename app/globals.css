@@ -493,4 +493,78 @@ body {
   .border-distort-active {
     animation: none;
   }
+
+  .kinetic-letter {
+    transform: none !important;
+  }
+}
+
+/* ============================================= */
+/* PHASE 10 — KINETIC TYPOGRAPHY ENGINE           */
+/* ============================================= */
+
+/* STEP 3: INFINITE MARQUEE */
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 30s linear infinite;
+  will-change: transform;
+}
+
+.marquee-track:hover {
+  animation-duration: 18s;
+}
+
+/* STEP 2: IDLE WORD DRIFT */
+@keyframes idleDrift {
+  0% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(6px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.word-drift {
+  animation: idleDrift 10s ease-in-out infinite;
+}
+
+.word-drift-reverse {
+  animation: idleDrift 12s ease-in-out infinite reverse;
+}
+
+/* STEP 8: GHOST TEXT BACKDROP */
+.ghost-text {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.02;
+  z-index: 0;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+/* STEP 10: VERTICAL MASK REVEAL */
+.mask-reveal-up {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 0.8s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.mask-reveal-up.revealed {
+  clip-path: inset(0 0 0 0);
 }

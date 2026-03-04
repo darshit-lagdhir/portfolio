@@ -52,6 +52,11 @@ export default function BrutalistContact() {
             {/* INSET SHADOW BOUNDARY — PHASE 4 (STEP 13) */}
             <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-black/5 to-transparent pointer-events-none" />
 
+            {/* PHASE 10 STEP 8: GHOST TEXT BACKDROP */}
+            <span className="ghost-text text-[25vw] font-heading font-black leading-none bottom-[10%] right-[-5%] text-black">
+                CONNECT
+            </span>
+
             <motion.div style={{ paddingTop: breathPadding, paddingBottom: breathPadding }} className="flex flex-col items-center justify-center w-full relative z-10">
 
                 <div className="flex flex-col items-center text-center gap-12 w-full max-w-[1800px] mx-auto relative z-10">

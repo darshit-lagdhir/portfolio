@@ -60,7 +60,7 @@ export default function BrutalistHero() {
     // PHASE 9 STEP 2: FRAME EXPANSION ON PULLBACK
     const framePadding = useTransform(scrollYProgress, [0, 0.5], ["5vw", "7vw"]);
 
-    // PHASE 7: LETTER PRESSURE DISTORTION (FIXED — BOLD)
+    // PHASE 7+10: LETTER PRESSURE + KINETIC CLUSTERS (BOLD)
     const textArray1 = "DARSHIT".split("");
     const textArray2 = "LAGDHIR".split("");
 
@@ -68,11 +68,13 @@ export default function BrutalistHero() {
         const relPos = index / total;
         const mappedMouse = useTransform(smoothMouseX, x => x + 0.5);
         const dist = useTransform(mappedMouse, m => Math.abs(m - relPos));
-        const pressureY = useTransform(dist, [0, 0.15], [index % 2 === 0 ? 4 : -4, 0]);
+        // STEP 1: Cluster displacement — pairs of letters move differently
+        const clusterMultiplier = index % 3 === 0 ? 1.3 : index % 3 === 1 ? 0.7 : 1;
+        const pressureY = useTransform(dist, [0, 0.15], [(index % 2 === 0 ? 4 : -4) * clusterMultiplier, 0]);
         const smoothPressureY = useSpring(pressureY, { damping: 25, stiffness: 300 });
 
         return (
-            <motion.span style={{ display: "inline-block", y: smoothPressureY }}>{char}</motion.span>
+            <motion.span className="inline-block kinetic-letter" style={{ y: smoothPressureY }}>{char}</motion.span>
         );
     };
 
@@ -98,6 +100,24 @@ export default function BrutalistHero() {
             <div className="absolute top-0 left-[5vw] w-px h-full bg-white/10 z-0">
                 <motion.div style={{ height: spineHeight }} className="w-full bg-white" />
             </div>
+
+            {/* PHASE 10 STEP 8: GHOST TEXT BACKDROP */}
+            <motion.span
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.02 }}
+                transition={{ duration: 3, delay: 1.5 }}
+                className="ghost-text text-[25vw] font-heading font-bold leading-none top-[10%] left-[-5%]"
+            >
+                SYSTEM
+            </motion.span>
+            <motion.span
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.015 }}
+                transition={{ duration: 3, delay: 2 }}
+                className="ghost-text text-[20vw] font-heading font-bold leading-none bottom-[5%] right-[-10%]"
+            >
+                ARCHITECT
+            </motion.span>
 
             <motion.div
                 style={{ scale: heroScale, rotateX, rotateY, perspective: 1000 }}
@@ -125,13 +145,13 @@ export default function BrutalistHero() {
                         >
                             DARSHIT
                         </motion.span>
-                        {/* FRONT LAYER - BOLD + PRESSURE + GLITCH + GREY SHADOW */}
+                        {/* FRONT LAYER - BOLD + KINETIC + GLITCH + DRIFT */}
                         <motion.h1
                             initial={{ y: "110%", translateZ: 50 }}
                             animate={{ y: 0, translateZ: 50 }}
                             style={{ y: frontY, opacity: mainTextOpacity, textShadow: '4px 4px 30px rgba(150,150,150,0.25), 0 0 60px rgba(200,200,200,0.1)' }}
                             transition={{ duration: 1.2, ease: GLOBAL_EASE }}
-                            className={`text-massive italic leading-[0.8] -ml-[0.05em] whitespace-nowrap relative z-10 perspective-tilt glitch-safe ${glitchFired ? 'hero-glitch-once' : ''}`}
+                            className={`text-massive italic leading-[0.8] -ml-[0.05em] whitespace-nowrap relative z-10 perspective-tilt glitch-safe word-drift ${glitchFired ? 'hero-glitch-once' : ''}`}
                         >
                             {textArray1.map((char, i) => <Letter key={i} char={char} index={i} total={textArray1.length} />)}
                         </motion.h1>
@@ -156,13 +176,13 @@ export default function BrutalistHero() {
                         >
                             LAGDHIR
                         </motion.span>
-                        {/* FRONT LAYER - BOLD + PRESSURE + GLITCH + GREY SHADOW */}
+                        {/* FRONT LAYER - BOLD + KINETIC + GLITCH + DRIFT */}
                         <motion.h1
                             initial={{ y: "110%", translateZ: 50 }}
                             animate={{ y: 0, translateZ: 50 }}
                             style={{ y: frontY, opacity: mainTextOpacity, textShadow: '4px 4px 30px rgba(150,150,150,0.25), 0 0 60px rgba(200,200,200,0.1)' }}
                             transition={{ duration: 1.2, delay: 0.1, ease: GLOBAL_EASE }}
-                            className={`text-massive text-white leading-[0.8] whitespace-nowrap relative z-10 perspective-tilt glitch-safe ${glitchFired ? 'hero-glitch-once' : ''}`}
+                            className={`text-massive text-white leading-[0.8] whitespace-nowrap relative z-10 perspective-tilt glitch-safe word-drift-reverse ${glitchFired ? 'hero-glitch-once' : ''}`}
                         >
                             {textArray2.map((char, i) => <Letter key={i} char={char} index={i} total={textArray2.length} />)}
                         </motion.h1>

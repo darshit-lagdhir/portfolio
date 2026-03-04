@@ -49,6 +49,10 @@ export default function BrutalistAbout() {
             onPointerEnter={() => setActiveSection("about")}
             className="relative min-h-screen overflow-hidden bg-black"
         >
+            {/* PHASE 10 STEP 8: GHOST TEXT BACKDROP */}
+            <span className="ghost-text text-[28vw] font-heading font-black leading-none top-[15%] left-[-8%] text-white">
+                ENGINEERING
+            </span>
             {/* WHITE WIPE TRANSITION — PHASE 4 (STEP 3) */}
             <div className={`absolute inset-0 z-0 bg-white transition-all duration-1000 ease-out clip-path-wipe ${inView ? "clip-path-full" : "clip-path-empty"}`}
                 style={{

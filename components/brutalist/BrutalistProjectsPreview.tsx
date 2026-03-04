@@ -64,6 +64,10 @@ export default function BrutalistProjectsPreview() {
             onPointerEnter={() => setActiveSection("projects")}
             className="relative min-h-screen bg-white text-black py-40 flex flex-col items-center overflow-hidden white-section-depth preserve-3d section-boundary-flash"
         >
+            {/* PHASE 10 STEP 8: GHOST TEXT BACKDROP */}
+            <span className="ghost-text text-[30vw] font-heading font-black leading-none top-[20%] right-[-5%] text-black">
+                BUILD
+            </span>
             <motion.div
                 onViewportEnter={() => setInView(true)}
                 className="w-full max-w-[1800px] mx-auto px-[5vw] flex flex-col gap-24"
