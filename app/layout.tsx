@@ -7,6 +7,7 @@ import SmoothScroll from "@/components/brutalist/SmoothScroll";
 import BrutalistNavbar from "@/components/brutalist/BrutalistNavbar";
 import AmbientParticles from "@/components/brutalist/AmbientParticles";
 import { SceneProvider } from "@/context/SceneContext";
+import { CommandPalette } from "@/components/brutalist/SystemComponents";
 
 export function CustomCursor() {
   // PHASE 11 STEP 1: CURSOR PHYSICS ENGINE
@@ -272,6 +273,9 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
         style={{ y: sep2Y }}
         className="fixed top-[66vh] left-0 w-full h-px bg-white/[0.03] pointer-events-none z-[38]"
       />
+
+      {/* PHASE 14 STEP 9: COMMAND PALETTE NATIVE BINDING */}
+      <CommandPalette />
     </>
   );
 }

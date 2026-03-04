@@ -1,7 +1,15 @@
 "use client";
 
 import { useScene } from "@/context/SceneContext";
-import SystemBreadcrumbs from "@/components/brutalist/SystemBreadcrumbs";
+import {
+    ProjectEntryLoader,
+    SystemHeaderBar,
+    SystemGridOverlay,
+    ProjectPanel,
+    ProjectMetadata,
+    ProjectTimeline,
+    CodeBlockVisual
+} from "@/components/brutalist/SystemComponents";
 import { useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -16,8 +24,10 @@ export default function UIDAIPage() {
     }, [setActiveSection]);
 
     return (
-        <div className="min-h-screen w-full bg-black text-white relative py-40 px-[5vw]">
-            <SystemBreadcrumbs current="UIDAI" />
+        <div className="min-h-screen w-full bg-black text-white relative py-40 px-[5vw] font-sans selection:bg-white selection:text-black">
+            <ProjectEntryLoader />
+            <SystemHeaderBar current="MOD_UIDAI" />
+            <SystemGridOverlay />
 
             <div className="max-w-[1800px] mx-auto flex flex-col gap-y-40">
 
@@ -56,65 +66,52 @@ export default function UIDAIPage() {
                     </div>
                 </motion.div>
 
-                {/* ANALYTICAL ROW 01: OVERVIEW — PHASE 3 */}
-                <div className="col-span-12 border-t border-white/20 pt-20">
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1 }}
-                        className="grid grid-cols-1 md:grid-cols-12 gap-20"
-                    >
-                        <div className="md:col-span-4 lg:col-span-3">
-                            <span className="text-micro font-bold tracking-[0.4em] text-white opacity-40">
-                                OVERVIEW
-                            </span>
-                        </div>
-                        <div className="md:col-span-8 lg:col-span-7">
-                            <h2 className="text-medium text-white font-heading uppercase tracking-widest mb-12">
-                                Pattern Recognition Framework
-                            </h2>
-                            <p className="text-short-body text-white/40">
-                                A human-in-the-loop advisory tool designed to identify biometric registration drifts. It clusters anomalies into risk categories to support decision-making without autonomous determination.
-                            </p>
-                        </div>
-                    </motion.div>
-                </div>
+                {/* PHASE 14 STEP 6: PROJECT METADATA */}
+                <ProjectMetadata
+                    type="Advisory Inference Tool"
+                    language="Python / PyTorch"
+                    arch="Anomaly Detection Model"
+                    tech={["OpenCV", "Scikit", "Biometric Math", "NumPy"]}
+                />
 
-                {/* ANALYTICAL ROW 02: DETECTION — PHASE 3 */}
-                <div className="col-span-12 border-t border-white/20 pt-20">
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1 }}
-                        className="grid grid-cols-1 md:grid-cols-12 gap-20"
-                    >
-                        <div className="md:col-span-4 lg:col-span-3">
-                            <span className="text-micro font-bold tracking-[0.4em] text-white opacity-40">
-                                DETECTION
-                            </span>
-                        </div>
-                        <div className="md:col-span-8 lg:col-span-9">
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-20 gap-y-32">
-                                {[
-                                    { title: "Biometric Drift", desc: "Detection of variants in fingerprint and iris telemetry." },
-                                    { title: "Anomaly Clustering", desc: "Grouping of registration signals into risk vectors." },
-                                    { title: "Assisted Validation", desc: "Scoring for manual human-in-the-loop review cycles." },
-                                    { title: "Inference Isolation", desc: "Separation of raw data from detected advisory outputs." }
-                                ].map((m, i) => (
-                                    <div key={i} className="flex flex-col gap-6">
-                                        <h3 className="text-micro font-bold text-white tracking-[0.4em]">
-                                            {m.title}
-                                        </h3>
-                                        <p className="text-short-body text-white/20 italic">
-                                            {m.desc}
-                                        </p>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </motion.div>
+                {/* PHASE 14 STEP 5: PROJECT FLOW TIMELINE */}
+                <ProjectTimeline steps={["Data Ingestion", "Pattern Match", "Cluster Generation", "Advisory Flag"]} />
+
+                {/* PHASE 14 STEP 2 & 13: PROJECT PANELS */}
+                <div className="flex flex-col gap-12 pointer-events-auto relative z-20 w-full pb-40">
+                    <ProjectPanel title="OVERVIEW" index={0}>
+                        <h2 className="text-medium text-white font-heading uppercase tracking-widest leading-tight">
+                            Pattern Recognition Framework
+                        </h2>
+                        <p className="text-base text-white/50 leading-relaxed">
+                            A human-in-the-loop advisory tool designed to identify biometric registration drifts. It clusters anomalies into risk categories to support decision-making without autonomous determination.
+                        </p>
+                    </ProjectPanel>
+
+                    <ProjectPanel title="DETECTION" index={1}>
+                        <h2 className="text-medium text-white font-heading uppercase tracking-widest leading-tight">
+                            Biometric Drift
+                        </h2>
+                        <p className="text-base text-white/50 leading-relaxed mb-4">
+                            Detection of variants in fingerprint and iris telemetry. Grouping of registration signals into risk vectors enables assisted validation scoring for manual human-in-the-loop review cycles. Raw data is safely isolated from advisory outputs.
+                        </p>
+                    </ProjectPanel>
+
+                    <ProjectPanel title="INFERENCE" index={2}>
+                        <p className="text-base text-white/50 leading-relaxed">
+                            Algorithmic mapping determines standard deviation and drift without persistent storage of the biometric source.
+                        </p>
+
+                        {/* PHASE 14 STEP 10: CODE BLOCK VISUAL */}
+                        <CodeBlockVisual code={[
+                            'def evaluate_drift_vector(source, target):',
+                            '    deviation = np.abs(source.matrix - target.matrix)',
+                            '    if np.mean(deviation) > THRESHOLD_ALPHA:',
+                            '        return flag_anomaly("BIOMETRIC_DRIFT")',
+                            '    ',
+                            '    return calculate_confidence(deviation)'
+                        ]} />
+                    </ProjectPanel>
                 </div>
 
                 {/* SYSTEM EXIT NAVIGATION — PHASE 3 */}

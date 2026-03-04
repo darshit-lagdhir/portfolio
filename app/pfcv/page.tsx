@@ -1,7 +1,16 @@
 "use client";
 
 import { useScene } from "@/context/SceneContext";
-import SystemBreadcrumbs from "@/components/brutalist/SystemBreadcrumbs";
+import {
+    ProjectEntryLoader,
+    SystemHeaderBar,
+    SystemGridOverlay,
+    ProjectPanel,
+    ProjectMetadata,
+    ProjectTimeline,
+    CodeBlockVisual,
+    ArchitectureVisual
+} from "@/components/brutalist/SystemComponents";
 import { useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -16,8 +25,10 @@ export default function PFCVPage() {
     }, [setActiveSection]);
 
     return (
-        <div className="min-h-screen w-full bg-black text-white relative py-40 px-[5vw]">
-            <SystemBreadcrumbs current="PFCV" />
+        <div className="min-h-screen w-full bg-black text-white relative py-40 px-[5vw] font-sans selection:bg-white selection:text-black">
+            <ProjectEntryLoader />
+            <SystemHeaderBar current="MOD_PFCV" />
+            <SystemGridOverlay />
 
             <div className="max-w-[1800px] mx-auto flex flex-col gap-y-40">
 
@@ -56,65 +67,59 @@ export default function PFCVPage() {
                     </div>
                 </motion.div>
 
-                {/* ANALYTICAL ROW 01: OVERVIEW — PHASE 3 */}
-                <div className="col-span-12 border-t border-white/20 pt-20">
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1 }}
-                        className="grid grid-cols-1 md:grid-cols-12 gap-20"
-                    >
-                        <div className="md:col-span-4 lg:col-span-3">
-                            <span className="text-micro font-bold tracking-[0.4em] text-white opacity-40">
-                                OVERVIEW
-                            </span>
-                        </div>
-                        <div className="md:col-span-8 lg:col-span-7">
-                            <h2 className="text-medium text-white font-heading uppercase tracking-widest mb-12">
-                                Binary Contract Enforcement
-                            </h2>
-                            <p className="text-short-body text-white/40">
-                                Polyglot FFI eliminates memory layout uncertainty at the boundary between Rust, C++, and WebAssembly. By synthesizing an intermediate representation, the system validates memory alignment and calling conventions before execution.
-                            </p>
-                        </div>
-                    </motion.div>
-                </div>
+                {/* PHASE 14 STEP 6: PROJECT METADATA */}
+                <ProjectMetadata
+                    type="Memory Verification Pipeline"
+                    language="Rust"
+                    arch="Intermediate Representation Compiler"
+                    tech={["Rust", "LLVM IR", "C++", "WebAssembly"]}
+                />
 
-                {/* ANALYTICAL ROW 02: PIPELINE — PHASE 3 */}
-                <div className="col-span-12 border-t border-white/20 pt-20">
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1 }}
-                        className="grid grid-cols-1 md:grid-cols-12 gap-20"
-                    >
-                        <div className="md:col-span-4 lg:col-span-3">
-                            <span className="text-micro font-bold tracking-[0.4em] text-white opacity-40">
-                                PIPELINE
-                            </span>
-                        </div>
-                        <div className="md:col-span-8 lg:col-span-9">
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-20 gap-y-32">
-                                {[
-                                    { title: "IR Normalization", desc: "Synthesis of Language-agnostic Intermediate Representation." },
-                                    { title: "Layout Verifier", desc: "Validation of memory alignment and padding invariants." },
-                                    { title: "Convention Enforcement", desc: "Checks for stack discipline and register pressure." },
-                                    { title: "Safe Adapter Gen", desc: "Automatic generation of instrumented FFI bridges." }
-                                ].map((m, i) => (
-                                    <div key={i} className="flex flex-col gap-6">
-                                        <h3 className="text-micro font-bold text-white tracking-[0.4em]">
-                                            {m.title}
-                                        </h3>
-                                        <p className="text-short-body text-white/20 italic">
-                                            {m.desc}
-                                        </p>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </motion.div>
+                {/* PHASE 14 STEP 5: PROJECT FLOW TIMELINE */}
+                <ProjectTimeline steps={["AST Parse", "IR Synthesis", "Memory Check", "Safe FFI Generation"]} />
+
+                {/* PHASE 14 STEP 2 & 13: PROJECT PANELS */}
+                <div className="flex flex-col gap-12 pointer-events-auto relative z-20 w-full pb-40">
+                    <ProjectPanel title="OVERVIEW" index={0}>
+                        <h2 className="text-medium text-white font-heading uppercase tracking-widest leading-tight">
+                            Binary Contract Enforcement
+                        </h2>
+                        <p className="text-base text-white/50 leading-relaxed">
+                            Polyglot FFI eliminates memory layout uncertainty at the boundary between Rust, C++, and WebAssembly. By synthesizing an intermediate representation, the system validates memory alignment and calling conventions before execution.
+                        </p>
+                    </ProjectPanel>
+
+                    <ProjectPanel title="PIPELINE" index={1}>
+                        <h2 className="text-medium text-white font-heading uppercase tracking-widest leading-tight">
+                            Layout Verification
+                        </h2>
+                        <p className="text-base text-white/50 leading-relaxed mb-4">
+                            Validation of memory alignment and padding invariants ensures stack discipline. Safe adapter generation creates instrumented FFI bridges bridging architectural boundaries securely.
+                        </p>
+
+                        <ArchitectureVisual />
+                    </ProjectPanel>
+
+                    <ProjectPanel title="VERIFICATION" index={2}>
+                        <p className="text-base text-white/50 leading-relaxed">
+                            A custom AST visitor builds type layouts to ensure C-ABI compliance across memory models.
+                        </p>
+
+                        {/* PHASE 14 STEP 10: CODE BLOCK VISUAL */}
+                        <CodeBlockVisual code={[
+                            'pub fn verify_layout(ty: &Type) -> Result<(), LayoutError> {',
+                            '    let layout = ty.compute_c_abi_layout();',
+                            '    if !layout.is_aligned(ty.align) {',
+                            '        return Err(LayoutError::Misaligned);',
+                            '    }',
+                            '    ',
+                            '    if layout.has_padding_leak() {',
+                            '        return Err(LayoutError::PaddingLeak);',
+                            '    }',
+                            '    Ok(())',
+                            '}'
+                        ]} />
+                    </ProjectPanel>
                 </div>
 
                 {/* SYSTEM EXIT NAVIGATION — PHASE 3 */}

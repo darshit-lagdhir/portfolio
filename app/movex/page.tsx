@@ -1,7 +1,16 @@
 "use client";
 
 import { useScene } from "@/context/SceneContext";
-import SystemBreadcrumbs from "@/components/brutalist/SystemBreadcrumbs";
+import {
+    ProjectEntryLoader,
+    SystemHeaderBar,
+    SystemGridOverlay,
+    ProjectPanel,
+    ProjectMetadata,
+    ProjectTimeline,
+    ArchitectureVisual,
+    CodeBlockVisual
+} from "@/components/brutalist/SystemComponents";
 import { useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -16,8 +25,10 @@ export default function MoveXPage() {
     }, [setActiveSection]);
 
     return (
-        <div className="min-h-screen w-full bg-black text-white relative py-40 px-[5vw]">
-            <SystemBreadcrumbs current="MOVEX" />
+        <div className="min-h-screen w-full bg-black text-white relative py-40 px-[5vw] font-sans selection:bg-white selection:text-black">
+            <ProjectEntryLoader />
+            <SystemHeaderBar current="MOD_MOVEX" />
+            <SystemGridOverlay />
 
             <div className="max-w-[1800px] mx-auto flex flex-col gap-y-40">
 
@@ -56,65 +67,58 @@ export default function MoveXPage() {
                     </div>
                 </motion.div>
 
-                {/* ANALYTICAL ROW 01: OVERVIEW — PHASE 3 */}
-                <div className="col-span-12 border-t border-white/20 pt-20">
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1 }}
-                        className="grid grid-cols-1 md:grid-cols-12 gap-20"
-                    >
-                        <div className="md:col-span-4 lg:col-span-3 md:sticky md:top-40 self-start">
-                            <span className="text-micro font-bold tracking-[0.4em] text-white opacity-40">
-                                OVERVIEW
-                            </span>
-                        </div>
-                        <div className="md:col-span-8 lg:col-span-7">
-                            <h2 className="text-medium text-white font-heading uppercase tracking-widest mb-12">
-                                Secure Logistics Pathway
-                            </h2>
-                            <p className="text-short-body text-white/40">
-                                MoveX implements strict role-based pathway isolation, ensuring that interactions are secure and auditable. The architecture focuses on data access integrity and zero-trust reliability.
-                            </p>
-                        </div>
-                    </motion.div>
-                </div>
+                {/* PHASE 14 STEP 6: PROJECT METADATA */}
+                <ProjectMetadata
+                    type="Backend / UI Integration"
+                    language="TypeScript"
+                    arch="Modular Monolith"
+                    tech={["Node.js", "Express", "PostgreSQL", "React"]}
+                />
 
-                {/* ANALYTICAL ROW 02: ARCHITECTURE — PHASE 3 */}
-                <div className="col-span-12 border-t border-white/20 pt-20">
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1 }}
-                        className="grid grid-cols-1 md:grid-cols-12 gap-20"
-                    >
-                        <div className="md:col-span-4 lg:col-span-3">
-                            <span className="text-micro font-bold tracking-[0.4em] text-white opacity-40">
-                                ARCHITECTURE
-                            </span>
-                        </div>
-                        <div className="md:col-span-8 lg:col-span-9">
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-20 gap-y-32">
-                                {[
-                                    { title: "Isolated Dashboarding", desc: "UI/UX separation based on verified role signatures." },
-                                    { title: "Prisma Layering", desc: "Type-safe mapping for supply chain telemetry." },
-                                    { title: "Session Enforcement", desc: "JWT propagation with rotating secret validation." },
-                                    { title: "Audit Logging", desc: "Immutable state-change ledger for transactions." }
-                                ].map((m, i) => (
-                                    <div key={i} className="flex flex-col gap-6">
-                                        <h3 className="text-micro font-bold text-white tracking-[0.4em]">
-                                            {m.title}
-                                        </h3>
-                                        <p className="text-short-body text-white/20 italic">
-                                            {m.desc}
-                                        </p>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </motion.div>
+                {/* PHASE 14 STEP 5: PROJECT FLOW TIMELINE */}
+                <ProjectTimeline steps={["Design", "Architecture", "Isolation", "Rollout"]} />
+
+                {/* PHASE 14 STEP 2 & 13: PROJECT PANELS */}
+                <div className="flex flex-col gap-12 pointer-events-auto relative z-20 w-full pb-40">
+                    <ProjectPanel title="OVERVIEW" index={0}>
+                        <h2 className="text-medium text-white font-heading uppercase tracking-widest leading-tight">
+                            Secure Logistics Pathway
+                        </h2>
+                        <p className="text-base text-white/50 leading-relaxed">
+                            MoveX implements strict role-based pathway isolation, ensuring that interactions are secure and auditable. The architecture focuses on data access integrity and zero-trust reliability within supply chain operations.
+                        </p>
+                    </ProjectPanel>
+
+                    <ProjectPanel title="ARCHITECTURE" index={1}>
+                        <h2 className="text-medium text-white font-heading uppercase tracking-widest leading-tight">
+                            Isolated Dashboards
+                        </h2>
+                        <p className="text-base text-white/50 leading-relaxed mb-4">
+                            UI/UX separation based on verified role signatures. Session propagation utilizes JWTs with rotating secret validation. Core components interact via type-safe abstractions.
+                        </p>
+
+                        {/* PHASE 14 STEP 4: ARCHITECTURE VISUALIZATION */}
+                        <ArchitectureVisual />
+                    </ProjectPanel>
+
+                    <ProjectPanel title="IMPLEMENTATION" index={2}>
+                        <p className="text-base text-white/50 leading-relaxed">
+                            Immutable state-change ledger records all transaction activities securely across the database boundary.
+                        </p>
+
+                        {/* PHASE 14 STEP 10: CODE BLOCK VISUAL */}
+                        <CodeBlockVisual code={[
+                            'async function verifyPathway(req, res) {',
+                            '  const token = req.headers["x-sys-auth"];',
+                            '  if (!token) throw new AuthError("NO_SIG");',
+                            '  ',
+                            '  const decoded = await JwtUtil.verify(token);',
+                            '  if (decoded.role !== "ADMIN") return drop();',
+                            '  ',
+                            '  return next();',
+                            '}'
+                        ]} />
+                    </ProjectPanel>
                 </div>
 
                 {/* SYSTEM EXIT NAVIGATION — PHASE 3 */}
