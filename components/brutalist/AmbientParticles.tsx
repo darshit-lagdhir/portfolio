@@ -1,0 +1,145 @@
+"use client";
+
+import { useEffect, useRef, useCallback } from "react";
+
+// PHASE 12 STEP 1, 2, 7, 10, 12, 13: AMBIENT PARTICLE FIELD
+// Canvas-based for maximum performance. Particles are tiny, low opacity, slow.
+// They respond to cursor (Step 2), fade in white sections (Step 7),
+// accelerate with scroll (Step 10), and reduce on mobile (Step 13).
+
+interface Particle {
+    x: number;
+    y: number;
+    baseX: number;
+    baseY: number;
+    vx: number;
+    vy: number;
+    size: number;
+    opacity: number;
+}
+
+export default function AmbientParticles() {
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const mouseRef = useRef({ x: -1000, y: -1000 });
+    const scrollVelRef = useRef(0);
+    const lastScrollRef = useRef(0);
+    const particlesRef = useRef<Particle[]>([]);
+    const rafRef = useRef<number>(0);
+    const isWhiteSectionRef = useRef(false);
+
+    const initParticles = useCallback((width: number, height: number) => {
+        // Step 13: Fewer particles on mobile
+        const isMobile = width < 768;
+        const count = isMobile ? 25 : 60;
+        const particles: Particle[] = [];
+
+        for (let i = 0; i < count; i++) {
+            const x = Math.random() * width;
+            const y = Math.random() * height;
+            particles.push({
+                x,
+                y,
+                baseX: x,
+                baseY: y,
+                vx: (Math.random() - 0.5) * 0.15,
+                vy: (Math.random() - 0.5) * 0.1 + 0.05, // Slight downward drift
+                size: Math.random() * 1.5 + 0.5,
+                opacity: Math.random() * 0.12 + 0.03, // Very low: 0.03–0.15
+            });
+        }
+        particlesRef.current = particles;
+    }, []);
+
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+
+        const resize = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            if (particlesRef.current.length === 0) {
+                initParticles(canvas.width, canvas.height);
+            }
+        };
+        resize();
+        window.addEventListener("resize", resize);
+
+        // Track mouse
+        const onMouseMove = (e: MouseEvent) => {
+            mouseRef.current = { x: e.clientX, y: e.clientY };
+            // Step 7: Detect if cursor is over white section
+            const target = e.target as HTMLElement;
+            isWhiteSectionRef.current = !!target.closest(".bg-white");
+        };
+        window.addEventListener("mousemove", onMouseMove, { passive: true });
+
+        // Step 10: Track scroll velocity
+        const onScroll = () => {
+            const current = window.scrollY;
+            scrollVelRef.current = Math.abs(current - lastScrollRef.current);
+            lastScrollRef.current = current;
+        };
+        window.addEventListener("scroll", onScroll, { passive: true });
+
+        const animate = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Step 7: Fade particles in white sections
+            const globalFade = isWhiteSectionRef.current ? 0.15 : 1;
+
+            const { x: mx, y: my } = mouseRef.current;
+            // Step 10: Scroll velocity boost
+            const scrollBoost = 1 + Math.min(scrollVelRef.current * 0.01, 2);
+            scrollVelRef.current *= 0.95; // Decay
+
+            particlesRef.current.forEach((p) => {
+                // Move particles
+                p.x += p.vx * scrollBoost;
+                p.y += p.vy * scrollBoost;
+
+                // Step 2: Cursor disturbance — particles avoid cursor
+                const dx = p.x - mx;
+                const dy = p.y - my;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 120) {
+                    const force = (120 - dist) / 120;
+                    p.x += (dx / dist) * force * 1.5;
+                    p.y += (dy / dist) * force * 1.5;
+                }
+
+                // Wrap around screen edges
+                if (p.x < -10) p.x = canvas.width + 10;
+                if (p.x > canvas.width + 10) p.x = -10;
+                if (p.y < -10) p.y = canvas.height + 10;
+                if (p.y > canvas.height + 10) p.y = -10;
+
+                // Draw
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity * globalFade})`;
+                ctx.fill();
+            });
+
+            rafRef.current = requestAnimationFrame(animate);
+        };
+
+        rafRef.current = requestAnimationFrame(animate);
+
+        return () => {
+            cancelAnimationFrame(rafRef.current);
+            window.removeEventListener("resize", resize);
+            window.removeEventListener("mousemove", onMouseMove);
+            window.removeEventListener("scroll", onScroll);
+        };
+    }, [initParticles]);
+
+    return (
+        <canvas
+            ref={canvasRef}
+            className="fixed inset-0 pointer-events-none z-[35]"
+            style={{ mixBlendMode: "screen" }}
+        />
+    );
+}

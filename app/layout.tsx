@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import "./globals.css";
 import SmoothScroll from "@/components/brutalist/SmoothScroll";
 import BrutalistNavbar from "@/components/brutalist/BrutalistNavbar";
+import AmbientParticles from "@/components/brutalist/AmbientParticles";
 import { SceneProvider } from "@/context/SceneContext";
 
 export function CustomCursor() {
@@ -184,6 +185,13 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   // PHASE 9 STEP 11: GRID GUIDES VISIBLE ON SCROLL
   const gridScrollOpacity = useTransform(smoothVelocity, [-800, -200, 0, 200, 800], [0.08, 0.04, 0, 0.04, 0.08]);
 
+  // PHASE 12 STEP 6: FLOATING SEPARATOR PARALLAX
+  const sep1Y = useTransform(scrollYProgress, [0, 1], ["0vh", "-15vh"]);
+  const sep2Y = useTransform(scrollYProgress, [0, 1], ["0vh", "-10vh"]);
+
+  // PHASE 12 STEP 11: STRUCTURAL FLOATING GRID (SLOWER THAN SCROLL)
+  const structuralGridY = useTransform(scrollYProgress, [0, 1], ["0vh", "30vh"]);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key.toLowerCase() === "g") setShowGrid((prev) => !prev);
@@ -240,6 +248,30 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
           backgroundSize: '20vw 20vh'
         }} />
       </motion.div>
+
+      {/* PHASE 12 STEP 11: STRUCTURAL FLOATING GRID */}
+      <motion.div
+        style={{ y: structuralGridY }}
+        className="fixed -inset-[100%] pointer-events-none z-[38]"
+      >
+        <div className="w-full h-full opacity-[0.015]" style={{
+          backgroundImage: 'linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)',
+          backgroundSize: '10vw 10vh'
+        }} />
+      </motion.div>
+
+      {/* PHASE 12 STEP 1: AMBIENT PARTICLE FIELD */}
+      <AmbientParticles />
+
+      {/* PHASE 12 STEP 6: SECTION FLOATING SEPARATORS */}
+      <motion.div
+        style={{ y: sep1Y }}
+        className="fixed top-[33vh] left-0 w-full h-px bg-white/[0.03] pointer-events-none z-[38]"
+      />
+      <motion.div
+        style={{ y: sep2Y }}
+        className="fixed top-[66vh] left-0 w-full h-px bg-white/[0.03] pointer-events-none z-[38]"
+      />
     </>
   );
 }

@@ -96,6 +96,42 @@ export default function BrutalistHero() {
                 }}
             />
 
+            {/* PHASE 12 STEP 3: FLOATING MICRO OBJECTS */}
+            <div className="absolute inset-0 z-[1] pointer-events-none overflow-hidden">
+                {/* Wireframe square — slow rotation */}
+                <motion.div
+                    animate={{ y: [0, -20, 0], rotate: [0, 90, 180, 270, 360] }}
+                    transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+                    className="absolute top-[15%] right-[20%] w-12 h-12 border border-white/[0.04] rotate-45"
+                />
+                {/* Thin line — vertical float */}
+                <motion.div
+                    animate={{ y: [0, 30, 0], x: [0, -5, 0] }}
+                    transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+                    className="absolute top-[40%] left-[12%] w-px h-20 bg-white/[0.05]"
+                />
+                {/* Small circle — drift */}
+                <motion.div
+                    animate={{ y: [0, -15, 0], x: [0, 10, 0] }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+                    className="absolute bottom-[25%] right-[35%] w-3 h-3 rounded-full border border-white/[0.04]"
+                />
+                {/* Cross — slow rotation */}
+                <motion.div
+                    animate={{ rotate: [0, 360], y: [0, -10, 0] }}
+                    transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                    className="absolute top-[60%] left-[75%] w-6 h-px bg-white/[0.03]"
+                >
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-px h-6 bg-white/[0.03]" />
+                </motion.div>
+                {/* Dash line — horizontal drift */}
+                <motion.div
+                    animate={{ x: [0, 15, 0] }}
+                    transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+                    className="absolute top-[30%] right-[55%] w-16 h-px bg-white/[0.03]"
+                />
+            </div>
+
             {/* PHASE 7: ARCHITECTURAL SPINE LINE */}
             <div className="absolute top-0 left-[5vw] w-px h-full bg-white/10 z-0">
                 <motion.div style={{ height: spineHeight }} className="w-full bg-white" />

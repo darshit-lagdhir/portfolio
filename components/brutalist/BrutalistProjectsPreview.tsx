@@ -132,6 +132,12 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
     const magnetX = useMotionValue(0);
     const smoothMagnetX = useSpring(magnetX, { damping: 25, stiffness: 300 });
 
+    // PHASE 12 STEP 4: HOVER DEPTH TILT
+    const tiltX = useMotionValue(0);
+    const tiltY = useMotionValue(0);
+    const smoothTiltX = useSpring(tiltX, { damping: 30, stiffness: 300 });
+    const smoothTiltY = useSpring(tiltY, { damping: 30, stiffness: 300 });
+
     // PHASE 8 STEP 2: Trigger scanline flicker on each hover entry
     const handleEnter = () => {
         setIsHovered(true);
@@ -142,13 +148,19 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
         if (!rowRef.current) return;
         const rect = rowRef.current.getBoundingClientRect();
         const centerX = rect.left + rect.width / 2;
-        const dx = (e.clientX - centerX) / rect.width * 12; // Max ±6px
+        const centerY = rect.top + rect.height / 2;
+        const dx = (e.clientX - centerX) / rect.width * 12;
         magnetX.set(dx);
+        // Step 4: Tilt toward cursor (max ±2 degrees)
+        tiltY.set(((e.clientX - centerX) / rect.width) * 2);
+        tiltX.set(-((e.clientY - centerY) / rect.height) * 1.5);
     };
 
     const handleLeave = () => {
         setIsHovered(false);
         magnetX.set(0);
+        tiltX.set(0);
+        tiltY.set(0);
     };
 
     return (
@@ -168,7 +180,13 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
             onMouseMove={handleMouseMove}
             onMouseLeave={handleLeave}
             data-project="true"
-            style={{ boxShadow: isHovered ? '0 8px 30px rgba(0,0,0,0.15)' : 'none' }}
+            style={{
+                boxShadow: isHovered ? '0 8px 30px rgba(0,0,0,0.15)' : 'none',
+                rotateX: smoothTiltX,
+                rotateY: smoothTiltY,
+                transformStyle: "preserve-3d",
+                perspective: 1000
+            }}
         >
             <Link href={project.href} className="flex flex-col md:flex-row md:items-center justify-between py-16 gap-8 px-4 group-hover:bg-black group-hover:text-white transition-colors duration-200">
 
