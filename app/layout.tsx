@@ -133,22 +133,6 @@ export function CustomCursor() {
 
   return (
     <>
-      {/* STEP 6: CURSOR PROXIMITY LIGHT (dark sections only) */}
-      {isOnDark && (
-        <motion.div
-          className="fixed top-0 left-0 pointer-events-none z-[9990]"
-          style={{
-            x: glow.x,
-            y: glow.y,
-            translateX: "-50%",
-            translateY: "-50%",
-            width: 400,
-            height: 400,
-            background: "radial-gradient(circle, rgba(255,255,255,0.015) 0%, transparent 70%)",
-          }}
-        />
-      )}
-
       {/* CORE DOT — fast physics */}
       <motion.div
         className="fixed top-0 left-0 bg-white rounded-full pointer-events-none z-[9999] mix-blend-difference"

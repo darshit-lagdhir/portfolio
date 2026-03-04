@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValue, useSpring, useVelocity } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import { useScene } from "@/context/SceneContext";
 
@@ -8,7 +8,17 @@ const GLOBAL_EASE = [0.33, 1, 0.68, 1] as [number, number, number, number];
 
 export default function BrutalistHero() {
     const sectionRef = useRef<HTMLElement>(null);
-    const { setActiveSection } = useScene();
+    const { setActiveSection, isIdle, interactionCount } = useScene();
+
+    // PHASE 16 STEP 2: INTERACTION MEMORY (Sticky state on return)
+    const [hasExplored, setHasExplored] = useState(false);
+    const { scrollYProgress: globalScroll } = useScroll();
+    useEffect(() => {
+        const unsubscribe = globalScroll.on("change", (v) => {
+            if (v > 0.8) setHasExplored(true);
+        });
+        return () => unsubscribe();
+    }, [globalScroll]);
 
     // PHASE 8 STEP 1: ONE-SHOT GLITCH STATE
     const [glitchFired, setGlitchFired] = useState(false);
@@ -60,6 +70,12 @@ export default function BrutalistHero() {
     // PHASE 9 STEP 2: FRAME EXPANSION ON PULLBACK
     const framePadding = useTransform(scrollYProgress, [0, 0.5], ["5vw", "7vw"]);
 
+    // PHASE 16 STEP 1: INTERACTION VELOCITY RESPONSE
+    const { scrollY: globalY } = useScroll();
+    const scrollVelocity = useVelocity(globalY as any);
+    const smoothVelocity = useSpring(scrollVelocity, { damping: 60, stiffness: 400 });
+    const trackingCompress = useTransform(smoothVelocity, [-2000, 0, 2000], ["0.1em", "-0.04em", "0.1em"]);
+
     // PHASE 7+10: LETTER PRESSURE + KINETIC CLUSTERS (BOLD)
     const textArray1 = "DARSHIT".split("");
     const textArray2 = "LAGDHIR".split("");
@@ -81,9 +97,13 @@ export default function BrutalistHero() {
     return (
         <section
             ref={sectionRef}
-            className="relative h-[110vh] flex flex-col justify-center overflow-hidden bg-background px-[5vw] section-boundary-flash"
+            className={`relative h-[110vh] flex flex-col justify-center overflow-hidden transition-all duration-1000 ease-in-out section-boundary-flash ${isIdle ? 'brightness-50' : 'brightness-100'}`}
             id="hero"
             onPointerEnter={() => setActiveSection("hero")}
+            style={{
+                letterSpacing: hasExplored ? "-0.02em" : "0.02em",
+                // PHASE 16: Dim slightly more based on specific interaction history if needed
+            }}
         >
             {/* BREATHING BACKGROUND — PHASE 4 + PHASE 9 COUNTER-SCROLL */}
             <motion.div
@@ -166,7 +186,12 @@ export default function BrutalistHero() {
                     <div className="relative group overflow-visible preserve-3d">
                         {/* GREY SHADOW LAYER — VISIBLE DEPTH */}
                         <motion.span
-                            style={{ y: backY, opacity: stackTextOpacity, z: -50 }}
+                            style={{
+                                y: backY,
+                                opacity: stackTextOpacity,
+                                z: -50,
+                                letterSpacing: trackingCompress as any
+                            }}
                             className="absolute text-massive italic depth-layer select-none pointer-events-none perspective-tilt"
                             aria-hidden
                         >

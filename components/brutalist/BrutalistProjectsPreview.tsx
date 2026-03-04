@@ -68,12 +68,6 @@ export default function BrutalistProjectsPreview() {
 
     // PHASE 13 STEP 8 & 13: PANEL EDGE LIGHTING & SHADOW
     const panelEdgeLight = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], ["rgba(255,255,255,0)", "rgba(255,255,255,0.3)", "rgba(255,255,255,0.3)", "rgba(255,255,255,0)"]);
-    const panelShadow = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [
-        "0 0px 0px rgba(0,0,0,0)",
-        "0 30px 60px rgba(0,0,0,0.15)",
-        "0 30px 60px rgba(0,0,0,0.15)",
-        "0 0px 0px rgba(0,0,0,0)"
-    ]);
 
     const projects = [
         { id: "01", name: "MOVEX_SYSTEM", type: "LOGISTICS / BACKEND", href: "/movex" },
@@ -89,7 +83,6 @@ export default function BrutalistProjectsPreview() {
                 scale: panelScale,
                 x: panelSlide,
                 borderColor: panelEdgeLight,
-                boxShadow: panelShadow,
                 borderTopWidth: "1px",
                 borderBottomWidth: "1px"
             }}
@@ -176,6 +169,13 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
     const magnetX = useMotionValue(0);
     const smoothMagnetX = useSpring(magnetX, { damping: 25, stiffness: 300 });
 
+    // PHASE 16 STEP 1: INTERACTION VELOCITY RESPONSE
+    const { scrollY } = useScroll();
+    const scrollVelocity = useVelocity(scrollY);
+    const smoothVelocity = useSpring(scrollVelocity, { damping: 60, stiffness: 400 });
+    const velocityScale = useTransform(smoothVelocity, [-2000, 0, 2000], [0.95, 1, 1.05]);
+    const velocitySkew = useTransform(smoothVelocity, [-2000, 0, 2000], [-3, 0, 3]);
+
     // PHASE 8 STEP 2: Trigger scanline flicker on each hover entry
     const handleEnter = () => {
         setIsHovered(true);
@@ -212,8 +212,10 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
                 ease: GLOBAL_EASE,
                 scale: { type: "spring", stiffness: hasHovered ? 400 : 300, damping: 15 }
             }}
+            style={{ scaleY: velocityScale, skewY: velocitySkew }}
             className={`
                 relative w-full border-b border-black group cursor-none project-row-transition origin-left
+                ${isHovered ? "flash-invert" : ""}
             `}
             onMouseEnter={handleEnter}
             onMouseMove={handleMouseMove}
@@ -247,7 +249,7 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
                             scale: isHovered ? 1.05 : 1,
                             filter: hasHovered && isHovered ? "brightness(1.5)" : "brightness(1)"
                         }}
-                        className={`text-large-mini md:text-large font-heading italic uppercase transition-all origin-left glitch-safe ${hasHovered ? 'duration-150' : 'duration-300'}`}
+                        className={`text-large-mini md:text-large font-heading italic uppercase transition-all origin-left glitch-safe ${isHovered ? 'project-title-flicker' : ''} ${hasHovered ? 'duration-150' : 'duration-300'}`}
                     >
                         {project.name}
                     </motion.h3>

@@ -8,7 +8,7 @@ import { useScene } from "@/context/SceneContext";
 const GLOBAL_EASE = [0.25, 1, 0.5, 1] as [number, number, number, number];
 
 export default function BrutalistNavbar() {
-    const { activeSection } = useScene();
+    const { activeSection, isIdle, markInteraction } = useScene();
     const [scrolled, setScrolled] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -28,11 +28,15 @@ export default function BrutalistNavbar() {
     return (
         <motion.header
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            animate={{
+                opacity: isIdle ? 0.3 : 1,
+                y: isIdle ? -10 : 0,
+                filter: isIdle ? "blur(2px)" : "blur(0px)"
+            }}
             transition={{ duration: 1.2, ease: GLOBAL_EASE }}
             className={`
-                fixed top-0 left-0 w-full z-[2000] select-none transition-all duration-300
-                ${scrolled ? "py-4 bg-[#000000] border-b border-white" : "py-10 bg-transparent"}
+                fixed top-0 left-0 w-full z-[2000] select-none transition-all duration-700
+                ${scrolled ? "py-4 bg-[#000000] border-b border-white" : isIdle ? "py-6" : "py-10 bg-transparent"}
             `}
         >
             <nav className="flex justify-between items-center px-[5vw] w-full max-w-[1800px] mx-auto">
@@ -51,7 +55,10 @@ export default function BrutalistNavbar() {
                 {/* MOBILE TRIGGER */}
                 <div className="md:hidden flex">
                     <button
-                        onClick={() => setMenuOpen(!menuOpen)}
+                        onClick={() => {
+                            setMenuOpen(!menuOpen);
+                            markInteraction();
+                        }}
                         className="text-white font-bold text-[10px] tracking-[0.4em] p-2"
                     >
                         {menuOpen ? "[ CLOSE ]" : "[ MENU ]"}
