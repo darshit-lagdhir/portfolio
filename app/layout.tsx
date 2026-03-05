@@ -1,7 +1,8 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, useTransform, useScroll, useVelocity } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, useScroll, useVelocity, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import "./globals.css";
 import SmoothScroll from "@/components/brutalist/SmoothScroll";
 import BrutalistNavbar from "@/components/brutalist/BrutalistNavbar";
@@ -239,6 +240,112 @@ function CursorDiscoveryTrail() {
   );
 }
 
+// PHASE 21 STEP 7: CURSOR SIGNAL LINES
+function CursorSignals() {
+  const [mousePos, setMousePos] = useState({ x: -100, y: -100 });
+  const [active, setActive] = useState(false);
+
+  useEffect(() => {
+    const handleMove = (e: MouseEvent) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
+      const target = e.target as HTMLElement;
+      if (target && (target.tagName === 'A' || target.tagName === 'BUTTON' || target.closest('.kinetic-letter'))) {
+        setActive(true);
+      } else {
+        setActive(false);
+      }
+    };
+    window.addEventListener("mousemove", handleMove, { passive: true });
+    return () => window.removeEventListener("mousemove", handleMove);
+  }, []);
+
+  return (
+    <div className="fixed inset-0 pointer-events-none z-[40]">
+      <AnimatePresence>
+        {active && (
+          <motion.svg className="absolute inset-0 w-full h-full">
+            <motion.line
+              initial={{ pathLength: 0, opacity: 0 }}
+              animate={{ pathLength: 1, opacity: 0.15 }}
+              exit={{ opacity: 0 }}
+              x1={mousePos.x}
+              y1={mousePos.y}
+              x2={mousePos.x + 40}
+              y2={mousePos.y - 40}
+              stroke="white"
+              strokeWidth="0.5"
+            />
+          </motion.svg>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+// PHASE 21 STEP 9: CROSS-PAGE CONNECTION
+function CrossPageContinuity() {
+  const pathname = usePathname();
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setIsVisible(true);
+    const timer = setTimeout(() => setIsVisible(false), 2000);
+    return () => clearTimeout(timer);
+  }, [pathname]);
+
+  return (
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          initial={{ scaleY: 0 }}
+          animate={{ scaleY: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+          className="fixed top-0 left-[50%] w-px h-full bg-white/10 z-[50] origin-top pointer-events-none"
+        />
+      )}
+    </AnimatePresence>
+  );
+}
+
+// PHASE 21 STEP 1: GLOBAL STRUCTURAL NETWORK
+function GlobalStructuralNetwork() {
+  const { scrollYProgress } = useScroll();
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => { setIsMobile(window.innerWidth < 768); }, []);
+
+  if (isMobile) return null;
+
+  return (
+    <div className="fixed inset-0 pointer-events-none z-[5]">
+      <svg width="100%" height="100%">
+        {/* Connection Hero -> Projects */}
+        <motion.path
+          d="M 50 100 L 50 400 L 150 400"
+          stroke="white"
+          strokeWidth="0.5"
+          fill="none"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={{ pathLength: 1, opacity: 0.1 }}
+          style={{ pathLength: useTransform(scrollYProgress, [0, 0.5], [0, 1]) }}
+        />
+        {/* Secondary Structural Grid Lines */}
+        <motion.path
+          d="M 90vw 20vh L 90vw 80vh L 80vw 80vh"
+          stroke="white"
+          strokeWidth="0.5"
+          fill="none"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={{ pathLength: 1, opacity: 0.05 }}
+          style={{ x: useTransform(scrollYProgress, [0, 1], [0, -20]) }}
+        />
+      </svg>
+    </div>
+  );
+}
+
+
+
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
   const { scrollY, scrollYProgress } = useScroll();
@@ -313,9 +420,12 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       <BrutalistNavbar />
       <SystemStateIndicator active={systemActive} />
 
-      {/* PHASE 20 STEP 5 & 9: DISCOVERY ELEMENTS */}
+      {/* PHASE 20 & 21: INTERFACE NETWORK LAYERS */}
       <DiscoveryFeedbackDot key={lastDiscoveryTime} />
       <CursorDiscoveryTrail />
+      <CursorSignals />
+      <CrossPageContinuity />
+      <GlobalStructuralNetwork />
 
       <motion.main
         style={{
@@ -330,6 +440,20 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
         {children}
       </motion.main>
       <CustomCursor />
+
+      {/* PHASE 21 STEP 8: REINFORCED STRUCTURAL GRID */}
+      <div className="fixed inset-0 pointer-events-none z-0 opacity-[0.03] transition-opacity duration-1000">
+        <div
+          className="w-full h-full"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(255,255,255,0.05) 1.5px, transparent 1.5px), 
+              linear-gradient(90deg, rgba(255,255,255,0.05) 1.5px, transparent 1.5px)
+            `,
+            backgroundSize: gridSpacing.get() ? `${gridSpacing.get()} ${gridSpacing.get()}` : '20vw 20vw'
+          }}
+        />
+      </div>
 
       {/* PHASE 7: FRAME EDGE REACTIVE SYSTEM (STEP 10) + PHASE 17 STEP 4 */}
       <motion.div

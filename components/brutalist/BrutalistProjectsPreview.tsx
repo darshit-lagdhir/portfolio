@@ -339,6 +339,21 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
                 />
             </div>
 
+            {/* PHASE 21 STEP 3 & 5: PROJECT CONNECTION SYSTEM (Vertical connector) */}
+            {!isMobile && index < 2 && (
+                <div className="absolute left-[30vw] top-full h-16 w-px pointer-events-none z-20">
+                    <motion.div
+                        initial={{ scaleY: 0, opacity: 0.1 }}
+                        animate={{
+                            scaleY: isHovered ? 1.2 : 1,
+                            opacity: isHovered ? 0.4 : 0.1,
+                            backgroundColor: isHovered ? "rgba(0,0,0,0.8)" : "rgba(0,0,0,0.1)"
+                        }}
+                        className="w-full h-full origin-top"
+                    />
+                </div>
+            )}
+
             <Link
                 href={project.href}
                 onClick={() => setIsMorphing(true)}

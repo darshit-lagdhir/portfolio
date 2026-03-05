@@ -30,6 +30,11 @@ export function ProjectEntryLoader() {
     );
 }
 
+// PHASE 21 STEP 1: GLOBAL NETWORK ELEMENT (Anchor point)
+export function NetworkAnchor({ id, className = "" }: { id: string, className?: string }) {
+    return <div id={`anchor-${id}`} className={`absolute w-1 h-1 bg-white/20 rounded-full ${className}`} />;
+}
+
 // PHASE 14 STEP 1 & 12: SYSTEM HEADER BAR & STATUS INDICATOR
 export function SystemHeaderBar({ current }: { current: string }) {
     // PHASE 16 STEP 4: SYSTEM RESPONSE INDICATOR
@@ -223,6 +228,15 @@ export function ArchitectureVisual() {
                         />
                     )}
                 </AnimatePresence>
+                <motion.path
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={{ pathLength: isHovered ? 1 : 0, opacity: isHovered ? 0.2 : 0 }}
+                    transition={{ duration: 0.8 }}
+                    d="M 300 120 L 500 120 M 100 200 L 0 200"
+                    stroke="white"
+                    strokeWidth="0.5"
+                    fill="none"
+                />
             </svg>
             <div className="grid grid-cols-3 gap-24 relative z-10">
                 <motion.div initial={{ scale: 0.9, opacity: 0 }} whileInView={{ scale: 1, opacity: 1 }} className="border border-white/20 px-6 py-4 text-[10px] tracking-widest bg-black">FRONTEND_SYS</motion.div>
@@ -365,21 +379,42 @@ export function ChoreographedSection({ id, children, isProject = false, classNam
                 style={{ height: bridgeHeight }}
                 className={`absolute left-0 top-0 w-1 ${isProject ? 'bg-white/10' : 'bg-black/5'} origin-top`}
             />
+            {/* PHASE 21 STEP 10: SECTION ENTRY SIGNAL */}
+            <motion.div
+                initial={{ opacity: 0, scale: 0.98 }}
+                whileInView={{ opacity: [0, 0.4, 0], scale: [0.98, 1, 1.02] }}
+                viewport={{ once: false, amount: 0.2 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="absolute inset-0 border border-white/10 pointer-events-none z-[-1]"
+            />
             {children}
         </motion.section>
     );
 }
 
-// PHASE 15 STEP 7: CROSS-SECTION CONTINUITY LINE
+// PHASE 15 STEP 7 & PHASE 21 STEP 4, 12: SYSTEM SPINE
 export function ContinuityLine() {
     const { scrollYProgress } = useScroll();
     const isProjectPage = usePathname() !== "/";
     const height = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
     return (
-        <motion.div
-            className={`fixed top-0 left-[3vw] lg:left-[5vw] w-px ${isProjectPage ? 'bg-white/10' : 'bg-black/10'} origin-top z-10 pointer-events-none transition-colors duration-500`}
-            style={{ height }}
-        />
+        <>
+            {/* Main Spine */}
+            <motion.div
+                className={`fixed top-0 left-[3vw] lg:left-[5vw] w-px ${isProjectPage ? 'bg-white/20' : 'bg-black/20'} origin-top z-10 pointer-events-none transition-colors duration-500`}
+                style={{ height }}
+            />
+
+            {/* PHASE 21 STEP 2: SECTION CONNECTORS (Desktop only) */}
+            {!isMobile && !isProjectPage && (
+                <motion.div
+                    className="fixed left-[5vw] top-[50vh] w-[2vw] h-px bg-black/10 z-10 pointer-events-none"
+                    style={{ scaleX: useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]) }}
+                />
+            )}
+        </>
     );
 }
 
