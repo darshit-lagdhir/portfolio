@@ -177,10 +177,29 @@ export default function BrutalistHero() {
                 {/* PHASE 23 STEP 3 & 4: SPLIT HERO - TYPOGRAPHY DOMINANCE */}
                 <div className="col-span-12 lg:col-span-7 flex flex-col items-start gap-0 z-10">
                     <div className="relative group overflow-visible preserve-3d">
+                        {/* GREY SHADOW LAYER — offset behind main text, interactive */}
+                        <motion.span
+                            style={{ y: backY, opacity: 0.15 }}
+                            className="absolute top-[4px] left-[4px] text-massive italic text-white/30 select-none pointer-events-none perspective-tilt z-0"
+                            aria-hidden
+                        >
+                            {textArray1.map((char, i) => (
+                                <Letter
+                                    key={`shadow1-${i}`}
+                                    char={char}
+                                    index={i}
+                                    total={textArray1.length}
+                                    smoothMouseX={smoothMouseX}
+                                    attentionScore={attentionScore}
+                                    rippleActive={discoveries.has("HERO_RIPPLE")}
+                                    scrollTempo={scrollTempo}
+                                />
+                            ))}
+                        </motion.span>
                         <motion.h1
                             initial={{ y: "110%", translateZ: 50 }}
                             animate={{ y: 0, translateZ: 50 }}
-                            style={{ y: frontY, opacity: mainTextOpacity, textShadow: '4px 4px 30px rgba(150,150,150,0.25), 0 0 60px rgba(200,200,200,0.1)' }}
+                            style={{ y: frontY, opacity: mainTextOpacity }}
                             transition={{ duration: 1.2, ease: GLOBAL_EASE }}
                             className={`text-massive italic relative z-10 perspective-tilt glitch-safe word-drift ${glitchFired ? 'hero-glitch-once' : ''}`}
                         >
@@ -199,11 +218,30 @@ export default function BrutalistHero() {
                         </motion.h1>
                     </div>
 
-                    <div className="relative group overflow-visible mt-2 md:pl-[10vw] preserve-3d">
+                    <div className="relative group overflow-visible -mt-6 md:-mt-10 md:pl-[10vw] preserve-3d">
+                        {/* GREY SHADOW LAYER — offset behind main text, interactive */}
+                        <motion.span
+                            style={{ y: backY, opacity: 0.15 }}
+                            className="absolute top-[4px] left-[4px] text-massive text-white/30 select-none pointer-events-none perspective-tilt z-0"
+                            aria-hidden
+                        >
+                            {textArray2.map((char, i) => (
+                                <Letter
+                                    key={`shadow2-${i}`}
+                                    char={char}
+                                    index={i}
+                                    total={textArray2.length}
+                                    smoothMouseX={smoothMouseX}
+                                    attentionScore={attentionScore}
+                                    rippleActive={discoveries.has("HERO_RIPPLE")}
+                                    scrollTempo={scrollTempo}
+                                />
+                            ))}
+                        </motion.span>
                         <motion.h1
                             initial={{ y: "110%", translateZ: 50 }}
                             animate={{ y: 0, translateZ: 50 }}
-                            style={{ y: frontY, opacity: mainTextOpacity, textShadow: '4px 4px 30px rgba(150,150,150,0.25), 0 0 60px rgba(200,200,200,0.1)' }}
+                            style={{ y: frontY, opacity: mainTextOpacity }}
                             transition={{ duration: 1.2, delay: 0.1, ease: GLOBAL_EASE }}
                             className={`text-massive text-white relative z-10 perspective-tilt glitch-safe word-drift-reverse ${glitchFired ? 'hero-glitch-once' : ''}`}
                         >
