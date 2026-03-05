@@ -8,7 +8,10 @@ const GLOBAL_EASE = [0.33, 1, 0.68, 1] as [number, number, number, number];
 
 export default function BrutalistHero() {
     const sectionRef = useRef<HTMLElement>(null);
-    const { setActiveSection, isIdle, interactionCount, scrollTempo, attentionScore } = useScene();
+    const {
+        setActiveSection, isIdle, interactionCount, scrollTempo, attentionScore,
+        triggerDiscovery, discoveries
+    } = useScene();
 
     // PHASE 16 STEP 2: INTERACTION MEMORY (Sticky state on return)
     const [hasExplored, setHasExplored] = useState(false);
@@ -74,6 +77,18 @@ export default function BrutalistHero() {
     const morphZ = useTransform(scrollYProgress, [0.8, 1], [0, -40]); // DEPTH SHIFT (STEP 12)
     const morphOpacity = useTransform(scrollYProgress, [0.8, 1], [1, 0.3]);
 
+    // PHASE 20 STEP 1 & 2: HERO DISCOVERY TRIGGER
+    useEffect(() => {
+        if (discoveries.has("HERO_RIPPLE")) return;
+        const check = () => {
+            if (scrollTempo.get() > 0.85 && attentionScore.get() > 0.7) {
+                triggerDiscovery("HERO_RIPPLE");
+            }
+        };
+        const int = setInterval(check, 500);
+        return () => clearInterval(int);
+    }, [scrollTempo, attentionScore, triggerDiscovery, discoveries]);
+
     // PHASE 9 STEP 2: FRAME EXPANSION ON PULLBACK
     const framePadding = useTransform(scrollYProgress, [0, 0.5], ["5vw", "7vw"]);
 
@@ -101,8 +116,20 @@ export default function BrutalistHero() {
         const pressureY = useTransform([dist, pressureIntensity], ([d, p]: any[]) => (index % 2 === 0 ? p : -p) * clusterMultiplier * (d < 0.15 ? (1 - d / 0.15) : 0));
         const smoothPressureY = useSpring(pressureY, { damping: 25, stiffness: 300 });
 
+        // PHASE 20 STEP 2: DISCOVERY RIPPLE (DEPTH)
+        const rippleActive = discoveries.has("HERO_RIPPLE");
+        const rippleX = useTransform([dist, scrollTempo], ([d, t]: any[]) =>
+            rippleActive && t > 0.7 && d < 0.2 ? (0.2 - d) * 15 : 0
+        );
+        const smoothRippleX = useSpring(rippleX, { damping: 40, stiffness: 200 });
+
         return (
-            <motion.span className="inline-block kinetic-letter" style={{ y: smoothPressureY }}>{char}</motion.span>
+            <motion.span
+                className="inline-block kinetic-letter"
+                style={{ y: smoothPressureY, x: smoothRippleX }}
+            >
+                {char}
+            </motion.span>
         );
     };
 

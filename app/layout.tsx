@@ -181,10 +181,69 @@ export function CustomCursor() {
   );
 }
 
+// PHASE 20 STEP 5: INTERACTION FEEDBACK DOT
+function DiscoveryFeedbackDot() {
+  const { lastDiscoveryTime } = useScene();
+  const [mousePos, setMousePos] = useState({ x: -100, y: -100 });
+
+  useEffect(() => {
+    const handleMove = (e: MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY });
+    window.addEventListener("mousemove", handleMove, { passive: true });
+    return () => window.removeEventListener("mousemove", handleMove);
+  }, []);
+
+  if (!lastDiscoveryTime || Date.now() - lastDiscoveryTime > 2000) return null;
+
+  return (
+    <motion.div
+      initial={{ scale: 0, opacity: 0 }}
+      animate={{ scale: [0, 4, 0], opacity: [0, 0.8, 0] }}
+      transition={{ duration: 1.2, ease: "circOut" }}
+      className="fixed pointer-events-none z-[300] w-2 h-2 rounded-full bg-white blur-[2px]"
+      style={{ left: mousePos.x, top: mousePos.y, x: "-50%", y: "-50%" }}
+    />
+  );
+}
+
+// PHASE 20 STEP 9: CURSOR DISCOVERY TRAIL
+function CursorDiscoveryTrail() {
+  const { scrollTempo } = useScene();
+  const [mousePos, setMousePos] = useState({ x: -100, y: -100 });
+  const [trail, setTrail] = useState<{ x: number, y: number, id: number }[]>([]);
+
+  useEffect(() => {
+    let id = 0;
+    const handleMove = (e: MouseEvent) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
+      // Only leave trail if moving slowly (high tempo MotionValue)
+      if (scrollTempo.get() > 0.6) {
+        setTrail(prev => [...prev.slice(-10), { x: e.clientX, y: e.clientY, id: id++ }]);
+      }
+    };
+    window.addEventListener("mousemove", handleMove, { passive: true });
+    return () => window.removeEventListener("mousemove", handleMove);
+  }, [scrollTempo]);
+
+  return (
+    <div className="fixed inset-0 pointer-events-none z-[35]">
+      {trail.map(t => (
+        <motion.div
+          key={t.id}
+          initial={{ opacity: 0.3, scale: 1 }}
+          animate={{ opacity: 0, scale: 0.5 }}
+          className="absolute w-1 h-1 bg-white rounded-full"
+          style={{ left: t.x, top: t.y }}
+        />
+      ))}
+    </div>
+  );
+}
+
+
 function LayoutContent({ children }: { children: React.ReactNode }) {
   const { scrollY, scrollYProgress } = useScroll();
   const [showGrid, setShowGrid] = useState(false);
-  const { interactionCount, attentionScore, focusZone } = useScene();
+  const { interactionCount, attentionScore, focusZone, lastDiscoveryTime, scrollTempo } = useScene();
 
   // PHASE 5 & 7: ADVANCED SCROLL PHYSICS
   const scrollVelocity = useVelocity(scrollY);
@@ -193,8 +252,10 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   // STEP 6: Microscopic tilt
   const scrollTiltX = useTransform(smoothVelocity, [-2000, 2000], [-1.5, 1.5]);
 
-  // STEP 10: Reactive Border Brightness
-  const borderOpacity = useTransform(smoothVelocity, [-1000, 0, 1000], [0.3, 0.05, 0.3]);
+  // STEP 10: Reactive Border Brightness + PHASE 20 STEP 10: SLOW SCROLL DISCOVERY
+  const baseBorderOpacity = useTransform(smoothVelocity, [-1000, 0, 1000], [0.3, 0.05, 0.3]);
+  const slowScrollPulse = useTransform(smoothVelocity, [-50, 0, 50], [0.4, 0, 0.4]);
+  const borderOpacity = useTransform([baseBorderOpacity, slowScrollPulse], ([base, pulse]: any[]) => Math.max(base, pulse));
 
   // STEP 11: Dynamic Spacing Adjustment (Density narrative)
   const layoutLineHeight = useTransform(scrollYProgress, [0, 1], [1.4, 1.3]);
@@ -251,6 +312,11 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       <SmoothScroll />
       <BrutalistNavbar />
       <SystemStateIndicator active={systemActive} />
+
+      {/* PHASE 20 STEP 5 & 9: DISCOVERY ELEMENTS */}
+      <DiscoveryFeedbackDot key={lastDiscoveryTime} />
+      <CursorDiscoveryTrail />
+
       <motion.main
         style={{
           rotateX: scrollTiltX,

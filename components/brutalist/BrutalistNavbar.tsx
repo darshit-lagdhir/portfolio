@@ -111,6 +111,16 @@ function MagneticNavItem({ link, index, isActive }: { link: { name: string, href
     const magnetY = useMotionValue(0);
     const smoothX = useSpring(magnetX, { damping: 20, stiffness: 300 });
     const smoothY = useSpring(magnetY, { damping: 20, stiffness: 300 });
+    const { triggerDiscovery, discoveries } = useScene();
+    const [isHovering, setIsHovering] = useState(false);
+
+    useEffect(() => {
+        if (!isHovering || discoveries.has(`NAV_EXPAND_${index}`)) return;
+        const timer = setTimeout(() => {
+            triggerDiscovery(`NAV_EXPAND_${index}`);
+        }, 1200);
+        return () => clearTimeout(timer);
+    }, [isHovering, index, triggerDiscovery, discoveries]);
 
     const handleMouseMove = useCallback((e: React.MouseEvent) => {
         if (!ref.current) return;
@@ -127,11 +137,15 @@ function MagneticNavItem({ link, index, isActive }: { link: { name: string, href
     const handleMouseLeave = useCallback(() => {
         magnetX.set(0);
         magnetY.set(0);
+        setIsHovering(false);
     }, [magnetX, magnetY]);
+
+    const handleMouseEnter = () => setIsHovering(true);
 
     return (
         <motion.div
             ref={ref}
+            onMouseEnter={handleMouseEnter}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
             style={{ x: smoothX, y: smoothY }}
@@ -148,8 +162,12 @@ function MagneticNavItem({ link, index, isActive }: { link: { name: string, href
             >
                 <motion.span
                     initial={false}
-                    animate={isActive ? { rotateX: [-90, 0], opacity: 1, scale: 1.25 } : { rotateX: 0, opacity: 0.4, scale: 1 }}
-                    transition={{ duration: 0.3, ease: GLOBAL_EASE }}
+                    animate={
+                        discoveries.has(`NAV_EXPAND_${index}`)
+                            ? { scale: [1, 2.5, 1], x: [0, -5, 0], opacity: [0.4, 1, 0.4] }
+                            : (isActive ? { rotateX: [-90, 0], opacity: 1, scale: 1.25 } : { rotateX: 0, opacity: 0.4, scale: 1 })
+                    }
+                    transition={{ duration: 0.8, ease: "circInOut" }}
                     className="text-[8px] transform-gpu origin-bottom inline-block"
                 >
                     {`0${index + 1}`}

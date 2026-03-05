@@ -168,8 +168,23 @@ export function ProjectTimeline({ steps }: { steps: string[] }) {
 
 // PHASE 14 STEP 4 & 3: ARCHITECTURE VISUALIZATION
 export function ArchitectureVisual() {
+    const [isHovered, setIsHovered] = useState(false);
+    const { triggerDiscovery, discoveries } = useScene();
+
+    useEffect(() => {
+        if (!isHovered || discoveries.has("ARCH_COMPLEXITY")) return;
+        const timer = setTimeout(() => {
+            triggerDiscovery("ARCH_COMPLEXITY");
+        }, 1500);
+        return () => clearTimeout(timer);
+    }, [isHovered, triggerDiscovery, discoveries]);
+
     return (
-        <div className="w-full h-64 border border-white/10 mt-8 relative flex items-center justify-center bg-[#050505]">
+        <div
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            className="w-full h-64 border border-white/10 mt-8 relative flex items-center justify-center bg-[#050505] transition-colors duration-500 hover:border-white/20 group/arch"
+        >
             <svg width="100%" height="100%" className="absolute inset-0 pointer-events-none">
                 <motion.path
                     initial={{ pathLength: 0, opacity: 0 }}
@@ -192,11 +207,42 @@ export function ArchitectureVisual() {
                     fill="none"
                     strokeDasharray="4 4"
                 />
+
+                {/* PHASE 20 STEP 4: EXTRA CONNECTION LINES */}
+                <AnimatePresence>
+                    {discoveries.has("ARCH_COMPLEXITY") && (
+                        <motion.path
+                            initial={{ pathLength: 0, opacity: 0 }}
+                            animate={{ pathLength: 1, opacity: 0.2 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 1 }}
+                            d="M 150 120 L 250 30 L 350 120"
+                            stroke="white"
+                            strokeWidth="0.5"
+                            fill="none"
+                        />
+                    )}
+                </AnimatePresence>
             </svg>
             <div className="grid grid-cols-3 gap-24 relative z-10">
                 <motion.div initial={{ scale: 0.9, opacity: 0 }} whileInView={{ scale: 1, opacity: 1 }} className="border border-white/20 px-6 py-4 text-[10px] tracking-widest bg-black">FRONTEND_SYS</motion.div>
                 <motion.div initial={{ scale: 0.9, opacity: 0 }} whileInView={{ scale: 1, opacity: 1 }} transition={{ delay: 0.2 }} className="border border-white/40 px-6 py-4 text-[10px] tracking-widest text-white shadow-[0_0_15px_rgba(255,255,255,0.1)] bg-black">CORE_ENGINE</motion.div>
-                <motion.div initial={{ scale: 0.9, opacity: 0 }} whileInView={{ scale: 1, opacity: 1 }} transition={{ delay: 0.4 }} className="border border-white/20 px-6 py-4 text-[10px] tracking-widest bg-black">DB_CLUSTER</motion.div>
+                <motion.div initial={{ scale: 0.9, opacity: 0 }} whileInView={{ scale: 1, opacity: 1 }} transition={{ delay: 0.4 }} className="border border-white/20 px-6 py-4 text-[10px] tracking-widest bg-black relative">
+                    DB_CLUSTER
+                    {/* PHASE 20 STEP 7: SECRET ANNOTATION */}
+                    <AnimatePresence>
+                        {isHovered && discoveries.has("ARCH_COMPLEXITY") && (
+                            <motion.span
+                                initial={{ opacity: 0, y: 5 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0 }}
+                                className="absolute top-full left-0 mt-2 text-[8px] text-white/40 italic whitespace-nowrap"
+                            >
+                                *NODE_SYNC_ACTIVE
+                            </motion.span>
+                        )}
+                    </AnimatePresence>
+                </motion.div>
             </div>
         </div>
     );

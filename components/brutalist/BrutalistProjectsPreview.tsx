@@ -180,7 +180,10 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
     const [isHovered, setIsHovered] = useState(false);
     const [flickerKey, setFlickerKey] = useState(0);
     const rowRef = useRef<HTMLDivElement>(null);
-    const { markInteraction, markProjectInterest, projectInterests, scrollTempo, isIdle } = useScene();
+    const {
+        markInteraction, markProjectInterest, projectInterests, scrollTempo, isIdle,
+        triggerDiscovery, discoveries
+    } = useScene();
 
     // PHASE 16 STEP 2 & 6: HOVER HISTORY MEMORY & DISCOVERY
     const [hasHovered, setHasHovered] = useState(false);
@@ -247,9 +250,18 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
         if (!hasHovered) setHasHovered(true);
         setFlickerKey(prev => prev + 1);
         markInteraction();
-        // PHASE 19 STEP 1 & 6: TRACK INTEREST
         markProjectInterest(project.name);
     };
+
+    // PHASE 20 STEP 1 & 3 & 13: PROJECT DISCOVERY TRIGGER
+    useEffect(() => {
+        if (!isHovered || discoveries.has(`UNDERLINE_${project.id}`)) return;
+        const timer = setTimeout(() => {
+            triggerDiscovery(`UNDERLINE_${project.id}`);
+        }, 2000);
+        return () => clearTimeout(timer);
+    }, [isHovered, project.id, triggerDiscovery, discoveries]);
+
 
     const handleMouseMove = (e: React.MouseEvent) => {
         if (!rowRef.current) return;
@@ -348,9 +360,18 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
                             scale: isHovered ? 1.05 : 1,
                             filter: hasHovered && isHovered ? "brightness(1.5)" : "brightness(1)"
                         }}
-                        className={`text-large-mini md:text-large font-heading italic uppercase transition-all origin-left glitch-safe ${isHovered ? 'project-title-flicker' : ''} ${hasHovered ? 'duration-150' : 'duration-300'}`}
+                        className={`text-large-mini md:text-large font-heading italic uppercase transition-all origin-left glitch-safe relative ${isHovered ? 'project-title-flicker' : ''} ${hasHovered ? 'duration-150' : 'duration-300'}`}
                     >
                         {project.name}
+                        {/* PHASE 20 STEP 3: PROJECT TITLE DISCOVERY UNDERLINE */}
+                        {discoveries.has(`UNDERLINE_${project.id}`) && (
+                            <motion.div
+                                initial={{ scaleX: 0 }}
+                                animate={{ scaleX: [0, 1, 0] }}
+                                transition={{ duration: 1.5, times: [0, 0.5, 1], ease: "easeInOut" }}
+                                className="absolute bottom-[-4px] left-0 w-full h-[1px] bg-white origin-left z-20"
+                            />
+                        )}
                     </motion.h3>
                 </motion.div>
 

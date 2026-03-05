@@ -28,6 +28,10 @@ interface SceneContextType {
     focusZone: "top" | "center" | "bottom";
     projectInterests: Record<string, number>; // ProjectID -> InteractionCount
     markProjectInterest: (id: string) => void;
+    // PHASE 20: DISCOVERY ENGINE
+    discoveries: Set<string>;
+    triggerDiscovery: (id: string) => void;
+    lastDiscoveryTime: number;
 }
 
 const SceneContext = createContext<SceneContextType | undefined>(undefined);
@@ -48,6 +52,38 @@ export function SceneProvider({ children }: { children: React.ReactNode }) {
     const attentionScore = useMotionValue(0.5);
     const [focusZone, setFocusZone] = useState<"top" | "center" | "bottom">("center");
     const [projectInterests, setProjectInterests] = useState<Record<string, number>>({});
+
+    // PHASE 20: DISCOVERY STATE (Step 6: Reset on reload)
+    const [discoveries, setDiscoveries] = useState<Set<string>>(new Set());
+    const [lastDiscoveryTime, setLastDiscoveryTime] = useState(0);
+
+    const triggerDiscovery = React.useCallback((id: string) => {
+        setDiscoveries(prev => {
+            if (prev.has(id)) return prev;
+            const next = new Set(prev);
+            next.add(id);
+            setLastDiscoveryTime(Date.now());
+
+            // PHASE 20 STEP 11: MICRO SOUND (Disabled by default)
+            if (isSoundEnabled) {
+                try {
+                    const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.type = "sine";
+                    osc.frequency.setValueAtTime(880, ctx.currentTime);
+                    gain.gain.setValueAtTime(0, ctx.currentTime);
+                    gain.gain.linearRampToValueAtTime(0.005, ctx.currentTime + 0.01);
+                    gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.1);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.1);
+                } catch (e) { /* silent fail */ }
+            }
+            return next;
+        });
+    }, [isSoundEnabled]);
 
     const markProjectInterest = React.useCallback((id: string) => {
         setProjectInterests(prev => ({
@@ -153,7 +189,8 @@ export function SceneProvider({ children }: { children: React.ReactNode }) {
             isFocusing, setIsFocusing,
             isSoundEnabled, setIsSoundEnabled,
             isIdle, interactionCount, markInteraction,
-            scrollTempo, attentionScore, focusZone, projectInterests, markProjectInterest
+            scrollTempo, attentionScore, focusZone, projectInterests, markProjectInterest,
+            discoveries, triggerDiscovery, lastDiscoveryTime
         }}>
             <div className={`scene-mode-${mode} ${isIdle ? 'system-idle' : 'system-active'} focus-zone-${focusZone}`}>
                 {children}
