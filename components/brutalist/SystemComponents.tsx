@@ -305,6 +305,8 @@ export function ChoreographedSection({ id, children, isProject = false, classNam
         ["rgba(255,255,255,0)", isProject ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.1)", isProject ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.1)", "rgba(255,255,255,0)"]
     );
 
+    const bridgeHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
     return (
         <motion.section
             ref={ref}
@@ -314,7 +316,7 @@ export function ChoreographedSection({ id, children, isProject = false, classNam
         >
             {/* Step 6: Visual Transition Bridges */}
             <motion.div
-                style={{ height: useTransform(scrollYProgress, [0, 1], ["0%", "100%"]) }}
+                style={{ height: bridgeHeight }}
                 className={`absolute left-0 top-0 w-1 ${isProject ? 'bg-white/10' : 'bg-black/5'} origin-top`}
             />
             {children}

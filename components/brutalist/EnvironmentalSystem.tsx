@@ -66,22 +66,26 @@ export default function EnvironmentalSystem() {
     const { scrollYProgress } = useScroll();
     const scrollLightY = useTransform(scrollYProgress, [0, 1], ["20%", "80%"]);
 
+    const mobileBackground = useTransform(
+        scrollYProgress,
+        [0, 0.5, 1],
+        [
+            "radial-gradient(circle at 50% 20%, rgba(255,255,255,0.02) 0%, transparent 60%)",
+            "radial-gradient(circle at 50% 50%, rgba(255,255,255,0.02) 0%, transparent 60%)",
+            "radial-gradient(circle at 50% 80%, rgba(255,255,255,0.02) 0%, transparent 60%)"
+        ]
+    );
+
+    const desktopBackground = useTransform([lightX, lightY, smoothIntensity], ([x, y, op]) => {
+        return `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,${op}) 0%, transparent 70%)`;
+    });
+
     if (isMobile) {
         // MOBILE LIGHT SYSTEM (STEP 12)
         return (
             <motion.div
                 className="fixed inset-0 pointer-events-none z-[40]"
-                style={{
-                    background: useTransform(
-                        scrollYProgress,
-                        [0, 0.5, 1],
-                        [
-                            "radial-gradient(circle at 50% 20%, rgba(255,255,255,0.02) 0%, transparent 60%)",
-                            "radial-gradient(circle at 50% 50%, rgba(255,255,255,0.02) 0%, transparent 60%)",
-                            "radial-gradient(circle at 50% 80%, rgba(255,255,255,0.02) 0%, transparent 60%)"
-                        ]
-                    )
-                }}
+                style={{ background: mobileBackground }}
             />
         );
     }
@@ -92,9 +96,7 @@ export default function EnvironmentalSystem() {
             style={{
                 opacity: activeSection === "about" || activeSection === "contact" ? 0 : 1,
                 // GLOBAL LIGHT FIELD (STEP 1)
-                background: useTransform([lightX, lightY, smoothIntensity], ([x, y, op]) => {
-                    return `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,${op}) 0%, transparent 70%)`;
-                })
+                background: desktopBackground
             }}
         />
     );

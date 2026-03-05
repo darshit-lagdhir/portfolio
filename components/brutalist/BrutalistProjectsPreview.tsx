@@ -210,6 +210,8 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
         [smoothProximity, interestHighlight],
         ([prox, highlight]: any[]) => `0px ${20 * Math.max(prox, highlight)}px ${40 * Math.max(prox, highlight)}px rgba(0,0,0,${0.1 * Math.max(prox, highlight)})`
     );
+    const surfaceLightOpacity = useTransform(smoothProximity, [0, 1], [0, 0.05]);
+    const surfaceMagnetX = useTransform(magnetX, (x: number) => x * 10);
 
     // PHASE 16 STEP 1: INTERACTION VELOCITY RESPONSE
     const { scrollY, scrollYProgress } = useScroll({
@@ -224,6 +226,9 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
     // PHASE 17 STEP 3 & 5: PROJECT PANEL EXPANSION & SNAP
     const activeScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.98, 1.04, 0.98]);
     const activeZ = useTransform(scrollYProgress, [0, 0.5, 1], [0, 40, 0]);
+
+    // PHASE 19 STEP 5: ATTENTION REFOCUS (Highlight on pause)
+    const pauseBorderColor = useTransform(scrollYProgress, [0.4, 0.5, 0.6], ["rgba(0,0,0,0.1)", "rgba(0,0,0,0.4)", "rgba(0,0,0,0.1)"]);
 
     // PHASE 17 STEP 14: MOBILE SIMPLIFICATION
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
@@ -282,7 +287,7 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
                 borderTopColor: edgeLight, // STEP 3
                 boxShadow: shadowDepth,    // STEP 8
                 // PHASE 19 STEP 5: ATTENTION REFOCUS (Highlight on pause)
-                borderColor: isIdle ? useTransform(scrollYProgress, [0.4, 0.5, 0.6], ["rgba(0,0,0,0.1)", "rgba(0,0,0,0.4)", "rgba(0,0,0,0.1)"]) : "rgba(0,0,0,0.1)"
+                borderColor: isIdle ? pauseBorderColor : "rgba(0,0,0,0.1)"
             }}
             className={`
                 relative w-full border-b border-black group cursor-none project-row-transition origin-left
@@ -296,9 +301,9 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
             {/* PHASE 18 STEP 9: PROJECT SURFACE LIGHT RESPONSE (SHEEN) */}
             <motion.div
                 style={{
-                    opacity: useTransform(smoothProximity, [0, 1], [0, 0.05]),
+                    opacity: surfaceLightOpacity,
                     background: `linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.2) 50%, transparent 100%)`,
-                    x: useTransform(magnetX, x => x * 10)
+                    x: surfaceMagnetX
                 }}
                 className="absolute inset-0 pointer-events-none z-0"
             />
