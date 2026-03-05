@@ -69,6 +69,12 @@ export default function BrutalistProjectsPreview() {
     // PHASE 13 STEP 8 & 13: PANEL EDGE LIGHTING & SHADOW
     const panelEdgeLight = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], ["rgba(255,255,255,0)", "rgba(255,255,255,0.3)", "rgba(255,255,255,0.3)", "rgba(255,255,255,0)"]);
 
+    // PHASE 17 STEP 1, 6, 11, 12, 14: SECTION MORPH ENGINE
+    const morphZ = useTransform(scrollYProgress, [0, 0.5, 1], [-60, 0, -60]); // DEPTH LAYER (STEP 12)
+    const morphRotate = useTransform(scrollYProgress, [0, 0.5, 1], [0.4, 0, -0.4]); // PANEL ROTATION (STEP 6)
+    const panelMorphY = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [1.02, 1, 1, 1, 1.02]); // EXPANSION UPWARD (STEP 2)
+    const panelMorphScale = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0.98, 1, 1, 0.98]);
+
     const projects = [
         { id: "01", name: "MOVEX_SYSTEM", type: "LOGISTICS / BACKEND", href: "/movex" },
         { id: "02", name: "UIDAI_AI", type: "PATTERN / AUTH", href: "/uidai" },
@@ -80,11 +86,15 @@ export default function BrutalistProjectsPreview() {
             ref={containerRef}
             id="projects"
             style={{
-                scale: panelScale,
+                scale: panelMorphScale,
+                scaleY: panelMorphY,
                 x: panelSlide,
+                z: morphZ,
+                rotate: morphRotate,
                 borderColor: panelEdgeLight,
                 borderTopWidth: "1px",
-                borderBottomWidth: "1px"
+                borderBottomWidth: "1px",
+                transformPerspective: 1200
             }}
             onPointerEnter={() => setActiveSection("projects")}
             className="relative min-h-screen bg-white text-black py-40 px-[5vw] flex flex-col items-center overflow-hidden preserve-3d transition-colors duration-500 rounded-[8px]"
@@ -164,17 +174,28 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
     // PHASE 16 STEP 2 & 6: HOVER HISTORY MEMORY & DISCOVERY
     const [hasHovered, setHasHovered] = useState(false);
     const [discovered, setDiscovered] = useState(false);
+    const [isMorphing, setIsMorphing] = useState(false);
 
     // PHASE 11 STEP 8: MAGNETIC TITLE DRIFT
     const magnetX = useMotionValue(0);
     const smoothMagnetX = useSpring(magnetX, { damping: 25, stiffness: 300 });
 
     // PHASE 16 STEP 1: INTERACTION VELOCITY RESPONSE
-    const { scrollY } = useScroll();
+    const { scrollY, scrollYProgress } = useScroll({
+        target: rowRef,
+        offset: ["start end", "end start"]
+    });
     const scrollVelocity = useVelocity(scrollY);
     const smoothVelocity = useSpring(scrollVelocity, { damping: 60, stiffness: 400 });
     const velocityScale = useTransform(smoothVelocity, [-2000, 0, 2000], [0.95, 1, 1.05]);
     const velocitySkew = useTransform(smoothVelocity, [-2000, 0, 2000], [-3, 0, 3]);
+
+    // PHASE 17 STEP 3 & 5: PROJECT PANEL EXPANSION & SNAP
+    const activeScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.98, 1.04, 0.98]);
+    const activeZ = useTransform(scrollYProgress, [0, 0.5, 1], [0, 40, 0]);
+
+    // PHASE 17 STEP 14: MOBILE SIMPLIFICATION
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
     // PHASE 8 STEP 2: Trigger scanline flicker on each hover entry
     const handleEnter = () => {
@@ -212,7 +233,14 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
                 ease: GLOBAL_EASE,
                 scale: { type: "spring", stiffness: hasHovered ? 400 : 300, damping: 15 }
             }}
-            style={{ scaleY: velocityScale, skewY: velocitySkew }}
+            style={{
+                scaleY: velocityScale,
+                skewY: isMobile ? 0 : velocitySkew,
+                scale: isMorphing ? 1.5 : activeScale,
+                z: isMorphing ? 500 : activeZ,
+                rotate: isMobile ? 0 : (isHovered ? -0.2 : 0), // STEP 6 & 13
+                opacity: isMorphing ? 0 : 1,
+            }}
             className={`
                 relative w-full border-b border-black group cursor-none project-row-transition origin-left
                 ${isHovered ? "flash-invert" : ""}
@@ -232,7 +260,11 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
                 />
             </div>
 
-            <Link href={project.href} className={`flex flex-col md:flex-row md:items-center justify-between py-16 gap-8 px-4 group-hover:bg-black group-hover:text-white transition-colors ${hasHovered ? 'duration-150' : 'duration-300'}`}>
+            <Link
+                href={project.href}
+                onClick={() => setIsMorphing(true)}
+                className={`flex flex-col md:flex-row md:items-center justify-between py-16 gap-8 px-4 group-hover:bg-black group-hover:text-white transition-all duration-500 ${hasHovered ? 'duration-150' : 'duration-300'} ${isHovered && !isMobile ? 'pl-12' : ''}`}
+            >
 
                 {/* ID + TITLE — MAGNETIC DRIFT — PHASE 11 STEP 8 */}
                 <motion.div style={{ x: smoothMagnetX }} className="flex items-center gap-12 mask-reveal overflow-visible origin-left">

@@ -67,6 +67,13 @@ export default function BrutalistHero() {
     const backY = useTransform(scrollYProgress, [0, 1], ["0%", "-35%"]);   // Background: fastest
     const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);      // BG counter-scroll
 
+    // PHASE 17 STEP 1, 6, 11, 12, 14: SECTION MORPH ENGINE
+    const morphScaleX = useTransform(scrollYProgress, [0, 0.4, 0.8, 1], [1, 1, 0.98, 0.98]);
+    const morphScaleY = useTransform(scrollYProgress, [0, 0.4, 0.8, 1], [1, 1, 0.98, 0.96]); // VERTICAL COLLAPSE (STEP 11)
+    const morphRotate = useTransform(scrollYProgress, [0.8, 1], [0, -0.4]); // MICRO ROTATION (STEP 6)
+    const morphZ = useTransform(scrollYProgress, [0.8, 1], [0, -40]); // DEPTH SHIFT (STEP 12)
+    const morphOpacity = useTransform(scrollYProgress, [0.8, 1], [1, 0.3]);
+
     // PHASE 9 STEP 2: FRAME EXPANSION ON PULLBACK
     const framePadding = useTransform(scrollYProgress, [0, 0.5], ["5vw", "7vw"]);
 
@@ -95,14 +102,19 @@ export default function BrutalistHero() {
     };
 
     return (
-        <section
+        <motion.section
             ref={sectionRef}
             className={`relative h-[110vh] flex flex-col justify-center overflow-hidden transition-all duration-1000 ease-in-out section-boundary-flash ${isIdle ? 'brightness-50' : 'brightness-100'}`}
             id="hero"
             onPointerEnter={() => setActiveSection("hero")}
             style={{
                 letterSpacing: hasExplored ? "-0.02em" : "0.02em",
-                // PHASE 16: Dim slightly more based on specific interaction history if needed
+                scaleX: morphScaleX,
+                scaleY: morphScaleY,
+                rotate: morphRotate,
+                z: morphZ,
+                opacity: morphOpacity,
+                transformPerspective: 1200
             }}
         >
             {/* BREATHING BACKGROUND — PHASE 4 + PHASE 9 COUNTER-SCROLL */}
@@ -296,6 +308,6 @@ export default function BrutalistHero() {
                 </span>
             </motion.div>
 
-        </section>
+        </motion.section>
     );
 }

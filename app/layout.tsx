@@ -209,6 +209,11 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   // PHASE 9 STEP 11: GRID GUIDES VISIBLE ON SCROLL
   const gridScrollOpacity = useTransform(smoothVelocity, [-800, -200, 0, 200, 800], [0.08, 0.04, 0, 0.04, 0.08]);
 
+  // PHASE 17 STEP 4 & 10: VIEWPORT FRAME SHIFT & GRID ADJUST
+  const frameInset = useTransform(scrollYProgress, [0, 0.5, 1], ["10px", "0px", "10px"]);
+  const frameScale = useTransform(smoothVelocity, [-2000, 0, 2000], [1.02, 1, 1.02]);
+  const gridSpacing = useTransform(scrollYProgress, [0, 1], ["20vw", "18vw"]);
+
   // PHASE 12 STEP 6: FLOATING SEPARATOR PARALLAX
   const sep1Y = useTransform(scrollYProgress, [0, 1], ["0vh", "-15vh"]);
   const sep2Y = useTransform(scrollYProgress, [0, 1], ["0vh", "-10vh"]);
@@ -239,8 +244,16 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       </motion.main>
       <CustomCursor />
 
-      {/* PHASE 7: FRAME EDGE REACTIVE SYSTEM (STEP 10) */}
-      <motion.div style={{ opacity: borderOpacity }} className="fixed inset-0 border-[1px] border-white pointer-events-none z-50" />
+      {/* PHASE 7: FRAME EDGE REACTIVE SYSTEM (STEP 10) + PHASE 17 STEP 4 */}
+      <motion.div
+        style={{
+          opacity: borderOpacity,
+          inset: frameInset,
+          scale: frameScale,
+          borderWidth: "1.5px"
+        }}
+        className="fixed border-white pointer-events-none z-50 transition-colors duration-500"
+      />
 
       {/* PHASE 7: ARCHITECTURAL SPINE (STEP 3 & 6) + PHASE 8 DISPLACEMENT (STEP 7) */}
       <motion.div
@@ -275,9 +288,9 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
         style={{ opacity: gridScrollOpacity }}
         className="fixed inset-0 pointer-events-none z-[39]"
       >
-        <div className="w-full h-full" style={{
+        <motion.div className="w-full h-full" style={{
           backgroundImage: 'linear-gradient(to right, rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.06) 1px, transparent 1px)',
-          backgroundSize: '20vw 20vh'
+          backgroundSize: useTransform(gridSpacing, (s: string) => `${s} 20vh`)
         }} />
       </motion.div>
 
