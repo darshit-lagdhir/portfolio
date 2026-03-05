@@ -392,3 +392,23 @@ export function StoryBlock({ title, children }: { title: string, children: React
         </div>
     );
 }
+// PHASE 19 STEP 11: SYSTEM STATE INDICATOR
+export function SystemStateIndicator({ active }: { active: boolean }) {
+    return (
+        <AnimatePresence>
+            {active && (
+                <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 20 }}
+                    className="fixed bottom-24 left-[5vw] z-[100] flex items-center gap-4 pointer-events-none"
+                >
+                    <div className="w-2 h-2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)] animate-pulse" />
+                    <span className="text-micro font-bold tracking-[0.8em] text-white/60 uppercase whitespace-nowrap">
+                        Interface_Responding
+                    </span>
+                </motion.div>
+            )}
+        </AnimatePresence>
+    );
+}

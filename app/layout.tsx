@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, useTransform, useScroll } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, useScroll, useVelocity } from "framer-motion";
 import { useEffect, useState } from "react";
 import "./globals.css";
 import SmoothScroll from "@/components/brutalist/SmoothScroll";
@@ -8,7 +8,7 @@ import BrutalistNavbar from "@/components/brutalist/BrutalistNavbar";
 import AmbientParticles from "@/components/brutalist/AmbientParticles";
 import EnvironmentalSystem from "@/components/brutalist/EnvironmentalSystem";
 import { SceneProvider, useScene } from "@/context/SceneContext";
-import { CommandPalette, ContinuityLine } from "@/components/brutalist/SystemComponents";
+import { CommandPalette, ContinuityLine, SystemStateIndicator } from "@/components/brutalist/SystemComponents";
 
 export function CustomCursor() {
   // PHASE 11 STEP 1: CURSOR PHYSICS ENGINE
@@ -184,10 +184,9 @@ export function CustomCursor() {
 function LayoutContent({ children }: { children: React.ReactNode }) {
   const { scrollY, scrollYProgress } = useScroll();
   const [showGrid, setShowGrid] = useState(false);
-  const { interactionCount } = useScene();
+  const { interactionCount, attentionScore, focusZone } = useScene();
 
   // PHASE 5 & 7: ADVANCED SCROLL PHYSICS
-  const { useVelocity, useSpring, useTransform } = require("framer-motion");
   const scrollVelocity = useVelocity(scrollY);
   const smoothVelocity = useSpring(scrollVelocity, { damping: 50, stiffness: 400 });
 
@@ -219,8 +218,22 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   const sep1Y = useTransform(scrollYProgress, [0, 1], ["0vh", "-15vh"]);
   const sep2Y = useTransform(scrollYProgress, [0, 1], ["0vh", "-10vh"]);
 
+  // PHASE 19 STEP 12: VISUAL ATTENTION GRADIENT
+  const centerContrast = useTransform(attentionScore, [0, 1], [1, 1.05]);
+  const edgeDim = useTransform(attentionScore, [0, 1], [1, 0.98]);
+
   // PHASE 12 STEP 11: STRUCTURAL FLOATING GRID (SLOWER THAN SCROLL)
   const structuralGridY = useTransform(scrollYProgress, [0, 1], ["0vh", "30vh"]);
+
+  // PHASE 19 STEP 11: SYSTEM STATE INDICATOR LOGIC
+  const [systemActive, setSystemActive] = useState(false);
+  useEffect(() => {
+    if (interactionCount > 0 && interactionCount % 15 === 0) {
+      setSystemActive(true);
+      const timer = setTimeout(() => setSystemActive(false), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [interactionCount]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -237,9 +250,16 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
     <>
       <SmoothScroll />
       <BrutalistNavbar />
+      <SystemStateIndicator active={systemActive} />
       <motion.main
-        style={{ rotateX: scrollTiltX, lineHeight: layoutLineHeight, letterSpacing: layoutLetterSpacing, scaleY: velocityStretch }}
-        className="relative z-10 w-full perspective-root glitch-safe"
+        style={{
+          rotateX: scrollTiltX,
+          lineHeight: layoutLineHeight,
+          letterSpacing: layoutLetterSpacing,
+          scaleY: velocityStretch,
+          filter: useTransform(centerContrast, (c: number) => `contrast(${c})`), // STEP 12 & 19
+        }}
+        className={`relative z-10 w-full perspective-root glitch-safe transition-all duration-500`}
       >
         {children}
       </motion.main>

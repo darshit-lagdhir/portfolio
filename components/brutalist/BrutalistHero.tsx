@@ -8,7 +8,7 @@ const GLOBAL_EASE = [0.33, 1, 0.68, 1] as [number, number, number, number];
 
 export default function BrutalistHero() {
     const sectionRef = useRef<HTMLElement>(null);
-    const { setActiveSection, isIdle, interactionCount } = useScene();
+    const { setActiveSection, isIdle, interactionCount, scrollTempo, attentionScore } = useScene();
 
     // PHASE 16 STEP 2: INTERACTION MEMORY (Sticky state on return)
     const [hasExplored, setHasExplored] = useState(false);
@@ -93,7 +93,9 @@ export default function BrutalistHero() {
         const dist = useTransform(mappedMouse, m => Math.abs(m - relPos));
         // STEP 1: Cluster displacement — pairs of letters move differently
         const clusterMultiplier = index % 3 === 0 ? 1.3 : index % 3 === 1 ? 0.7 : 1;
-        const pressureY = useTransform(dist, [0, 0.15], [(index % 2 === 0 ? 4 : -4) * clusterMultiplier, 0]);
+        // PHASE 19 STEP 1: Attention-driven pressure
+        const pressureIntensity = useTransform(attentionScore, a => 4 + (a * 4));
+        const pressureY = useTransform([dist, pressureIntensity], ([d, p]: any[]) => (index % 2 === 0 ? p : -p) * clusterMultiplier * (d < 0.15 ? (1 - d / 0.15) : 0));
         const smoothPressureY = useSpring(pressureY, { damping: 25, stiffness: 300 });
 
         return (
@@ -108,7 +110,7 @@ export default function BrutalistHero() {
             id="hero"
             onPointerEnter={() => setActiveSection("hero")}
             style={{
-                letterSpacing: hasExplored ? "-0.02em" : "0.02em",
+                letterSpacing: useTransform(scrollTempo, t => hasExplored ? "-0.02em" : (0.02 + (1 - t) * 0.1) + "em"), // PHASE 19 STEP 4: Tempo-based tracking
                 scaleX: morphScaleX,
                 scaleY: morphScaleY,
                 rotate: morphRotate,

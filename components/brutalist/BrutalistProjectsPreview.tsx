@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform, useVelocity, useSpring, useMotionValue } from "framer-motion";
+import { motion, useScroll, useTransform, useVelocity, useSpring, useMotionValue, animate } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import { useScene } from "@/context/SceneContext";
@@ -30,7 +30,7 @@ const useScramble = (text: string, active: boolean) => {
 };
 
 export default function BrutalistProjectsPreview() {
-    const { setActiveSection } = useScene();
+    const { setActiveSection, scrollTempo } = useScene();
     const containerRef = useRef<HTMLElement>(null);
     const [inView, setInView] = useState(false);
     const scrambledTitle = useScramble("SELECTED_WORK_ARCHIVE", inView);
@@ -72,7 +72,16 @@ export default function BrutalistProjectsPreview() {
     // PHASE 17 STEP 1, 6, 11, 12, 14: SECTION MORPH ENGINE
     const morphZ = useTransform(scrollYProgress, [0, 0.5, 1], [-60, 0, -60]); // DEPTH LAYER (STEP 12)
     const morphRotate = useTransform(scrollYProgress, [0, 0.5, 1], [0.4, 0, -0.4]); // PANEL ROTATION (STEP 6)
-    const panelMorphY = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [1.02, 1, 1, 1, 1.02]); // EXPANSION UPWARD (STEP 2)
+
+    // PHASE 19 STEP 4: ADAPTIVE MOTION SCALING (Tempo-aware expansion)
+    const panelMorphY = useTransform(
+        [scrollYProgress, scrollTempo],
+        ([progress, tempo]: any[]) => {
+            const base = progress < 0.2 ? 1.02 : progress > 0.8 ? 1.02 : 1;
+            const multiplier = 1 + (1 - tempo) * 0.05;
+            return base * multiplier;
+        }
+    );
     const panelMorphScale = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0.98, 1, 1, 0.98]);
 
     const projects = [
@@ -169,7 +178,7 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
     const [isHovered, setIsHovered] = useState(false);
     const [flickerKey, setFlickerKey] = useState(0);
     const rowRef = useRef<HTMLDivElement>(null);
-    const { markInteraction } = useScene();
+    const { markInteraction, markProjectInterest, projectInterests, scrollTempo, isIdle } = useScene();
 
     // PHASE 16 STEP 2 & 6: HOVER HISTORY MEMORY & DISCOVERY
     const [hasHovered, setHasHovered] = useState(false);
@@ -183,8 +192,24 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
     // PHASE 18 STEP 3 & 4: CURSOR PROXIMITY LIGHTING
     const proximity = useMotionValue(0);
     const smoothProximity = useSpring(proximity, { damping: 40, stiffness: 200 });
-    const edgeLight = useTransform(smoothProximity, [0, 1], ["rgba(0,0,0,0.1)", "rgba(0,0,0,0.4)"]);
-    const shadowDepth = useTransform(smoothProximity, [0, 1], ["0px 0px 0px rgba(0,0,0,0)", "0px 20px 40px rgba(0,0,0,0.1)"]);
+
+    // PHASE 19 STEP 6: PROJECT INTEREST BOOST
+    const interestLevel = projectInterests[project.name] || 0;
+    const isHighInterest = interestLevel > 2;
+    // We use animate for state-to-motion bridge
+    const interestHighlight = useMotionValue(0);
+    useEffect(() => {
+        animate(interestHighlight, isHighInterest ? 1 : 0, { damping: 30, stiffness: 100 });
+    }, [isHighInterest, interestHighlight]);
+
+    const edgeLight = useTransform(
+        [smoothProximity, interestHighlight],
+        ([prox, highlight]: any[]) => `rgba(0,0,0,${0.1 + (prox * 0.3) + (highlight * 0.2)})`
+    );
+    const shadowDepth = useTransform(
+        [smoothProximity, interestHighlight],
+        ([prox, highlight]: any[]) => `0px ${20 * Math.max(prox, highlight)}px ${40 * Math.max(prox, highlight)}px rgba(0,0,0,${0.1 * Math.max(prox, highlight)})`
+    );
 
     // PHASE 16 STEP 1: INTERACTION VELOCITY RESPONSE
     const { scrollY, scrollYProgress } = useScroll({
@@ -209,6 +234,8 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
         if (!hasHovered) setHasHovered(true);
         setFlickerKey(prev => prev + 1);
         markInteraction();
+        // PHASE 19 STEP 1 & 6: TRACK INTEREST
+        markProjectInterest(project.name);
     };
 
     const handleMouseMove = (e: React.MouseEvent) => {
@@ -254,6 +281,8 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
                 opacity: isMorphing ? 0 : 1,
                 borderTopColor: edgeLight, // STEP 3
                 boxShadow: shadowDepth,    // STEP 8
+                // PHASE 19 STEP 5: ATTENTION REFOCUS (Highlight on pause)
+                borderColor: isIdle ? useTransform(scrollYProgress, [0.4, 0.5, 0.6], ["rgba(0,0,0,0.1)", "rgba(0,0,0,0.4)", "rgba(0,0,0,0.1)"]) : "rgba(0,0,0,0.1)"
             }}
             className={`
                 relative w-full border-b border-black group cursor-none project-row-transition origin-left

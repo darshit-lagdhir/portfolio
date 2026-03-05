@@ -9,7 +9,7 @@ import { useScene } from "@/context/SceneContext";
 // Subdued, architectural, and minimal.
 
 export default function EnvironmentalSystem() {
-    const { activeSection, isIdle, interactionCount } = useScene();
+    const { activeSection, isIdle, interactionCount, attentionScore } = useScene();
     const mouseX = useMotionValue(-1000);
     const mouseY = useMotionValue(-1000);
     const [isMobile, setIsMobile] = useState(false);
@@ -28,14 +28,19 @@ export default function EnvironmentalSystem() {
         }
     }, [isIdle, interactionCount]);
 
-    // PHASE 18 STEP 2: SECTION AWARE LIGHT INTENSITY
-    const intensity =
-        activeSection === "hero" ? (isIdle ? 0.04 : 0.08) :
-            activeSection === "projects" ? (isIdle ? 0.02 : 0.05) :
+    // PHASE 18 STEP 2 & PHASE 19 STEP 1, 10: SECTION AWARE & ATTENTION-DRIVEN LIGHT
+    const baseIntensityValue =
+        activeSection === "hero" ? 0.08 :
+            activeSection === "projects" ? 0.05 :
                 activeSection === "about" || activeSection === "contact" ? 0 :
-                    0.03; // Default
+                    0.03;
 
-    const smoothIntensity = useSpring(intensity * surge, { damping: 30, stiffness: 100 });
+    // STEP 10: Stability Mode (dimmer on idle) + STEP 1: Attention Boost
+    const targetIntensity = useTransform(attentionScore, (a: number) =>
+        (baseIntensityValue * (isIdle ? 0.4 : 1)) + (a * 0.04)
+    );
+
+    const smoothIntensity = useSpring(useTransform(targetIntensity, v => v * surge), { damping: 30, stiffness: 100 });
 
     useEffect(() => {
         const checkMobile = () => setIsMobile(window.innerWidth < 768);

@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { useMotionValue, MotionValue } from "framer-motion";
 
 type SceneMode = "standard" | "depth" | "minimal";
 type SectionId = "hero" | "about" | "projects" | "focus" | "contact" | string;
@@ -17,10 +18,16 @@ interface SceneContextType {
     setIsFocusing: (val: boolean) => void;
     isSoundEnabled: boolean;
     setIsSoundEnabled: (val: boolean) => void;
-    // PHASE 16: SYSTEM INTELLIGENCE LAYER
+    // PHASE 16 & 19: SYSTEM INTELLIGENCE LAYER
     isIdle: boolean;
     interactionCount: number;
     markInteraction: () => void;
+    // PHASE 19: ADAPTIVE INTELLIGENCE SIGNALS
+    scrollTempo: MotionValue<number>; // 0 (fast) to 1 (slow)
+    attentionScore: MotionValue<number>; // 0 to 1
+    focusZone: "top" | "center" | "bottom";
+    projectInterests: Record<string, number>; // ProjectID -> InteractionCount
+    markProjectInterest: (id: string) => void;
 }
 
 const SceneContext = createContext<SceneContextType | undefined>(undefined);
@@ -35,6 +42,22 @@ export function SceneProvider({ children }: { children: React.ReactNode }) {
     // PHASE 16: SYSTEM IDLE TRACKING & RE-ENGAGEMENT
     const [isIdle, setIsIdle] = useState(false);
     const [interactionCount, setInteractionCount] = useState(0);
+
+    // PHASE 19: BEHAVIORAL SIGNALS (MotionValues for performance)
+    const scrollTempo = useMotionValue(1);
+    const attentionScore = useMotionValue(0.5);
+    const [focusZone, setFocusZone] = useState<"top" | "center" | "bottom">("center");
+    const [projectInterests, setProjectInterests] = useState<Record<string, number>>({});
+
+    const markProjectInterest = React.useCallback((id: string) => {
+        setProjectInterests(prev => ({
+            ...prev,
+            [id]: (prev[id] || 0) + 1
+        }));
+        // Boost attention score on interaction
+        attentionScore.set(Math.min(1, attentionScore.get() + 0.1));
+    }, [attentionScore]);
+
     const pathname = usePathname();
 
     const markInteraction = React.useCallback(() => {
@@ -44,23 +67,46 @@ export function SceneProvider({ children }: { children: React.ReactNode }) {
 
     useEffect(() => {
         let timeout: NodeJS.Timeout;
+        let lastScrollY = window.scrollY;
+
         const resetIdle = () => {
             setIsIdle(false);
             clearTimeout(timeout);
-            timeout = setTimeout(() => setIsIdle(true), 4000); // 4 seconds of NO interaction = IDLE
+            timeout = setTimeout(() => {
+                setIsIdle(true);
+                attentionScore.set(attentionScore.get() * 0.8); // Decay attention on idle
+            }, 4000);
+        };
+
+        const handleScroll = () => {
+            resetIdle();
+            const currentScrollY = window.scrollY;
+            const delta = Math.abs(currentScrollY - lastScrollY);
+            lastScrollY = currentScrollY;
+
+            // Calculate tempo (Step 4: fast scroll -> low tempo)
+            const newTempo = Math.max(0, 1 - delta / 100);
+            scrollTempo.set(scrollTempo.get() * 0.8 + newTempo * 0.2); // Smooth transition
+
+            // Calculate zone (Step 2)
+            const viewportHeight = window.innerHeight;
+            const scrollPos = currentScrollY % viewportHeight;
+            if (scrollPos < viewportHeight * 0.3) setFocusZone("top");
+            else if (scrollPos > viewportHeight * 0.7) setFocusZone("bottom");
+            else setFocusZone("center");
         };
 
         window.addEventListener("mousemove", resetIdle);
-        window.addEventListener("scroll", resetIdle, { passive: true });
+        window.addEventListener("scroll", handleScroll, { passive: true });
         window.addEventListener("keydown", resetIdle);
         window.addEventListener("touchstart", resetIdle, { passive: true });
 
-        resetIdle(); // Start timer
+        resetIdle();
 
         return () => {
             clearTimeout(timeout);
             window.removeEventListener("mousemove", resetIdle);
-            window.removeEventListener("scroll", resetIdle);
+            window.removeEventListener("scroll", handleScroll);
             window.removeEventListener("keydown", resetIdle);
             window.removeEventListener("touchstart", resetIdle);
         };
@@ -106,9 +152,10 @@ export function SceneProvider({ children }: { children: React.ReactNode }) {
             isNavigating, setIsNavigating,
             isFocusing, setIsFocusing,
             isSoundEnabled, setIsSoundEnabled,
-            isIdle, interactionCount, markInteraction
+            isIdle, interactionCount, markInteraction,
+            scrollTempo, attentionScore, focusZone, projectInterests, markProjectInterest
         }}>
-            <div className={`scene-mode-${mode} ${isIdle ? 'system-idle' : 'system-active'}`}>
+            <div className={`scene-mode-${mode} ${isIdle ? 'system-idle' : 'system-active'} focus-zone-${focusZone}`}>
                 {children}
             </div>
         </SceneContext.Provider>
