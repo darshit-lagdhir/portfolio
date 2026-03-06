@@ -86,11 +86,17 @@ export function SystemGridOverlay() {
     }, []);
 
     return (
-        <div ref={ref} className="fixed inset-0 pointer-events-none z-0 opacity-[0.08] transition-opacity duration-500">
+        <div ref={ref} className="fixed inset-0 pointer-events-none z-0 opacity-[0.05] transition-all duration-700 ease-out">
             <div className="w-full h-full" style={{
                 backgroundImage: 'linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)',
                 backgroundSize: '40px 40px'
             }} />
+            {/* PHASE 27 STEP 9: INTERACTIVE GRID HIGHLIGHT */}
+            <motion.div
+                className="absolute inset-0 bg-white/[0.02]"
+                animate={{ opacity: [0, 0.05, 0] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            />
         </div>
     );
 }
@@ -394,13 +400,20 @@ export function ChoreographedSection({ id, children, isProject = false, classNam
             transition={{ duration, ease: GLOBAL_EASE }}
         >
             {/* Step 6: Visual Transition Bridges REMOVED */}
-            {/* PHASE 21 STEP 10: SECTION ENTRY SIGNAL */}
+            {/* PHASE 21 STEP 10 & PHASE 27 STEP 6: SECTION ENTRY SIGNAL (REFINED) */}
+            <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: [0, 0.6, 0], scale: [0.95, 1, 1.05] }}
+                viewport={{ once: false, amount: 0.1 }}
+                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                className="absolute top-0 left-0 w-full h-[1px] bg-current pointer-events-none z-[50]"
+            />
             <motion.div
                 initial={{ opacity: 0, scale: 0.98 }}
-                whileInView={{ opacity: [0, 0.3, 0], scale: [0.98, 1, 1.01] }}
-                viewport={{ once: false, amount: 0.2 }}
-                transition={{ duration: 0.8, ease: MICRO_EASE }}
-                className="absolute inset-0 border border-white/5 pointer-events-none z-[-1]"
+                whileInView={{ opacity: [0, 0.2, 0], scale: [0.98, 1, 1.02] }}
+                viewport={{ once: false, amount: 0.1 }}
+                transition={{ duration: 1, ease: MICRO_EASE }}
+                className="absolute inset-0 border-[0.5px] border-current opacity-10 pointer-events-none z-[-1]"
             />
             {children}
         </motion.section>

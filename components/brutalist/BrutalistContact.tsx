@@ -91,17 +91,22 @@ export default function BrutalistContact() {
                             onMouseLeave={() => setIsHovered(false)}
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            whileHover={{ scaleY: 0.97 }}
-                            whileTap={{ scale: 0.95 }}
+                            whileHover={{ scale: 1.02, y: -5 }}
+                            whileTap={{ scale: 0.96 }}
                             viewport={{ once: true }}
-                            transition={{ duration: 1, delay: 0.4, ease: GLOBAL_EASE, scale: { type: "spring", stiffness: 400, damping: 15 } }}
-                            className="relative py-12 px-6 border border-black/5 group cursor-none magnetic-btn tactile-btn"
+                            transition={{
+                                duration: 0.6,
+                                ease: GLOBAL_EASE,
+                                scale: { type: "spring", stiffness: 600, damping: 20, mass: 0.5 },
+                                y: { type: "spring", stiffness: 400, damping: 25 }
+                            }}
+                            className="relative py-12 px-8 border border-black/10 group cursor-none magnetic-btn tactile-btn shadow-sm hover:shadow-xl transition-shadow"
                         >
                             <a
                                 href="mailto:darshitlagdhir@gmail.com"
                                 className={`
-                                text-[clamp(0.8rem,2.5vw,1.8rem)] text-black font-ui font-extrabold transition-all duration-700 uppercase type-react-hover
-                                ${isHovered ? "tracking-[0.05em]" : "tracking-tight"}
+                                text-[clamp(0.8rem,2.5vw,1.8rem)] text-black font-ui font-extrabold transition-all duration-500 uppercase type-react-hover
+                                ${isHovered ? "tracking-[0.05em] italic" : "tracking-tight"}
                             `}
                             >
                                 DARSHITLAGDHIR@GMAIL.COM

@@ -37,6 +37,11 @@ const Letter = ({ char, index, total, smoothMouseX, attentionScore, rippleActive
             className="inline-block kinetic-letter txt-micro-react"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            whileHover={{
+                filter: "brightness(1.5)",
+                scale: 1.05,
+                transition: { duration: 0.15, ease: "easeOut" }
+            }}
             transition={{ duration: 0.8, delay: index * 0.05, ease: GLOBAL_EASE }}
             style={{ y: smoothPressureY, x: smoothRippleX }}
         >

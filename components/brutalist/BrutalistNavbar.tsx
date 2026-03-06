@@ -105,7 +105,7 @@ export default function BrutalistNavbar() {
     );
 }
 
-// PHASE 11 STEP 2 & 7: MAGNETIC NAV ITEM
+// PHASE 11 STEP 2 & 7 & PHASE 27 STEP 7: MAGNETIC NAV ITEM W/ TACTILE FEEDBACK
 function MagneticNavItem({
     link,
     index,
@@ -135,16 +135,25 @@ function MagneticNavItem({
             ref={ref}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            whileTap={{ scale: 0.93 }}
-            transition={{ scale: { type: "spring", stiffness: 400, damping: 15 } }}
+            whileHover={{ y: -2 }}
+            whileTap={{ scale: 0.94 }}
+            transition={{
+                type: "spring",
+                stiffness: 600,
+                damping: 20,
+                mass: 0.5
+            }}
             className={`relative group magnetic-btn tactile-btn`}
         >
             <Link
                 href={link.href}
                 className={`
-                    flex items-baseline gap-2 text-micro font-bold tracking-[0.4em] transition-all duration-300
-                    font-ui ${isActive ? "text-white" : "text-white/40 hover:text-white/80"} 
+                    flex items-baseline gap-2 text-micro font-bold transition-all duration-300
+                    font-ui ${isActive ? "text-white" : "text-white/40 group-hover:text-white"} 
                 `}
+                style={{
+                    letterSpacing: isHovering ? "0.6em" : "0.4em"
+                }}
             >
                 <motion.span
                     initial={false}
@@ -163,7 +172,7 @@ function MagneticNavItem({
             {isActive && (
                 <motion.div
                     layoutId="nav-line"
-                    className="absolute -bottom-2 left-0 w-full h-[2px] bg-white translate-y-1"
+                    className="absolute -bottom-2 left-0 w-full h-[2px] bg-white translate-y-1 shadow-[0_0_10px_rgba(255,255,255,0.5)]"
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 />
             )}

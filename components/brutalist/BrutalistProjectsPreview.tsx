@@ -130,27 +130,34 @@ export default function BrutalistProjectsPreview() {
                                             data-project="true"
                                         >
                                             <div className="col-span-12">
-                                                <Link href={project.href} className="group flex flex-col gap-6 w-full">
-                                                    <div className="flex items-baseline gap-4">
-                                                        <span className="text-micro font-bold opacity-30">{project.id}</span>
-                                                        <h3 className="text-[clamp(1.5rem,4vw,3.5rem)] font-heading font-bold leading-tight uppercase type-react-hover group-hover:italic transition-all duration-500">
-                                                            {project.name.split('_').map((word, i) => (
-                                                                <span key={i} className={i === 1 ? "text-black/40 italic" : ""}>
-                                                                    {word}{i === 0 && <br />}
-                                                                </span>
-                                                            ))}
-                                                        </h3>
-                                                    </div>
-                                                    <div className="flex flex-col gap-6 max-w-xl">
-                                                        <p className="text-short-body text-black/70 tracking-wide bg-black/[0.04] p-4 md:p-6 border-l-2 border-black/30 group-hover:bg-black/5 transition-colors">
-                                                            {project.desc}
-                                                        </p>
-                                                        <div className="flex justify-between items-center border-t border-black/10 pt-4">
-                                                            <span className="text-micro font-bold tracking-[0.4em] opacity-40 group-hover:opacity-100 transition-opacity">
-                                                                {project.type}
-                                                            </span>
+                                                <Link href={project.href} className="group block w-full">
+                                                    <motion.div
+                                                        whileHover={{ y: -10, filter: "brightness(1.1)" }}
+                                                        whileTap={{ scale: 0.98 }}
+                                                        transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                                                        className="flex flex-col gap-6 w-full"
+                                                    >
+                                                        <div className="flex items-baseline gap-4">
+                                                            <span className="text-micro font-bold opacity-30">{project.id}</span>
+                                                            <h3 className="text-[clamp(1.5rem,4vw,3.5rem)] font-heading font-bold leading-tight uppercase type-react-hover group-hover:italic transition-all duration-500">
+                                                                {project.name.split('_').map((word, i) => (
+                                                                    <span key={i} className={i === 1 ? "text-black/40 italic" : ""}>
+                                                                        {word}{i === 0 && <br />}
+                                                                    </span>
+                                                                ))}
+                                                            </h3>
                                                         </div>
-                                                    </div>
+                                                        <div className="flex flex-col gap-6 max-w-xl">
+                                                            <p className="text-short-body text-black/70 tracking-wide bg-black/[0.04] p-4 md:p-6 border-l-2 border-black/30 group-hover:bg-black/5 group-hover:border-black transition-all duration-300 shadow-sm group-hover:shadow-[0_10px_30px_rgba(0,0,0,0.05)]">
+                                                                {project.desc}
+                                                            </p>
+                                                            <div className="flex justify-between items-center border-t border-black/10 pt-4">
+                                                                <span className="text-micro font-bold tracking-[0.4em] opacity-40 group-hover:opacity-100 transition-opacity">
+                                                                    {project.type}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </motion.div>
                                                 </Link>
                                             </div>
                                         </motion.div>

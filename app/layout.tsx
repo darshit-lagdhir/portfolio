@@ -38,6 +38,7 @@ export function CustomCursor() {
     y: useSpring(mouse.y, { damping: 60, stiffness: 80, mass: 1 }),
   };
 
+  const { lastDiscoveryTime } = useScene();
   const [cursorVariant, setCursorVariant] = useState("default");
   const [isPressed, setIsPressed] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
@@ -227,15 +228,24 @@ export function CustomCursor() {
         />
       )}
 
-      {/* OUTER RING — trailing physics (PHASE 27 STEP 4: CURSOR CONFIRMATION) */}
+      {/* OUTER RING — trailing physics (PHASE 27 STEP 4 & 10: CURSOR CONFIRMATION & DISCOVERY) */}
       <motion.div
         className="fixed top-0 left-0 border pointer-events-none z-[9998] mix-blend-difference flex items-center justify-center"
+        key={lastDiscoveryTime}
         animate={{
           ...variants[cursorVariant as keyof typeof variants],
-          scale: isPressed ? (cursorVariant === "project" || cursorVariant === "nav" ? 1.15 : 0.85) : 1,
-          borderWidth: isPressed && (cursorVariant === "project" || cursorVariant === "nav") ? "2px" : variants[cursorVariant as keyof typeof variants].borderWidth
+          scale: isPressed
+            ? (cursorVariant === "project" || cursorVariant === "nav" ? 1.25 : 0.8)
+            : (Date.now() - (lastDiscoveryTime || 0) < 1000 ? [1, 1.4, 1] : 1),
+          borderWidth: isPressed ? "2px" : variants[cursorVariant as keyof typeof variants].borderWidth,
+          opacity: isPressed ? 1 : 0.8,
+          borderColor: (Date.now() - (lastDiscoveryTime || 0) < 1000) ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.4)"
         }}
-        transition={{ duration: 0.35, ease: [0.33, 1, 0.68, 1], scale: { type: "spring", stiffness: 600, damping: 20 } }}
+        transition={{
+          duration: 0.2,
+          ease: [0.16, 1, 0.3, 1],
+          scale: { type: "spring", stiffness: 800, damping: 25, mass: 0.5 }
+        }}
         style={{ x: ring.x, y: ring.y, translateX: "-50%", translateY: "-50%" }}
       >
         {/* PHASE 25 STEP 9: PROJECT ARROW INDICATOR */}
