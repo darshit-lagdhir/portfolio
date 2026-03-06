@@ -102,10 +102,13 @@ export default function BrutalistHero() {
         return () => window.removeEventListener("mousemove", handleMouseMove);
     }, [mouseX, mouseY]);
 
-    // DEPTH SCALES — PHASE 4 + PHASE 9 CAMERA PULLBACK (STEP 2)
-    const heroScale = useTransform(scrollYProgress, [0, 1], [1, 0.88]);
-    const mainTextOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-    const stackTextOpacity = useTransform(scrollYProgress, [0, 0.4], [0.15, 0]);
+    // PHASE 26 STEP 3 & 4: HERO SCROLL REACTION & EXIT TRANSITION
+    const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.05]); // Typography scales slightly
+    const geomZ = useTransform(scrollYProgress, [0, 1], [-200, -800]);  // Geometry deep plunge
+    const geomOpacity = useTransform(scrollYProgress, [0, 0.5], [0.2, 0]); // Fade geom
+
+    const mainTextOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]); // Quick typography fade
+    const stackTextOpacity = useTransform(scrollYProgress, [0, 0.2], [0.15, 0]);
 
     // PHASE 9 STEP 1: CAMERA SCROLL — MULTI-LAYER PARALLAX
     const frontY = useTransform(scrollYProgress, [0, 1], ["0%", "-8%"]);   // Foreground: slowest
@@ -171,10 +174,10 @@ export default function BrutalistHero() {
                 }}
             />
 
-            {/* PHASE 24 STEP 2: FLOATING GEOMETRIC OBJECT (Depth Layer 1) */}
+            {/* PHASE 24 STEP 2 & PHASE 26 STEP 3: FLOATING GEOMETRIC OBJECT DEEP PULLBACK */}
             <motion.div
-                style={{ x: bgTransX, y: bgTransY, translateZ: -200 }}
-                className="absolute inset-0 pointer-events-none flex justify-center items-center opacity-20"
+                style={{ x: bgTransX, y: bgTransY, translateZ: geomZ, opacity: geomOpacity }}
+                className="absolute inset-0 pointer-events-none flex justify-center items-center"
             >
                 <div className="relative w-full h-full max-w-[1200px] flex justify-center items-center perspective-root">
                     {/* Slow tumbling geometric rings */}

@@ -32,7 +32,7 @@ const useScramble = (text: string, active: boolean) => {
 
 export default function BrutalistProjectsPreview() {
     const { setActiveSection, scrollTempo } = useScene();
-    const containerRef = useRef<HTMLElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
     const [inView, setInView] = useState(false);
     const scrambledTitle = useScramble("SELECTED_WORK_ARCHIVE", inView);
 
@@ -92,90 +92,83 @@ export default function BrutalistProjectsPreview() {
     ];
 
     return (
-        <motion.section
-            ref={containerRef}
-            id="projects"
-            style={{
-                scale: panelMorphScale,
-                scaleY: panelMorphY,
-                x: panelSlide,
-                z: morphZ,
-                rotate: morphRotate,
-                borderColor: panelEdgeLight,
-                borderTopWidth: "1px",
-                borderBottomWidth: "1px",
-                transformPerspective: 1200
-            }}
-            onPointerEnter={() => setActiveSection("projects")}
-            className="relative min-h-screen bg-white text-black py-40 px-[5vw] flex flex-col items-center overflow-hidden preserve-3d transition-colors duration-500 rounded-[8px]"
-        >
-            {/* PHASE 23 STEP 7: SECTION NUMBER SYSTEM */}
-            <span className="absolute top-[5%] right-[2%] text-[20vw] font-heading font-black leading-none text-black opacity-[0.02] pointer-events-none z-0 select-none">
-                02
-            </span>
-
-            {/* PHASE 13 STEP 10: STORYTELLING TIMELINE LINE */}
-            <motion.div
-                className="absolute left-[8vw] top-0 w-px bg-black/10 origin-top z-0"
-                style={{ height: timelineHeight }}
-            />
-
-            <motion.div
-                onViewportEnter={() => setInView(true)}
-                className="w-full max-w-[1700px] mx-auto flex flex-col gap-24 relative z-10"
+        <div ref={containerRef} className="relative h-[350vh] bg-black">
+            {/* PHASE 26 STEP 5: PROJECT SECTION PINNING (Narrative Scroll Engine) */}
+            <motion.section
+                id="projects"
+                style={{
+                    scale: panelMorphScale,
+                    scaleY: panelMorphY,
+                    x: panelSlide,
+                    z: morphZ,
+                    rotate: morphRotate,
+                    borderColor: panelEdgeLight,
+                    borderTopWidth: "1px",
+                    borderBottomWidth: "1px",
+                    transformPerspective: 1200
+                }}
+                onPointerEnter={() => setActiveSection("projects")}
+                className="sticky top-[2vh] h-[96vh] w-full bg-white text-black py-16 px-[5vw] flex flex-col items-center overflow-hidden preserve-3d transition-colors duration-500 rounded-[8px]"
             >
+                {/* PHASE 23 STEP 7: SECTION NUMBER SYSTEM */}
+                <span className="absolute top-[5%] right-[2%] text-[20vw] font-heading font-black leading-none text-black opacity-[0.02] pointer-events-none z-0 select-none">
+                    02
+                </span>
 
-                {/* SECTION HEADING — TEXT SCRAMBLE — PHASE 4 */}
-                <div className="flex flex-col gap-4 items-start self-start w-full">
-                    <span className="text-micro font-bold tracking-[0.5em] opacity-60">02_ARCHIVE</span>
-                    <h2 className="text-[clamp(1.5rem,5vw,4rem)] text-black font-heading font-extrabold italic leading-none uppercase tracking-tighter w-full border-b border-black pb-6">
-                        {scrambledTitle}
-                    </h2>
-                </div>
-
-                {/* PHASE 23 STEP 5: PROJECT SECTION EDITORIAL SPREAD */}
+                {/* PHASE 13 STEP 10: STORYTELLING TIMELINE LINE */}
                 <motion.div
-                    style={{ x: velocityDriftX, scaleY: velocityStretchY }}
-                    className="grid grid-cols-12 gap-y-24 md:gap-y-40 gap-x-4 md:gap-x-8 w-full glitch-safe mt-16 md:mt-24"
-                >
-                    {projects.map((project, i) => (
-                        <ProjectRow key={project.id} project={project} index={i} />
-                    ))}
-                </motion.div>
+                    className="absolute left-[8vw] top-0 w-px bg-black/10 origin-top z-0"
+                    style={{ height: timelineHeight }}
+                />
 
-                {/* PHASE 8 STEP 4: NEGATIVE VOID */}
                 <motion.div
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.5, ease: GLOBAL_EASE }}
-                    className="w-full flex"
+                    onViewportEnter={() => setInView(true)}
+                    className="w-full max-w-[1700px] mx-auto flex flex-col gap-24 relative z-10"
                 >
-                    <div className="hidden lg:block w-1/3 negative-void" />
-                    <div className="w-full lg:w-2/3 flex flex-col items-start">
-                        <motion.p
-                            initial={{ x: 80, opacity: 0 }}
-                            whileInView={{ x: 0, opacity: 0.3 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 1.2, delay: 0.3, ease: GLOBAL_EASE }}
-                            className="text-micro font-bold tracking-[0.6em] italic"
-                        >
-                            VOID_SPACE // INTENTIONAL_EMPTINESS
-                        </motion.p>
+
+                    {/* SECTION HEADING — TEXT SCRAMBLE — PHASE 4 */}
+                    <div className="flex flex-col gap-4 items-start self-start w-full absolute top-[5vh] left-[5vw]">
+                        <span className="text-micro font-bold tracking-[0.5em] opacity-60">02_ARCHIVE</span>
+                        <h2 className="text-[clamp(1.5rem,5vw,4rem)] text-black font-heading font-extrabold italic leading-none uppercase tracking-tighter w-[80vw] border-b border-black/20 pb-4">
+                            {scrambledTitle}
+                        </h2>
                     </div>
-                </motion.div>
-            </motion.div>
 
-            {/* EXIT CUE — PHASE 4 */}
-            <div className="absolute bottom-8 right-8 md:bottom-12 md:right-12 flex flex-col items-end gap-2 opacity-30">
-                <span className="text-micro font-bold tracking-[0.4em]">SYS_NAV_02</span>
-                <div className="w-16 h-px bg-black" />
-            </div>
-        </motion.section>
+                    {/* PHASE 26 STEP 6: PINNED PROJECT SEQUENCE CONTAINER */}
+                    <motion.div
+                        style={{ x: velocityDriftX, scaleY: velocityStretchY }}
+                        className="absolute top-[20vh] w-[90vw] h-[70vh] flex flex-col md:flex-row gap-6 md:gap-12 items-center justify-start glitch-safe"
+                    >
+                        {projects.map((project, i) => (
+                            <ProjectRow
+                                key={project.id}
+                                project={project}
+                                index={i}
+                                globalScrollProgress={scrollYProgress} // Pass pinned scroll down
+                            />
+                        ))}
+                    </motion.div>
+                </motion.div>
+
+                {/* EXIT CUE — PHASE 4 */}
+                <div className="absolute bottom-8 right-8 md:bottom-12 md:right-12 flex flex-col items-end gap-2 opacity-30">
+                    <span className="text-micro font-bold tracking-[0.4em]">SYS_NAV_02</span>
+                    <div className="w-16 h-px bg-black" />
+                </div>
+            </motion.section>
+        </div>
     );
 }
 
-function ProjectRow({ project, index }: { project: any, index: number }) {
+function ProjectRow({
+    project,
+    index,
+    globalScrollProgress
+}: {
+    project: { id: string; name: string; type: string; href: string; desc: string };
+    index: number;
+    globalScrollProgress: any;
+}) {
     const [isHovered, setIsHovered] = useState(false);
     const [flickerKey, setFlickerKey] = useState(0);
     const rowRef = useRef<HTMLDivElement>(null);
@@ -228,7 +221,7 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
     const surfaceMagnetX = useTransform(magnetX, (x: number) => x * 10);
 
     // PHASE 16 STEP 1: INTERACTION VELOCITY RESPONSE
-    const { scrollY, scrollYProgress } = useScroll({
+    const { scrollY } = useScroll({
         target: rowRef,
         offset: ["start end", "end start"]
     });
@@ -237,15 +230,22 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
     const velocityScale = useTransform(smoothVelocity, [-2000, 0, 2000], [0.95, 1, 1.05]);
     const velocitySkew = useTransform(smoothVelocity, [-2000, 0, 2000], [-3, 0, 3]);
 
-    // PHASE 17 STEP 3 & 5: PROJECT PANEL EXPANSION & SNAP
-    const activeScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.98, 1.04, 0.98]);
+    // PHASE 26 STEP 6: CONTROLLED REVEAL ORDER (STAGGERED MOVEMENT IN PINNED SECTION)
+    // 0: 0-0.3, 1: 0.3-0.6, 2: 0.6-0.9
+    const start = index * 0.25;
+    const peak = start + 0.15;
+    const end = start + 0.35;
+
+    // Horizontal tracking while pinned
+    const slideX = useTransform(globalScrollProgress, [0, 1], ["20vw", "-120vw"]);
+    const slideY = useTransform(globalScrollProgress, [start, peak, end], [100, 0, -50]);
+    const panelOpacity = useTransform(globalScrollProgress, [start - 0.1, start, peak, end], [0, 1, 1, 0.2]);
 
     // PHASE 24 STEP 6: DEPTH-BASED HOVER (Rise smoothly on hover)
-    const activeZ = useTransform(scrollYProgress, [0, 0.5, 1], [0, 20, 0]);
     const hoverZ = isHovered && !isMobile ? 60 : 0;
 
     // PHASE 19 STEP 5: ATTENTION REFOCUS (Highlight on pause)
-    const pauseBorderColor = useTransform(scrollYProgress, [0.4, 0.5, 0.6], ["rgba(0,0,0,0.1)", "rgba(0,0,0,0.4)", "rgba(0,0,0,0.1)"]);
+    const pauseBorderColor = useTransform(globalScrollProgress, [0.4, 0.5, 0.6], ["rgba(0,0,0,0.1)", "rgba(0,0,0,0.4)", "rgba(0,0,0,0.1)"]);
 
     const finalTopColor = useTransform(
         [edgeLight, pauseBorderColor],
@@ -301,38 +301,26 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
         proximity.set(0);
     };
 
-    // PHASE 23 STEP 5: EDITORIAL GRID ALIGNMENT
-    const gridColsProps = index === 0
-        ? "col-span-12 lg:col-span-9"
-        : index === 1
-            ? "col-span-12 lg:col-span-9 lg:col-start-4"
-            : "col-span-12 lg:col-span-10 lg:col-start-2";
-
+    // PHASE 26 STEP 10: CURSOR DRAG GESTURE DETECTION (implied by horizontal move)
     return (
         <motion.div
             ref={rowRef}
-            initial={{ opacity: 0, y: 50, z: 0 }}
-            whileInView={{ opacity: 1, y: 0, z: 0 }}
-            onViewportEnter={() => setDiscovered(true)}
+            initial={{ opacity: 0 }}
             whileHover={{ scale: hasHovered ? 1.03 : 1.02 }}
             whileTap={{ scale: 0.97 }}
             viewport={{ once: true }}
-            transition={{
-                duration: 0.6,
-                delay: 0.05 + index * 0.05,
-                ease: GLOBAL_EASE,
-                scale: { type: "spring", stiffness: 350, damping: 25 }
-            }}
             style={{
                 scaleY: velocityScale,
                 skewY: isMobile ? 0 : velocitySkew,
-                scale: isMorphing ? 1.5 : activeScale,
-                z: isMorphing ? 500 : `calc(${activeZ.get()}px + ${hoverZ}px)`,
+                scale: isHovered ? 1.03 : 1,
+                y: isMobile ? 0 : slideY,
+                x: isMobile ? 0 : slideX,
+                z: isHovered ? 60 : 0,
+                opacity: panelOpacity,
                 rotateX: isMobile ? 0 : smoothTiltX, // PHASE 24 STEP 5
                 rotateY: isMobile ? 0 : smoothTiltY, // PHASE 24 STEP 5
                 rotateZ: isMobile ? 0 : (isHovered ? -0.2 : 0), // STEP 6 & 13
                 transformStyle: "preserve-3d", // Prevent nested flattening
-                opacity: isMorphing ? 0 : 1,
                 borderTopColor: finalTopColor, // STEP 3 + PHASE 19
                 borderBottomColor: finalTopColor,
                 borderLeftColor: finalSideColor,
@@ -340,7 +328,7 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
                 boxShadow: shadowDepth,    // STEP 8
             }}
             className={`
-                relative ${gridColsProps} border border-black/10 group cursor-none project-row-transition origin-left py-12 px-6 md:py-16 md:px-20 min-h-[40vh] flex flex-col justify-end
+                relative shrink-0 w-[80vw] md:w-[60vw] lg:w-[45vw] h-full border border-black/10 group cursor-none project-row-transition origin-left py-12 px-6 md:py-16 md:px-12 flex flex-col justify-end
                 ${isHovered ? "flash-invert bg-black" : "bg-black/[0.02]"}
             `}
             onMouseEnter={handleEnter}
@@ -366,23 +354,25 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
                     transition={{ duration: 1.2, ease: "easeInOut", delay: 0.2 + index * 0.1 }}
                     className="w-full h-full bg-white"
                 />
-            </div>
+            </div >
 
             {/* PHASE 21 STEP 3 & 5: PROJECT CONNECTION SYSTEM (Vertical connector) */}
-            {!isMobile && index < 2 && (
-                <div className="absolute left-[30vw] top-full h-16 w-px pointer-events-none z-20">
-                    <motion.div
-                        initial={{ scaleY: 0, opacity: 0.1 }}
-                        animate={{
-                            scaleY: isHovered ? 1.2 : 1,
-                            opacity: isHovered ? 0.4 : 0.1,
-                            backgroundColor: isHovered ? "rgba(0,0,0,0.8)" : "rgba(0,0,0,0.1)"
-                        }}
-                        transition={{ duration: 0.2, ease: MICRO_EASE }}
-                        className="w-full h-full origin-top"
-                    />
-                </div>
-            )}
+            {
+                !isMobile && index < 2 && (
+                    <div className="absolute left-[30vw] top-full h-16 w-px pointer-events-none z-20">
+                        <motion.div
+                            initial={{ scaleY: 0, opacity: 0.1 }}
+                            animate={{
+                                scaleY: isHovered ? 1.2 : 1,
+                                opacity: isHovered ? 0.4 : 0.1,
+                                backgroundColor: isHovered ? "rgba(0,0,0,0.8)" : "rgba(0,0,0,0.1)"
+                            }}
+                            transition={{ duration: 0.2, ease: MICRO_EASE }}
+                            className="w-full h-full origin-top"
+                        />
+                    </div>
+                )
+            }
 
             <Link
                 href={project.href}
@@ -432,6 +422,6 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
                     </div>
                 </div>
             </Link>
-        </motion.div>
+        </motion.div >
     );
 }
