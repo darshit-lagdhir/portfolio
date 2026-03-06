@@ -76,6 +76,12 @@ export default function BrutalistHero() {
     const rotateX = useTransform(smoothMouseY, [-0.5, 0.5], [2, -2]); // MAX TILT: 2 DEGREES
     const rotateY = useTransform(smoothMouseX, [-0.5, 0.5], [-2, 2]); // COMPLEMENTARY TILT
 
+    // PHASE 24 STEP 8: HERO CAMERA PARALLAX (Spatial Layers)
+    const bgTransX = useTransform(smoothMouseX, [-0.5, 0.5], [15, -15]);
+    const bgTransY = useTransform(smoothMouseY, [-0.5, 0.5], [15, -15]);
+    const fgTransX = useTransform(smoothMouseX, [-0.5, 0.5], [-10, 10]);
+    const fgTransY = useTransform(smoothMouseY, [-0.5, 0.5], [-10, 10]);
+
     // PHASE 7: VARIABLE TYPOGRAPHY MOTION
     const { scrollYProgress } = useScroll({
         target: sectionRef,
@@ -165,13 +171,36 @@ export default function BrutalistHero() {
                 }}
             />
 
+            {/* PHASE 24 STEP 2: FLOATING GEOMETRIC OBJECT (Depth Layer 1) */}
+            <motion.div
+                style={{ x: bgTransX, y: bgTransY, translateZ: -200 }}
+                className="absolute inset-0 pointer-events-none flex justify-center items-center opacity-20"
+            >
+                <div className="relative w-full h-full max-w-[1200px] flex justify-center items-center perspective-root">
+                    {/* Slow tumbling geometric rings */}
+                    <motion.div
+                        animate={{ rotateX: [0, 360], rotateY: [0, 360] }}
+                        transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+                        className="absolute w-[50vh] h-[50vh] border border-white/10 rounded-full"
+                    />
+                    <motion.div
+                        animate={{ rotateX: [360, 0], rotateZ: [0, 360] }}
+                        transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+                        className="absolute w-[35vh] h-[35vh] border border-white/15 rounded-sm"
+                    />
+                </div>
+            </motion.div>
+
             {/* PHASE 23 STEP 7: SECTION NUMBER SYSTEM (FIXED: reduced size, centered) */}
-            <span className="absolute top-[10%] left-[5%] text-[20vw] font-heading font-black leading-none text-white opacity-[0.02] pointer-events-none z-0 select-none">
+            <motion.span
+                style={{ x: bgTransX, y: bgTransY }}
+                className="absolute top-[10%] left-[5%] text-[20vw] font-heading font-black leading-none text-white opacity-[0.02] pointer-events-none z-0 select-none"
+            >
                 01
-            </span>
+            </motion.span>
 
             <motion.div
-                style={{ scale: heroScale, rotateX, rotateY, perspective: 1000 }}
+                style={{ scale: heroScale, rotateX, rotateY, perspective: 1000, x: fgTransX, y: fgTransY }}
                 className="grid grid-cols-12 gap-6 md:gap-10 items-center w-full max-w-[1800px] mx-auto px-[5vw] pt-32 z-10"
             >
                 {/* PHASE 23 STEP 3 & 4: SPLIT HERO - TYPOGRAPHY DOMINANCE */}

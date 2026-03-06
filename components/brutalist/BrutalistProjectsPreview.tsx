@@ -184,6 +184,10 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
         triggerDiscovery, discoveries
     } = useScene();
 
+    // PHASE 17 STEP 14: MOBILE SIMPLIFICATION (Hoist for Phase 24)
+    const [isMobile, setIsMobile] = useState(false);
+    useEffect(() => setIsMobile(window.innerWidth < 768), []);
+
     // PHASE 16 STEP 2 & 6: HOVER HISTORY MEMORY & DISCOVERY
     const [hasHovered, setHasHovered] = useState(false);
     const [discovered, setDiscovered] = useState(false);
@@ -192,6 +196,12 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
     // PHASE 11 STEP 8: MAGNETIC TITLE DRIFT
     const magnetX = useMotionValue(0);
     const smoothMagnetX = useSpring(magnetX, { damping: 25, stiffness: 300 });
+
+    // PHASE 24 STEP 5: FLOATING VISUAL PLANES (3D Tilt)
+    const tiltX = useMotionValue(0);
+    const tiltY = useMotionValue(0);
+    const smoothTiltX = useSpring(tiltX, { damping: 40, stiffness: 200 });
+    const smoothTiltY = useSpring(tiltY, { damping: 40, stiffness: 200 });
 
     // PHASE 18 STEP 3 & 4: CURSOR PROXIMITY LIGHTING
     const proximity = useMotionValue(0);
@@ -229,7 +239,10 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
 
     // PHASE 17 STEP 3 & 5: PROJECT PANEL EXPANSION & SNAP
     const activeScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.98, 1.04, 0.98]);
-    const activeZ = useTransform(scrollYProgress, [0, 0.5, 1], [0, 40, 0]);
+
+    // PHASE 24 STEP 6: DEPTH-BASED HOVER (Rise smoothly on hover)
+    const activeZ = useTransform(scrollYProgress, [0, 0.5, 1], [0, 20, 0]);
+    const hoverZ = isHovered && !isMobile ? 60 : 0;
 
     // PHASE 19 STEP 5: ATTENTION REFOCUS (Highlight on pause)
     const pauseBorderColor = useTransform(scrollYProgress, [0.4, 0.5, 0.6], ["rgba(0,0,0,0.1)", "rgba(0,0,0,0.4)", "rgba(0,0,0,0.1)"]);
@@ -239,9 +252,6 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
         ([edge, pause]: any[]) => isIdle ? pause : edge
     );
     const finalSideColor = useTransform(pauseBorderColor, (pause: string) => isIdle ? pause : "rgba(0,0,0,0.1)");
-
-    // PHASE 17 STEP 14: MOBILE SIMPLIFICATION
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
     // PHASE 8 STEP 2: Trigger scanline flicker on each hover entry
     const handleEnter = () => {
@@ -266,11 +276,19 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
         if (!rowRef.current) return;
         const rect = rowRef.current.getBoundingClientRect();
         const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
         const dx = (e.clientX - centerX) / rect.width * 12;
         magnetX.set(dx);
 
+        // PHASE 24 STEP 5: TILT CALCULATION (Subtle plane rotation)
+        const dxNorm = (e.clientX - centerX) / (rect.width / 2);
+        const dyNorm = (e.clientY - centerY) / (rect.height / 2);
+        tiltX.set(-dyNorm * 4); // Max 4 degrees tilt X
+        tiltY.set(dxNorm * 4);  // Max 4 degrees tilt Y
+
         // PHASE 18: CALCULATE PROXIMITY
-        const distY = Math.abs(e.clientY - (rect.top + rect.height / 2));
+        const distY = Math.abs(e.clientY - centerY);
         const prox = Math.max(0, 1 - (distY / (rect.height * 1.5)));
         proximity.set(prox);
     };
@@ -278,6 +296,8 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
     const handleLeave = () => {
         setIsHovered(false);
         magnetX.set(0);
+        tiltX.set(0);
+        tiltY.set(0);
         proximity.set(0);
     };
 
@@ -307,8 +327,11 @@ function ProjectRow({ project, index }: { project: any, index: number }) {
                 scaleY: velocityScale,
                 skewY: isMobile ? 0 : velocitySkew,
                 scale: isMorphing ? 1.5 : activeScale,
-                z: isMorphing ? 500 : activeZ,
-                rotate: isMobile ? 0 : (isHovered ? -0.2 : 0), // STEP 6 & 13
+                z: isMorphing ? 500 : `calc(${activeZ.get()}px + ${hoverZ}px)`,
+                rotateX: isMobile ? 0 : smoothTiltX, // PHASE 24 STEP 5
+                rotateY: isMobile ? 0 : smoothTiltY, // PHASE 24 STEP 5
+                rotateZ: isMobile ? 0 : (isHovered ? -0.2 : 0), // STEP 6 & 13
+                transformStyle: "preserve-3d", // Prevent nested flattening
                 opacity: isMorphing ? 0 : 1,
                 borderTopColor: finalTopColor, // STEP 3 + PHASE 19
                 borderBottomColor: finalTopColor,

@@ -17,6 +17,7 @@ interface Particle {
     vy: number;
     size: number;
     opacity: number;
+    depth: number; // 1 = background, 2 = mid, 3 = foreground
 }
 
 export default function AmbientParticles() {
@@ -42,15 +43,19 @@ export default function AmbientParticles() {
         for (let i = 0; i < count; i++) {
             const x = Math.random() * width;
             const y = Math.random() * height;
+            // PHASE 24 STEP 9: DEPTH LAYERS ATTRIBUTES
+            const depth = Math.random() > 0.7 ? 3 : Math.random() > 0.4 ? 2 : 1;
+
             particles.push({
                 x,
                 y,
                 baseX: x,
                 baseY: y,
-                vx: (Math.random() - 0.5) * 0.1,
-                vy: (Math.random() - 0.5) * 0.08 + 0.03, // Slower drift
-                size: Math.random() * 1.2 + 0.4,
-                opacity: Math.random() * 0.08 + 0.02, // Lower opacity: 0.02–0.10
+                vx: (Math.random() - 0.5) * 0.1 * depth,
+                vy: ((Math.random() - 0.5) * 0.08 + 0.03) * (depth * 0.8), // Slower drift, scaled by depth
+                size: (Math.random() * 0.8 + 0.2) * depth,
+                opacity: (Math.random() * 0.04 + 0.01) * depth, // Foreground brighter
+                depth
             });
         }
         particlesRef.current = particles;
@@ -106,14 +111,14 @@ export default function AmbientParticles() {
                 p.x += p.vx * scrollBoost;
                 p.y += p.vy * scrollBoost;
 
-                // Step 2: Cursor disturbance — particles avoid cursor
+                // Step 2 + PHASE 24 STEP 4: Cursor disturbance — spatial depth response
                 const dx = p.x - mx;
                 const dy = p.y - my;
                 const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < 120) {
-                    const force = (120 - dist) / 120;
-                    p.x += (dx / dist) * force * 1.5;
-                    p.y += (dy / dist) * force * 1.5;
+                if (dist < 120 * p.depth) {
+                    const force = (120 * p.depth - dist) / (120 * p.depth);
+                    p.x += (dx / dist) * force * p.depth;
+                    p.y += (dy / dist) * force * p.depth;
                 }
 
                 // Wrap around screen edges
