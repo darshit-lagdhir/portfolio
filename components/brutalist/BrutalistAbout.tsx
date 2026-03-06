@@ -61,9 +61,14 @@ export default function BrutalistAbout() {
                         {/* SECTION HEADING */}
                         <div className="flex flex-col gap-6 items-start self-start">
                             <span className="text-micro font-bold tracking-[0.8em] opacity-70">03_IDENTITY</span>
-                            <h2 className={`text-[clamp(1.5rem,8vw,6rem)] break-words font-heading font-extrabold italic leading-none uppercase tracking-tighter w-full border-b border-white/20 pb-8 transition-opacity duration-1000 ${inView ? "opacity-100" : "opacity-0"}`}>
+                            <motion.h2
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: false, amount: 0.1 }}
+                                transition={{ duration: 1, ease: GLOBAL_EASE }}
+                                className={`text-[clamp(1.5rem,8vw,6rem)] break-words font-heading font-extrabold italic leading-none uppercase tracking-tighter w-full border-b border-white/20 pb-8 type-react-hover`}>
                                 {scrambledTitle}
-                            </h2>
+                            </motion.h2>
                         </div>
 
                         {/* PHASE 23 STEP 8: EDITORIAL STATEMENT BLOCKS */}
@@ -74,7 +79,7 @@ export default function BrutalistAbout() {
                                 initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1, ease: GLOBAL_EASE }}
                                 className="col-span-12 lg:col-span-6 lg:col-start-1"
                             >
-                                <h3 className="text-[clamp(1.5rem,4vw,3rem)] font-heading font-bold leading-tight uppercase mb-8">
+                                <h3 className="text-[clamp(1.5rem,4vw,3rem)] font-heading font-bold leading-tight uppercase mb-8 type-react-hover">
                                     Systems <br /> <span className="text-white/40 italic">Thinking.</span>
                                 </h3>
                                 <p className="text-short-body text-white/70 tracking-wide bg-white/[0.08] p-6 md:p-8 border-l-2 border-white/30">
@@ -87,7 +92,7 @@ export default function BrutalistAbout() {
                                 initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1, delay: 0.2, ease: GLOBAL_EASE }}
                                 className="col-span-12 lg:col-span-5 lg:col-start-8"
                             >
-                                <h3 className="text-[clamp(1.5rem,4vw,3rem)] font-heading font-bold leading-tight uppercase mb-8">
+                                <h3 className="text-[clamp(1.5rem,4vw,3rem)] font-heading font-bold leading-tight uppercase mb-8 type-react-hover">
                                     Backend <br /> <span className="text-white/40 italic">Authority.</span>
                                 </h3>
                                 <p className="text-short-body text-white/70 tracking-wide bg-white/[0.08] p-6 md:p-8 border-l-2 border-white/30">
@@ -100,7 +105,7 @@ export default function BrutalistAbout() {
                                 initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1, delay: 0.4, ease: GLOBAL_EASE }}
                                 className="col-span-12 lg:col-span-7 lg:col-start-3"
                             >
-                                <h3 className="text-[clamp(1.5rem,4vw,3rem)] font-heading font-bold leading-tight uppercase mb-8">
+                                <h3 className="text-[clamp(1.5rem,4vw,3rem)] font-heading font-bold leading-tight uppercase mb-8 type-react-hover">
                                     Dynamic <br /> <span className="text-white/40 italic">Evolution.</span>
                                 </h3>
                                 <p className="text-short-body text-white/70 tracking-wide bg-white/[0.08] p-6 md:p-8 border-l-2 border-white/30">

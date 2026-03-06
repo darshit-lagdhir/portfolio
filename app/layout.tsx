@@ -564,54 +564,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
         />
       </motion.div>
 
-      {/* PHASE 7: FRAME EDGE REACTIVE SYSTEM (STEP 10) + PHASE 17 STEP 4 */}
-      <motion.div
-        style={{
-          opacity: borderOpacity,
-          inset: frameInset,
-          scale: frameScale,
-          borderWidth: "1.5px"
-        }}
-        className="fixed border-white pointer-events-none z-50 transition-colors duration-500"
-      />
-
-      {/* PHASE 7: ARCHITECTURAL SPINE (STEP 3 & 6) + PHASE 8 DISPLACEMENT (STEP 7) */}
-      <motion.div
-        style={{ x: spineDisplaceX }}
-        className="fixed left-[4.8vw] top-0 h-full w-[1px] bg-white/5 z-[40] pointer-events-none mix-blend-difference hidden md:block glitch-safe"
-      >
-        <motion.div
-          style={{ scaleY: scrollYProgress, transformOrigin: "top" }}
-          className="w-full h-full bg-white/30"
-        />
-      </motion.div>
-
-      {/* SHARP SCROLL INDICATOR — PHASE 3 */}
-      <div className="fixed right-0 top-0 h-full w-[1px] bg-white/5 z-50 overflow-hidden">
-        <motion.div
-          style={{ scaleY: scrollYProgress, transformOrigin: "top" }}
-          className="w-full h-full bg-white/40"
-        />
-      </div>
-
-      {/* PHASE 16 STEP 3: EXPLORATION PROGRESS LINE */}
-      <div className="fixed left-0 bottom-0 w-full h-[1px] bg-white/5 z-50">
-        <motion.div
-          style={{ scaleX: scrollYProgress, transformOrigin: "left" }}
-          className="w-full h-full bg-white/60"
-        />
-      </div>
-
-      {/* PHASE 4 — ARCHITECTURAL GRID + PHASE 9 SCROLL-VISIBLE GUIDES */}
-      <div className={`grid-overlay ${showGrid ? "visible" : ""}`} />
-      <motion.div
-        style={{ opacity: gridScrollOpacity }}
-        className="fixed inset-0 pointer-events-none z-10 w-full h-full mix-blend-difference"
-      >
-        <div className="w-full h-full border-l border-r border-white/20 mx-[20vw]" />
-        <div className="absolute top-[30vh] w-full h-px bg-white/10" />
-        <div className="absolute top-[80vh] w-full h-px bg-white/10" />
-      </motion.div>
+      {/* ALL EDGE LINES REMOVED — CLEAN VIEWPORT */}
 
       {/* PHASE 12 STEP 11: STRUCTURAL FLOATING GRID (FIXED: removed -inset-[100%] overflow) */}
       <motion.div

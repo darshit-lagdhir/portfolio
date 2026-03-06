@@ -83,7 +83,7 @@ body {
 }
 
 .gallery-inset {
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 0px;
   margin: 1vh 1vw;
   /* Frame inset */
   border-radius: 4px;
@@ -185,8 +185,8 @@ body {
   /* Creates a subtle card elevation effect against the black abyss */
   box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.05),
     inset 0 0 1px rgba(0, 0, 0, 0.2);
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  /* Contrast lip */
+  border-top: 0px;
+  /* Contrast lip REMOVED */
 }
 
 /* SECTION TRANSITION DROP LOGIC */
@@ -466,19 +466,7 @@ body {
 }
 
 .section-boundary-flash::after {
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background: white;
-  opacity: 0;
-  transition: opacity 0.05s ease;
-}
-
-.section-boundary-flash.flash-active::after {
-  opacity: 1;
+  content: none;
 }
 
 /* STEP 4: NEGATIVE VOID SPACE */
@@ -666,4 +654,17 @@ body {
   z-index: 1;
   background: radial-gradient(circle at 50% 40%, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0) 60%);
   mix-blend-mode: screen;
+}
+
+/* PHASE 29 STEP 4: CURSOR PROXIMITY TYPE REACTION (No sizing changes) */
+.type-react-hover {
+  transition: letter-spacing 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: letter-spacing, opacity, transform, filter;
+}
+
+.type-react-hover:hover {
+  letter-spacing: 0.02em;
+  opacity: 1 !important;
+  transform: scale(1.01);
+  filter: brightness(1.2);
 }

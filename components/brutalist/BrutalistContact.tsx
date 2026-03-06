@@ -71,7 +71,7 @@ export default function BrutalistContact() {
                                 className="flex flex-col items-center gap-6"
                             >
                                 <span className="text-micro font-bold tracking-[0.6em] md:tracking-[1em] text-black/50">04_TERMINATION</span>
-                                <h2 className="text-[clamp(2rem,8vw,5rem)] text-black italic tracking-tighter uppercase leading-none font-heading font-extrabold overflow-hidden max-w-full">
+                                <h2 className="text-[clamp(2rem,8vw,5rem)] text-black italic tracking-tighter uppercase leading-none font-heading font-extrabold overflow-hidden max-w-full type-react-hover">
                                     <motion.span
                                         initial={{ y: "110%" }}
                                         whileInView={{ y: 0 }}
@@ -100,7 +100,7 @@ export default function BrutalistContact() {
                             <a
                                 href="mailto:darshitlagdhir@gmail.com"
                                 className={`
-                                text-[clamp(0.8rem,2.5vw,1.8rem)] text-black font-ui font-extrabold transition-all duration-700 uppercase
+                                text-[clamp(0.8rem,2.5vw,1.8rem)] text-black font-ui font-extrabold transition-all duration-700 uppercase type-react-hover
                                 ${isHovered ? "tracking-[0.05em]" : "tracking-tight"}
                             `}
                             >
@@ -140,12 +140,10 @@ export default function BrutalistContact() {
 
                 {/* EXIT CUE — PHASE 3 */}
                 <div className="absolute bottom-12 flex flex-col items-center gap-6 w-[200px]">
-                    <div className="w-px h-12 bg-black opacity-20" />
                     <span className="text-micro font-bold tracking-[1.2em] text-black">EOT</span>
                 </div>
 
-                {/* CORNER ACCENTS (TIER 3) — PHASE 3 */}
-                <div className="absolute bottom-0 left-0 w-32 h-32 border-r border-t border-black/10 opacity-10 pointer-events-none" />
+                {/* CORNER ACCENTS REMOVED */}
 
             </div>
         </ChoreographedSection>

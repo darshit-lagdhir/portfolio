@@ -374,14 +374,10 @@ export function ChoreographedSection({ id, children, isProject = false, classNam
         <motion.section
             ref={ref}
             id={id}
-            style={{ scale, opacity, borderColor, borderWidth: "1px", filter: idleDimFilter }}
+            style={{ scale, opacity, filter: idleDimFilter }}
             className={`w-full relative transition-all duration-[800ms] ease-out ${isProject ? '' : 'bg-white text-black'} ${className}`}
         >
-            {/* Step 6: Visual Transition Bridges */}
-            <motion.div
-                style={{ height: bridgeHeight }}
-                className={`absolute left-0 top-0 w-1 ${isProject ? 'bg-white/10' : 'bg-black/5'} origin-top`}
-            />
+            {/* Step 6: Visual Transition Bridges REMOVED */}
             {/* PHASE 21 STEP 10: SECTION ENTRY SIGNAL */}
             <motion.div
                 initial={{ opacity: 0, scale: 0.98 }}
@@ -397,33 +393,7 @@ export function ChoreographedSection({ id, children, isProject = false, classNam
 
 // PHASE 15 STEP 7 & PHASE 21 STEP 4, 12: SYSTEM SPINE
 export function ContinuityLine() {
-    const { scrollYProgress } = useScroll();
-    const isProjectPage = usePathname() !== "/";
-    const height = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-    const connectorScale = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]);
-
-    const [isMobile, setIsMobile] = useState(false);
-    useEffect(() => {
-        setIsMobile(window.innerWidth < 768);
-    }, []);
-
-    return (
-        <>
-            {/* Main Spine */}
-            <motion.div
-                className={`fixed top-0 left-[3vw] lg:left-[5vw] w-px ${isProjectPage ? 'bg-white/20' : 'bg-black/20'} origin-top z-10 pointer-events-none transition-colors duration-500`}
-                style={{ height }}
-            />
-
-            {/* PHASE 21 STEP 2: SECTION CONNECTORS (Desktop only) */}
-            {!isMobile && !isProjectPage && (
-                <motion.div
-                    className="fixed left-[5vw] top-[50vh] w-[2vw] h-px bg-black/10 z-10 pointer-events-none"
-                    style={{ scaleX: connectorScale }}
-                />
-            )}
-        </>
-    );
+    return null;
 }
 
 // PHASE 15 STEP 11: SCROLL MOMENT EMPHASIS

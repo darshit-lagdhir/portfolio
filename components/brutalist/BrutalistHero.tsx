@@ -35,8 +35,10 @@ const Letter = ({ char, index, total, smoothMouseX, attentionScore, rippleActive
     return (
         <motion.span
             className="inline-block kinetic-letter txt-micro-react"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: index * 0.05, ease: GLOBAL_EASE }}
             style={{ y: smoothPressureY, x: smoothRippleX }}
-            transition={{ duration: 0.2, ease: MICRO_EASE }}
         >
             {char}
         </motion.span>
@@ -314,12 +316,7 @@ export default function BrutalistHero() {
                         </motion.span>
                     </div>
 
-                    <motion.div
-                        initial={{ scaleX: 0 }}
-                        animate={{ scaleX: 1 }}
-                        transition={{ duration: 1.5, delay: 1, ease: GLOBAL_EASE }}
-                        className="divider-h mt-12 md:mt-16 opacity-10 w-full max-w-full"
-                    />
+                    {/* DIVIDER REMOVED */}
                 </div>
 
                 {/* PHASE 23 STEP 4: RIGHT 5-COLS — INTERACTIVE VISUAL ELEMENT */}
@@ -327,7 +324,7 @@ export default function BrutalistHero() {
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 1.2, delay: 0.8, ease: GLOBAL_EASE }}
-                    className="hidden lg:flex col-span-5 flex-col justify-center items-center h-[50vh] relative border-l border-white/5 pl-10"
+                    className="hidden lg:flex col-span-5 flex-col justify-center items-center h-[50vh] relative pl-10"
                 >
                     <div className="relative w-[30vh] h-[30vh] flex items-center justify-center opacity-40">
                         {/* Minimal architectural motion element */}
