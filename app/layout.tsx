@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useMotionValue, useSpring, useTransform, useScroll, useVelocity, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import "./globals.css";
 import SmoothScroll from "@/components/brutalist/SmoothScroll";
@@ -28,8 +28,8 @@ export function CustomCursor() {
 
   // Outer ring: SMOOTH trailing response (PHASE 25 STEP 2: SILKY lag)
   const ring = {
-    x: useSpring(mouse.x, { damping: 35, stiffness: 150, mass: 0.6 }),
-    y: useSpring(mouse.y, { damping: 35, stiffness: 150, mass: 0.6 }),
+    x: useSpring(mouse.x, { damping: 45, stiffness: 120, mass: 0.8 }),
+    y: useSpring(mouse.y, { damping: 45, stiffness: 120, mass: 0.8 }),
   };
 
   // STEP 6: Proximity light follows cursor (Ultra-smooth ambient)
@@ -40,13 +40,13 @@ export function CustomCursor() {
 
   const [cursorVariant, setCursorVariant] = useState("default");
   const [isPressed, setIsPressed] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [isOnDark, setIsOnDark] = useState(true);
 
-  // PHASE 16 STEP 9: CURSOR SIGNAL RESPONSE
+  // PHASE 25 STEP 4 & 5: MAGNETIC REACTION ARBITER
   const [targetCenter, setTargetCenter] = useState<{ x: number, y: number } | null>(null);
 
-  // Define hook at the top level to avoid Rules of Hooks violation
   const signalRotation = useTransform(() => {
     if (!targetCenter) return "0rad";
     const dx = targetCenter.x - dot.x.get();
@@ -55,7 +55,6 @@ export function CustomCursor() {
   });
 
   useEffect(() => {
-    // PHASE 25 STEP 13: MOBILE TOUCH BYPASS
     if (window.matchMedia("(hover: none)").matches || window.innerWidth < 768) {
       setIsMounted(true);
       return;
@@ -67,40 +66,55 @@ export function CustomCursor() {
       mouse.x.set(e.clientX);
       mouse.y.set(e.clientY);
 
-      // PHASE 25 STEP 4: MAGNETIC BUTTON RESPONSE (NATIVE CSS DOM FOR PERFORMANCE)
-      const magneticBtns = document.querySelectorAll(".magnetic-btn");
-      magneticBtns.forEach(btn => {
-        const rect = btn.getBoundingClientRect();
+      // STEP 4 & 5: MAGNETIC RESPONSE ENGINE
+      const interactables = document.querySelectorAll(".magnetic-btn, [data-project='true']");
+      interactables.forEach(el => {
+        const rect = el.getBoundingClientRect();
         const cx = rect.left + rect.width / 2;
         const cy = rect.top + rect.height / 2;
         const dist = Math.sqrt(Math.pow(e.clientX - cx, 2) + Math.pow(e.clientY - cy, 2));
 
-        const htmlBtn = btn as HTMLElement;
-        if (dist < 150) { // Detection radius
-          const pull = 0.15; // Gravity strength
+        const htmlEl = el as HTMLElement;
+        const isProject = htmlEl.getAttribute('data-project') === 'true';
+        const radius = isProject ? 300 : 150;
+
+        if (dist < radius) {
+          const pull = isProject ? 0.05 : 0.15; // Panels are heavier
           const dx = (e.clientX - cx) * pull;
           const dy = (e.clientY - cy) * pull;
-          htmlBtn.style.setProperty('--magnet-x', `${dx}px`);
-          htmlBtn.style.setProperty('--magnet-y', `${dy}px`);
+          htmlEl.style.setProperty('--magnet-x', `${dx}px`);
+          htmlEl.style.setProperty('--magnet-y', `${dy}px`);
+
+          // STEP 5: Perspective shift for panels
+          if (isProject) {
+            const rotX = -(e.clientY - cy) / radius * 5;
+            const rotY = (e.clientX - cx) / radius * 5;
+            htmlEl.style.setProperty('--tilt-x', `${rotX}deg`);
+            htmlEl.style.setProperty('--tilt-y', `${rotY}deg`);
+          }
         } else {
-          htmlBtn.style.setProperty('--magnet-x', `0px`);
-          htmlBtn.style.setProperty('--magnet-y', `0px`);
+          htmlEl.style.setProperty('--magnet-x', `0px`);
+          htmlEl.style.setProperty('--magnet-y', `0px`);
+          if (isProject) {
+            htmlEl.style.setProperty('--tilt-x', `0deg`);
+            htmlEl.style.setProperty('--tilt-y', `0deg`);
+          }
         }
       });
 
-      // STATE DETECTION
+      // STATE DETECTION REFINEMENT
       const target = e.target as HTMLElement;
-      const isLink = target.closest("a, button, [role='button']");
+      const isLink = target.closest("a, button, [role='button'], .nav-item");
       const isProject = target.closest("[data-project='true']");
       const isLargeText = target.closest("h1, h2, h3, .text-massive, .text-large");
       const isWhiteSection = target.closest(".bg-white");
 
-      if (isProject) setCursorVariant("project");
+      if (isDragging) setCursorVariant("drag");
+      else if (isProject) setCursorVariant("project");
       else if (isLargeText) setCursorVariant("text");
       else if (isLink) setCursorVariant("nav");
       else setCursorVariant("default");
 
-      // PHASE 16 STEP 9: CURSOR SIGNAL TARGET RESOLUTION
       const isInteractable = isLink || isProject || target.closest("button");
       if (isInteractable) {
         const rect = isInteractable.getBoundingClientRect();
@@ -109,15 +123,13 @@ export function CustomCursor() {
         setTargetCenter(null);
       }
 
-      // SECTION DETECTION
       setIsOnDark(!isWhiteSection);
       if (isWhiteSection) document.body.classList.add("cursor-invert");
       else document.body.classList.remove("cursor-invert");
     };
 
-    // STEP 10: PRESSURE FEEDBACK
-    const onDown = () => setIsPressed(true);
-    const onUp = () => setIsPressed(false);
+    const onDown = () => { setIsPressed(true); setIsDragging(true); };
+    const onUp = () => { setIsPressed(false); setIsDragging(false); };
 
     window.addEventListener("mousemove", moveMouse, { passive: true });
     window.addEventListener("mousedown", onDown);
@@ -127,7 +139,7 @@ export function CustomCursor() {
       window.removeEventListener("mousedown", onDown);
       window.removeEventListener("mouseup", onUp);
     };
-  }, [mouse.x, mouse.y]);
+  }, [mouse.x, mouse.y, isDragging]);
 
   // PHASE 25 STEP 1, 7, 9: CURSOR SCALE REACTION & STATES
   const variants = {
@@ -163,6 +175,14 @@ export function CustomCursor() {
       backgroundColor: "rgba(255, 255, 255, 0.5)",
       borderColor: "rgba(255, 255, 255, 0)",
     },
+    drag: {
+      width: 60,
+      height: 60,
+      borderRadius: "100%",
+      borderWidth: "1px",
+      backgroundColor: "rgba(255, 255, 255, 0.1)",
+      borderColor: "rgba(255, 255, 255, 1)",
+    }
   };
 
   if (!isMounted) return null;
@@ -254,6 +274,51 @@ export function CustomCursor() {
         }}
       />
     </>
+  );
+}
+
+// PHASE 25 STEP 13: MOBILE TOUCH FEEDBACK (Tap Ripple)
+function TapRipple() {
+  const [ripples, setRipples] = useState<{ x: number, y: number, id: number }[]>([]);
+  let id = useRef(0);
+
+  useEffect(() => {
+    const handleTap = (e: MouseEvent | TouchEvent) => {
+      const x = 'clientX' in e ? e.clientX : e.touches[0].clientX;
+      const y = 'clientY' in e ? e.clientY : e.touches[0].clientY;
+
+      const newRipple = { x, y, id: id.current++ };
+      setRipples(prev => [...prev, newRipple]);
+
+      setTimeout(() => {
+        setRipples(prev => prev.filter(r => r.id !== newRipple.id));
+      }, 1000);
+    };
+
+    window.addEventListener("mousedown", handleTap);
+    window.addEventListener("touchstart", handleTap, { passive: true });
+    return () => {
+      window.removeEventListener("mousedown", handleTap);
+      window.removeEventListener("touchstart", handleTap);
+    };
+  }, []);
+
+  return (
+    <div className="fixed inset-0 pointer-events-none z-[9999] overflow-hidden">
+      <AnimatePresence>
+        {ripples.map(r => (
+          <motion.div
+            key={r.id}
+            initial={{ scale: 0, opacity: 0.5 }}
+            animate={{ scale: 4, opacity: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="absolute w-12 h-12 border border-white/30 rounded-full"
+            style={{ left: r.x - 24, top: r.y - 24 }}
+          />
+        ))}
+      </AnimatePresence>
+    </div>
   );
 }
 
@@ -527,6 +592,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       <SystemStateIndicator active={systemActive} />
 
       {/* PHASE 20 & 21: INTERFACE NETWORK LAYERS */}
+      <TapRipple />
       <DiscoveryFeedbackDot key={lastDiscoveryTime} />
       <CursorDiscoveryTrail />
       <CursorSignals />

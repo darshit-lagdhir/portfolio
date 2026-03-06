@@ -582,10 +582,19 @@ body {
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* PHASE 25 STEP 4: MAGNETIC BUTTON RESPONSE */
+/* PHASE 25 STEP 4 & 5: MAGNETIC CONTROL SYSTEM */
 .magnetic-btn {
   transform: translate(var(--magnet-x, 0px), var(--magnet-y, 0px));
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+[data-project='true'] {
+  transform: translate(var(--magnet-x, 0px), var(--magnet-y, 0px)) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
 /* STEP 10: VERTICAL MASK REVEAL */
