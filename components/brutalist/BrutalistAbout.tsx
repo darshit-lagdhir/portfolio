@@ -60,13 +60,17 @@ export default function BrutalistAbout() {
                         {/* SECTION HEADING — MASK REVEAL (STEP 9) */}
                         <div className="flex flex-col gap-6 items-start self-start">
                             <span className="text-micro font-bold tracking-[0.8em] opacity-30">03_IDENTITY</span>
-                            <MaskReveal direction="up" duration={1.5}>
+                            <div className="relative overflow-hidden py-2 px-1 -m-2">
                                 <motion.h2
+                                    initial={{ opacity: 0, y: 40 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 1.5, delay: 0.2, ease: GLOBAL_EASE }}
                                     className="text-large break-words w-full border-b border-white/20 pb-8 type-react-hover text-white"
                                 >
                                     {scrambledTitle}
                                 </motion.h2>
-                            </MaskReveal>
+                            </div>
                         </div>
 
                         {/* EDITORIAL STATEMENT BLOCKS — STAGGERED REVEAL (STEP 8) */}

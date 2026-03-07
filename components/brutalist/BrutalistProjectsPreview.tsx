@@ -98,7 +98,7 @@ export default function BrutalistProjectsPreview() {
                             <div className="flex flex-col gap-4 items-start self-start w-full">
                                 <span className="text-micro font-bold tracking-[0.8em] opacity-40">02_ARCHIVE</span>
                                 <motion.h2
-                                    className="text-large break-words w-full border-b border-black/20 pb-4 type-react-hover"
+                                    className="text-[clamp(1.2rem,6vw,4.2rem)] font-heading font-extrabold uppercase tracking-tighter whitespace-nowrap w-full border-b border-black/20 pb-4 type-react-hover"
                                 >
                                     {scrambledTitle}
                                 </motion.h2>

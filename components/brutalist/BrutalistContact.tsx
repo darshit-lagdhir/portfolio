@@ -71,11 +71,17 @@ export default function BrutalistContact() {
                                 className="flex flex-col items-center gap-6"
                             >
                                 <span className="text-micro font-bold tracking-[0.6em] md:tracking-[1em] text-black/50">04_TERMINATION</span>
-                                <MaskReveal direction="up" duration={1.5}>
-                                    <h2 className="text-large text-black type-react-hover">
+                                <div className="relative overflow-visible pb-4">
+                                    <motion.h2 
+                                        initial={{ opacity: 0, y: 30 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ duration: 1.2, delay: 0.4, ease: GLOBAL_EASE }}
+                                        className="text-large text-black type-react-hover"
+                                    >
                                         {scrambledTitle}
-                                    </h2>
-                                </MaskReveal>
+                                    </motion.h2>
+                                </div>
                             </motion.div>
                         </ScrollMoment>
 
@@ -98,7 +104,7 @@ export default function BrutalistContact() {
                         >
                             <a
                                 href="mailto:darshitlagdhir@gmail.com"
-                                className="text-caption text-black hover:opacity-70 transition-opacity"
+                                className="text-base md:text-lg font-heading font-bold italic text-black hover:opacity-70 transition-opacity uppercase tracking-tight"
                             >
                                 DARSHITLAGDHIR@GMAIL.COM
                             </a>

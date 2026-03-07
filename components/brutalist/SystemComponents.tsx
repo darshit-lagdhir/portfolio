@@ -529,7 +529,7 @@ export function MaskReveal({
     }[direction];
 
     return (
-        <div className="relative overflow-hidden">
+        <div className="relative overflow-hidden py-4 -my-4 px-2 -mx-2">
             <motion.div
                 initial={{ ...initialPos, opacity: 0 }}
                 whileInView={{ x: 0, y: 0, opacity: 1 }}

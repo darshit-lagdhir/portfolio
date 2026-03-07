@@ -261,7 +261,7 @@ export default function BrutalistHero() {
                             animate={{ y: 0, translateZ: 50 }}
                             style={{ y: frontY, opacity: mainTextOpacity }}
                             transition={{ duration: 1.2, ease: GLOBAL_EASE }}
-                            className={`text-massive relative z-10 perspective-tilt glitch-safe word-drift drop-shadow-[0_0_20px_rgba(255,255,255,0.06)] ${glitchFired ? 'hero-glitch-once' : ''} whitespace-nowrap md:whitespace-nowrap`}
+                            className={`text-massive italic relative z-10 perspective-tilt glitch-safe word-drift drop-shadow-[0_0_20px_rgba(255,255,255,0.06)] ${glitchFired ? 'hero-glitch-once' : ''} whitespace-nowrap md:whitespace-nowrap`}
                         >
                             {textArray1.map((char, i) => (
                                 <Letter
@@ -283,7 +283,7 @@ export default function BrutalistHero() {
                         {/* GREY SHADOW LAYER — offset behind main text, interactive */}
                         <motion.span
                             style={{ y: backY, opacity: 0.15 }}
-                            className="absolute top-[4px] left-[4px] text-massive text-white/30 select-none pointer-events-none perspective-tilt z-0"
+                            className="absolute top-[4px] left-[4px] text-massive italic text-white/30 select-none pointer-events-none perspective-tilt z-0"
                             aria-hidden
                         >
                             {textArray2.map((char, i) => (
@@ -305,7 +305,7 @@ export default function BrutalistHero() {
                             animate={{ y: 0, translateZ: 50 }}
                             style={{ y: frontY, opacity: mainTextOpacity }}
                             transition={{ duration: 1.2, delay: 0.1, ease: GLOBAL_EASE }}
-                            className={`text-massive text-white relative z-10 perspective-tilt glitch-safe word-drift-reverse ${glitchFired ? 'hero-glitch-once' : ''} whitespace-nowrap md:whitespace-nowrap`}
+                            className={`text-massive italic text-white relative z-10 perspective-tilt glitch-safe word-drift-reverse ${glitchFired ? 'hero-glitch-once' : ''} whitespace-nowrap md:whitespace-nowrap`}
                         >
                             {textArray2.map((char, i) => (
                                 <Letter
