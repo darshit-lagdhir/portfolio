@@ -43,7 +43,7 @@ export default function BrutalistNavbar() {
             <nav className="flex justify-between items-center px-[5vw] w-full max-w-[1800px] mx-auto">
                 {/* BRAND — LEFT ALIGNED */}
                 <Link href="/" className="group flex items-center shrink-0">
-                    <span className="text-medium italic font-bold">DARSHIT.L</span>
+                    <span className="text-medium italic font-extrabold" style={{ fontFamily: "Panchang, sans-serif" }}>DARSHIT.L</span>
                 </Link>
 
                 {/* SECTION INDEX — RIGHT ALIGNED — PHASE 4 */}
