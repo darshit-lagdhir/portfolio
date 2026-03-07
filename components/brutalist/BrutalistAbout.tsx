@@ -40,14 +40,14 @@ export default function BrutalistAbout() {
         target: containerRef,
         offset: ["start end", "end start"]
     });
-    const breathPadding = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], ["6rem", "10rem", "10rem", "6rem"]);
+    const breathPadding = useTransform(scrollYProgress, [0.4, 0.5, 0.6], ["2rem", "0rem", "2rem"]);
 
     return (
         <ChoreographedSection id="about">
             <div
                 ref={containerRef}
                 onPointerEnter={() => setActiveSection("about")}
-                className="relative min-h-screen overflow-hidden bg-black text-white"
+                className="relative overflow-hidden bg-black text-white"
             >
                 {/* SECTION NUMBER SYSTEM */}
                 <span className="absolute top-[10%] left-[5%] text-[20vw] font-heading font-black leading-none text-white opacity-[0.02] pointer-events-none z-0 select-none">
@@ -55,7 +55,7 @@ export default function BrutalistAbout() {
                 </span>
 
                 <motion.div style={{ paddingTop: breathPadding, paddingBottom: breathPadding }} className="relative z-10">
-                    <div className="w-full max-w-[1800px] mx-auto px-[5vw] flex flex-col gap-24 md:gap-32">
+                    <div className="w-full max-w-[1800px] mx-auto px-[5vw] flex flex-col gap-6 md:gap-10">
 
                         {/* SECTION HEADING — MASK REVEAL (STEP 9) */}
                         <div className="flex flex-col gap-6 items-start self-start">
@@ -91,7 +91,7 @@ export default function BrutalistAbout() {
                                         Systems <br /> <span className="text-white/40 italic">Thinking.</span>
                                     </h3>
                                 </MaskReveal>
-                                <motion.p 
+                                <motion.p
                                     initial={{ opacity: 0, y: 30 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
@@ -115,7 +115,7 @@ export default function BrutalistAbout() {
                                         Backend <br /> <span className="text-white/40 italic">Authority.</span>
                                     </h3>
                                 </MaskReveal>
-                                <motion.p 
+                                <motion.p
                                     initial={{ opacity: 0, y: 30 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
