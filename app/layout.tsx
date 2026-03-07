@@ -473,51 +473,7 @@ function CrossPageContinuity() {
 
 // PHASE 21 STEP 1 & PHASE 28 STEP 8: GLOBAL STRUCTURAL NETWORK & GLOW
 function GlobalStructuralNetwork() {
-  const { scrollYProgress, scrollY } = useScroll();
-  const { attentionScore, scrollTempo } = useScene();
-  const [isMobile, setIsMobile] = useState(false);
-
-  // PHASE 28 STEP 8 & 11: CONNECTION GLOW + TRANSITION ATMOSPHERE
-  const lineGlowOpacity = useTransform(attentionScore, [0, 1], [0.1, 0.4]);
-  const lineGlowWidth = useTransform(scrollTempo, [0, 1], [0.5, 1.5]);
-
-  const path1Length = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
-  const path2X = useTransform(scrollYProgress, [0, 1], [0, -20]);
-
-  useEffect(() => { setIsMobile(window.innerWidth < 768); }, []);
-
-  if (isMobile) return null;
-
-  return (
-    <div className="fixed inset-0 pointer-events-none z-[5]">
-      <svg width="100%" height="100%">
-        {/* PHASE 28 STEP 8: CONNECTION GLOW REFINEMENT */}
-        <motion.path
-          d="M 50 100 L 50 400 L 150 400"
-          stroke="white"
-          strokeWidth={lineGlowWidth}
-          fill="none"
-          initial={{ pathLength: 0, opacity: 0 }}
-          style={{
-            pathLength: path1Length,
-            opacity: lineGlowOpacity,
-            filter: useMotionTemplate`drop-shadow(0 0 ${useTransform(attentionScore, [0, 1], [0, 4])}px rgba(255,255,255,0.4))`
-          }}
-          className="transition-all duration-500"
-        />
-        {/* Secondary Structural Grid Lines (Atmospheric) */}
-        <motion.path
-          d="M 90vw 20vh L 90vw 80vh L 80vw 80vh"
-          stroke="white"
-          strokeWidth="0.5"
-          fill="none"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 0.03 }}
-          style={{ x: path2X }}
-        />
-      </svg>
-    </div>
-  );
+  return null;
 }
 
 
