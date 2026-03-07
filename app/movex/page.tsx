@@ -5,7 +5,6 @@ import {
     ProjectEntryLoader,
     SystemHeaderBar,
     SystemGridOverlay,
-    ProjectPanel,
     ProjectMetadata,
     ProjectTimeline,
     ArchitectureVisual,

@@ -3,7 +3,7 @@
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { useScene } from "@/context/SceneContext";
-import { ScrollMoment, ChoreographedSection, MaskReveal } from "@/components/brutalist/SystemComponents";
+import { ChoreographedSection, MaskReveal } from "@/components/brutalist/SystemComponents";
 
 const GLOBAL_EASE = [0.33, 1, 0.68, 1] as [number, number, number, number];
 
@@ -73,8 +73,6 @@ export default function BrutalistAbout() {
                             </div>
                         </div>
 
-                        {/* PHASE 31: SPACING TIGHTENED (REDUNDANT ZONE REMOVED) */}
-
                         {/* EDITORIAL STATEMENT BLOCKS — STAGGERED REVEAL (STEP 8) */}
                         <div className="grid grid-cols-12 gap-y-24 md:gap-y-32 gap-x-8 items-start">
 
@@ -98,7 +96,7 @@ export default function BrutalistAbout() {
                                     transition={{ duration: 1.2, delay: 0.5, ease: GLOBAL_EASE }}
                                     className="text-body text-white/50 bg-white/[0.04] p-6 md:p-8 border-l-2 border-white/20"
                                 >
-                                    I don't just write code; I design systems. Every component, from UI interactions to database queries, is treated as a node in a larger architectural network. Precision and scalability are non-negotiable.
+                                    I don&apos;t just write code; I design systems. Every component, from UI interactions to database queries, is treated as a node in a larger architectural network. Precision and scalability are non-negotiable.
                                 </motion.p>
                             </motion.div>
 

@@ -1,12 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState, useRef, useCallback } from "react";
-import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useEffect, useState, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useScene } from "@/context/SceneContext";
 
 const GLOBAL_EASE = [0.33, 1, 0.68, 1] as [number, number, number, number];
-const MICRO_EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
 export default function BrutalistNavbar() {
     const { activeSection, isIdle, markInteraction, setIsCommandPaletteOpen } = useScene();
@@ -14,7 +13,11 @@ export default function BrutalistNavbar() {
     const [menuOpen, setMenuOpen] = useState(false);
 
     useEffect(() => {
-        const handleScroll = () => setScrolled(window.scrollY > 40);
+        const handleScroll = () => {
+            if (typeof window !== 'undefined') {
+                setScrolled(window.scrollY > 40);
+            }
+        };
         window.addEventListener("scroll", handleScroll, { passive: true });
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
@@ -158,7 +161,7 @@ function MagneticNavItem({
                 damping: 20,
                 mass: 0.5
             }}
-            className={`relative group magnetic-btn tactile-btn`}
+            className="relative group magnetic-btn tactile-btn"
         >
             <Link
                 href={link.href}
@@ -174,7 +177,7 @@ function MagneticNavItem({
                     initial={false}
                     animate={
                         discoveries.has(`NAV_EXPAND_${index}`)
-                            ? { scale: [1, 2.5, 1], x: [0, -5, 0], opacity: [0.4, 1, 0.4] }
+                            ? { scale: [1, 2.5, 1], x: [0, -5, 0], opacity: [0, 1, 0] }
                             : (isActive ? { rotateX: [-90, 0], opacity: 1, scale: 1.25 } : { rotateX: 0, opacity: 0.4, scale: 1 })
                     }
                     transition={{ duration: 0.8, ease: "circInOut" }}

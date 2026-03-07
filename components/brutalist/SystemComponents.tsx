@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useScroll, useTransform, useSpring, useVelocity, AnimatePresence } from "framer-motion";
-import { useEffect, useState, useRef } from "react";
+import { motion, useScroll, useTransform, useSpring, useVelocity, AnimatePresence, MotionValue } from "framer-motion";
+import { useEffect, useState, useRef, useCallback } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useScene } from "@/context/SceneContext";
@@ -357,6 +357,13 @@ export function CodeBlockVisual({ code }: { code: string[] }) {
     );
 }
 
+interface Command {
+    id: string;
+    label: string;
+    section?: string;
+    href?: string;
+}
+
 // PHASE 32: COMMAND INTERFACE (DEVELOPER NAVIGATION INTELLIGENCE)
 export function CommandPalette() {
     const { isCommandPaletteOpen: open, setIsCommandPaletteOpen: setOpen } = useScene();
@@ -366,7 +373,7 @@ export function CommandPalette() {
     const pathname = usePathname();
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const commands = [
+    const commands: Command[] = [
         { id: 'hero', label: 'GO_TO_HERO', section: 'hero' },
         { id: 'projects', label: 'GO_TO_PROJECTS', section: 'projects' },
         { id: 'about', label: 'GO_TO_ABOUT', section: 'about' },
@@ -379,6 +386,20 @@ export function CommandPalette() {
     const filtered = commands.filter(c => 
         c.label.toLowerCase().includes(query.toLowerCase())
     );
+
+    const executeCommand = useCallback((cmd: Command) => {
+        setOpen(false);
+        if (cmd.section) {
+            if (pathname !== "/") {
+                router.push(`/#${cmd.section}`);
+            } else {
+                const el = document.getElementById(cmd.section);
+                el?.scrollIntoView({ behavior: "smooth" });
+            }
+        } else if (cmd.href) {
+            router.push(cmd.href);
+        }
+    }, [pathname, router, setOpen]);
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -405,29 +426,17 @@ export function CommandPalette() {
         };
         window.addEventListener("keydown", handleKeyDown);
         return () => window.removeEventListener("keydown", handleKeyDown);
-    }, [open, filtered, selectedIndex]);
+    }, [open, filtered, selectedIndex, setOpen, executeCommand]);
 
     useEffect(() => {
         if (open) {
-            setQuery("");
-            setSelectedIndex(0);
+            requestAnimationFrame(() => {
+                setQuery("");
+                setSelectedIndex(0);
+            });
             setTimeout(() => inputRef.current?.focus(), 50);
         }
     }, [open]);
-
-    const executeCommand = (cmd: any) => {
-        setOpen(false);
-        if (cmd.section) {
-            if (pathname !== "/") {
-                router.push(`/#${cmd.section}`);
-            } else {
-                const el = document.getElementById(cmd.section);
-                el?.scrollIntoView({ behavior: "smooth" });
-            }
-        } else if (cmd.href) {
-            router.push(cmd.href);
-        }
-    };
 
     return (
         <AnimatePresence>
@@ -525,15 +534,8 @@ export function ChoreographedSection({ id, children, isProject = false, classNam
     const scale = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], [0.95, 1, 1, 0.95]);
     const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
 
-    // Step 2: Frame Border + Midpoint focus
-    const borderColor = useTransform(scrollYProgress, [0, 0.4, 0.6, 1],
-        ["rgba(255,255,255,0)", isProject ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.1)", isProject ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.1)", "rgba(255,255,255,0)"]
-    );
-
-    const bridgeHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-
     const { scrollY } = useScroll();
-    const scrollVelocity = useVelocity(scrollY as any);
+    const scrollVelocity = useVelocity(scrollY as MotionValue<number>);
     const [duration, setDuration] = useState(0.8);
 
     useEffect(() => {
@@ -589,7 +591,12 @@ export function ScrollMoment({ children }: { children: React.ReactNode }) {
 // PHASE 15 STEP 5, 8 & 10: STORYTELLING BLOCKS & MICRO-ANIMATION
 export function StoryBlock({ title, children }: { title: string, children: React.ReactNode }) {
     const [isMobile, setIsMobile] = useState(false);
-    useEffect(() => { setIsMobile(window.innerWidth < 768); }, []);
+    useEffect(() => { 
+        const frame = requestAnimationFrame(() => {
+            setIsMobile(window.innerWidth < 768);
+        });
+        return () => cancelAnimationFrame(frame);
+    }, []);
 
     return (
         <div className="w-full relative py-20 group">
@@ -630,6 +637,7 @@ export function StoryBlock({ title, children }: { title: string, children: React
         </div>
     );
 }
+
 // PHASE 26 STEP 12: SCROLL PROGRESS INDICATOR
 export function ScrollProgressIndicator() {
     const { scrollYProgress } = useScroll();

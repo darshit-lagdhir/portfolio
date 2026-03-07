@@ -1,20 +1,16 @@
 "use client";
 
-import { motion, useScroll, useTransform, useMotionValue, useSpring, useVelocity, useMotionTemplate } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValue, useSpring, useMotionTemplate, MotionValue } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import { useScene } from "@/context/SceneContext";
 
 const GLOBAL_EASE = [0.33, 1, 0.68, 1] as [number, number, number, number];
-const MICRO_EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
-const Letter = ({ char, index, total, smoothMouseX, attentionScore, rippleActive, scrollTempo, isMobile }: {
+const Letter = ({ char, index, total, smoothMouseX, isMobile }: {
     char: string,
     index: number,
     total: number,
-    smoothMouseX: any,
-    attentionScore: any,
-    rippleActive: boolean,
-    scrollTempo: any,
+    smoothMouseX: MotionValue<number>,
     isMobile: boolean
 }) => {
     const relPos = index / total;
@@ -58,7 +54,7 @@ const Letter = ({ char, index, total, smoothMouseX, attentionScore, rippleActive
 export default function BrutalistHero() {
     const sectionRef = useRef<HTMLElement>(null);
     const {
-        setActiveSection, isIdle, interactionCount, scrollTempo, attentionScore,
+        setActiveSection, isIdle, scrollTempo, attentionScore,
         triggerDiscovery, discoveries
     } = useScene();
 
@@ -100,9 +96,6 @@ export default function BrutalistHero() {
         offset: ["start start", "end start"]
     });
 
-    // PHASE 7: LINE SYSTEM (Architectural Spine)
-    const spineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
             const { clientX, clientY } = e;
@@ -120,11 +113,9 @@ export default function BrutalistHero() {
     const geomOpacity = useTransform(scrollYProgress, [0, 0.4], [0.2, 0]);
 
     const mainTextOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
-    const stackTextOpacity = useTransform(scrollYProgress, [0, 0.3], [0.15, 0]);
 
     // PHASE 30 STEP 2: CINEMATIC EXIT CHOREOGRAPHY — GUIDED CAMERA MOTION
     const frontY = useTransform(scrollYProgress, [0, 1], ["0%", "-30%"]);
-    const midY = useTransform(scrollYProgress, [0, 1], ["0%", "-35%"]); 
     const backY = useTransform(scrollYProgress, [0, 1], ["0%", "-40%"]);
     const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
 
@@ -148,10 +139,7 @@ export default function BrutalistHero() {
     }, [scrollTempo, attentionScore, triggerDiscovery, discoveries]);
 
     // PHASE 16 STEP 1: INTERACTION VELOCITY RESPONSE
-    const { scrollY: globalY } = useScroll();
-    const scrollVelocity = useVelocity(globalY as any);
-    const smoothVelocity = useSpring(scrollVelocity, { damping: 60, stiffness: 400 });
-    const trackingCompress = useTransform(smoothVelocity, [-2000, 0, 2000], ["0.1em", "-0.04em", "0.1em"]);
+    // Note: scrollVelocity/globalY were previously used for intensity systems.
 
     // PHASE 19 STEP 4: Tempo-based tracking
     const heroLetterSpacing = useTransform(scrollTempo, t => hasExplored ? "-0.02em" : (0.02 + (1 - t) * 0.1) + "em");
@@ -220,7 +208,7 @@ export default function BrutalistHero() {
                 </div>
             </motion.div>
 
-            {/* PHASE 23 STEP 7: SECTION NUMBER SYSTEM (FIXED: reduced size, centered) */}
+            {/* PHASE 23 STEP 7: SECTION NUMBER SYSTEM */}
             <motion.span
                 style={{ x: bgTransX, y: bgTransY }}
                 className="absolute top-[10%] left-[5%] text-[20vw] font-heading font-black leading-none text-white opacity-[0.02] pointer-events-none z-0 select-none"
@@ -229,14 +217,13 @@ export default function BrutalistHero() {
             </motion.span>
 
             <motion.div
-                style={{ scale: heroScale, rotateX, rotateY, perspective: 1000, x: fgTransX, y: fgTransY }}
+                style={{ scale: heroScale, rotateX: rotateX as MotionValue<number>, rotateY: rotateY as MotionValue<number>, perspective: 1000, x: fgTransX, y: fgTransY }}
                 className="grid grid-cols-12 gap-6 md:gap-10 items-center w-full max-w-[1800px] mx-auto px-[5vw] pt-32 z-10"
             >
                 {/* PHASE 23 STEP 3 & 4: SPLIT HERO - TYPOGRAPHY DOMINANCE */}
                 <div className="col-span-12 lg:col-span-7 flex flex-col items-start gap-0 z-10">
                     <div className="relative group overflow-visible preserve-3d">
                         {/* PHASE 28 STEP 4: TYPOGRAPHY CONTRAST REFINEMENT */}
-                        {/* GREY SHADOW LAYER — softened for depth */}
                         <motion.span
                             style={{ y: backY, opacity: 0.08 }} // Reduced opacity for stronger hierarchy
                             className="absolute top-[4px] left-[4px] text-massive italic text-white/30 select-none pointer-events-none perspective-tilt z-0 whitespace-nowrap"
@@ -249,9 +236,6 @@ export default function BrutalistHero() {
                                     index={i}
                                     total={textArray1.length}
                                     smoothMouseX={smoothMouseX}
-                                    attentionScore={attentionScore}
-                                    rippleActive={discoveries.has("HERO_RIPPLE")}
-                                    scrollTempo={scrollTempo}
                                     isMobile={isMobile}
                                 />
                             ))}
@@ -271,9 +255,6 @@ export default function BrutalistHero() {
                                     index={i}
                                     total={textArray1.length}
                                     smoothMouseX={smoothMouseX}
-                                    attentionScore={attentionScore}
-                                    rippleActive={discoveries.has("HERO_RIPPLE")}
-                                    scrollTempo={scrollTempo}
                                     isMobile={isMobile}
                                 />
                             ))}
@@ -294,9 +275,6 @@ export default function BrutalistHero() {
                                     index={i}
                                     total={textArray2.length}
                                     smoothMouseX={smoothMouseX}
-                                    attentionScore={attentionScore}
-                                    rippleActive={discoveries.has("HERO_RIPPLE")}
-                                    scrollTempo={scrollTempo}
                                     isMobile={isMobile}
                                 />
                             ))}
@@ -315,9 +293,6 @@ export default function BrutalistHero() {
                                     index={i}
                                     total={textArray2.length}
                                     smoothMouseX={smoothMouseX}
-                                    attentionScore={attentionScore}
-                                    rippleActive={discoveries.has("HERO_RIPPLE")}
-                                    scrollTempo={scrollTempo}
                                     isMobile={isMobile}
                                 />
                             ))}
@@ -337,7 +312,7 @@ export default function BrutalistHero() {
                         >
                             INTERFACE ENGINEER
                         </motion.span>
-                    </div>              {/* DIVIDER REMOVED */}
+                    </div>
                 </div>
 
                 {/* PHASE 23 STEP 4: RIGHT 5-COLS — INTERACTIVE VISUAL ELEMENT */}
@@ -351,8 +326,8 @@ export default function BrutalistHero() {
                         {/* Minimal architectural motion element */}
                         <motion.div
                             style={{
-                                rotateX: rotateX as any,
-                                rotateY: rotateY as any,
+                                rotateX: rotateX as MotionValue<number>,
+                                rotateY: rotateY as MotionValue<number>,
                             }}
                             className="w-full h-full border border-white/20 absolute z-10 pointer-events-none"
                         />

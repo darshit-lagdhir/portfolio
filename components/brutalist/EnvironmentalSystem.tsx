@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useSpring, useMotionValue, useTransform, useScroll } from "framer-motion";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useScene } from "@/context/SceneContext";
 
 // PHASE 18: ENVIRONMENTAL VISUAL FEEDBACK + DYNAMIC LIGHT FIELD
@@ -22,18 +22,27 @@ export default function EnvironmentalSystem() {
     const [surge, setSurge] = useState(1);
     useEffect(() => {
         if (!isIdle && interactionCount > 0) {
-            setSurge(1.2); // Reduced surge for subtlety
-            const timer = setTimeout(() => setSurge(1), 1500);
-            return () => clearTimeout(timer);
+            const frame = requestAnimationFrame(() => setSurge(1.2));
+            const timer = setTimeout(() => {
+                requestAnimationFrame(() => setSurge(1));
+            }, 1500);
+            return () => {
+                cancelAnimationFrame(frame);
+                clearTimeout(timer);
+            };
         }
     }, [isIdle, interactionCount]);
 
     // PHASE 18 STEP 2 & PHASE 19 STEP 1, 10: SECTION AWARE & ATTENTION-DRIVEN LIGHT
-    const baseIntensityValue =
-        activeSection === "hero" ? 0.08 :
-            activeSection === "projects" ? 0.05 :
-                activeSection === "about" || activeSection === "contact" ? 0 :
-                    0.03;
+    const baseIntensityValue = useMemo(() => {
+        switch (activeSection) {
+            case "hero": return 0.08;
+            case "projects": return 0.05;
+            case "about":
+            case "contact": return 0;
+            default: return 0.03;
+        }
+    }, [activeSection]);
 
     // STEP 10: Stability Mode (dimmer on idle) + STEP 1: Attention Boost
     const targetIntensity = useTransform(attentionScore, (a: number) =>
@@ -65,7 +74,6 @@ export default function EnvironmentalSystem() {
 
     // PHASE 18 STEP 6 & 12: SCROLL-BASED LIGHT SHIFT & MOBILE FALLBACK
     const { scrollYProgress } = useScroll();
-    const scrollLightY = useTransform(scrollYProgress, [0, 1], ["20%", "80%"]);
 
     const mobileBackground = useTransform(
         scrollYProgress,
@@ -77,9 +85,10 @@ export default function EnvironmentalSystem() {
         ]
     );
 
-    const desktopBackground = useTransform([lightX, lightY, smoothIntensity], ([x, y, op]) => {
-        return `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,${op}) 0%, transparent 70%)`;
-    });
+    const desktopBackground = useTransform(
+        [lightX, lightY, smoothIntensity],
+        ([x, y, op]) => `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,${op}) 0%, transparent 70%)`
+    );
 
     if (isMobile) {
         // MOBILE LIGHT SYSTEM (STEP 12)

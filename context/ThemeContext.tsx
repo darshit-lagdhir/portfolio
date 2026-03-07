@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, ReactNode, useCallback } from "react";
 
 type Theme = "light" | "dark";
 
@@ -12,22 +12,29 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-    const [theme, setTheme] = useState<Theme>("light");
+    const [theme, setTheme] = useState<Theme>("dark"); // Default to dark for brutalist aesthetics
 
     useEffect(() => {
-        const stored = localStorage.getItem("theme") as Theme | null;
+        const stored = typeof window !== 'undefined' ? localStorage.getItem("theme") as Theme | null : null;
         if (stored) {
-            setTheme(stored);
-            document.documentElement.classList.toggle("dark", stored === "dark");
+            requestAnimationFrame(() => {
+                setTheme(stored);
+                document.documentElement.classList.toggle("dark", stored === "dark");
+            });
+        } else {
+            // Default force dark if no preference found to maintain portfolio aesthetic
+            document.documentElement.classList.add("dark");
         }
     }, []);
 
-    const toggleTheme = () => {
-        const newTheme = theme === "dark" ? "light" : "dark";
-        setTheme(newTheme);
-        document.documentElement.classList.toggle("dark", newTheme === "dark");
-        localStorage.setItem("theme", newTheme);
-    };
+    const toggleTheme = useCallback(() => {
+        setTheme(prev => {
+            const next = prev === "dark" ? "light" : "dark";
+            document.documentElement.classList.toggle("dark", next === "dark");
+            localStorage.setItem("theme", next);
+            return next;
+        });
+    }, []);
 
     return (
         <ThemeContext.Provider value={{ theme, toggleTheme }}>

@@ -3,7 +3,7 @@
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useScene } from "@/context/SceneContext";
 import { useState, useEffect, useRef } from "react";
-import { ScrollMoment, ChoreographedSection, MaskReveal, MagneticButton } from "@/components/brutalist/SystemComponents";
+import { ScrollMoment, ChoreographedSection, MagneticButton } from "@/components/brutalist/SystemComponents";
 
 const GLOBAL_EASE = [0.33, 1, 0.68, 1] as [number, number, number, number];
 

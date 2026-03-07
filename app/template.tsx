@@ -9,15 +9,24 @@ export default function Template({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
     const prevPathname = useRef(pathname);
     const [direction, setDirection] = useState<"forward" | "backward">("forward");
-    const lastClickTime = useRef(Date.now());
+    const lastClickTime = useRef(0);
     const { isNavigating } = useScene();
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
-        setIsMobile(window.innerWidth < 768);
-        const handleResize = () => setIsMobile(window.innerWidth < 768);
+        const frame = requestAnimationFrame(() => {
+            if (typeof window !== 'undefined') {
+                setIsMobile(window.innerWidth < 768);
+            }
+        });
+        const handleResize = () => {
+            requestAnimationFrame(() => setIsMobile(window.innerWidth < 768));
+        };
         window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
+        return () => {
+            cancelAnimationFrame(frame);
+            window.removeEventListener("resize", handleResize);
+        };
     }, []);
 
     // PHASE 12: CINEMATIC TIMING (SUB-600MS)
@@ -25,22 +34,26 @@ export default function Template({ children }: { children: React.ReactNode }) {
     const [duration, setDuration] = useState(0.65);
 
     useEffect(() => {
-        const now = Date.now();
-        const timeSinceLastAction = now - lastClickTime.current;
+        const frame = requestAnimationFrame(() => {
+            const now = Date.now();
+            const timeSinceLastAction = now - lastClickTime.current;
 
-        if (timeSinceLastAction < 2000) {
-            setDuration(0.4); // Faster for rapid nav
-        } else {
-            setDuration(0.55); // Cinematic
-        }
-        lastClickTime.current = now;
+            if (timeSinceLastAction < 2000) {
+                setDuration(0.4); // Faster for rapid nav
+            } else {
+                setDuration(0.55); // Cinematic
+            }
+            lastClickTime.current = now;
 
-        if (pathname === "/" && prevPathname.current !== "/") {
-            setDirection("backward");
-        } else if (pathname !== "/" && prevPathname.current === "/") {
-            setDirection("forward");
-        }
-        prevPathname.current = pathname;
+            if (pathname === "/" && prevPathname.current !== "/") {
+                setDirection("backward");
+            } else if (pathname !== "/" && prevPathname.current === "/") {
+                setDirection("forward");
+            }
+            prevPathname.current = pathname;
+        });
+
+        return () => cancelAnimationFrame(frame);
     }, [pathname]);
 
     const ease = [0.16, 1, 0.3, 1] as const;

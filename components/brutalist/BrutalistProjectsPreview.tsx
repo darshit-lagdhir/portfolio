@@ -1,13 +1,11 @@
 "use client";
 
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { motion, useInView, useScroll, useTransform, MotionValue } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import { useScene } from "@/context/SceneContext";
 import { ChoreographedSection } from "@/components/brutalist/SystemComponents";
-import { fetchGitHubData } from "@/lib/github-service";
-
-const GLOBAL_EASE = [0.33, 1, 0.68, 1] as [number, number, number, number];
+import { fetchGitHubData, GitHubRepoData } from "@/lib/github-service";
 
 // TEXT SCRAMBLE HOOK — PHASE 4
 const useScramble = (text: string, active: boolean) => {
@@ -31,6 +29,125 @@ const useScramble = (text: string, active: boolean) => {
     return display;
 };
 
+interface Project {
+    id: string;
+    name: string;
+    repoName: string;
+    type: string;
+    href: string;
+    desc: string;
+    span: string;
+}
+
+function ProjectPreviewSignal({ repoName }: { repoName: string }) {
+    const [data, setData] = useState<GitHubRepoData | null>(null);
+
+    useEffect(() => {
+        fetchGitHubData(repoName).then(setData);
+    }, [repoName]);
+
+    if (!data) return null;
+
+    const date = new Date(data.updated_at).toLocaleDateString("en-US", { month: "short", year: "numeric" });
+
+    return (
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="flex items-center gap-3 text-[9px] uppercase tracking-wider text-black/40"
+        >
+            <span>UPDATED: {date}</span>
+            <span className="hidden sm:inline w-1 h-1 bg-black/20 rounded-full" />
+            <span className="hidden sm:inline">{data.language}</span>
+        </motion.div>
+    );
+}
+
+function ProjectItem({ project, idx, scrollYProgress }: { project: Project, idx: number, scrollYProgress: MotionValue<number> }) {
+    // PHASE 30 STEP 3: SEQUENTIAL REVEAL ENGINE — STAGGERED SYSTEM ENTRY
+    const start = idx * 0.28; // Increased delay gap
+    const end = start + 0.38; // Slightly longer presence window
+
+    const pOpacity = useTransform(scrollYProgress, [start, start + 0.1, end - 0.1, end], [0, 1, 1, 0]);
+    const pY = useTransform(scrollYProgress, [start, start + 0.12], [80, 0]); // Increased upward slide for cinematic feel
+    const pX = useTransform(scrollYProgress, [start, end], [idx % 2 === 0 ? "2vw" : "-2vw", idx % 2 === 0 ? "-2vw" : "2vw"]);
+    const pBlur = useTransform(scrollYProgress, [start, start + 0.1, end - 0.1, end], ["12px", "0px", "0px", "12px"]);
+    const filterStr = useTransform(pBlur, b => `blur(${b})`);
+    const pointerEventsVal = useTransform(pOpacity, (o: number) => o > 0.5 ? "auto" : "none") as MotionValue<"auto" | "none">;
+
+    return (
+        <motion.div
+            style={{
+                opacity: pOpacity,
+                y: pY,
+                x: pX,
+                filter: filterStr,
+                pointerEvents: pointerEventsVal
+            }}
+            className={`absolute inset-0 grid grid-cols-12 items-center ${project.span}`}
+            data-project="true"
+        >
+            <div className="col-span-12">
+                <Link href={project.href} className="group block w-full relative preserve-3d">
+                    <motion.div
+                        whileHover={{ z: 50 }}
+                        whileTap={{ scale: 0.98, y: 2 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                        className="flex flex-col gap-6 w-full relative z-10"
+                        style={{
+                            rotateX: "var(--tilt-x, 0deg)",
+                            rotateY: "var(--tilt-y, 0deg)",
+                            x: "var(--magnet-x, 0px)",
+                            y: "var(--magnet-y, 0px)",
+                        }}
+                    >
+                        {/* STEP 7: Panel Edge Light Response */}
+                        <div
+                            className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"
+                            style={{
+                                background: `radial-gradient(circle at var(--edge-light-x, 50%) var(--edge-light-y, 50%), rgba(0,0,0,0.05) 0%, transparent 60%)`
+                            }}
+                        />
+                        <div className="flex items-baseline gap-4 relative">
+                            <span className="text-caption text-black/40">{project.id}</span>
+                            <div className="relative">
+                                <h3 className="text-medium text-black type-react-hover group-hover:tracking-wider transition-all duration-500">
+                                    {project.name.replace('_', '\u00A0')}
+                                </h3>
+                                <motion.div
+                                    initial={{ scaleX: 0 }}
+                                    whileHover={{ scaleX: 1 }}
+                                    className="absolute -bottom-1 left-0 w-full h-0.5 bg-black origin-left"
+                                />
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-6 max-w-xl">
+                            {/* PHASE 28 STEP 3: PANEL SURFACE TEXTURE REFINEMENT */}
+                            <p className="text-body text-black/70 bg-black/[0.03] p-4 md:p-6 border-l-2 border-black/20 group-hover:bg-black/5 group-hover:border-black transition-all duration-500 shadow-sm group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] backdrop-blur-sm">
+                                {project.desc}
+                            </p>
+                            {/* PHASE 28 STEP 7: SURFACE DIFFUSION INDICATOR */}
+                            <div className="flex justify-between items-center border-t border-black/5 pt-4">
+                                <div className="flex flex-col gap-1">
+                                    <span className="text-caption opacity-30 group-hover:opacity-100 group-hover:text-black transition-all duration-500">
+                                        {project.type}
+                                    </span>
+                                    <ProjectPreviewSignal repoName={project.repoName} />
+                                </div>
+                                <motion.div
+                                    initial={{ width: 0 }}
+                                    whileHover={{ width: "2rem" }}
+                                    className="h-[1px] bg-black/40"
+                                />
+                            </div>
+                        </div>
+                    </motion.div>
+                </Link>
+            </div>
+        </motion.div>
+    );
+}
+
 export default function BrutalistProjectsPreview() {
     const { setActiveSection } = useScene();
     const containerRef = useRef<HTMLDivElement>(null);
@@ -46,7 +163,7 @@ export default function BrutalistProjectsPreview() {
     // Pinned reveal transforms
     const breathPadding = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], ["1rem", "6rem", "6rem", "1rem"]);
 
-    const projects = [
+    const projects: Project[] = [
         {
             id: "01",
             name: "MOVEX_SYSTEM",
@@ -111,124 +228,16 @@ export default function BrutalistProjectsPreview() {
                         <div className="w-full max-w-[1800px] mx-auto px-[5vw] relative h-full">
                             {/* STEP 6 & 7: EDITORIAL PROJECT BLOCKS (PINNED REVEAL) */}
                             <div className="grid grid-cols-12 gap-y-12 gap-x-8 items-start relative h-full">
-                                {projects.map((project, idx) => {
-                                    // PHASE 30 STEP 3: SEQUENTIAL REVEAL ENGINE — STAGGERED SYSTEM ENTRY
-                                    const start = idx * 0.28; // Increased delay gap
-                                    const end = start + 0.38; // Slightly longer presence window
-
-                                    const pOpacity = useTransform(scrollYProgress, [start, start + 0.1, end - 0.1, end], [0, 1, 1, 0]);
-                                    const pY = useTransform(scrollYProgress, [start, start + 0.12], [80, 0]); // Increased upward slide for cinematic feel
-                                    const pX = useTransform(scrollYProgress, [start, end], [idx % 2 === 0 ? "2vw" : "-2vw", idx % 2 === 0 ? "-2vw" : "2vw"]);
-                                    const pBlur = useTransform(scrollYProgress, [start, start + 0.1, end - 0.1, end], ["12px", "0px", "0px", "12px"]);
-
-                                    return (
-                                        <motion.div
-                                            key={project.id}
-                                            style={{
-                                                opacity: pOpacity,
-                                                y: pY,
-                                                x: pX,
-                                                filter: useTransform(pBlur, b => `blur(${b})`),
-                                                pointerEvents: useTransform(pOpacity, (o: number) => o > 0.5 ? "auto" : ("none" as any))
-                                            }}
-                                            className={`absolute inset-0 grid grid-cols-12 items-center ${project.span}`}
-                                            data-project="true"
-                                        >
-                                            <div className="col-span-12">
-                                                <Link href={project.href} className="group block w-full relative preserve-3d">
-                                                    <motion.div
-                                                        whileHover={{ z: 50 }}
-                                                        whileTap={{ scale: 0.98, y: 2 }}
-                                                        transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                                                        className="flex flex-col gap-6 w-full relative z-10"
-                                                        style={{
-                                                            rotateX: "var(--tilt-x, 0deg)",
-                                                            rotateY: "var(--tilt-y, 0deg)",
-                                                            x: "var(--magnet-x, 0px)",
-                                                            y: "var(--magnet-y, 0px)",
-                                                        }}
-                                                    >
-                                                        {/* STEP 7: Panel Edge Light Response */}
-                                                        <div
-                                                            className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"
-                                                            style={{
-                                                                background: `radial-gradient(circle at var(--edge-light-x, 50%) var(--edge-light-y, 50%), rgba(0,0,0,0.05) 0%, transparent 60%)`
-                                                            }}
-                                                        />
-                                                        <div className="flex items-baseline gap-4 relative">
-                                                            <span className="text-caption text-black/40">{project.id}</span>
-                                                            <div className="relative">
-                                                                <h3 className="text-medium text-black type-react-hover group-hover:tracking-wider transition-all duration-500">
-                                                                    {project.name.replace('_', '\u00A0')}
-                                                                </h3>
-                                                                <motion.div
-                                                                    initial={{ scaleX: 0 }}
-                                                                    whileHover={{ scaleX: 1 }}
-                                                                    className="absolute -bottom-1 left-0 w-full h-0.5 bg-black origin-left"
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                        <div className="flex flex-col gap-6 max-w-xl">
-                                                            {/* PHASE 28 STEP 3: PANEL SURFACE TEXTURE REFINEMENT */}
-                                                            <p className="text-body text-black/70 bg-black/[0.03] p-4 md:p-6 border-l-2 border-black/20 group-hover:bg-black/5 group-hover:border-black transition-all duration-500 shadow-sm group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] backdrop-blur-sm">
-                                                                {project.desc}
-                                                            </p>
-                                                            {/* PHASE 28 STEP 7: SURFACE DIFFUSION INDICATOR */}
-                                                            <div className="flex justify-between items-center border-t border-black/5 pt-4">
-                                                                <div className="flex flex-col gap-1">
-                                                                    <span className="text-caption opacity-30 group-hover:opacity-100 group-hover:text-black transition-all duration-500">
-                                                                        {project.type}
-                                                                    </span>
-                                                                    <ProjectPreviewSignal repoName={project.repoName} />
-                                                                </div>
-                                                                <motion.div
-                                                                    initial={{ width: 0 }}
-                                                                    whileHover={{ width: "2rem" }}
-                                                                    className="h-[1px] bg-black/40"
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                    </motion.div>
-                                                </Link>
-                                            </div>
-                                        </motion.div>
-                                    );
-                                })}
+                                {projects.map((project, idx) => (
+                                    <ProjectItem key={project.id} project={project} idx={idx} scrollYProgress={scrollYProgress} />
+                                ))}
                             </div>
 
-                            {/* EXIT CUE */}
                             {/* EXIT CUE REMOVED AS REQUESTED */}
-
                         </div>
                     </motion.div>
                 </div>
             </div>
         </ChoreographedSection>
-    );
-}
-
-import { GitHubRepoData } from "@/lib/github-service";
-
-function ProjectPreviewSignal({ repoName }: { repoName: string }) {
-    const [data, setData] = useState<GitHubRepoData | null>(null);
-
-    useEffect(() => {
-        fetchGitHubData(repoName).then(setData);
-    }, [repoName]);
-
-    if (!data) return null;
-
-    const date = new Date(data.updated_at).toLocaleDateString("en-US", { month: "short", year: "numeric" });
-
-    return (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="flex items-center gap-3 text-[9px] uppercase tracking-wider text-black/40"
-        >
-            <span>UPDATED: {date}</span>
-            <span className="hidden sm:inline w-1 h-1 bg-black/20 rounded-full" />
-            <span className="hidden sm:inline">{data.language}</span>
-        </motion.div>
     );
 }

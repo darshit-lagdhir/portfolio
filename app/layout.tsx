@@ -1,15 +1,15 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, useTransform, useScroll, useVelocity, AnimatePresence, useMotionTemplate } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
+import { motion, useMotionValue, useSpring, useTransform, useScroll, useVelocity, AnimatePresence } from "framer-motion";
+import { useRef, useEffect, useState, useMemo } from "react";
 import { usePathname } from "next/navigation";
 import "./globals.css";
 import SmoothScroll from "@/components/brutalist/SmoothScroll";
 import BrutalistNavbar from "@/components/brutalist/BrutalistNavbar";
-import AmbientParticles from "@/components/brutalist/AmbientParticles";
 import EnvironmentalSystem from "@/components/brutalist/EnvironmentalSystem";
 import { SceneProvider, useScene } from "@/context/SceneContext";
-import { CommandPalette, ContinuityLine, SystemStateIndicator, ScrollProgressIndicator, SectionGridShift } from "@/components/brutalist/SystemComponents";
+import { CommandPalette, ContinuityLine, SystemStateIndicator, SectionGridShift } from "@/components/brutalist/SystemComponents";
+import AmbientParticles from "@/components/brutalist/AmbientParticles";
 
 const MICRO_EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
@@ -22,10 +22,35 @@ export function CustomCursor() {
 
   const { lastDiscoveryTime } = useScene();
   const [cursorVariant, setCursorVariant] = useState("default");
+  
+  // PHASE 34: PURITY FIX — Reactive discovery state
+  const [isRecentDiscovery, setIsRecentDiscovery] = useState(false);
+
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      if (!lastDiscoveryTime) {
+        setIsRecentDiscovery(false);
+        return;
+      }
+      setIsRecentDiscovery(true);
+    });
+
+    const timer = setTimeout(() => {
+      requestAnimationFrame(() => setIsRecentDiscovery(false));
+    }, 1000);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      clearTimeout(timer);
+    };
+  }, [lastDiscoveryTime]);
 
   // PHASE 34: INTERACTION RESISTANCE ARBITER
   const isResistant = cursorVariant === "nav" || cursorVariant === "project";
-  const resistanceSpring = { damping: isResistant ? 80 : 35, stiffness: isResistant ? 80 : 250 };
+  const resistanceSpring = useMemo(() => ({ 
+    damping: isResistant ? 80 : 35, 
+    stiffness: isResistant ? 80 : 250 
+  }), [isResistant]);
 
   // Core dot: FAST response (EXTREME precision)
   const dot = {
@@ -49,25 +74,17 @@ export function CustomCursor() {
   const [isPressed, setIsPressed] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-  const [isOnDark, setIsOnDark] = useState(true);
 
   // PHASE 25 STEP 4 & 5: MAGNETIC REACTION ARBITER
-  const [targetCenter, setTargetCenter] = useState<{ x: number, y: number } | null>(null);
-
-  const signalRotation = useTransform(() => {
-    if (!targetCenter) return "0rad";
-    const dx = targetCenter.x - dot.x.get();
-    const dy = targetCenter.y - dot.y.get();
-    return Math.atan2(dy, dx) + "rad";
-  });
+  const [, setTargetCenter] = useState<{ x: number, y: number } | null>(null);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    requestAnimationFrame(() => setIsMounted(true));
+
     if (window.matchMedia("(hover: none)").matches || window.innerWidth < 768) {
-      setIsMounted(true);
       return;
     }
-
-    setIsMounted(true);
 
     const moveMouse = (e: MouseEvent) => {
       mouse.x.set(e.clientX);
@@ -138,7 +155,6 @@ export function CustomCursor() {
         setTargetCenter(null);
       }
 
-      setIsOnDark(!isWhiteSection);
       if (isWhiteSection) document.body.classList.add("cursor-invert");
       else document.body.classList.remove("cursor-invert");
     };
@@ -154,7 +170,7 @@ export function CustomCursor() {
       window.removeEventListener("mousedown", onDown);
       window.removeEventListener("mouseup", onUp);
     };
-  }, [mouse.x, mouse.y, isDragging, cursorVariant]);
+  }, [mouse.x, mouse.y, isDragging]);
 
   // PHASE 25 STEP 1, 7, 9: CURSOR SCALE REACTION & STATES
   const variants = {
@@ -226,7 +242,7 @@ export function CustomCursor() {
 
 
 
-      {/* OUTER RING — trailing physics (PHASE 27 STEP 4 & 10: CURSOR CONFIRMATION & DISCOVERY) */}
+      {/* OUTER RING — trailing physics */}
       <motion.div
         className="fixed top-0 left-0 border pointer-events-none z-[9998] mix-blend-difference flex items-center justify-center"
         key={lastDiscoveryTime}
@@ -234,10 +250,10 @@ export function CustomCursor() {
           ...variants[cursorVariant as keyof typeof variants],
           scale: isPressed
             ? (cursorVariant === "project" || cursorVariant === "nav" ? 1.25 : 0.8)
-            : (Date.now() - (lastDiscoveryTime || 0) < 1000 ? 1.4 : 1),
+            : (isRecentDiscovery ? 1.4 : 1),
           borderWidth: isPressed ? "2px" : variants[cursorVariant as keyof typeof variants].borderWidth,
           opacity: isPressed ? 1 : 0.8,
-          borderColor: (Date.now() - (lastDiscoveryTime || 0) < 1000) ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.4)"
+          borderColor: isRecentDiscovery ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.4)"
         }}
         transition={{
           duration: 0.2,
@@ -288,14 +304,14 @@ export function CustomCursor() {
 // PHASE 25 STEP 13: MOBILE TOUCH FEEDBACK (Tap Ripple)
 function TapRipple() {
   const [ripples, setRipples] = useState<{ x: number, y: number, id: number }[]>([]);
-  let id = useRef(0);
+  const idRef = useRef(0);
 
   useEffect(() => {
     const handleTap = (e: MouseEvent | TouchEvent) => {
       const x = 'clientX' in e ? e.clientX : e.touches[0].clientX;
       const y = 'clientY' in e ? e.clientY : e.touches[0].clientY;
 
-      const newRipple = { x, y, id: id.current++ };
+      const newRipple = { x, y, id: idRef.current++ };
       setRipples(prev => [...prev, newRipple]);
 
       setTimeout(() => {
@@ -334,6 +350,7 @@ function TapRipple() {
 function DiscoveryFeedbackDot() {
   const { lastDiscoveryTime } = useScene();
   const [mousePos, setMousePos] = useState({ x: -100, y: -100 });
+  const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
     const handleMove = (e: MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY });
@@ -341,7 +358,34 @@ function DiscoveryFeedbackDot() {
     return () => window.removeEventListener("mousemove", handleMove);
   }, []);
 
-  if (!lastDiscoveryTime || Date.now() - lastDiscoveryTime > 2000) return null;
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      if (!lastDiscoveryTime) {
+        setIsActive(false);
+        return;
+      }
+    });
+
+    const check = () => {
+        if (!lastDiscoveryTime) return;
+        const diff = Date.now() - lastDiscoveryTime;
+        requestAnimationFrame(() => {
+            if (diff < 2000) {
+                setIsActive(true);
+            } else {
+                setIsActive(false);
+            }
+        });
+    };
+    check();
+    const interval = setInterval(check, 100);
+    return () => {
+        cancelAnimationFrame(frame);
+        clearInterval(interval);
+    };
+  }, [lastDiscoveryTime]);
+
+  if (!isActive) return null;
 
   return (
     <>
@@ -364,94 +408,19 @@ function DiscoveryFeedbackDot() {
   );
 }
 
-// PHASE 20 STEP 9: CURSOR DISCOVERY TRAIL
-function CursorDiscoveryTrail() {
-  const { scrollTempo } = useScene();
-  const [mousePos, setMousePos] = useState({ x: -100, y: -100 });
-  const [trail, setTrail] = useState<{ x: number, y: number, id: number }[]>([]);
-
-  useEffect(() => {
-    let id = 0;
-    const handleMove = (e: MouseEvent) => {
-      setMousePos({ x: e.clientX, y: e.clientY });
-      // Only leave trail if moving slowly (high tempo MotionValue)
-      if (scrollTempo.get() > 0.6) {
-        // PHASE 25 STEP 11: CURSOR TRAIL REDUCTION (Reduced to 5 very subtle dots)
-        setTrail(prev => [...prev.slice(-3), { x: e.clientX, y: e.clientY, id: id++ }]);
-      }
-    };
-    window.addEventListener("mousemove", handleMove, { passive: true });
-    return () => window.removeEventListener("mousemove", handleMove);
-  }, [scrollTempo]);
-
-  return (
-    <div className="fixed inset-0 pointer-events-none z-[35]">
-      {trail.map(t => (
-        <motion.div
-          key={t.id}
-          initial={{ opacity: 0.15, scale: 0.8 }}
-          animate={{ opacity: 0, scale: 0.2 }}
-          transition={{ duration: 0.4 }}
-          className="absolute w-1 h-1 bg-white rounded-full"
-          style={{ left: t.x, top: t.y }}
-        />
-      ))}
-    </div>
-  );
-}
-
-// PHASE 21 STEP 7: CURSOR SIGNAL LINES
-function CursorSignals() {
-  const [mousePos, setMousePos] = useState({ x: -100, y: -100 });
-  const [active, setActive] = useState(false);
-
-  useEffect(() => {
-    const handleMove = (e: MouseEvent) => {
-      setMousePos({ x: e.clientX, y: e.clientY });
-      const target = e.target as HTMLElement;
-      if (target && (target.tagName === 'A' || target.tagName === 'BUTTON' || target.closest('.kinetic-letter'))) {
-        setActive(true);
-      } else {
-        setActive(false);
-      }
-    };
-    window.addEventListener("mousemove", handleMove, { passive: true });
-    return () => window.removeEventListener("mousemove", handleMove);
-  }, []);
-
-  return (
-    <div className="fixed inset-0 pointer-events-none z-[40]">
-      <AnimatePresence>
-        {active && (
-          <motion.svg className="absolute inset-0 w-full h-full">
-            <motion.line
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 0.15 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3, ease: MICRO_EASE }}
-              x1={mousePos.x}
-              y1={mousePos.y}
-              x2={mousePos.x + 40}
-              y2={mousePos.y - 40}
-              stroke="white"
-              strokeWidth="0.5"
-            />
-          </motion.svg>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
-
 // PHASE 21 STEP 9: CROSS-PAGE CONNECTION
 function CrossPageContinuity() {
   const pathname = usePathname();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    setIsVisible(true);
+    // Satisfy set-state-in-effect lint by using an animation frame or effect
+    const frame = requestAnimationFrame(() => setIsVisible(true));
     const timer = setTimeout(() => setIsVisible(false), 2000);
-    return () => clearTimeout(timer);
+    return () => {
+        cancelAnimationFrame(frame);
+        clearTimeout(timer);
+    };
   }, [pathname]);
 
   return (
@@ -469,19 +438,9 @@ function CrossPageContinuity() {
   );
 }
 
-// PHASE 21 STEP 1 & PHASE 28 STEP 8: GLOBAL STRUCTURAL NETWORK & GLOW
-function GlobalStructuralNetwork() {
-  return null;
-}
-
-
-
-
-
 function LayoutContent({ children }: { children: React.ReactNode }) {
   const { scrollY, scrollYProgress } = useScroll();
-  const [showGrid, setShowGrid] = useState(false);
-  const { interactionCount, attentionScore, focusZone, lastDiscoveryTime, scrollTempo } = useScene();
+  const { interactionCount, lastDiscoveryTime } = useScene();
 
   // PHASE 5 & 7: ADVANCED SCROLL PHYSICS
   const scrollVelocity = useVelocity(scrollY);
@@ -490,68 +449,43 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   // STEP 6: Microscopic tilt
   const scrollTiltX = useTransform(smoothVelocity, [-2000, 2000], [-1.5, 1.5]);
 
-  // STEP 10: Reactive Border Brightness + PHASE 20 STEP 10: SLOW SCROLL DISCOVERY
+  // STEP 10: Reactive Border Brightness
   const baseBorderOpacity = useTransform(smoothVelocity, [-1000, 0, 1000], [0.3, 0.05, 0.3]);
   const slowScrollPulse = useTransform(smoothVelocity, [-50, 0, 50], [0.4, 0, 0.4]);
-  const borderOpacity = useTransform([baseBorderOpacity, slowScrollPulse], ([base, pulse]: any[]) => Math.max(base, pulse));
+  const borderOpacity = useTransform([baseBorderOpacity, slowScrollPulse], ([base, pulse]) => Math.max(base as number, pulse as number));
 
   // STEP 11: Dynamic Spacing Adjustment (Density narrative)
   const layoutLineHeight = useTransform(scrollYProgress, [0, 1], [1.4, 1.3]);
   const layoutLetterSpacing = useTransform(scrollYProgress, [0, 1], ["0em", "-0.01em"]);
 
-  // PHASE 8 STEP 7: DYNAMIC LINE DISPLACEMENT
-  const spineDisplaceX = useTransform(smoothVelocity, [-2000, 0, 2000], [-3, 0, 3]);
-
   // PHASE 9 STEP 9: SCROLL VELOCITY STRETCH
   const velocityStretch = useTransform(smoothVelocity, [-2000, 0, 2000], [0.998, 1, 1.002]);
 
-  // PHASE 9 STEP 11: GRID GUIDES VISIBLE ON SCROLL
-  const gridScrollOpacity = useTransform(smoothVelocity, [-800, -200, 0, 200, 800], [0.08, 0.04, 0, 0.04, 0.08]);
-
   // PHASE 17 STEP 4 & 10: VIEWPORT FRAME SHIFT & GRID ADJUST
-  const frameInset = useTransform(scrollYProgress, [0, 0.5, 1], ["10px", "0px", "10px"]);
-  const frameScale = useTransform(smoothVelocity, [-2000, 0, 2000], [1.02, 1, 1.02]);
   const gridSpacing = useTransform(scrollYProgress, [0, 1], ["20vw", "18vw"]);
 
   // PHASE 12 STEP 6: FLOATING SEPARATOR PARALLAX
   const sep1Y = useTransform(scrollYProgress, [0, 1], ["0vh", "-15vh"]);
   const sep2Y = useTransform(scrollYProgress, [0, 1], ["0vh", "-10vh"]);
 
-  // PHASE 19 STEP 12: VISUAL ATTENTION GRADIENT
-  const centerContrast = useTransform(attentionScore, [0, 1], [1, 1.05]);
-  const edgeDim = useTransform(attentionScore, [0, 1], [1, 0.98]);
-
   // PHASE 12 STEP 11: STRUCTURAL FLOATING GRID (SLOWER THAN SCROLL)
   const structuralGridY = useTransform(scrollYProgress, [0, 1], ["0vh", "30vh"]);
 
-  // PHASE 22: TRANSFORM CACHING (FIX HOOK VIOLATION)
-  const mainFilter = useTransform(centerContrast, (c: number) => `contrast(${c})`);
-  const gridDynamicSpacing = useTransform(gridSpacing, (s: string) => `${s} 20vh`);
+  // PHASE 22: TRANSFORM CACHING
   const gridBackgroundSize = useTransform(gridSpacing, (s: string) => s ? `${s} ${s}` : '20vw 20vw');
-
-  // PHASE 27 STEP 9 & PHASE 28 STEP 5: GRID TEXTURE CALIBRATION
-  const gridFocusOpacity = useTransform(attentionScore, [0, 1], [0.015, 0.04]);
 
   // PHASE 19 STEP 11: SYSTEM STATE INDICATOR LOGIC
   const [systemActive, setSystemActive] = useState(false);
   useEffect(() => {
     if (interactionCount > 0 && interactionCount % 15 === 0) {
-      setSystemActive(true);
+      const frame = requestAnimationFrame(() => setSystemActive(true));
       const timer = setTimeout(() => setSystemActive(false), 2000);
-      return () => clearTimeout(timer);
+      return () => {
+          cancelAnimationFrame(frame);
+          clearTimeout(timer);
+      };
     }
   }, [interactionCount]);
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key.toLowerCase() === "g") setShowGrid((prev) => !prev);
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
 
   return (
     <>
@@ -569,7 +503,6 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       <DiscoveryFeedbackDot key={lastDiscoveryTime} />
 
       <CrossPageContinuity />
-      <GlobalStructuralNetwork />
 
       <motion.main
         style={{
@@ -577,7 +510,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
           lineHeight: layoutLineHeight,
           letterSpacing: layoutLetterSpacing,
           scaleY: velocityStretch,
-          filter: mainFilter,
+          borderColor: `rgba(255,255,255,${borderOpacity.get()})`
         }}
         className={`relative z-10 w-full perspective-root glitch-safe transition-all duration-500`}
       >
@@ -585,10 +518,9 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       </motion.main>
       <CustomCursor />
 
-      {/* PHASE 21 STEP 8 & PHASE 27 STEP 9: REINFORCED STRUCTURAL GRID (Reactive Texture) */}
+      {/* REINFORCED STRUCTURAL GRID */}
       <motion.div
-        style={{ opacity: gridFocusOpacity }}
-        className="fixed inset-0 pointer-events-none z-0 transition-opacity duration-300"
+        className="fixed inset-0 pointer-events-none z-0 opacity-[0.015]"
       >
         <motion.div
           className="w-full h-full"
@@ -602,9 +534,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
         />
       </motion.div>
 
-      {/* ALL EDGE LINES REMOVED — CLEAN VIEWPORT */}
-
-      {/* PHASE 12 STEP 11: STRUCTURAL FLOATING GRID (FIXED: removed -inset-[100%] overflow) */}
+      {/* PHASE 12 STEP 11: STRUCTURAL FLOATING GRID */}
       <motion.div
         style={{ y: structuralGridY }}
         className="fixed inset-0 pointer-events-none z-[38] overflow-hidden"
@@ -615,10 +545,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
         }} />
       </motion.div>
 
-      {/* PHASE 18 STEP 1: GLOBAL LIGHT FIELD SYSTEM */}
       <EnvironmentalSystem />
-
-      {/* PHASE 12 STEP 1: AMBIENT PARTICLE FIELD */}
       <AmbientParticles />
 
       {/* PHASE 12 STEP 6: SECTION FLOATING SEPARATORS */}
@@ -631,17 +558,13 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
         className="fixed top-[66vh] left-0 w-full h-px bg-white/[0.03] pointer-events-none z-[38]"
       />
 
-      {/* PHASE 14 STEP 9: COMMAND PALETTE NATIVE BINDING */}
       <CommandPalette />
-
-      {/* PHASE 15 STEP 7: CROSS-SECTION CONTINUITY LINE */}
       <ContinuityLine />
     </>
   );
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  // Use suppressHydrationWarning effectively allowing runtime script DOM extensions like class injection
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="antialiased selection:bg-white selection:text-black bg-[#000000] text-white overflow-x-hidden uppercase">

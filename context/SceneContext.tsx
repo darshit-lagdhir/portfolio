@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { usePathname } from "next/navigation";
 import { useMotionValue, MotionValue } from "framer-motion";
 
@@ -62,35 +62,40 @@ export function SceneProvider({ children }: { children: React.ReactNode }) {
     // PHASE 32: COMMAND INTERFACE
     const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
 
-    const triggerDiscovery = React.useCallback((id: string) => {
+    // PHASE 34: PURITY FIX - Extracted sound logic
+    const playDiscoverySound = useCallback(() => {
+        if (!isSoundEnabled) return;
+        try {
+            const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+            const ctx = new AudioContextClass();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.type = "sine";
+            osc.frequency.setValueAtTime(880, ctx.currentTime);
+            gain.gain.setValueAtTime(0, ctx.currentTime);
+            gain.gain.linearRampToValueAtTime(0.005, ctx.currentTime + 0.01);
+            gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.1);
+            osc.start();
+            osc.stop(ctx.currentTime + 0.1);
+        } catch { /* silent fail */ }
+    }, [isSoundEnabled]);
+
+    const triggerDiscovery = useCallback((id: string) => {
         setDiscoveries(prev => {
             if (prev.has(id)) return prev;
             const next = new Set(prev);
             next.add(id);
-            setLastDiscoveryTime(Date.now());
-
-            // PHASE 20 STEP 11: MICRO SOUND (Disabled by default)
-            if (isSoundEnabled) {
-                try {
-                    const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
-                    const osc = ctx.createOscillator();
-                    const gain = ctx.createGain();
-                    osc.connect(gain);
-                    gain.connect(ctx.destination);
-                    osc.type = "sine";
-                    osc.frequency.setValueAtTime(880, ctx.currentTime);
-                    gain.gain.setValueAtTime(0, ctx.currentTime);
-                    gain.gain.linearRampToValueAtTime(0.005, ctx.currentTime + 0.01);
-                    gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.1);
-                    osc.start();
-                    osc.stop(ctx.currentTime + 0.1);
-                } catch (e) { /* silent fail */ }
-            }
             return next;
         });
-    }, [isSoundEnabled]);
+        
+        // Purity fix: side-effects outside of state updater
+        setLastDiscoveryTime(Date.now());
+        playDiscoverySound();
+    }, [playDiscoverySound]);
 
-    const markProjectInterest = React.useCallback((id: string) => {
+    const markProjectInterest = useCallback((id: string) => {
         setProjectInterests(prev => ({
             ...prev,
             [id]: (prev[id] || 0) + 1
@@ -101,14 +106,14 @@ export function SceneProvider({ children }: { children: React.ReactNode }) {
 
     const pathname = usePathname();
 
-    const markInteraction = React.useCallback(() => {
+    const markInteraction = useCallback(() => {
         setIsIdle(false);
         setInteractionCount(prev => prev + 1);
     }, []);
 
     useEffect(() => {
         let timeout: NodeJS.Timeout;
-        let lastScrollY = window.scrollY;
+        let lastScrollY = typeof window !== 'undefined' ? window.scrollY : 0;
 
         const resetIdle = () => {
             setIsIdle(false);
@@ -151,7 +156,7 @@ export function SceneProvider({ children }: { children: React.ReactNode }) {
             window.removeEventListener("keydown", resetIdle);
             window.removeEventListener("touchstart", resetIdle);
         };
-    }, []);
+    }, [attentionScore, scrollTempo]);
 
     // Reset navigating state after transitions
     useEffect(() => {
@@ -182,8 +187,10 @@ export function SceneProvider({ children }: { children: React.ReactNode }) {
 
     // Update section context on route change
     useEffect(() => {
-        if (pathname === "/") setActiveSection("hero");
-        else setActiveSection(pathname.replace("/", ""));
+        requestAnimationFrame(() => {
+            if (pathname === "/") setActiveSection("hero");
+            else setActiveSection(pathname.replace("/", ""));
+        });
     }, [pathname]);
 
     return (

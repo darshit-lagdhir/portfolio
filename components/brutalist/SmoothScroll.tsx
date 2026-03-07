@@ -4,18 +4,17 @@ import { useEffect, useRef } from "react";
 import Lenis from "lenis";
 
 export default function SmoothScroll() {
-    const lenisRef = useRef<Lenis>(null);
+    const lenisRef = useRef<Lenis | null>(null);
 
     useEffect(() => {
         // PHASE 2 — CORE SCROLL ENGINE (INERTIA FIRST)
         const lenis = new Lenis({
             duration: 1.5, // Cinematic duration
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             touchMultiplier: 1.5,
             wheelMultiplier: 1.2,
             lerp: 0.08, // Extra fluid
             smoothWheel: true,
-            syncTouch: true,
         });
 
         lenisRef.current = lenis;
@@ -43,14 +42,14 @@ export default function SmoothScroll() {
                 if (target) {
                     lenis.scrollTo(target, {
                         duration: 1.2,
-                        easing: (t) => 1 - Math.pow(2, -10 * t)
+                        easing: (t: number) => 1 - Math.pow(2, -10 * t)
                     });
                 }
             }
         };
 
         let rafId: number;
-        let snapTimeout: any;
+        let snapTimeout: ReturnType<typeof setTimeout>;
 
         function raf(time: number) {
             lenis.raf(time);
@@ -78,10 +77,10 @@ export default function SmoothScroll() {
         // Standard smooth anchor scroll
         const scrollLinks = document.querySelectorAll('a[href^="#"]');
         const handleLinkClick = (e: Event) => {
-            e.preventDefault();
             const anchor = e.currentTarget as HTMLAnchorElement;
             const id = anchor.getAttribute("href")?.slice(1);
             if (id) {
+                e.preventDefault();
                 const target = document.getElementById(id);
                 if (target) {
                     lenis.scrollTo(target, {
@@ -98,6 +97,7 @@ export default function SmoothScroll() {
             scrollLinks.forEach((anchor) => anchor.removeEventListener("click", handleLinkClick));
             cancelAnimationFrame(rafId);
             lenis.destroy();
+            lenisRef.current = null;
         };
     }, []);
 
