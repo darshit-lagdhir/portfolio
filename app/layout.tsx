@@ -210,23 +210,7 @@ export function CustomCursor() {
         }}
       />
 
-      {/* PHASE 16 STEP 9: CURSOR SIGNAL RESPONSE (Line drawing to target center) */}
-      {targetCenter && (
-        <motion.div
-          className="fixed top-0 left-0 bg-white pointer-events-none z-[9999] mix-blend-difference origin-left"
-          initial={{ scaleX: 0, opacity: 0 }}
-          animate={{ scaleX: 1, opacity: 0.8 }}
-          exit={{ scaleX: 0, opacity: 0 }}
-          transition={{ duration: 0.15, ease: "easeOut" }}
-          style={{
-            height: 1.5,
-            width: 30, // Micro short line pointing directly towards object center
-            x: dot.x,
-            y: dot.y,
-            rotate: signalRotation
-          }}
-        />
-      )}
+
 
       {/* OUTER RING — trailing physics (PHASE 27 STEP 4 & 10: CURSOR CONFIRMATION & DISCOVERY) */}
       <motion.div
@@ -569,8 +553,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       <TapRipple />
       <SectionGridShift />
       <DiscoveryFeedbackDot key={lastDiscoveryTime} />
-      <CursorDiscoveryTrail />
-      <CursorSignals />
+
       <CrossPageContinuity />
       <GlobalStructuralNetwork />
 
