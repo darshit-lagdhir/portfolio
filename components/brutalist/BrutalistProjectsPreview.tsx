@@ -98,7 +98,7 @@ export default function BrutalistProjectsPreview() {
                             <div className="flex flex-col gap-4 items-start self-start w-full">
                                 <span className="text-micro font-bold tracking-[0.8em] opacity-40">02_ARCHIVE</span>
                                 <motion.h2
-                                    className="text-[clamp(1.5rem,8vw,6rem)] break-words font-heading font-extrabold italic leading-none uppercase tracking-tighter w-full border-b border-black/20 pb-4 type-react-hover whitespace-nowrap"
+                                    className="text-large break-words w-full border-b border-black/20 pb-4 type-react-hover"
                                 >
                                     {scrambledTitle}
                                 </motion.h2>
@@ -137,15 +137,18 @@ export default function BrutalistProjectsPreview() {
                                                         transition={{ type: "spring", stiffness: 400, damping: 20 }}
                                                         className="flex flex-col gap-6 w-full"
                                                     >
-                                                        <div className="flex items-baseline gap-4">
+                                                        <div className="flex items-baseline gap-4 relative">
                                                             <span className="text-micro font-bold opacity-30">{project.id}</span>
-                                                            <h3 className="text-[clamp(1.5rem,4vw,3.5rem)] font-heading font-bold leading-tight uppercase type-react-hover group-hover:italic transition-all duration-500">
-                                                                {project.name.split('_').map((word, i) => (
-                                                                    <span key={i} className={i === 1 ? "text-black/40 italic" : ""}>
-                                                                        {word}{i === 0 && <br />}
-                                                                    </span>
-                                                                ))}
-                                                            </h3>
+                                                            <div className="relative">
+                                                                <h3 className="text-medium type-react-hover group-hover:tracking-wider transition-all duration-500">
+                                                                    {project.name.replace('_', '\u00A0')}
+                                                                </h3>
+                                                                <motion.div
+                                                                    initial={{ scaleX: 0 }}
+                                                                    whileHover={{ scaleX: 1 }}
+                                                                    className="absolute -bottom-1 left-0 w-full h-0.5 bg-black origin-left"
+                                                                />
+                                                            </div>
                                                         </div>
                                                         <div className="flex flex-col gap-6 max-w-xl">
                                                             {/* PHASE 28 STEP 3: PANEL SURFACE TEXTURE REFINEMENT */}

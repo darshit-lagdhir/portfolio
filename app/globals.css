@@ -1,4 +1,4 @@
-﻿@import "tailwindcss";
+@import "tailwindcss";
 @import "./fonts.css";
 
 :root {
@@ -499,22 +499,29 @@ body {
     transform: none !important;
   }
 
-  /* FIX #30: Mobile text wrap — safe padding globally */
+  /* PHASE 29 STEP 11: MOBILE TYPE SCALE ADAPTATION */
   .text-massive {
-    font-size: clamp(2.5rem, 10vw, 5rem);
-    white-space: normal;
-  }
-
-  .text-massive-mini {
-    font-size: clamp(2rem, 8vw, 3.5rem);
+    font-size: clamp(2.5rem, 10vw, 4.5rem);
+    letter-spacing: -0.02em;
+    line-height: 0.95;
   }
 
   .text-large {
-    font-size: clamp(1.5rem, 6vw, 3rem);
+    font-size: clamp(1.8rem, 8vw, 3rem);
+  }
+
+  .text-medium {
+    font-size: clamp(1.1rem, 4vw, 1.8rem);
+  }
+
+  .text-caption {
+    font-size: 0.85rem;
+    letter-spacing: 0.25em;
   }
 
   .text-short-body {
     max-width: 100%;
+    font-size: 0.95rem;
   }
 }
 

@@ -7,43 +7,47 @@ import { useScene } from "@/context/SceneContext";
 const GLOBAL_EASE = [0.33, 1, 0.68, 1] as [number, number, number, number];
 const MICRO_EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
-const Letter = ({ char, index, total, smoothMouseX, attentionScore, rippleActive, scrollTempo }: {
+const Letter = ({ char, index, total, smoothMouseX, attentionScore, rippleActive, scrollTempo, isMobile }: {
     char: string,
     index: number,
     total: number,
     smoothMouseX: any,
     attentionScore: any,
     rippleActive: boolean,
-    scrollTempo: any
+    scrollTempo: any,
+    isMobile: boolean
 }) => {
     const relPos = index / total;
     const mappedMouse = useTransform(smoothMouseX, (x: number) => x + 0.5);
     const dist = useTransform(mappedMouse, (m: number) => Math.abs(m - relPos));
-    // STEP 1: Cluster displacement — pairs of letters move differently
-    const clusterMultiplier = index % 3 === 0 ? 1.3 : index % 3 === 1 ? 0.7 : 1;
-    // PHASE 19 STEP 1: Attention-driven pressure
-    const pressureIntensity = useTransform(attentionScore, (a: number) => 4 + (a * 4));
-    const pressureY = useTransform([dist, pressureIntensity], ([d, p]: any[]) => (index % 2 === 0 ? p : -p) * clusterMultiplier * (d < 0.15 ? (1 - d / 0.15) : 0));
-    const smoothPressureY = useSpring(pressureY, { damping: 35, stiffness: 250 });
 
-    // PHASE 20 STEP 2 & PHASE 22: DISCOVERY RIPPLE (SMOOTHED)
-    const rippleX = useTransform([dist, scrollTempo], ([d, t]: any[]) =>
-        rippleActive && t > 0.7 && d < 0.2 ? (0.2 - d) * 15 : 0
-    );
-    const smoothRippleX = useSpring(rippleX, { damping: 50, stiffness: 180 });
+    // PHASE 29 STEP 4 & 5: CURSOR PROXIMITY PRESSURE
+    const pressureY = useTransform(dist, (d: number) => (index % 2 === 0 ? 1 : -1) * (d < 0.08 ? (1 - d / 0.08) * 10 : 0));
+    const smoothPressureY = useSpring(pressureY, { damping: 40, stiffness: 300 });
+
+    // PHASE 29 STEP 2: KINETIC MASK REVEAL
+    const revealDelay = index * 0.03 + 0.6;
 
     return (
         <motion.span
-            className="inline-block kinetic-letter txt-micro-react"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            whileHover={{
+            className="inline-block relative kinetic-letter"
+            initial={{ clipPath: isMobile ? "inset(0% 0% 0% 0%)" : "inset(0% 0% 100% 0%)", y: isMobile ? 0 : 30, opacity: 0 }}
+            animate={{ clipPath: "inset(-20% -20% -20% -20%)", y: 0, opacity: 1 }}
+            whileHover={isMobile ? {} : {
+                scale: 1.1,
                 filter: "brightness(1.5)",
-                scale: 1.05,
-                transition: { duration: 0.15, ease: "easeOut" }
+                transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] }
             }}
-            transition={{ duration: 0.8, delay: index * 0.05, ease: GLOBAL_EASE }}
-            style={{ y: smoothPressureY, x: smoothRippleX }}
+            transition={{
+                duration: isMobile ? 0.6 : 1.5,
+                delay: isMobile ? index * 0.02 : revealDelay,
+                ease: [0.33, 1, 0.68, 1]
+            }}
+            style={{
+                y: isMobile ? 0 : smoothPressureY,
+                display: "inline-block",
+                padding: "0.05em 0.02em" // Breathing room for italicized characters
+            }}
         >
             {char}
         </motion.span>
@@ -156,6 +160,15 @@ export default function BrutalistHero() {
     const bgLightY = useTransform(smoothMouseY, [-0.5, 0.5], ["20%", "80%"]);
     const atmosphericGradient = useMotionTemplate`radial-gradient(circle at ${bgLightX} ${bgLightY}, rgba(255,255,255,0.04) 0%, transparent 60%)`;
 
+    // PHASE 29 STEP 11: PERSISTENT MOBILE DETECTION
+    const [isMobile, setIsMobile] = useState(false);
+    useEffect(() => {
+        const check = () => setIsMobile(window.innerWidth < 768);
+        check();
+        window.addEventListener("resize", check);
+        return () => window.removeEventListener("resize", check);
+    }, []);
+
     const textArray1 = "DARSHIT".split("");
     const textArray2 = "LAGDHIR".split("");
 
@@ -238,6 +251,7 @@ export default function BrutalistHero() {
                                     attentionScore={attentionScore}
                                     rippleActive={discoveries.has("HERO_RIPPLE")}
                                     scrollTempo={scrollTempo}
+                                    isMobile={isMobile}
                                 />
                             ))}
                         </motion.span>
@@ -247,7 +261,7 @@ export default function BrutalistHero() {
                             animate={{ y: 0, translateZ: 50 }}
                             style={{ y: frontY, opacity: mainTextOpacity }}
                             transition={{ duration: 1.2, ease: GLOBAL_EASE }}
-                            className={`text-massive italic relative z-10 perspective-tilt glitch-safe word-drift drop-shadow-[0_0_20px_rgba(255,255,255,0.06)] ${glitchFired ? 'hero-glitch-once' : ''}`}
+                            className={`text-massive relative z-10 perspective-tilt glitch-safe word-drift drop-shadow-[0_0_20px_rgba(255,255,255,0.06)] ${glitchFired ? 'hero-glitch-once' : ''} whitespace-nowrap md:whitespace-nowrap`}
                         >
                             {textArray1.map((char, i) => (
                                 <Letter
@@ -259,6 +273,7 @@ export default function BrutalistHero() {
                                     attentionScore={attentionScore}
                                     rippleActive={discoveries.has("HERO_RIPPLE")}
                                     scrollTempo={scrollTempo}
+                                    isMobile={isMobile}
                                 />
                             ))}
                         </motion.h1>
@@ -281,6 +296,7 @@ export default function BrutalistHero() {
                                     attentionScore={attentionScore}
                                     rippleActive={discoveries.has("HERO_RIPPLE")}
                                     scrollTempo={scrollTempo}
+                                    isMobile={isMobile}
                                 />
                             ))}
                         </motion.span>
@@ -289,7 +305,7 @@ export default function BrutalistHero() {
                             animate={{ y: 0, translateZ: 50 }}
                             style={{ y: frontY, opacity: mainTextOpacity }}
                             transition={{ duration: 1.2, delay: 0.1, ease: GLOBAL_EASE }}
-                            className={`text-massive text-white relative z-10 perspective-tilt glitch-safe word-drift-reverse ${glitchFired ? 'hero-glitch-once' : ''}`}
+                            className={`text-massive text-white relative z-10 perspective-tilt glitch-safe word-drift-reverse ${glitchFired ? 'hero-glitch-once' : ''} whitespace-nowrap md:whitespace-nowrap`}
                         >
                             {textArray2.map((char, i) => (
                                 <Letter
@@ -301,27 +317,26 @@ export default function BrutalistHero() {
                                     attentionScore={attentionScore}
                                     rippleActive={discoveries.has("HERO_RIPPLE")}
                                     scrollTempo={scrollTempo}
+                                    isMobile={isMobile}
                                 />
                             ))}
                         </motion.h1>
                     </div>
 
-                    <div className="mt-12 md:mt-16 flex flex-col gap-3">
+                    <div className="mt-12 md:mt-16 flex flex-col gap-4">
                         <motion.span
-                            initial={{ opacity: 0 }} animate={{ opacity: 0.7 }} transition={{ delay: 1.5, duration: 1 }}
-                            className="text-medium font-bold tracking-[0.3em] md:tracking-[0.6em]"
+                            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.5, duration: 1, ease: GLOBAL_EASE }}
+                            className="text-medium text-white/70"
                         >
                             SYSTEMS ARCHITECT //
                         </motion.span>
                         <motion.span
-                            initial={{ opacity: 0 }} animate={{ opacity: 0.7 }} transition={{ delay: 1.7, duration: 1 }}
-                            className="text-medium font-bold tracking-[0.3em] md:tracking-[0.6em]"
+                            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.7, duration: 1, ease: GLOBAL_EASE }}
+                            className="text-medium text-white/70"
                         >
                             INTERFACE ENGINEER
                         </motion.span>
-                    </div>
-
-                    {/* DIVIDER REMOVED */}
+                    </div>              {/* DIVIDER REMOVED */}
                 </div>
 
                 {/* PHASE 23 STEP 4: RIGHT 5-COLS — INTERACTIVE VISUAL ELEMENT */}

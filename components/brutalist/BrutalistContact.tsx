@@ -3,7 +3,7 @@
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useScene } from "@/context/SceneContext";
 import { useState, useEffect, useRef } from "react";
-import { ScrollMoment, ChoreographedSection } from "@/components/brutalist/SystemComponents";
+import { ScrollMoment, ChoreographedSection, MaskReveal } from "@/components/brutalist/SystemComponents";
 
 const GLOBAL_EASE = [0.33, 1, 0.68, 1] as [number, number, number, number];
 
@@ -71,17 +71,11 @@ export default function BrutalistContact() {
                                 className="flex flex-col items-center gap-6"
                             >
                                 <span className="text-micro font-bold tracking-[0.6em] md:tracking-[1em] text-black/50">04_TERMINATION</span>
-                                <h2 className="text-[clamp(2rem,8vw,5rem)] text-black italic tracking-tighter uppercase leading-none font-heading font-extrabold overflow-hidden max-w-full type-react-hover">
-                                    <motion.span
-                                        initial={{ y: "110%" }}
-                                        whileInView={{ y: 0 }}
-                                        viewport={{ once: true }}
-                                        transition={{ duration: 1, delay: 0.2, ease: GLOBAL_EASE }}
-                                        className="block"
-                                    >
-                                        {scrambledTitle.split('_')[0]}
-                                    </motion.span>
-                                </h2>
+                                <MaskReveal direction="up" duration={1.5}>
+                                    <h2 className="text-large text-black type-react-hover">
+                                        {scrambledTitle}
+                                    </h2>
+                                </MaskReveal>
                             </motion.div>
                         </ScrollMoment>
 
@@ -104,14 +98,10 @@ export default function BrutalistContact() {
                         >
                             <a
                                 href="mailto:darshitlagdhir@gmail.com"
-                                className={`
-                                text-[clamp(0.8rem,2.5vw,1.8rem)] text-black font-ui font-extrabold transition-all duration-500 uppercase type-react-hover
-                                ${isHovered ? "tracking-[0.05em] italic" : "tracking-tight"}
-                            `}
+                                className="text-caption text-black hover:opacity-70 transition-opacity"
                             >
                                 DARSHITLAGDHIR@GMAIL.COM
                             </a>
-
                             <motion.div
                                 initial={{ scaleX: 0 }}
                                 animate={{ scaleX: isHovered ? 1 : 0 }}

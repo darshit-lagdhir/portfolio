@@ -509,15 +509,36 @@ export function SectionGridShift() {
     );
 }
 
-// PHASE 26 STEP 9: MASK REVEAL FOR TYPOGRAPHY
-export function MaskReveal({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) {
+// PHASE 29 STEP 3, 5 & 12: ADVANCED MASK REVEAL FOR KINETIC TYPOGRAPHY
+export function MaskReveal({ 
+    children, 
+    delay = 0, 
+    direction = "up", 
+    duration = 1.2 
+}: { 
+    children: React.ReactNode, 
+    delay?: number, 
+    direction?: "up" | "down" | "left" | "right",
+    duration?: number
+}) {
+    const initialPos = {
+        up: { y: "110%", x: 0 },
+        down: { y: "-110%", x: 0 },
+        left: { x: "110%", y: 0 },
+        right: { x: "-110%", y: 0 }
+    }[direction];
+
     return (
         <div className="relative overflow-hidden">
             <motion.div
-                initial={{ y: "100%" }}
-                whileInView={{ y: "0%" }}
+                initial={{ ...initialPos, opacity: 0 }}
+                whileInView={{ x: 0, y: 0, opacity: 1 }}
                 viewport={{ once: true, amount: 0.1 }}
-                transition={{ duration: 1.2, delay, ease: GLOBAL_EASE }}
+                transition={{ 
+                    duration, 
+                    delay, 
+                    ease: [0.33, 1, 0.68, 1] // GLOBAL_EASE
+                }}
             >
                 {children}
             </motion.div>

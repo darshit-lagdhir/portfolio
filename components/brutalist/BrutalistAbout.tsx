@@ -60,9 +60,9 @@ export default function BrutalistAbout() {
                         {/* SECTION HEADING — MASK REVEAL (STEP 9) */}
                         <div className="flex flex-col gap-6 items-start self-start">
                             <span className="text-micro font-bold tracking-[0.8em] opacity-30">03_IDENTITY</span>
-                            <MaskReveal>
+                            <MaskReveal direction="up" duration={1.5}>
                                 <motion.h2
-                                    className={`text-[clamp(1.5rem,8vw,6rem)] break-words font-heading font-extrabold italic leading-none uppercase tracking-tighter w-full border-b border-white/20 pb-8 type-react-hover text-white`}
+                                    className="text-large break-words w-full border-b border-white/20 pb-8 type-react-hover text-white"
                                 >
                                     {scrambledTitle}
                                 </motion.h2>
@@ -80,12 +80,12 @@ export default function BrutalistAbout() {
                                 transition={{ duration: 1, ease: GLOBAL_EASE }}
                                 className="col-span-12 lg:col-span-6 lg:col-start-1"
                             >
-                                <MaskReveal delay={0.2}>
-                                    <h3 className="text-[clamp(1.5rem,4vw,3rem)] font-heading font-bold leading-tight uppercase mb-8 type-react-hover">
+                                <MaskReveal delay={0.2} direction="left">
+                                    <h3 className="text-medium mb-8 type-react-hover">
                                         Systems <br /> <span className="text-white/40 italic">Thinking.</span>
                                     </h3>
                                 </MaskReveal>
-                                <p className="text-short-body text-white/50 tracking-wide bg-white/[0.04] p-6 md:p-8 border-l-2 border-white/20">
+                                <p className="text-short-body text-white/50 bg-white/[0.04] p-6 md:p-8 border-l-2 border-white/20">
                                     I don't just write code; I design systems. Every component, from UI interactions to database queries, is treated as a node in a larger architectural network. Precision and scalability are non-negotiable.
                                 </p>
                             </motion.div>
@@ -98,12 +98,12 @@ export default function BrutalistAbout() {
                                 transition={{ duration: 1, delay: 0.3, ease: GLOBAL_EASE }}
                                 className="col-span-12 lg:col-span-5 lg:col-start-8"
                             >
-                                <MaskReveal delay={0.4}>
-                                    <h3 className="text-[clamp(1.5rem,4vw,3rem)] font-heading font-bold leading-tight uppercase mb-8 type-react-hover">
+                                <MaskReveal delay={0.4} direction="right">
+                                    <h3 className="text-medium mb-8 type-react-hover">
                                         Backend <br /> <span className="text-white/40 italic">Authority.</span>
                                     </h3>
                                 </MaskReveal>
-                                <p className="text-short-body text-white/50 tracking-wide bg-white/[0.04] p-6 md:p-8 border-l-2 border-white/20">
+                                <p className="text-short-body text-white/50 bg-white/[0.04] p-6 md:p-8 border-l-2 border-white/20">
                                     Building rigid, secure, and highly performant data pipelines. I specialize in crafting backend infrastructure that withstands high concurrency and complex logic without exposing complexity to the frontend.
                                 </p>
                             </motion.div>
@@ -116,12 +116,12 @@ export default function BrutalistAbout() {
                                 transition={{ duration: 1, delay: 0.5, ease: GLOBAL_EASE }}
                                 className="col-span-12 lg:col-span-7 lg:col-start-3"
                             >
-                                <MaskReveal delay={0.6}>
-                                    <h3 className="text-[clamp(1.5rem,4vw,3rem)] font-heading font-bold leading-tight uppercase mb-8 type-react-hover">
+                                <MaskReveal delay={0.6} direction="up">
+                                    <h3 className="text-medium mb-8 type-react-hover">
                                         Dynamic <br /> <span className="text-white/40 italic">Evolution.</span>
                                     </h3>
                                 </MaskReveal>
-                                <p className="text-short-body text-white/50 tracking-wide bg-white/[0.04] p-6 md:p-8 border-l-2 border-white/20">
+                                <p className="text-short-body text-white/50 bg-white/[0.04] p-6 md:p-8 border-l-2 border-white/20">
                                     Technology is a shifting landscape. My core skill is not a single language, but the ability to rapidly assimilate new paradigms, dissect unfamiliar architectures, and build production-ready software efficiently.
                                 </p>
                             </motion.div>

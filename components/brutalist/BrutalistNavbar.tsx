@@ -86,7 +86,7 @@ export default function BrutalistNavbar() {
                                 <Link
                                     href={link.href}
                                     onClick={() => setMenuOpen(false)}
-                                    className="text-large-mini italic text-white font-heading font-bold hover:tracking-tighter transition-all uppercase"
+                                    className="text-medium font-bold hover:opacity-70 transition-opacity"
                                 >
                                     {link.name}
                                 </Link>
