@@ -107,12 +107,12 @@ export default function BrutalistProjectsPreview() {
                             {/* STEP 6 & 7: EDITORIAL PROJECT BLOCKS (PINNED REVEAL) */}
                             <div className="grid grid-cols-12 gap-y-12 gap-x-8 items-start relative h-[50vh]">
                                 {projects.map((project, idx) => {
-                                    // SEQUENTIAL REVEAL LOGIC
-                                    const start = idx * 0.25;
-                                    const end = start + 0.35;
+                                    // PHASE 30 STEP 3: SEQUENTIAL REVEAL ENGINE — STAGGERED SYSTEM ENTRY
+                                    const start = idx * 0.28; // Increased delay gap
+                                    const end = start + 0.38; // Slightly longer presence window
 
                                     const pOpacity = useTransform(scrollYProgress, [start, start + 0.1, end - 0.1, end], [0, 1, 1, 0]);
-                                    const pY = useTransform(scrollYProgress, [start, start + 0.15], [40, 0]);
+                                    const pY = useTransform(scrollYProgress, [start, start + 0.12], [80, 0]); // Increased upward slide for cinematic feel
                                     const pX = useTransform(scrollYProgress, [start, end], [idx % 2 === 0 ? "2vw" : "-2vw", idx % 2 === 0 ? "-2vw" : "2vw"]);
                                     const pBlur = useTransform(scrollYProgress, [start, start + 0.1, end - 0.1, end], ["12px", "0px", "0px", "12px"]);
 

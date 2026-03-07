@@ -121,12 +121,11 @@ export default function BrutalistHero() {
     const mainTextOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
     const stackTextOpacity = useTransform(scrollYProgress, [0, 0.3], [0.15, 0]);
 
-    // PHASE 9 STEP 1: CAMERA SCROLL — MULTI-LAYER PARALLAX
-    // PHASE 9 STEP 1: CAMERA SCROLL — LOCKED HIERARCHY FOR STABILITY
-    const frontY = useTransform(scrollYProgress, [0, 1], ["0%", "-10%"]);
-    const midY = useTransform(scrollYProgress, [0, 1], ["0%", "-10.5%"]); // Minimal drift for depth
-    const backY = useTransform(scrollYProgress, [0, 1], ["0%", "-11%"]);   // Tight synchronization
-    const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+    // PHASE 30 STEP 2: CINEMATIC EXIT CHOREOGRAPHY — GUIDED CAMERA MOTION
+    const frontY = useTransform(scrollYProgress, [0, 1], ["0%", "-30%"]);
+    const midY = useTransform(scrollYProgress, [0, 1], ["0%", "-35%"]); 
+    const backY = useTransform(scrollYProgress, [0, 1], ["0%", "-40%"]);
+    const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
 
     // PHASE 26 STEP 4: SECTION EXIT MORPH
     const morphScaleX = useTransform(scrollYProgress, [0.7, 1], [1, 0.95]);

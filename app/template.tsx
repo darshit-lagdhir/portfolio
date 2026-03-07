@@ -11,6 +11,14 @@ export default function Template({ children }: { children: React.ReactNode }) {
     const [direction, setDirection] = useState<"forward" | "backward">("forward");
     const lastClickTime = useRef(Date.now());
     const { isNavigating } = useScene();
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        setIsMobile(window.innerWidth < 768);
+        const handleResize = () => setIsMobile(window.innerWidth < 768);
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
     // PHASE 12: CINEMATIC TIMING (SUB-600MS)
     const [duration, setDuration] = useState(0.55);
@@ -41,45 +49,52 @@ export default function Template({ children }: { children: React.ReactNode }) {
 
     const variants = {
         initial: (dir: string) => {
-            if (isProjectPage) {
-                // Morph from panel shape
+            if (isProjectPage && !isMobile) {
+                // Morph from panel shape (Phase 30 Step 10)
                 return {
-                    clipPath: "inset(20% 5vw 20% 5vw)",
-                    scale: 0.95,
-                    transformPerspective: 1000,
+                    clipPath: "inset(30% 10vw 30% 10vw)",
+                    scale: 0.9,
+                    y: "5%",
+                    opacity: 0,
+                    transformPerspective: 1200,
                     zIndex: 10,
                 };
             }
             return {
-                clipPath: dir === "forward" ? "inset(100% 0 0 0)" : "inset(0 0 100% 0)",
-                translateY: dir === "forward" ? "10%" : "-10%",
-                scale: 0.98,
+                clipPath: isMobile ? "inset(0% 0% 0% 0%)" : (dir === "forward" ? "inset(100% 0 0 0)" : "inset(0 0 100% 0)"),
+                y: dir === "forward" ? "15%" : "-15%",
+                scale: 0.95,
+                opacity: 0,
                 zIndex: 10,
             };
         },
         animate: {
-            clipPath: "inset(0% 0 0 0)",
-            translateY: "0%",
+            clipPath: "inset(0% 0% 0% 0%)",
+            y: "0%",
             scale: 1,
+            opacity: 1,
             zIndex: 10,
-            transition: { duration: duration * 1.2, ease, delay: 0.05 }
+            transition: { duration: duration * 1.5, ease, delay: 0.1 }
         },
         exit: (dir: string) => {
-            if (isProjectPage) {
-                // Collapse into panel shape
+            if (isProjectPage && !isMobile) {
+                // Collapse into panel shape (Phase 30 Step 12)
                 return {
-                    clipPath: "inset(10% 5vw 10% 5vw)",
-                    scale: 0.95,
+                    clipPath: "inset(30% 10vw 30% 10vw)",
+                    scale: 0.9,
+                    y: "5%",
+                    opacity: 0,
                     zIndex: 0,
-                    transition: { duration: duration * 0.8, ease }
+                    transition: { duration: duration, ease }
                 };
             }
             return {
-                clipPath: dir === "forward" ? "inset(0 0 100% 0)" : "inset(100% 0 0 0)",
-                translateY: dir === "forward" ? "-10%" : "10%",
-                scale: 0.96,
+                clipPath: isMobile ? "inset(0% 0% 0% 0%)" : (dir === "forward" ? "inset(0 0 100% 0)" : "inset(100% 0 0 0)"),
+                y: dir === "forward" ? "-15%" : "15%",
+                scale: 0.95,
+                opacity: 0,
                 zIndex: 0,
-                transition: { duration: duration * 0.8, ease }
+                transition: { duration: duration, ease }
             };
         },
     };

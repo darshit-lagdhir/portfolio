@@ -46,17 +46,17 @@ export default function MoveXPage() {
                             01_LOGISTICS // MECHANICAL_SYNC
                         </span>
                         <motion.h1
-                            initial={{ scaleX: 1.5, opacity: 0 }}
-                            animate={{ scaleX: 1, opacity: 1 }}
-                            transition={{ duration: 0.2, ease: "easeOut" }}
-                            className="text-large md:text-massive italic text-white font-heading leading-none uppercase tracking-tight-title origin-left glitch-safe flex overflow-hidden"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 1.5, ease: GLOBAL_EASE }}
+                            className="text-large md:text-massive italic text-white font-heading leading-[0.85] uppercase tracking-tight-title origin-left glitch-safe flex flex-wrap"
                         >
                             {"MOVEX_SYSTEM".split("").map((char, i) => (
                                 <motion.span
                                     key={i}
-                                    initial={{ y: i % 2 === 0 ? -40 : 40, opacity: 0 }}
+                                    initial={{ y: 60, opacity: 0 }}
                                     animate={{ y: 0, opacity: 1 }}
-                                    transition={{ duration: 0.3, delay: 0.1 + i * 0.02, ease: [0.33, 1, 0.68, 1] }}
+                                    transition={{ duration: 1.2, delay: 0.4 + i * 0.04, ease: [0.33, 1, 0.68, 1] }}
                                     className="inline-block"
                                 >
                                     {char === "_" ? <span>&nbsp;</span> : char}

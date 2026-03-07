@@ -490,15 +490,16 @@ export function ScrollProgressIndicator() {
     );
 }
 
-// PHASE 26 STEP 10: STRUCTURAL GRID SHIFT
+// PHASE 30 STEP 4: GRID RECONFIGURATION ENGINE
 export function SectionGridShift() {
     const { scrollYProgress } = useScroll();
     const x = useTransform(scrollYProgress, [0, 1], ["0%", "5%"]);
     const y = useTransform(scrollYProgress, [0, 1], ["0%", "10%"]);
+    const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.05, 1]); // Subtle structural expansion
 
     return (
         <motion.div
-            style={{ x, y }}
+            style={{ x, y, scale }}
             className="fixed inset-0 pointer-events-none z-0 opacity-[0.03]"
         >
             <div className="w-[120%] h-[120%] -translate-x-[5%] -translate-y-[5%]" style={{

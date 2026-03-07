@@ -84,14 +84,20 @@ export default function BrutalistAbout() {
                                 transition={{ duration: 1, ease: GLOBAL_EASE }}
                                 className="col-span-12 lg:col-span-6 lg:col-start-1"
                             >
-                                <MaskReveal delay={0.2} direction="left" duration={1.0}>
+                                <MaskReveal delay={0.2} direction="up" duration={1.2}>
                                     <h3 className="text-medium mb-8 type-react-hover">
                                         Systems <br /> <span className="text-white/40 italic">Thinking.</span>
                                     </h3>
                                 </MaskReveal>
-                                <p className="text-body text-white/50 bg-white/[0.04] p-6 md:p-8 border-l-2 border-white/20">
+                                <motion.p 
+                                    initial={{ opacity: 0, y: 30 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 1, delay: 0.3, ease: GLOBAL_EASE }}
+                                    className="text-body text-white/50 bg-white/[0.04] p-6 md:p-8 border-l-2 border-white/20"
+                                >
                                     I don't just write code; I design systems. Every component, from UI interactions to database queries, is treated as a node in a larger architectural network. Precision and scalability are non-negotiable.
-                                </p>
+                                </motion.p>
                             </motion.div>
 
                             {/* BLOCK 2 - BACKEND ENGINEERING */}
@@ -102,14 +108,20 @@ export default function BrutalistAbout() {
                                 transition={{ duration: 1, delay: 0.3, ease: GLOBAL_EASE }}
                                 className="col-span-12 lg:col-span-5 lg:col-start-8"
                             >
-                                <MaskReveal delay={0.4} direction="right" duration={1.0}>
+                                <MaskReveal delay={0.4} direction="up" duration={1.2}>
                                     <h3 className="text-medium mb-8 type-react-hover">
                                         Backend <br /> <span className="text-white/40 italic">Authority.</span>
                                     </h3>
                                 </MaskReveal>
-                                <p className="text-body text-white/50 bg-white/[0.04] p-6 md:p-8 border-l-2 border-white/20">
+                                <motion.p 
+                                    initial={{ opacity: 0, y: 30 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 1, delay: 0.5, ease: GLOBAL_EASE }}
+                                    className="text-body text-white/50 bg-white/[0.04] p-6 md:p-8 border-l-2 border-white/20"
+                                >
                                     Building rigid, secure, and highly performant data pipelines. I specialize in crafting backend infrastructure that withstands high concurrency and complex logic without exposing complexity to the frontend.
-                                </p>
+                                </motion.p>
                             </motion.div>
 
                             {/* BLOCK 3 - LEARNING MINDSET */}
