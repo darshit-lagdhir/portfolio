@@ -60,13 +60,13 @@ export const SectionHeader = memo(({ label, title, subtitle, divider = true, the
                     </span>
                 </div>
             )}
-            <div className="relative overflow-hidden py-2 px-1 -m-2 w-full">
+            <div className="relative py-2 px-8 -m-8 w-full">
                 <motion.h2
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: DUR.SLOW, delay: 0.2, ease: EASE.CALM }}
-                    className={`text-large break-words w-full type-react-hover ${isDark ? "text-white" : "text-black"} lg:text-[clamp(2rem,7vw,5.5rem)]`}
+                    className={`font-heading font-black uppercase whitespace-nowrap w-full type-react-hover ${isDark ? "text-white" : "text-black"} text-[clamp(1.2rem,3.2vw,2.4rem)] tracking-tighter leading-none`}
                 >
                     {title}
                 </motion.h2>

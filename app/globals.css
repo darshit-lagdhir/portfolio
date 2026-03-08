@@ -10,7 +10,7 @@
 
   /* TYPE SCALE — PHASE 3 POWER (FIXED: capped max to prevent overflow) */
   --fs-hero: clamp(3rem, 12vw, 10rem);
-  --fs-section: clamp(2rem, 7vw, 5rem);
+  --fs-section: clamp(2rem, 5.5vw, 4rem);
   --fs-sub: clamp(0.85rem, 1.8vw, 1.35rem);
   --fs-body: 1rem;
   --fs-micro: 0.75rem;
@@ -348,7 +348,6 @@ body {
   font-weight: 800;
   letter-spacing: -0.02em;
   max-width: 100%;
-  overflow-wrap: break-word;
 }
 
 .text-large-mini {
