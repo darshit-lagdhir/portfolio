@@ -113,11 +113,7 @@ body {
 }
 
 /* PHASE 34: INTERACTION PHYSICS UTILITIES */
-.magnetic-btn, .project-panel, [data-project='true'] {
-  --magnet-x: 0px;
-  --magnet-y: 0px;
-  --tilt-x: 0deg;
-  --tilt-y: 0deg;
+.project-panel, [data-project='true'] {
   --edge-light-x: 50%;
   --edge-light-y: 50%;
   transform-style: preserve-3d;
@@ -144,9 +140,69 @@ body {
   backdrop-filter: blur(10px);
 }
 
-.dna-panel-frame.light {
-  border-color: rgba(0, 0, 0, var(--dna-border-opacity));
-  background: rgba(0, 0, 0, 0.02);
+.dna-panel-frame:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.3);
+}
+
+.dna-panel-frame:hover::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg, 
+    transparent 0%, 
+    rgba(255,255,255,0.2) 50%, 
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: borderFlicker 3s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes borderFlicker {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.dna-panel-frame.light:hover {
+  border-color: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.04);
+}
+
+/* PHASE 43: DISCOVERY MECHANICS */
+.discovery-reveal-hint {
+  opacity: 0;
+  transform: translateY(5px);
+  transition: all var(--m-dur-medium) var(--m-ease-entry);
+}
+
+.group:hover .discovery-reveal-hint {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.discovery-node {
+  width: 4px;
+  height: 4px;
+  background: white;
+  opacity: 0.1;
+  border-radius: 50%;
+  transition: all 0.5s var(--m-ease-calm);
+}
+
+.discovery-node.active {
+  opacity: 0.6;
+  box-shadow: 0 0 10px white;
+  transform: scale(1.5);
+}
+
+.text-selection-glow::selection {
+  background: rgba(255, 255, 255, 0.99);
+  color: black;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
 }
 
 .kinetic-letter {
@@ -189,10 +245,6 @@ body {
   clip-path: inset(0 0 0 0);
 }
 
-.magnetic-wrap {
-  display: inline-block;
-  transition: transform var(--m-dur-medium) var(--m-ease-entry);
-}
 
 .text-scramble {
   font-variant-numeric: tabular-nums;
@@ -634,25 +686,10 @@ body {
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* PHASE 25 STEP 4 & 5: MAGNETIC CONTROL SYSTEM */
-.magnetic-btn {
-  transform: translate(var(--magnet-x, 0px), var(--magnet-y, 0px));
-  transition: transform var(--m-dur-medium) var(--m-ease-entry);
-  will-change: transform;
-}
-
 [data-project='true'] {
-  transform: translate(var(--magnet-x, 0px), var(--magnet-y, 0px)) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
-  transition: transform var(--m-dur-medium) var(--m-ease-entry);
   perspective: 1000px;
   transform-style: preserve-3d;
   will-change: transform;
-}
-
-/* CALIBRATED EXIT DURATIONS (HOVER EXIT IS SLOWER) */
-.magnetic-btn:not(:hover), [data-project='true']:not(:hover) {
-  transition-duration: var(--m-dur-slow);
-  transition-timing-function: var(--m-ease-exit);
 }
 
 /* STEP 10: VERTICAL MASK REVEAL */

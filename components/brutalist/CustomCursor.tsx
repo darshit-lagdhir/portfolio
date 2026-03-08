@@ -104,8 +104,6 @@ export default function CustomCursor() {
 
         const moveMouse = (e: MouseEvent) => {
             const { clientX, clientY } = e;
-            let targetX = clientX;
-            let targetY = clientY;
 
             // Detect target states without reflow where possible
             const target = e.target as HTMLElement;
@@ -114,52 +112,31 @@ export default function CustomCursor() {
             const isText = !!target.closest("h1, h2, h3, p, .text-massive, .text-large, .kinetic-letter");
             const isWhite = !!target.closest(".bg-white");
 
-            // Optimized Magnetic convergence loop
+            mouse.x.set(clientX);
+            mouse.y.set(clientY);
+
+            // Maintain discovery highlights (non-magnetic)
             const interactables = interactablesRef.current;
             for (let i = 0; i < interactables.length; i++) {
                 const htmlEl = interactables[i];
-                const rect = htmlEl.getBoundingClientRect(); // Still forces reflow, but capped by interactables count
-                const cx = rect.left + rect.width / 2;
-                const cy = rect.top + rect.height / 2;
-                const dx = clientX - cx;
-                const dy = clientY - cy;
+                const rect = htmlEl.getBoundingClientRect();
+                const dx = clientX - (rect.left + rect.width / 2);
+                const dy = clientY - (rect.top + rect.height / 2);
                 const dist = Math.sqrt(dx * dx + dy * dy);
                 
                 const isProjectItem = htmlEl.getAttribute('data-project') === 'true';
                 const radius = isProjectItem ? 400 : 150;
 
                 if (dist < radius) {
-                    const pull = htmlEl.classList.contains('magnetic-btn') ? 0.15 : 0.03;
-                    targetX += (cx - clientX) * pull;
-                    targetY += (cy - clientY) * pull;
-
-                    const elPull = htmlEl.classList.contains('magnetic-btn') ? 0.35 : 0.08;
-                    htmlEl.style.setProperty('--magnet-x', `${dx * elPull}px`);
-                    htmlEl.style.setProperty('--magnet-y', `${dy * elPull}px`);
-
                     const rx = ((clientX - rect.left) / rect.width) * 100;
                     const ry = ((clientY - rect.top) / rect.height) * 100;
                     htmlEl.style.setProperty('--edge-light-x', `${rx}%`);
                     htmlEl.style.setProperty('--edge-light-y', `${ry}%`);
-
-                    if (isProjectItem) {
-                        htmlEl.style.setProperty('--tilt-x', `${-dy / radius * 8}deg`);
-                        htmlEl.style.setProperty('--tilt-y', `${dx / radius * 8}deg`);
-                    }
                 } else {
-                    htmlEl.style.setProperty('--magnet-x', '0px');
-                    htmlEl.style.setProperty('--magnet-y', '0px');
                     htmlEl.style.setProperty('--edge-light-x', '50%');
                     htmlEl.style.setProperty('--edge-light-y', '50%');
-                    if (isProjectItem) {
-                        htmlEl.style.setProperty('--tilt-x', '0deg');
-                        htmlEl.style.setProperty('--tilt-y', '0deg');
-                    }
                 }
             }
-
-            mouse.x.set(targetX);
-            mouse.y.set(targetY);
 
             // Limited trail generation
             if (Math.abs(scrollVelocity.get()) > 300) {

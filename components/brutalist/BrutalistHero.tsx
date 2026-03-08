@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform, useMotionValue, useSpring, useMotionTemplate, MotionValue } from "framer-motion";
 import { useRef, useEffect, useState, memo } from "react";
 import { useScene } from "@/context/SceneContext";
-import { LAYOUT, EASE, DUR } from "@/components/brutalist/SystemComponents";
+import { LAYOUT, EASE, DUR, SectionHeader } from "@/components/brutalist/SystemComponents";
 
 
 
@@ -31,7 +31,7 @@ const Letter = memo(({ char, index, total, smoothMouseX, isMobile }: {
 
     return (
         <motion.span
-            className="inline-block relative kinetic-letter transform-gpu"
+            className="inline-block relative kinetic-letter transform-gpu text-selection-glow"
             initial={{ clipPath: isMobile ? "inset(0% 0% 0% 0%)" : "inset(0% 0% 100% 0%)", y: isMobile ? 0 : 30, opacity: 0 }}
             animate={{ clipPath: "inset(-20% -20% -20% -20%)", y: 0, opacity: 1 }}
             whileHover={isMobile ? {} : {
@@ -243,12 +243,13 @@ export default function BrutalistHero() {
                     {/* PHASE 23 STEP 3 & 4: SPLIT HERO - TYPOGRAPHY DOMINANCE */}
                     <div className="col-span-12 lg:col-span-7 flex flex-col items-start gap-6 z-10">
                         {/* PHASE 42 DNA LABEL */}
-                        <div className="flex flex-col gap-4 items-start translate-y-[-20px]">
-                            <span className="text-caption text-white/40 tracking-[0.4em] uppercase">01_ORIGIN</span>
-                            <div className="dna-line-motif">
-                                <span className="text-medium text-white/60 italic">Full-Stack Engineering Authority</span>
-                            </div>
-                        </div>
+                        <SectionHeader 
+                            label="01_ORIGIN" 
+                            title="" 
+                            subtitle="Full-Stack Engineering Authority" 
+                            divider={false}
+                            discoveryHint="SYSTEM_INIT"
+                        />
                         <div className="relative group overflow-visible preserve-3d">
                             {/* PHASE 28 STEP 4: TYPOGRAPHY CONTRAST REFINEMENT */}
                             <motion.span

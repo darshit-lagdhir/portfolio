@@ -164,7 +164,7 @@ const MagneticNavItem = memo(({
                 duration: isHovering ? DUR.MEDIUM : DUR.SLOW,
                 ease: isHovering ? EASE.ENTRY : EASE.EXIT
             }}
-            className="relative group magnetic-btn tactile-btn transform-gpu"
+            className="relative group tactile-btn transform-gpu"
         >
             <Link
                 href={link.href}
@@ -190,6 +190,13 @@ const MagneticNavItem = memo(({
                 </motion.span>
                 {link.name.replace(/^\d+_/, '')}
             </Link>
+            
+            {/* PHASE 43: NAV DISCOVERY HINT (STEP 9) */}
+            <div className="discovery-reveal-hint absolute -top-4 left-0 whitespace-nowrap">
+                <span className="text-[6px] font-ui font-black tracking-widest text-white/20 uppercase italic">
+                    {index === 0 ? "[SYSTEM_CORE]" : index === 1 ? "[WORK_ARCHIVE]" : index === 2 ? "[IDENTITY_PHILOSOPHY]" : "[SYNC_PROTOCOL]"}
+                </span>
+            </div>
             {isActive && (
                 <motion.div
                     layoutId="nav-line"

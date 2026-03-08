@@ -45,14 +45,26 @@ export const LAYOUT = {
 
 
 // PHASE 42: VISUAL IDENTITY SECTION HEADER PATTERN
-export const SectionHeader = memo(({ label, title, subtitle, divider = true, theme = "dark" }: { label: string, title: string, subtitle?: string, divider?: boolean, theme?: "dark" | "light" }) => {
+export const SectionHeader = memo(({ label, title, subtitle, divider = true, theme = "dark", discoveryHint }: { label: string, title: string, subtitle?: string, divider?: boolean, theme?: "dark" | "light", discoveryHint?: string }) => {
     const isDark = theme === "dark";
     
     return (
-        <div className="flex flex-col gap-6 items-start self-start w-full">
-            <span className={`text-caption ${isDark ? "text-white/40" : "text-black/40"} tracking-[0.4em] uppercase`}>
-                {label}
-            </span>
+        <div className="flex flex-col gap-6 items-start self-start w-full group/header">
+            <div className="flex items-center gap-4">
+                <span className={`text-caption ${isDark ? "text-white/40" : "text-black/40"} tracking-[0.4em] uppercase`}>
+                    {label}
+                </span>
+                {discoveryHint && (
+                    <motion.span 
+                        initial={{ opacity: 0, x: -10 }}
+                        whileInView={{ opacity: 0 }}
+                        whileHover={{ opacity: 1, x: 0 }}
+                        className={`text-[8px] font-ui font-black tracking-widest ${isDark ? "text-white/20" : "text-black/20"} uppercase italic`}
+                    >
+                        [ {discoveryHint} ]
+                    </motion.span>
+                )}
+            </div>
             {subtitle && (
                 <div className={`dna-line-motif ${isDark ? "" : "light"}`}>
                     <span className={`text-medium ${isDark ? "text-white/60" : "text-black/60"} italic`}>
@@ -66,7 +78,7 @@ export const SectionHeader = memo(({ label, title, subtitle, divider = true, the
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: DUR.SLOW, delay: 0.2, ease: EASE.CALM }}
-                    className={`font-heading font-black uppercase whitespace-nowrap w-full type-react-hover ${isDark ? "text-white" : "text-black"} text-[clamp(1.2rem,3.2vw,2.4rem)] tracking-tighter leading-none`}
+                    className={`font-heading font-black uppercase whitespace-nowrap w-full type-react-hover ${isDark ? "text-white" : "text-black"} text-[clamp(1.2rem,3.2vw,2.4rem)] tracking-tighter leading-none text-selection-glow`}
                 >
                     {title}
                 </motion.h2>
@@ -209,12 +221,6 @@ export const ProjectPanel = memo(({ title, index, children }: { title: string, i
 
             <motion.div 
                 className="relative z-10 flex flex-col md:flex-row gap-6 md:gap-16 transform-gpu"
-                style={{
-                    rotateX: "var(--tilt-x, 0deg)",
-                    rotateY: "var(--tilt-y, 0deg)",
-                    x: "var(--magnet-x, 0px)",
-                    y: "var(--magnet-y, 0px)",
-                }}
             >
                 <div className="md:w-1/4">
                     <span className="text-micro font-bold tracking-[0.4em] text-white/40 uppercase group-hover/panel:text-white transition-colors">
@@ -246,11 +252,7 @@ export function MagneticButton({
             onClick={onClick}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9, y: 2 }}
-            className={`magnetic-btn relative flex items-center justify-center transition-all duration-200 ${className} transform-gpu`}
-            style={{
-                x: "var(--magnet-x, 0px)",
-                y: "var(--magnet-y, 0px)",
-            }}
+            className={`relative flex items-center justify-center transition-all duration-200 ${className} transform-gpu`}
         >
             {children}
         </motion.button>
@@ -452,6 +454,8 @@ export function CommandPalette() {
         { id: 'movex', label: 'OPEN_MOVEX_SYSTEM', href: '/movex' },
         { id: 'uidai', label: 'OPEN_UIDAI_AI', href: '/uidai' },
         { id: 'pfcv', label: 'OPEN_POLYGLOT_FFI', href: '/pfcv' },
+        { id: 'grid', label: 'SHOW_ARCHITECTURE_GRID', section: 'hero' },
+        { id: 'zones', label: 'HIGHLIGHT_INTERACTION_ZONES', section: 'projects' },
     ], []);
 
     const filtered = commands.filter(c => 

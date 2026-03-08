@@ -74,6 +74,7 @@ export default function BrutalistAbout() {
                             label="03_IDENTITY" 
                             title={scrambledTitle} 
                             subtitle="Engineering Philosophy & Technical Mindset" 
+                            discoveryHint="SYSTEM_PHILOSOPHY"
                         />
 
                         {/* EDITORIAL STATEMENT BLOCKS — STAGGERED REVEAL (STEP 8) */}

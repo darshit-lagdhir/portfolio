@@ -72,6 +72,7 @@ export default function BrutalistContact() {
                                 title={scrambledTitle} 
                                 subtitle="Initialize Communication Protocol" 
                                 theme="light"
+                                discoveryHint="PROTOCOL_END"
                             />
                         </ScrollMoment>
  

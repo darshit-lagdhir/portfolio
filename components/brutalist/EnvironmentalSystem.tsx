@@ -1,14 +1,57 @@
 "use client";
 
-import { motion, useSpring, useMotionValue, useTransform, useScroll } from "framer-motion";
-import { useEffect, useState, useMemo } from "react";
+import { motion, useSpring, useMotionValue, useTransform, useScroll, MotionValue } from "framer-motion";
+import { useEffect, useState, useMemo, useRef } from "react";
 import { useScene } from "@/context/SceneContext";
 import { usePathname } from "next/navigation";
 import { DUR } from "@/components/brutalist/SystemComponents";
 
-// PHASE 18: ENVIRONMENTAL VISUAL FEEDBACK + DYNAMIC LIGHT FIELD
-// Provides a subtle visual environment that reacts to user presence.
-// Subdued, architectural, and minimal.
+// PHASE 43: GRID NODE REACTION (STEP 4)
+function GridDiscoveryNodes({ mouseX, mouseY }: { mouseX: MotionValue<number>, mouseY: MotionValue<number> }) {
+    const nodes = useMemo(() => {
+        const arr = [];
+        for (let x = 0; x < 6; x++) {
+            for (let y = 0; y < 6; y++) {
+                arr.push({ x: (x + 1) * 16, y: (y + 1) * 16, id: `${x}-${y}` });
+            }
+        }
+        return arr;
+    }, []);
+
+    return (
+        <div className="absolute inset-0 overflow-hidden opacity-20">
+            {nodes.map(node => (
+                <GridNode key={node.id} node={node} mouseX={mouseX} mouseY={mouseY} />
+            ))}
+        </div>
+    );
+}
+
+function GridNode({ node, mouseX, mouseY }: { node: { x: number, y: number }, mouseX: MotionValue<number>, mouseY: MotionValue<number> }) {
+    const nodeRef = useRef<HTMLDivElement>(null);
+    const [isActive, setIsActive] = useState(false);
+
+    useEffect(() => {
+        const unsubscribeX = mouseX.on("change", (x) => {
+            if (!nodeRef.current) return;
+            const y = mouseY.get();
+            const rect = nodeRef.current.getBoundingClientRect();
+            const nx = rect.left + rect.width / 2;
+            const ny = rect.top + rect.height / 2;
+            const dist = Math.sqrt(Math.pow(x - nx, 2) + Math.pow(y - ny, 2));
+            setIsActive(dist < 150);
+        });
+        return () => unsubscribeX();
+    }, [mouseX, mouseY]);
+
+    return (
+        <div 
+            ref={nodeRef}
+            className={`discovery-node absolute ${isActive ? 'active' : ''}`}
+            style={{ left: `${node.x}%`, top: `${node.y}%` }}
+        />
+    );
+}
 
 export default function EnvironmentalSystem() {
     const { activeSection, isIdle, interactionCount, attentionScore } = useScene();
@@ -33,9 +76,8 @@ export default function EnvironmentalSystem() {
     }, [isIdle, interactionCount]);
 
     // PHASE 37 STEP 1 & 9: SECTION-AWARE AMBIENT & SCROLL DEPTH SHADING
-    // PHASE 38 STEP 7: PROJECT PAGE BACKGROUND SHIFT
     const baseIntensityValue = useMemo(() => {
-        if (isProjectPage) return 0.04; // Focused dark mode for projects
+        if (isProjectPage) return 0.04; 
         switch (activeSection) {
             case "hero": return 0.12; 
             case "projects": return 0.08;
@@ -95,19 +137,28 @@ export default function EnvironmentalSystem() {
 
     return (
         <div className="fixed inset-0 pointer-events-none z-[40]">
-            {/* GLOBAL AMBIENT LAYER (STEP 1) */}
+            {/* PHASE 43 IDLE BREATHING (STEP 12) */}
             <motion.div 
+                animate={{ opacity: isIdle ? [0.4, 0.7, 0.4] : 1 }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                 className="absolute inset-0"
-                style={{ background: ambientBackground, opacity: isMobile ? 0.3 : 1 }}
-            />
-            
-            {/* INTERACTIVE CURSOR LIGHT (STEP 2, DISABLE ON MOBILE STEP 12) */}
-            {!isMobile && (
-                <motion.div
+            >
+                {/* GLOBAL AMBIENT LAYER (STEP 1) */}
+                <motion.div 
                     className="absolute inset-0"
-                    style={{ background: cursorLightBackground }}
+                    style={{ background: ambientBackground, opacity: isMobile ? 0.3 : 1 }}
                 />
-            )}
+                
+                {/* INTERACTIVE CURSOR LIGHT (STEP 2) */}
+                {!isMobile && (
+                    <motion.div
+                        className="absolute inset-0"
+                        style={{ background: cursorLightBackground }}
+                    />
+                )}
+            </motion.div>
+            
+            {!isMobile && <GridDiscoveryNodes mouseX={mouseX} mouseY={mouseY} />}
             
             {/* ATMOSPHERIC DENSITY OVERLAY (STEP 11) */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.01)_0%,transparent_80%)]" />
