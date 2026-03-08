@@ -25,8 +25,8 @@ export default function EnvironmentalSystem() {
     const [surge, setSurge] = useState(1);
     useEffect(() => {
         if (!isIdle && interactionCount > 0) {
-            setSurge(1.15);
-            const timer = setTimeout(() => setSurge(1), 1000);
+            requestAnimationFrame(() => setSurge(1.15));
+            const timer = setTimeout(() => requestAnimationFrame(() => setSurge(1)), 1000);
             return () => clearTimeout(timer);
         }
     }, [isIdle, interactionCount]);

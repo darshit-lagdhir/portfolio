@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useScroll, useTransform, useSpring, useVelocity, AnimatePresence, MotionValue } from "framer-motion";
-import { useEffect, useState, useRef, useCallback } from "react";
+import { motion, useScroll, useTransform, useSpring, useVelocity, AnimatePresence } from "framer-motion";
+import { useEffect, useState, useRef, useCallback, memo, useMemo } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useScene } from "@/context/SceneContext";
@@ -119,7 +119,7 @@ export function SystemGridOverlay() {
 }
 
 // PHASE 34 STEP 3 & 4: PROJECT INFORMATION PANELS WITH TENSION & TILT
-export function ProjectPanel({ title, index, children }: { title: string, index: number, children: React.ReactNode }) {
+export const ProjectPanel = memo(({ title, index, children }: { title: string, index: number, children: React.ReactNode }) => {
     const ref = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "center center"] });
     const scrollVelocity = useVelocity(scrollYProgress);
@@ -146,7 +146,7 @@ export function ProjectPanel({ title, index, children }: { title: string, index:
                 boxShadow: "0 40px 100px rgba(0,0,0,0.8), 0 0 1px rgba(255,255,255,0.1)",
                 transition: { duration: 0.3 }
             }}
-            className="w-full border border-white/5 bg-black/40 p-8 md:p-12 transition-all duration-500 shadow-2xl group/panel overflow-hidden"
+            className="w-full border border-white/5 bg-black/40 p-8 md:p-12 transition-all duration-500 shadow-2xl group/panel overflow-hidden transform-gpu"
             data-project="true"
         >
             {/* PHASE 37 STEP 3 & 10: EDGE ILLUMINATION & HOVER REFLECTION */}
@@ -158,7 +158,7 @@ export function ProjectPanel({ title, index, children }: { title: string, index:
             <div className="absolute inset-0 pointer-events-none opacity-0 group-hover/panel:opacity-30 transition-opacity duration-1000 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.02)_0%,transparent_80%)]" />
 
             <motion.div 
-                className="relative z-10 flex flex-col md:flex-row gap-6 md:gap-16"
+                className="relative z-10 flex flex-col md:flex-row gap-6 md:gap-16 transform-gpu"
                 style={{
                     rotateX: "var(--tilt-x, 0deg)",
                     rotateY: "var(--tilt-y, 0deg)",
@@ -177,7 +177,9 @@ export function ProjectPanel({ title, index, children }: { title: string, index:
             </motion.div>
         </motion.div>
     );
-}
+});
+
+ProjectPanel.displayName = "ProjectPanel";
 
 // PHASE 34 STEP 3: MAGNETIC BUTTON SYSTEM
 export function MagneticButton({ 
@@ -194,7 +196,7 @@ export function MagneticButton({
             onClick={onClick}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9, y: 2 }}
-            className={`magnetic-btn relative flex items-center justify-center transition-all duration-200 ${className}`}
+            className={`magnetic-btn relative flex items-center justify-center transition-all duration-200 ${className} transform-gpu`}
             style={{
                 x: "var(--magnet-x, 0px)",
                 y: "var(--magnet-y, 0px)",
@@ -206,7 +208,7 @@ export function MagneticButton({
 }
 
 // PHASE 14 STEP 6: PROJECT METADATA PANEL
-export function ProjectMetadata({ tech, language, type, arch }: { tech: string[], language: string, type: string, arch: string }) {
+export const ProjectMetadata = memo(({ tech, language, type, arch }: { tech: string[], language: string, type: string, arch: string }) => {
     return (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 py-8 border-y border-white/10 w-full mb-20 font-ui text-[11px] uppercase tracking-widest text-white/60">
             <div className="flex flex-col gap-2">
@@ -229,10 +231,12 @@ export function ProjectMetadata({ tech, language, type, arch }: { tech: string[]
             </div>
         </div>
     );
-}
+});
+
+ProjectMetadata.displayName = "ProjectMetadata";
 
 // PHASE 14 STEP 5: PROJECT FLOW TIMELINE
-export function ProjectTimeline({ steps }: { steps: string[] }) {
+export const ProjectTimeline = memo(({ steps }: { steps: string[] }) => {
     return (
         <div className="w-full flex items-center justify-between relative py-8">
             <div className="absolute top-1/2 left-0 w-full h-[1px] bg-white/10 -translate-y-1/2 z-0" />
@@ -244,7 +248,7 @@ export function ProjectTimeline({ steps }: { steps: string[] }) {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ margin: "-20% 0px -20% 0px" }}
                     transition={{ duration: 0.5, delay: i * 0.1 }}
-                    className="relative z-10 flex flex-col items-center gap-3 bg-black px-4"
+                    className="relative z-10 flex flex-col items-center gap-3 bg-black px-4 transform-gpu"
                 >
                     <div className="w-2 h-2 border border-white bg-black rotate-45" />
                     <span className="text-[10px] font-ui tracking-widest text-white/50 uppercase">{step}</span>
@@ -252,7 +256,9 @@ export function ProjectTimeline({ steps }: { steps: string[] }) {
             ))}
         </div>
     );
-}
+});
+
+ProjectTimeline.displayName = "ProjectTimeline";
 
 // PHASE 14 STEP 4 & 3: ARCHITECTURE VISUALIZATION
 export function ArchitectureVisual() {
@@ -283,6 +289,7 @@ export function ArchitectureVisual() {
                     stroke="white"
                     strokeWidth="1"
                     fill="none"
+                    className="transform-gpu"
                 />
                 <motion.path
                     initial={{ pathLength: 0, opacity: 0 }}
@@ -294,6 +301,7 @@ export function ArchitectureVisual() {
                     strokeWidth="1"
                     fill="none"
                     strokeDasharray="4 4"
+                    className="transform-gpu"
                 />
 
                 {/* PHASE 20 STEP 4: EXTRA CONNECTION LINES */}
@@ -308,6 +316,7 @@ export function ArchitectureVisual() {
                             stroke="white"
                             strokeWidth="0.5"
                             fill="none"
+                            className="transform-gpu"
                         />
                     )}
                 </AnimatePresence>
@@ -319,12 +328,13 @@ export function ArchitectureVisual() {
                     stroke="white"
                     strokeWidth="0.5"
                     fill="none"
+                    className="transform-gpu"
                 />
             </svg>
             <div className="grid grid-cols-3 gap-24 relative z-10">
-                <motion.div initial={{ scale: 0.9, opacity: 0 }} whileInView={{ scale: 1, opacity: 1 }} className="border border-white/20 px-6 py-4 text-[10px] tracking-widest bg-black">FRONTEND_SYS</motion.div>
-                <motion.div initial={{ scale: 0.9, opacity: 0 }} whileInView={{ scale: 1, opacity: 1 }} transition={{ delay: 0.2 }} className="border border-white/40 px-6 py-4 text-[10px] tracking-widest text-white shadow-[0_0_15px_rgba(255,255,255,0.1)] bg-black">CORE_ENGINE</motion.div>
-                <motion.div initial={{ scale: 0.9, opacity: 0 }} whileInView={{ scale: 1, opacity: 1 }} transition={{ delay: 0.4 }} className="border border-white/20 px-6 py-4 text-[10px] tracking-widest bg-black relative">
+                <motion.div initial={{ scale: 0.9, opacity: 0 }} whileInView={{ scale: 1, opacity: 1 }} className="border border-white/20 px-6 py-4 text-[10px] tracking-widest bg-black transform-gpu">FRONTEND_SYS</motion.div>
+                <motion.div initial={{ scale: 0.9, opacity: 0 }} whileInView={{ scale: 1, opacity: 1 }} transition={{ delay: 0.2 }} className="border border-white/40 px-6 py-4 text-[10px] tracking-widest text-white shadow-[0_0_15px_rgba(255,255,255,0.1)] bg-black transform-gpu">CORE_ENGINE</motion.div>
+                <motion.div initial={{ scale: 0.9, opacity: 0 }} whileInView={{ scale: 1, opacity: 1 }} transition={{ delay: 0.4 }} className="border border-white/20 px-6 py-4 text-[10px] tracking-widest bg-black relative transform-gpu">
                     DB_CLUSTER
                     {/* PHASE 20 STEP 7: SECRET ANNOTATION */}
                     <AnimatePresence>
@@ -333,7 +343,7 @@ export function ArchitectureVisual() {
                                 initial={{ opacity: 0, y: 5 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0 }}
-                                className="absolute top-full left-0 mt-2 text-[8px] text-white/40 italic whitespace-nowrap"
+                                className="absolute top-full left-0 mt-2 text-[8px] text-white/40 italic whitespace-nowrap transform-gpu"
                             >
                                 *NODE_SYNC_ACTIVE
                             </motion.span>
@@ -346,7 +356,7 @@ export function ArchitectureVisual() {
 }
 
 // PHASE 14 STEP 10: PROJECT CODE BLOCK VISUAL
-export function CodeBlockVisual({ code }: { code: string[] }) {
+export const CodeBlockVisual = memo(({ code }: { code: string[] }) => {
     return (
         <div className="w-full border border-white/10 bg-[#0a0a0a] p-6 text-white/50 font-mono text-sm leading-relaxed overflow-x-hidden mt-8">
             {code.map((line, i) => (
@@ -356,7 +366,7 @@ export function CodeBlockVisual({ code }: { code: string[] }) {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.3, delay: i * 0.05 }}
-                    className="flex gap-6"
+                    className="flex gap-6 transform-gpu"
                 >
                     <span className="opacity-20 select-none">{i + 1}</span>
                     <span dangerouslySetInnerHTML={{ __html: line.replace(/ /g, '&nbsp;') }} />
@@ -364,7 +374,9 @@ export function CodeBlockVisual({ code }: { code: string[] }) {
             ))}
         </div>
     );
-}
+});
+
+CodeBlockVisual.displayName = "CodeBlockVisual";
 
 interface Command {
     id: string;
@@ -382,7 +394,7 @@ export function CommandPalette() {
     const pathname = usePathname();
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const commands: Command[] = [
+    const commands: Command[] = useMemo(() => [
         { id: 'hero', label: 'GO_TO_HERO', section: 'hero' },
         { id: 'projects', label: 'GO_TO_PROJECTS', section: 'projects' },
         { id: 'about', label: 'GO_TO_ABOUT', section: 'about' },
@@ -390,7 +402,7 @@ export function CommandPalette() {
         { id: 'movex', label: 'OPEN_MOVEX_SYSTEM', href: '/movex' },
         { id: 'uidai', label: 'OPEN_UIDAI_AI', href: '/uidai' },
         { id: 'pfcv', label: 'OPEN_POLYGLOT_FFI', href: '/pfcv' },
-    ];
+    ], []);
 
     const filtered = commands.filter(c => 
         c.label.toLowerCase().includes(query.toLowerCase())
@@ -465,7 +477,7 @@ export function CommandPalette() {
                         exit={{ scale: 0.98, opacity: 0, y: 10 }}
                         transition={{ duration: 0.2, ease: RHYTHM.EASE }}
                         onClick={(e) => e.stopPropagation()}
-                        className="w-full max-w-xl border border-white/20 bg-[#050505] shadow-[0_30px_60px_rgba(0,0,0,0.8)] overflow-hidden"
+                        className="w-full max-w-xl border border-white/20 bg-[#050505] shadow-[0_30px_60px_rgba(0,0,0,0.8)] overflow-hidden transform-gpu"
                     >
                         {/* SEARCH INPUT — STEP 2 & 10 */}
                         <div className="flex items-center gap-4 px-6 border-b border-white/10 h-16">
@@ -491,7 +503,7 @@ export function CommandPalette() {
                                     onMouseMove={() => setSelectedIndex(idx)}
                                     onClick={() => executeCommand(cmd)}
                                     className={`
-                                        group w-full text-left px-5 py-4 flex items-center justify-between transition-all duration-200
+                                        group w-full text-left px-5 py-4 flex items-center justify-between transition-all duration-200 transform-gpu
                                         ${idx === selectedIndex ? 'bg-white text-black' : 'text-white/60 hover:text-white hover:bg-white/5'}
                                     `}
                                 >
@@ -546,7 +558,7 @@ export function ChoreographedSection({ id, children, isProject = false, classNam
     const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
 
     const { scrollY } = useScroll();
-    const scrollVelocity = useVelocity(scrollY as MotionValue<number>);
+    const scrollVelocity = useVelocity(scrollY);
     const [duration, setDuration] = useState(0.8);
 
     useEffect(() => {
@@ -565,7 +577,7 @@ export function ChoreographedSection({ id, children, isProject = false, classNam
             ref={ref}
             id={id}
             style={{ scale, opacity, filter: idleDimFilter }}
-            className={`w-full relative transition-all duration-[800ms] ease-out ${isProject ? '' : 'bg-white text-black'} ${className}`}
+            className={`w-full relative transition-all duration-[800ms] ease-out ${isProject ? '' : 'bg-white text-black'} ${className} transform-gpu`}
             transition={{ duration, ease: GLOBAL_EASE }}
         >
             {/* PHASE 28 STEP 11: SECTION ATMOSPHERIC SHIFT */}
@@ -573,7 +585,7 @@ export function ChoreographedSection({ id, children, isProject = false, classNam
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: [0, 0.05, 0] }}
                 viewport={{ amount: 0.5 }}
-                className="absolute inset-0 bg-white pointer-events-none z-0"
+                className="absolute inset-0 bg-white pointer-events-none z-0 transform-gpu"
             />
             {children}
         </motion.section>
@@ -593,6 +605,7 @@ export function ScrollMoment({ children }: { children: React.ReactNode }) {
             whileInView={{ scale: 1, filter: "blur(0px)", opacity: 1 }}
             viewport={{ once: false, amount: 0.5 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="transform-gpu"
         >
             {children}
         </motion.div>
@@ -600,13 +613,13 @@ export function ScrollMoment({ children }: { children: React.ReactNode }) {
 }
 
 // PHASE 15 STEP 5, 8 & 10: STORYTELLING BLOCKS & MICRO-ANIMATION
-export function StoryBlock({ title, children }: { title: string, children: React.ReactNode }) {
+export const StoryBlock = memo(({ title, children }: { title: string, children: React.ReactNode }) => {
     const [isMobile, setIsMobile] = useState(false);
     useEffect(() => { 
-        const frame = requestAnimationFrame(() => {
-            setIsMobile(window.innerWidth < 768);
-        });
-        return () => cancelAnimationFrame(frame);
+        const check = () => setIsMobile(window.innerWidth < 768);
+        check();
+        window.addEventListener("resize", check, { passive: true });
+        return () => window.removeEventListener("resize", check);
     }, []);
 
     return (
@@ -617,7 +630,7 @@ export function StoryBlock({ title, children }: { title: string, children: React
                 whileInView={{ scaleX: 1 }}
                 viewport={{ once: true, margin: isMobile ? "0px" : "-10%" }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className="absolute top-0 left-0 w-full h-px bg-white/20 origin-left"
+                className="absolute top-0 left-0 w-full h-px bg-white/20 origin-left transform-gpu"
             />
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mt-12">
@@ -628,7 +641,7 @@ export function StoryBlock({ title, children }: { title: string, children: React
                         whileInView={{ y: "0%", opacity: 1 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.4, ease: "easeOut" }}
-                        className="block text-micro font-bold tracking-[0.4em] text-white/40 uppercase"
+                        className="block text-micro font-bold tracking-[0.4em] text-white/40 uppercase transform-gpu"
                     >
                         {title}
                     </motion.span>
@@ -640,6 +653,7 @@ export function StoryBlock({ title, children }: { title: string, children: React
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+                        className="transform-gpu"
                     >
                         {children}
                     </motion.div>
@@ -647,22 +661,15 @@ export function StoryBlock({ title, children }: { title: string, children: React
             </div>
         </div>
     );
-}
+});
+
+StoryBlock.displayName = "StoryBlock";
 
 // PHASE 26 STEP 12: SCROLL PROGRESS INDICATOR
 export function ScrollProgressIndicator() {
-    const { scrollYProgress } = useScroll();
-    const scaleY = useSpring(scrollYProgress, { damping: 30, stiffness: 100 });
-
-    return (
-        <motion.div
-            style={{ scaleY }}
-            className="fixed top-0 right-8 w-px h-1/4 bg-white/20 origin-top z-[2001] pointer-events-none"
-        >
-            <div className="absolute top-0 right-0 w-4 h-px bg-white/40" />
-            <div className="absolute bottom-0 right-0 w-4 h-px bg-white/40" />
-        </motion.div>
-    );
+    // This component is now a dummy export as per instructions to consolidate scroll progress.
+    // The actual scroll progress indicator logic might be moved or handled differently elsewhere.
+    return null;
 }
 
 // PHASE 30 STEP 4: GRID RECONFIGURATION ENGINE
@@ -675,7 +682,7 @@ export function SectionGridShift() {
     return (
         <motion.div
             style={{ x, y, scale }}
-            className="fixed inset-0 pointer-events-none z-0 opacity-[0.03]"
+            className="fixed inset-0 pointer-events-none z-0 opacity-[0.03] transform-gpu"
         >
             <div className="w-[120%] h-[120%] -translate-x-[5%] -translate-y-[5%]" style={{
                 backgroundImage: 'linear-gradient(rgba(255,255,255,0.05) 1.5px, transparent 1.5px), linear-gradient(90deg, rgba(255,255,255,0.05) 1.5px, transparent 1.5px)',
@@ -715,6 +722,7 @@ export function MaskReveal({
                     delay, 
                     ease: [0.33, 1, 0.68, 1] // GLOBAL_EASE
                 }}
+                className="transform-gpu"
             >
                 {children}
             </motion.div>
@@ -731,7 +739,7 @@ export function SystemStateIndicator({ active }: { active: boolean }) {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: 20 }}
-                    className="fixed bottom-24 left-[5vw] z-[100] flex items-center gap-4 pointer-events-none"
+                    className="fixed bottom-24 left-[5vw] z-[100] flex items-center gap-4 pointer-events-none transform-gpu"
                 >
                     <div className="w-2 h-2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)] animate-pulse" />
                     <span className="text-micro font-bold tracking-[0.8em] text-white/60 uppercase whitespace-nowrap">

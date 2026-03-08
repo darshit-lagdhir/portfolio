@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useScene } from "@/context/SceneContext";
 
@@ -124,7 +124,7 @@ export default function BrutalistNavbar() {
 }
 
 // PHASE 11 STEP 2 & 7 & PHASE 27 STEP 7: MAGNETIC NAV ITEM W/ TACTILE FEEDBACK
-function MagneticNavItem({
+const MagneticNavItem = memo(({
     link,
     index,
     isActive
@@ -132,7 +132,7 @@ function MagneticNavItem({
     link: { name: string, href: string, id: string };
     index: number;
     isActive: boolean;
-}) {
+}) => {
     const ref = useRef<HTMLDivElement>(null);
     const { triggerDiscovery, discoveries } = useScene();
     const [isHovering, setIsHovering] = useState(false);
@@ -161,7 +161,7 @@ function MagneticNavItem({
                 damping: 20,
                 mass: 0.5
             }}
-            className="relative group magnetic-btn tactile-btn"
+            className="relative group magnetic-btn tactile-btn transform-gpu"
         >
             <Link
                 href={link.href}
@@ -190,10 +190,12 @@ function MagneticNavItem({
             {isActive && (
                 <motion.div
                     layoutId="nav-line"
-                    className="absolute -bottom-2 left-0 w-full h-[2px] bg-white translate-y-1 shadow-[0_0_10px_rgba(255,255,255,0.5)]"
+                    className="absolute -bottom-2 left-0 w-full h-[2px] bg-white translate-y-1 shadow-[0_0_10px_rgba(255,255,255,0.5)] transform-gpu"
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 />
             )}
         </motion.div>
     );
-}
+});
+
+MagneticNavItem.displayName = "MagneticNavItem";

@@ -1,13 +1,13 @@
 "use client";
 
 import { motion, useScroll, useTransform, useMotionValue, useSpring, useMotionTemplate, MotionValue } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, memo } from "react";
 import { useScene } from "@/context/SceneContext";
 import { LAYOUT } from "@/components/brutalist/SystemComponents";
 
 const GLOBAL_EASE = [0.33, 1, 0.68, 1] as [number, number, number, number];
 
-const Letter = ({ char, index, total, smoothMouseX, isMobile }: {
+const Letter = memo(({ char, index, total, smoothMouseX, isMobile }: {
     char: string,
     index: number,
     total: number,
@@ -31,7 +31,7 @@ const Letter = ({ char, index, total, smoothMouseX, isMobile }: {
 
     return (
         <motion.span
-            className="inline-block relative kinetic-letter"
+            className="inline-block relative kinetic-letter transform-gpu"
             initial={{ clipPath: isMobile ? "inset(0% 0% 0% 0%)" : "inset(0% 0% 100% 0%)", y: isMobile ? 0 : 30, opacity: 0 }}
             animate={{ clipPath: "inset(-20% -20% -20% -20%)", y: 0, opacity: 1 }}
             whileHover={isMobile ? {} : {
@@ -54,7 +54,10 @@ const Letter = ({ char, index, total, smoothMouseX, isMobile }: {
             {char}
         </motion.span>
     );
-};
+});
+
+// Set display name for debugging
+Letter.displayName = "KineticLetter";
 
 export default function BrutalistHero() {
     const sectionRef = useRef<HTMLElement>(null);
@@ -141,7 +144,7 @@ export default function BrutalistHero() {
                 triggerDiscovery("HERO_RIPPLE");
             }
         };
-        const int = setInterval(check, 500);
+        const int = setInterval(check, 1000); // Throttled from 500ms to 1000ms
         return () => clearInterval(int);
     }, [scrollTempo, attentionScore, triggerDiscovery, discoveries]);
 

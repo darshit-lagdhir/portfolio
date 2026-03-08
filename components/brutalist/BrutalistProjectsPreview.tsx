@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useInView, useScroll, useTransform, MotionValue } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, memo } from "react";
 import Link from "next/link";
 import { useScene } from "@/context/SceneContext";
 import { ChoreographedSection, LAYOUT } from "@/components/brutalist/SystemComponents";
@@ -39,7 +39,7 @@ interface Project {
     span: string;
 }
 
-function ProjectPreviewSignal({ repoName }: { repoName: string }) {
+const ProjectPreviewSignal = memo(({ repoName }: { repoName: string }) => {
     const [data, setData] = useState<GitHubRepoData | null>(null);
 
     useEffect(() => {
@@ -61,9 +61,11 @@ function ProjectPreviewSignal({ repoName }: { repoName: string }) {
             <span className="hidden sm:inline">{data.language}</span>
         </motion.div>
     );
-}
+});
 
-function ProjectItem({ project, idx, scrollYProgress }: { project: Project, idx: number, scrollYProgress: MotionValue<number> }) {
+ProjectPreviewSignal.displayName = "ProjectPreviewSignal";
+
+const ProjectItem = memo(({ project, idx, scrollYProgress }: { project: Project, idx: number, scrollYProgress: MotionValue<number> }) => {
     const { setIsNavigating } = useScene();
     // PHASE 30 STEP 3: SEQUENTIAL REVEAL ENGINE — STAGGERED SYSTEM ENTRY
     // PHASE 36 STEP 4 & 9: STAGGERED ENTRY + HORIZONTAL MICRO-SCROLL
@@ -87,7 +89,7 @@ function ProjectItem({ project, idx, scrollYProgress }: { project: Project, idx:
                 filter: filterStr,
                 pointerEvents: pointerEventsVal
             }}
-            className={`absolute inset-0 grid grid-cols-12 items-center ${project.span}`}
+            className={`absolute inset-0 grid grid-cols-12 items-center ${project.span} transform-gpu`}
             data-project="true"
         >
             <div className="col-span-12">
@@ -100,7 +102,7 @@ function ProjectItem({ project, idx, scrollYProgress }: { project: Project, idx:
                         whileHover={{ z: 80 }}
                         whileTap={{ scale: 0.98, y: 2 }}
                         transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                        className="flex flex-col gap-6 w-full relative z-10 p-4 md:p-8"
+                        className="flex flex-col gap-6 w-full relative z-10 p-4 md:p-8 transform-gpu"
                         style={{
                             rotateX: "var(--tilt-x, 0deg)",
                             rotateY: "var(--tilt-y, 0deg)",
@@ -154,7 +156,9 @@ function ProjectItem({ project, idx, scrollYProgress }: { project: Project, idx:
             </div>
         </motion.div>
     );
-}
+});
+
+ProjectItem.displayName = "ProjectItem";
 
 export default function BrutalistProjectsPreview() {
     const { setActiveSection } = useScene();
@@ -170,6 +174,7 @@ export default function BrutalistProjectsPreview() {
 
     // Pinned reveal transforms
     const breathPadding = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], ["1rem", "6rem", "6rem", "1rem"]);
+    const sectionOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.04, 0.08, 0.08, 0.04]);
 
     const projects: Project[] = [
         {
@@ -223,7 +228,7 @@ export default function BrutalistProjectsPreview() {
                     {/* PHASE 39 STEP 4: GRID ALIGNMENT CORRECTION (Section Number) */}
                     <div className={`${LAYOUT.CONTAINER} absolute inset-0 flex flex-col justify-center pointer-events-none z-0`}>
                         <motion.span
-                            style={{ opacity: isMobile ? 0.04 : useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.04, 0.08, 0.08, 0.04]) }}
+                            style={{ opacity: isMobile ? 0.04 : sectionOpacity }}
                             className="text-[20vw] font-heading font-black leading-none text-black select-none translate-y-[-10%]"
                         >
                             02
