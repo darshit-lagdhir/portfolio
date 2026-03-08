@@ -215,10 +215,22 @@ export default function CustomCursor() {
     }, []);
 
     const variants = {
-        default: { width: 32, height: 32, borderWidth: "1px", backgroundColor: "transparent", borderColor: "white" },
-        nav: { width: 64, height: 64, borderWidth: "2px", backgroundColor: "rgba(255,255,255,0.08)", borderColor: "white" },
-        project: { width: 120, height: 120, borderWidth: "1px", backgroundColor: "transparent", borderColor: "rgba(255,255,255,0.4)" },
-        text: { width: 2, height: 40, borderWidth: "0px", backgroundColor: "white", borderColor: "transparent" },
+        default: { 
+            width: 32, height: 32, borderRadius: "50%",
+            borderWidth: "1px", backgroundColor: "transparent", borderColor: "white" 
+        },
+        nav: { 
+            width: 64, height: 64, borderRadius: "2px",
+            borderWidth: "2px", backgroundColor: "rgba(255,255,255,0.08)", borderColor: "white" 
+        },
+        project: { 
+            width: 140, height: 140, borderRadius: "2px",
+            borderWidth: "1px", backgroundColor: "transparent", borderColor: "rgba(255,255,255,0.4)" 
+        },
+        text: { 
+            width: 2, height: 40, borderRadius: "0px",
+            borderWidth: "0px", backgroundColor: "white", borderColor: "transparent" 
+        },
     };
 
     if (!isMounted) return null;

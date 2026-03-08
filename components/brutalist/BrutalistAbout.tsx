@@ -3,7 +3,7 @@
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { useScene } from "@/context/SceneContext";
-import { ChoreographedSection, MaskReveal, LAYOUT, EASE, DUR } from "@/components/brutalist/SystemComponents";
+import { ChoreographedSection, MaskReveal, LAYOUT, EASE, DUR, SectionHeader } from "@/components/brutalist/SystemComponents";
 
 
 
@@ -69,21 +69,12 @@ export default function BrutalistAbout() {
                 >
                     <div className={`${LAYOUT.CONTAINER} flex flex-col gap-6 md:gap-10`}>
 
-                        {/* SECTION HEADING — MASK REVEAL (STEP 9) */}
-                        <div className="flex flex-col gap-6 items-start self-start">
-                            <span className="text-caption text-white/40">03_IDENTITY</span>
-                            <div className="relative overflow-hidden py-2 px-1 -m-2 w-full">
-                                <motion.h2
-                                    initial={{ opacity: 0, y: 40 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: DUR.SLOW, delay: 0.2, ease: EASE.CALM }}
-                                    className="text-large break-words w-full border-b border-white/10 pb-8 type-react-hover text-white"
-                                >
-                                    {scrambledTitle}
-                                </motion.h2>
-                            </div>
-                        </div>
+                        {/* SECTION HEADING — PHASE 42 DNA PATTERN */}
+                        <SectionHeader 
+                            label="03_IDENTITY" 
+                            title={scrambledTitle} 
+                            subtitle="Engineering Philosophy & Technical Mindset" 
+                        />
 
                         {/* EDITORIAL STATEMENT BLOCKS — STAGGERED REVEAL (STEP 8) */}
                         <div className="grid grid-cols-12 gap-y-24 md:gap-y-32 gap-x-8 items-start">
@@ -101,15 +92,17 @@ export default function BrutalistAbout() {
                                         Systems <br /> <span className="text-white/40 italic">Thinking.</span>
                                     </h3>
                                 </MaskReveal>
-                                <motion.p
-                                    initial={{ opacity: 0, y: 30 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: DUR.SLOW, delay: 0.5, ease: EASE.EXIT }}
-                                    className="text-body text-white/50 bg-white/[0.02] p-6 md:p-8 border-l-2 border-white/10"
-                                >
-                                    I don&apos;t just write code; I design systems. Every component, from UI interactions to database queries, is treated as a node in a larger architectural network. Precision and scalability are non-negotiable.
-                                </motion.p>
+                                <div className="dna-line-motif">
+                                    <motion.p
+                                        initial={{ opacity: 0, y: 30 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ duration: DUR.SLOW, delay: 0.5, ease: EASE.EXIT }}
+                                        className="text-body text-white/50 bg-white/[0.02] p-6 md:p-8 border-l-2 border-white/10"
+                                    >
+                                        I don&apos;t just write code; I design systems. Every component, from UI interactions to database queries, is treated as a node in a larger architectural network. Precision and scalability are non-negotiable.
+                                    </motion.p>
+                                </div>
                             </motion.div>
 
                             {/* BLOCK 2 - BACKEND ENGINEERING */}
@@ -125,15 +118,17 @@ export default function BrutalistAbout() {
                                         Backend <br /> <span className="text-white/40 italic">Authority.</span>
                                     </h3>
                                 </MaskReveal>
-                                <motion.p
-                                    initial={{ opacity: 0, y: 30 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: DUR.SLOW, delay: 0.8, ease: EASE.EXIT }}
-                                    className="text-body text-white/50 bg-white/[0.02] p-6 md:p-8 border-l-2 border-white/10"
-                                >
-                                    Building rigid, secure, and highly performant data pipelines. I specialize in crafting backend infrastructure that withstands high concurrency and complex logic without exposing complexity to the frontend.
-                                </motion.p>
+                                <div className="dna-line-motif">
+                                    <motion.p
+                                        initial={{ opacity: 0, y: 30 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ duration: DUR.SLOW, delay: 0.8, ease: EASE.EXIT }}
+                                        className="text-body text-white/50 bg-white/[0.02] p-6 md:p-8 border-l-2 border-white/10"
+                                    >
+                                        Building rigid, secure, and highly performant data pipelines. I specialize in crafting backend infrastructure that withstands high concurrency and complex logic without exposing complexity to the frontend.
+                                    </motion.p>
+                                </div>
                             </motion.div>
 
                             {/* BLOCK 3 - LEARNING MINDSET */}
@@ -149,9 +144,11 @@ export default function BrutalistAbout() {
                                         Dynamic <br /> <span className="text-white/40 italic">Evolution.</span>
                                     </h3>
                                 </MaskReveal>
-                                <p className="text-body text-white/50 bg-white/[0.02] p-6 md:p-8 border-l-2 border-white/10">
-                                    Technology is a shifting landscape. My core skill is not a single language, but the ability to rapidly assimilate new paradigms, dissect unfamiliar architectures, and build production-ready software efficiently.
-                                </p>
+                                <div className="dna-line-motif">
+                                    <p className="text-body text-white/50 bg-white/[0.02] p-6 md:p-8 border-l-2 border-white/10">
+                                        Technology is a shifting landscape. My core skill is not a single language, but the ability to rapidly assimilate new paradigms, dissect unfamiliar architectures, and build production-ready software efficiently.
+                                    </p>
+                                </div>
                             </motion.div>
                         </div>
 

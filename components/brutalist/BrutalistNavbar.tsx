@@ -47,7 +47,9 @@ export default function BrutalistNavbar() {
             <nav className="flex justify-between items-center px-[5vw] w-full max-w-[1800px] mx-auto">
                 {/* BRAND — LEFT ALIGNED */}
                 <Link href="/" className="group flex items-center shrink-0">
-                    <span className="text-medium italic font-extrabold" style={{ fontFamily: "Panchang, sans-serif" }}>DARSHIT.L</span>
+                    <div className="dna-line-motif">
+                        <span className="text-medium italic font-extrabold" style={{ fontFamily: "Panchang, sans-serif" }}>DARSHIT.L</span>
+                    </div>
                 </Link>
 
                 {/* SECTION INDEX — RIGHT ALIGNED — PHASE 4 */}
@@ -102,13 +104,15 @@ export default function BrutalistNavbar() {
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: idx * 0.1, duration: DUR.MEDIUM, ease: EASE.ENTRY }}
                             >
-                                <Link
-                                    href={link.href}
-                                    onClick={() => setMenuOpen(false)}
-                                    className="text-medium font-bold hover:opacity-70 transition-opacity"
-                                >
-                                    {link.name}
-                                </Link>
+                                <div className="dna-line-motif">
+                                    <Link
+                                        href={link.href}
+                                        onClick={() => setMenuOpen(false)}
+                                        className="text-medium font-bold hover:opacity-70 transition-opacity"
+                                    >
+                                        {link.name}
+                                    </Link>
+                                </div>
                             </motion.div>
                         ))}
                         <button

@@ -3,7 +3,7 @@
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useScene } from "@/context/SceneContext";
 import { useState, useEffect, useRef } from "react";
-import { ScrollMoment, ChoreographedSection, MagneticButton, LAYOUT, EASE, DUR } from "@/components/brutalist/SystemComponents";
+import { ScrollMoment, ChoreographedSection, MagneticButton, LAYOUT, SectionHeader } from "@/components/brutalist/SystemComponents";
 
 
 
@@ -62,34 +62,21 @@ export default function BrutalistContact() {
 
                 <motion.div style={{ paddingTop: breathPadding, paddingBottom: breathPadding }} className="flex flex-col items-center justify-center w-full relative z-10">
 
-                    <div className={`${LAYOUT.CONTAINER} flex flex-col items-center text-center gap-12 relative z-10`}>
+                    <div className={`${LAYOUT.CONTAINER} flex flex-col items-start gap-12 relative z-10`}>
 
                         {/* MASSIVE CONNECT — PHASE 4 + PHASE 15 EMPHASIS */}
+                        {/* SECTION HEADING — PHASE 42 DNA PATTERN */}
                         <ScrollMoment>
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: DUR.SLOW, ease: EASE.CALM }}
-                                className="flex flex-col items-center gap-6"
-                            >
-                                <span className="text-caption text-black/40">04_TERMINATION</span>
-                                <div className="relative overflow-visible pb-4">
-                                    <motion.h2
-                                        initial={{ opacity: 0, y: 30 }}
-                                        whileInView={{ opacity: 1, y: 0 }}
-                                        viewport={{ once: true }}
-                                        transition={{ duration: DUR.PAGE * 1.5, delay: 0.6, ease: EASE.CALM }}
-                                        className="text-large text-black type-react-hover"
-                                    >
-                                        {scrambledTitle}
-                                    </motion.h2>
-                                </div>
-                            </motion.div>
+                            <SectionHeader 
+                                label="04_TERMINATION" 
+                                title={scrambledTitle} 
+                                subtitle="Initialize Communication Protocol" 
+                                theme="light"
+                            />
                         </ScrollMoment>
-
+ 
                         {/* EMAIL INTERACTION — PHASE 34: MAGNETIC & PRESSURE FEEDBACK */}
-                        <div className="flex flex-col items-center">
+                        <div className="flex flex-col items-start w-full">
                             <motion.div
                                 onMouseEnter={() => setIsHovered(true)}
                                 onMouseLeave={() => setIsHovered(false)}
@@ -115,8 +102,8 @@ export default function BrutalistContact() {
                                 </MagneticButton>
                             </motion.div>
                         </div>
-
-                        <div className="flex gap-16 mt-12">
+ 
+                        <div className="flex gap-16 mt-12 dna-line-motif light">
                             {[
                                 { label: "GH", link: "https://github.com/darshit-lagdhir" },
                                 { label: "LI", link: "https://www.linkedin.com/in/darshitlagdhir/" },
@@ -130,7 +117,7 @@ export default function BrutalistContact() {
                                         whileInView={{ opacity: 1 }}
                                         viewport={{ once: true }}
                                         transition={{ duration: 0.8, delay: 0.8 + i * 0.1 }}
-                                        className="text-caption hover:text-black/40 transition-all font-ui font-bold tracking-widest"
+                                        className="text-caption hover:text-black/40 transition-all font-ui font-bold tracking-[0.4em]"
                                     >
                                         {social.label}
                                     </motion.a>

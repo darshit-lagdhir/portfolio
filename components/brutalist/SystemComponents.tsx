@@ -32,14 +32,51 @@ export const RHYTHM = {
     SNAP: EASE.ENTRY
 };
 
-// PHASE 39: GRID DISCIPLINE TOKENS
+// PHASE 39: GRID DISCIPLINE TOKENS (Updated for Phase 42 DNA)
 export const LAYOUT = {
     MAX_WIDTH: "max-w-[1800px]",
     PADDING_X: "px-[5vw]",
     MARGIN_X: "mx-auto",
     CONTAINER: "w-full max-w-[1800px] mx-auto px-[5vw]",
     SECTION_PADDING: "py-32 md:py-48",
+    DNA_GAP: "gap-[clamp(2rem,5vw,4rem)]",
+    DNA_LINE: "border-l border-white/10 pl-[clamp(2rem,5vw,4rem)]"
 };
+
+
+// PHASE 42: VISUAL IDENTITY SECTION HEADER PATTERN
+export const SectionHeader = memo(({ label, title, subtitle, divider = true, theme = "dark" }: { label: string, title: string, subtitle?: string, divider?: boolean, theme?: "dark" | "light" }) => {
+    const isDark = theme === "dark";
+    
+    return (
+        <div className="flex flex-col gap-6 items-start self-start w-full">
+            <span className={`text-caption ${isDark ? "text-white/40" : "text-black/40"} tracking-[0.4em] uppercase`}>
+                {label}
+            </span>
+            {subtitle && (
+                <div className={`dna-line-motif ${isDark ? "" : "light"}`}>
+                    <span className={`text-medium ${isDark ? "text-white/60" : "text-black/60"} italic`}>
+                        {subtitle}
+                    </span>
+                </div>
+            )}
+            <div className="relative overflow-hidden py-2 px-1 -m-2 w-full">
+                <motion.h2
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: DUR.SLOW, delay: 0.2, ease: EASE.CALM }}
+                    className={`text-large break-words w-full type-react-hover ${isDark ? "text-white" : "text-black"} lg:text-[clamp(2rem,7vw,5.5rem)]`}
+                >
+                    {title}
+                </motion.h2>
+            </div>
+            {divider && <div className={`w-full h-px ${isDark ? "bg-white/10" : "bg-black/10"} mt-4 md:mt-8`} />}
+        </div>
+    );
+});
+
+SectionHeader.displayName = "SectionHeader";
 
 // PHASE 14 STEP 11: PROJECT ENTRY LOADING SEQUENCE
 export function ProjectEntryLoader() {

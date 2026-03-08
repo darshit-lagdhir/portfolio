@@ -4,7 +4,7 @@ import { motion, useInView, useScroll, useTransform, MotionValue } from "framer-
 import { useRef, useState, useEffect, memo } from "react";
 import Link from "next/link";
 import { useScene } from "@/context/SceneContext";
-import { ChoreographedSection, LAYOUT, EASE, DUR } from "@/components/brutalist/SystemComponents";
+import { ChoreographedSection, LAYOUT, EASE, DUR, SectionHeader } from "@/components/brutalist/SystemComponents";
 import { fetchGitHubData, GitHubRepoData } from "@/lib/github-service";
 
 // TEXT SCRAMBLE HOOK — PHASE 4
@@ -131,10 +131,12 @@ const ProjectItem = memo(({ project, idx, scrollYProgress }: { project: Project,
                             </div>
                         </div>
                         <div className="flex flex-col gap-6 max-w-xl">
-                            {/* PHASE 28 STEP 3: PANEL SURFACE TEXTURE REFINEMENT */}
-                            <p className="text-body text-black/60 bg-black/[0.02] p-4 md:p-6 border-l-2 border-black/10 group-hover:bg-black/[0.04] group-hover:border-black transition-all duration-500 shadow-sm group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] backdrop-blur-sm">
-                                {project.desc}
-                            </p>
+                            {/* PHASE 42: DNA LINE MOTIF FOR DESCRIPTION */}
+                            <div className="dna-line-motif light">
+                                <p className="text-body text-black/60 bg-black/[0.02] p-4 md:p-6 border-l-2 border-black/10 group-hover:bg-black/[0.04] group-hover:border-black transition-all duration-500 shadow-sm group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] backdrop-blur-sm">
+                                    {project.desc}
+                                </p>
+                            </div>
                             {/* PHASE 28 STEP 7: SURFACE DIFFUSION INDICATOR */}
                             <div className="flex justify-between items-center border-t border-black/[0.05] pt-4">
                                 <div className="flex flex-col gap-1">
@@ -234,23 +236,20 @@ export default function BrutalistProjectsPreview() {
                         </motion.span>
                     </div>
 
-                    {/* FIXED HEADER SYSTEM — PHASE 36 STEP 3: REVEAL SEQUENCE */}
+                    {/* FIXED HEADER SYSTEM — PHASE 42 DNA PATTERN */}
                     <motion.div 
                         style={{ 
                             opacity: useTransform(scrollYProgress, [0, 0.1, 0.8, 0.95], [0, 1, 1, 0]),
                             y: useTransform(scrollYProgress, [0, 0.1], [30, 0])
                         }}
                         className={`${LAYOUT.CONTAINER} pt-12 md:pt-20 z-20 shrink-0`}
-                        transition={{ duration: DUR.MEDIUM, ease: EASE.ENTRY }}
                     >
-                        <div className="flex flex-col gap-4 items-start self-start w-full">
-                            <span className="text-caption text-black/40">02_ARCHIVE</span>
-                            <motion.h2
-                                className="text-[clamp(1.2rem,6vw,4.2rem)] font-heading font-extrabold uppercase tracking-tighter whitespace-nowrap w-full border-b border-black/10 pb-4 type-react-hover text-black"
-                            >
-                                {scrambledTitle}
-                            </motion.h2>
-                        </div>
+                        <SectionHeader 
+                            label="02_ARCHIVE" 
+                            title={scrambledTitle} 
+                            subtitle="Selected Engineering Work" 
+                            theme="light"
+                        />
                     </motion.div>
 
                     {/* BREATHING PROJECT ZONE — PHASE 34: KINETIC CONTENT ONLY */}

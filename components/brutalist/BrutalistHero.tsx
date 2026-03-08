@@ -241,7 +241,14 @@ export default function BrutalistHero() {
                     className={`${LAYOUT.CONTAINER} pt-32 z-10 grid grid-cols-12 gap-6 md:gap-10 items-center`}
                 >
                     {/* PHASE 23 STEP 3 & 4: SPLIT HERO - TYPOGRAPHY DOMINANCE */}
-                    <div className="col-span-12 lg:col-span-7 flex flex-col items-start gap-0 z-10">
+                    <div className="col-span-12 lg:col-span-7 flex flex-col items-start gap-6 z-10">
+                        {/* PHASE 42 DNA LABEL */}
+                        <div className="flex flex-col gap-4 items-start translate-y-[-20px]">
+                            <span className="text-caption text-white/40 tracking-[0.4em] uppercase">01_ORIGIN</span>
+                            <div className="dna-line-motif">
+                                <span className="text-medium text-white/60 italic">Full-Stack Engineering Authority</span>
+                            </div>
+                        </div>
                         <div className="relative group overflow-visible preserve-3d">
                             {/* PHASE 28 STEP 4: TYPOGRAPHY CONTRAST REFINEMENT */}
                             <motion.span
@@ -319,18 +326,12 @@ export default function BrutalistHero() {
                             </motion.h1>
                         </div>
 
-                        <motion.div style={{ opacity: subTextOpacity }} className="mt-12 md:mt-16 flex flex-col gap-4">
+                        <motion.div style={{ opacity: subTextOpacity }} className="mt-12 md:mt-16 dna-line-motif">
                             <motion.span
-                                initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.5, duration: 1, ease: EASE.EXIT }}
-                                className="text-medium text-white/40" // PHASE 39 STEP 7: SUBTLE CONTRAST
+                                initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1.5, duration: 1, ease: EASE.EXIT }}
+                                className="text-medium text-white/40 block" 
                             >
-                                SYSTEMS ARCHITECT //
-                            </motion.span>
-                            <motion.span
-                                initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.7, duration: 1, ease: EASE.EXIT }}
-                                className="text-medium text-white/40" // PHASE 39 STEP 7: SUBTLE CONTRAST
-                            >
-                                INTERFACE ENGINEER
+                                SYSTEMS ARCHITECT // INTERFACE ENGINEER
                             </motion.span>
                         </motion.div>
                     </div>
