@@ -24,10 +24,10 @@ export default function Mindset() {
           <div className="grid-12">
             <div className="col-span-12 md:col-span-6">
               <p className="type-body mb-sys-32">
-                In engineering, the surface is often a distraction. True durability is found in the internal mechanics—the way data flows, how state is managed, and how components decouple under pressure.
+                My approach to engineering is an endless cycle of experimentation: build, break, debug, redesign, and repeat. True mastery comes not from writing code that works the first time, but from observing how systems fail under pressure.
               </p>
               <p className="type-body">
-                I approach development as an architectural discipline. Performance is not a feature; it is a foundational constraint. Reliability is not an afterthought; it is the primary deliverable.
+                I treat software development as an architectural discipline. The goal is never just to implement a feature, but to deeply understand the structural integrity, data flow, and mechanical trade-offs of the systems I build.
               </p>
             </div>
             <div className="col-span-12 md:col-span-5 md:col-start-8 flex flex-col justify-center border-l border-border-dim pl-sys-32">

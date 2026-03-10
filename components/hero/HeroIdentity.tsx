@@ -25,8 +25,8 @@ export default function HeroIdentity() {
         transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
         className="type-identity mb-sys-48 leading-[0.9] tracking-tighter"
       >
-        ARCHITECTING <br />
-        <span className="text-secondary">SYSTEMS_THAT_ENDURE</span>
+        EXPLORING <br />
+        <span className="text-secondary">SYSTEM_MECHANICS</span>
       </motion.h1>
 
       <motion.div
@@ -36,7 +36,7 @@ export default function HeroIdentity() {
         className="max-w-[480px]"
       >
         <p className="type-body text-lg md:text-xl leading-relaxed text-text-secondary">
-          A {identity.positioning} specializing in low-latency architectures, durable state machines, and cross-platform systems logic.
+          A {identity.positioning} who learns by building systems, observing how they fail, and redesigning them until they behave correctly. Driven by an intense curiosity to understand how software works internally.
         </p>
       </motion.div>
     </div>

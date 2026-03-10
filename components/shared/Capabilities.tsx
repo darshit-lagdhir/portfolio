@@ -5,32 +5,32 @@ import { motion } from "framer-motion";
 const capabilityClusters = [
   {
     category: "LANGUAGES",
-    description: "Investigation of low-level systems languages and high-performance paradigms. Focus on memory safety and formal contract synthesis.",
-    items: ["Rust", "TypeScript", "C++", "Python", "Go"],
+    description: "Exploring the mechanics of systems languages, memory management, and high-performance execution environments.",
+    items: ["Java", "C++", "Python", "TypeScript", "Rust"],
     id: "cap-lang"
   },
   {
     category: "SYSTEMS_ENGINEERING",
-    description: "Exploration of modular backend architectures, distributed state management, and latency-optimized service communication.",
-    items: ["Node.js", "Express", "Microservices", "API Design", "gRPC"],
+    description: "Researching scalable backend architectures, distributed service communication, and low-latency system design.",
+    items: ["Microservices", "API Design", "gRPC", "Node.js", "Docker"],
     id: "cap-sys"
   },
   {
     category: "DATA_SYSTEMS",
-    description: "Research into relational consistency, high-throughput caching layers, and durable storage patterns for large-scale machines.",
-    items: ["PostgreSQL", "Redis", "Vector DBs", "Prisma", "SQL"],
+    description: "Investigating relational database technologies, query optimization, and designing systems for data reliability.",
+    items: ["PostgreSQL", "SQL", "Redis", "Data Modeling", "ORMs"],
     id: "cap-data"
   },
   {
     category: "SECURITY_AND_OS",
-    description: "Deep-dive into OS internals, Linux security primitives, and enforcing strict session isolation at the architectural level.",
-    items: ["Linux Kernels", "JWT Isolation", "Memory Safety", "Cybersecurity", "Shell"],
+    description: "Deep-dives into operating system internals, shell scripting, and practical cybersecurity exploration.",
+    items: ["Linux", "OS Internals", "Cybersecurity", "Shell", "Isolation"],
     id: "cap-sec"
   },
   {
     category: "ARTIFICIAL_INTELLIGENCE",
-    description: "Conceptual exploration of machine learning pipelines, human-in-the-loop advisory systems, and future computational models.",
-    items: ["PyTorch", "FastAPI", "Data Pipelines", "Pattern Detection", "Transformers"],
+    description: "Experimenting with machine learning pipelines, pattern detection, and future computational models.",
+    items: ["Machine Learning", "Data Pipelines", "Pattern Detection", "Transformers", "Neural Nets"],
     id: "cap-ai"
   }
 ];

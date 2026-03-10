@@ -14,8 +14,8 @@ const SELECTABLE_COMMANDS = [
 
 export default function TerminalContact() {
   const [history, setHistory] = useState<{ type: 'input' | 'output'; content: string }[]>([
-    { type: 'output', content: "GATEWAY_INITIALIZED: CONNECTION_STABLE" },
-    { type: 'output', content: "SELECT_COMMAND_TO_PROCEED..." }
+    { type: 'output', content: "SYSTEM_INITIALIZED: IDENTITY_VERIFIED" },
+    { type: 'output', content: "Awaiting human input. Select a command to proceed." }
   ]);
   const [isProcessing, setIsProcessing] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -44,22 +44,22 @@ export default function TerminalContact() {
     switch (cmdId) {
       case "github":
         window.open(identity.github, "_blank");
-        response = `REDIRECTING_TO_EXTERNAL_NODE: ${identity.github}\nSTATUS: DISPATCHED`;
+        response = `Establishing secure handshake with GitHub repository...\n--> REDIRECT: ${identity.github}\nEntering Darshit's commit history.`;
         break;
       case "linkedin":
         window.open(identity.linkedin, "_blank");
-        response = `REDIRECTING_TO_EXTERNAL_NODE: ${identity.linkedin}\nSTATUS: DISPATCHED`;
+        response = `Locating professional network node...\n--> REDIRECT: ${identity.linkedin}\nConnection established. Proceeding to viewport.`;
         break;
       case "message":
         window.location.href = `mailto:${identity.email}`;
-        response = `INITIALIZING_MAIL_PROTOCOL_FOR: ${identity.email}\nSTATUS: ACTIVE`;
+        response = `Constructing localized mail stream to ${identity.email}...\n--> WAITING: Awaiting your transmission payload.`;
         break;
       case "resume":
         window.open(identity.resume, "_blank");
-        response = `FETCHING_DOC_PATH: ${identity.resume}\nSTATUS: DOWNLOADING`;
+        response = `Gathering architectural credentials and system specifications...\n--> FETCHING: ${identity.resume}\nPrepare for technical analysis.`;
         break;
       default:
-        response = "ERROR: UNKNOWN_ACTION_REQUESTED";
+        response = "ERROR: UNKNOWN_COMMAND_ID";
     }
 
     setHistory(prev => [...prev, { type: 'output', content: response }]);

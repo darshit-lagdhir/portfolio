@@ -8,19 +8,19 @@ const NARRATIVE_BLOCKS = [
     id: "curiosity",
     label: "CURIOSITY",
     title: "INTERNAL_MECHANICS",
-    content: `My approach to engineering is driven by a fundamental need to understand the 'how' behind the 'what'. I don't just use tools; I investigate their internal mechanics. Whether it's tracing a packet through a network layer or analyzing the memory layout of a low-level language, my curiosity is always focused on the structural integrity of the system.`
+    content: "My approach to engineering is driven by an intense curiosity to understand the 'how' behind the 'what'. I don't just use tools; I investigate their internal mechanics. I learn primarily by building systems directly and experimenting with technologies to see what makes them tick."
   },
   {
     id: "learning",
     label: "LEARNING_PROCESS",
     title: "CONSTRUCT_AND_DEBUG",
-    content: "I believe in a high-fidelity learning loop: Build, break, debug, and redesign. It's a cycle of perpetual optimization. I value the lessons learned from a broken state as much as the success of a stable build. This persistence is what allows me to navigate complex, polyglot environments with confidence."
+    content: "I believe in a high-fidelity learning loop: Build, break, debug, and redesign. Whenever problems appear, I don't view them as blockers, but as an opportunity to redesign architectures and make them more resilient. I value the lessons learned from a broken state as much as the success of a stable build."
   },
   {
     id: "interests",
     label: "TECHNICAL_INTERESTS",
     title: "DOMAIN_EXPLORATION",
-    content: `Currently, I am deep-diving into systems programming with Rust and C++, exploring formal FFI contract verification, and building high-performance backend architectures. I'm fascinated by the intersection of security, distributed logic, and the raw performance of near-metal code.`
+    content: "Currently, I am deep-diving into systems programming, exploring formal architecture contracts, and building high-performance backend engines. I'm fascinated by the intersection of security, distributed logic, and the raw performance of near-metal code."
   },
   {
     id: "perspective",
