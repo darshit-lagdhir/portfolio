@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function SystemModules() {
   return (
-    <section className="py-sys-128">
+    <div className="w-full">
       <div className="section-divider" data-label="02_CORE_SYSTEMS">
         <span className="divider-label">02_CORE_SYSTEMS</span>
       </div>
@@ -57,6 +57,6 @@ export default function SystemModules() {
           </Link>
         ))}
       </div>
-    </section>
+    </div>
   );
 }

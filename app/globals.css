@@ -263,8 +263,10 @@ h1, h2, h3 {
   cursor: pointer;
 }
 
-.interactive-link:hover {
-  color: var(--color-accent);
+@media (hover: hover) {
+  .interactive-link:hover {
+    color: var(--color-accent);
+  }
 }
 
 .interactive-link::after {
@@ -278,8 +280,10 @@ h1, h2, h3 {
   transition: var(--transition-smooth);
 }
 
-.interactive-link:hover::after {
-  width: 100%;
+@media (hover: hover) {
+  .interactive-link:hover::after {
+    width: 100%;
+  }
 }
 
 .btn-primary {
@@ -299,10 +303,12 @@ h1, h2, h3 {
   white-space: nowrap;
 }
 
-.btn-primary:hover {
-  background-color: var(--color-text-primary);
-  color: var(--color-bg-primary);
-  border-color: var(--color-text-primary);
+@media (hover: hover) {
+  .btn-primary:hover {
+    background-color: var(--color-text-primary);
+    color: var(--color-bg-primary);
+    border-color: var(--color-text-primary);
+  }
 }
 
 /* 

@@ -4,41 +4,42 @@ import SystemModules from "@/components/projects/SystemModules";
 import Capabilities from "@/components/shared/Capabilities";
 import About from "@/components/about/About";
 import TerminalContact from "@/components/contact/TerminalContact";
+import SectionContainer from "@/components/shared/SectionContainer";
 
 export default function Home() {
   return (
     <main className="flex flex-col">
-      {/* PHASE 2: HERO SECTION (IDENTITY LAYER) */}
-      <div className="system-container">
+      {/* PHASE 2: HERO SECTION */}
+      <SectionContainer id="hero" noPadding>
         <Hero />
-      </div>
+      </SectionContainer>
 
-      {/* PHASE 3: SYSTEM IDENTITY SECTION (PHILOSOPHY) */}
-      <div className="system-container">
+      {/* PHASE 3: PHILOSOPHY */}
+      <SectionContainer id="philosophy">
         <Mindset />
-      </div>
+      </SectionContainer>
 
-      {/* PHASE 4: SYSTEMS (PROJECTS) SECTION */}
-      <div className="system-container">
+      {/* PHASE 4: SYSTEMS */}
+      <SectionContainer id="systems">
         <SystemModules />
-      </div>
+      </SectionContainer>
 
-      {/* PHASE 5: ENGINEERING CAPABILITIES SECTION */}
-      <div className="system-container">
+      {/* PHASE 5: CAPABILITIES */}
+      <SectionContainer id="capabilities">
         <Capabilities />
-      </div>
+      </SectionContainer>
 
-      {/* PHASE 6: ABOUT SECTION */}
-      <div className="system-container">
+      {/* PHASE 6: ABOUT */}
+      <SectionContainer id="about">
         <About />
-      </div>
+      </SectionContainer>
 
-      {/* PHASE 7: CONTACT INTERFACE (TERMINAL) */}
-      <div className="system-container">
+      {/* PHASE 7: CONTACT */}
+      <SectionContainer id="contact">
         <TerminalContact />
-      </div>
+      </SectionContainer>
 
-      {/* FOOTER METADATA */}
+      {/* FOOTER */}
       <footer className="py-sys-48 border-t border-border-dim opacity-20">
         <div className="system-container flex justify-between items-center">
           <div className="type-metadata text-[0.5rem]">

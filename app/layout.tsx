@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { fornire, ranade, panchang, hkGroteskWide } from "@/lib/fonts";
 import { SceneProvider } from "@/context/SceneContext";
+import NavigationDock from "@/components/layout/NavigationDock";
+import SmoothScroll from "@/components/layout/SmoothScroll";
+import SystemBackground from "@/components/layout/SystemBackground";
 
 export const metadata: Metadata = {
   title: "Darshit Lagdhir | Systems Engineer",
@@ -17,11 +20,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <body className="antialiased bg-bg-primary text-text-primary overflow-x-hidden selection:bg-accent selection:text-white">
         <SceneProvider>
-          <div className="system-bg-grid" />
+          {/* Phase 3: System Grid Background Engine */}
+          <SystemBackground />
+          
+          {/* Phase 4: Global Navigation Dock */}
+          <NavigationDock />
+
           <div className="relative min-h-screen flex flex-col">
-            <main className="flex-grow">
-              {children}
-            </main>
+            {/* Phase 5: Scroll Behavior Infrastructure */}
+            <SmoothScroll>
+              {/* Phase 1: Main Content Container */}
+              <main className="flex-grow pt-sys-64 lg:pt-0">
+                {children}
+              </main>
+            </SmoothScroll>
           </div>
         </SceneProvider>
       </body>

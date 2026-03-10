@@ -1,9 +1,9 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
+import React, { createContext, useContext, useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 
-type SectionId = "hero" | "about" | "projects" | "contact" | string;
+type SectionId = "hero" | "philosophy" | "systems" | "capabilities" | "about" | "contact" | string;
 
 interface SceneContextType {
     activeSection: SectionId;
@@ -13,6 +13,7 @@ interface SceneContextType {
     isMobile: boolean;
     isScrolled: boolean;
     isLowPerf: boolean;
+    scrollProgress: number;
 }
 
 const SceneContext = createContext<SceneContextType | undefined>(undefined);
@@ -23,16 +24,38 @@ export function SceneProvider({ children }: { children: React.ReactNode }) {
     const [isMobile, setIsMobile] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [isLowPerf, setIsLowPerf] = useState(false);
+    const [scrollProgress, setScrollProgress] = useState(0);
     
     const pathname = usePathname();
 
     useEffect(() => {
         const checkMobile = () => {
-            setIsMobile(window.innerWidth < 768);
+            setIsMobile(window.innerWidth < 1024);
         };
         
         const handleScroll = () => {
-            setIsScrolled(window.scrollY > 40);
+            const scrollY = window.scrollY;
+            setIsScrolled(scrollY > 40);
+            
+            // Calculate progress
+            const height = document.documentElement.scrollHeight - window.innerHeight;
+            if (height > 0) {
+                setScrollProgress(scrollY / height);
+            }
+
+            // Detect Active Section
+            const sections: SectionId[] = ["hero", "philosophy", "systems", "capabilities", "about", "contact"];
+            for (const id of sections) {
+                const element = document.getElementById(id);
+                if (element) {
+                    const rect = element.getBoundingClientRect();
+                    // If the section is roughly in the middle of the viewport
+                    if (rect.top <= window.innerHeight / 3 && rect.bottom >= window.innerHeight / 3) {
+                        setActiveSection(id);
+                        break;
+                    }
+                }
+            }
         };
 
         const detectPerf = () => {
@@ -57,10 +80,12 @@ export function SceneProvider({ children }: { children: React.ReactNode }) {
         };
     }, []);
 
-    // Sync activeSection with route change
+    // Sync activeSection with route change if not on home
     useEffect(() => {
-        if (pathname === "/") setActiveSection("hero");
-        else setActiveSection(pathname.replace("/", ""));
+        if (pathname !== "/") {
+            const section = pathname.replace("/", "");
+            setActiveSection(section || "hero");
+        }
     }, [pathname]);
 
     //Interaction lock duration management
@@ -75,7 +100,8 @@ export function SceneProvider({ children }: { children: React.ReactNode }) {
         <SceneContext.Provider value={{
             activeSection, setActiveSection,
             isNavigating, setIsNavigating,
-            isMobile, isScrolled, isLowPerf
+            isMobile, isScrolled, isLowPerf,
+            scrollProgress
         }}>
             {children}
         </SceneContext.Provider>

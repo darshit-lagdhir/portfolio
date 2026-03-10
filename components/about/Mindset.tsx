@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export default function Mindset() {
   return (
-    <section className="py-sys-128">
+    <div className="w-full">
       <div className="section-divider" data-label="01_SYSTEM_PHILOSOPHY">
         <span className="divider-label">01_SYSTEM_PHILOSOPHY</span>
       </div>
@@ -54,6 +54,6 @@ export default function Mindset() {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
