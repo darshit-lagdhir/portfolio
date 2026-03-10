@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Project } from "@/types/project";
 import { cn } from "@/lib/utils";
+import ArchitectureDiagram from "@/components/visualization/ArchitectureDiagram";
 
 interface ProjectDocumentationProps {
   project: Project;
@@ -138,6 +139,18 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
                       </div>
                     ))}
                  </div>
+
+                 {/* PHASE 1 & 6: ARCHITECTURE VISUALIZATION ENGINE */}
+                 {project.diagram && (
+                   <div className="mt-sys-96">
+                     <div className="flex items-center gap-4 mb-sys-32 opacity-30">
+                        <div className="h-[1px] flex-grow bg-border-dim" />
+                        <span className="type-metadata text-[0.5rem] tracking-widest">SYSTEM_VISUALIZATION_LAYER</span>
+                        <div className="h-[1px] flex-grow bg-border-dim" />
+                     </div>
+                     <ArchitectureDiagram diagram={project.diagram} />
+                   </div>
+                 )}
                </div>
             </section>
           </div>

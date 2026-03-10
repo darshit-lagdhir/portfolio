@@ -25,6 +25,25 @@ export interface InternalComponent {
     description: string;
 }
 
+export interface DiagramNode {
+    id: string;
+    label: string;
+    description: string;
+    type: "service" | "database" | "pipeline" | "interface" | "logic" | "client";
+}
+
+export interface DiagramConnection {
+    from: string;
+    to: string;
+    label?: string;
+}
+
+export interface ProjectDiagram {
+    nodes: DiagramNode[];
+    connections: DiagramConnection[];
+    layout: "layered" | "pipeline";
+}
+
 export interface Project {
     slug: string;
     title: string;
@@ -41,6 +60,7 @@ export interface Project {
     architectureLayers?: ArchitectureLayer[];
     internalComponents?: InternalComponent[];
     challenges?: ProjectChallenge[];
+    diagram?: ProjectDiagram; // New visualization layer
     decisions?: string[];
     detailedDecisions?: {
         decision: string;

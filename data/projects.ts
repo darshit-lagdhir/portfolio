@@ -37,7 +37,23 @@ export const projects: Project[] = [
         future: [
             { title: "AI-Driven Route Optimization", description: "Integrating graph-based algorithms to minimize transit time between hubs." },
             { title: "Real-time Telemetry", description: "Implementing WebSocket-based tracking for fleet movement." }
-        ]
+        ],
+        diagram: {
+            layout: "layered",
+            nodes: [
+                { id: "client", label: "CLIENT_UI", type: "client", description: "React-based interface for customers and staff." },
+                { id: "gateway", label: "API_GATEWAY", type: "interface", description: "Express-based entry point with session validation." },
+                { id: "rbac", label: "RBAC_ENGINE", type: "logic", description: "Strict role-based isolation policy enforcer." },
+                { id: "logistics", label: "LOGISTICS_SRV", type: "service", description: "Core shipment and fleet management logic." },
+                { id: "db", label: "POSTGRES_DB", type: "database", description: "ACID-compliant relational data store." }
+            ],
+            connections: [
+                { from: "client", to: "gateway" },
+                { from: "gateway", to: "rbac" },
+                { from: "rbac", to: "logistics" },
+                { from: "logistics", to: "db" }
+            ]
+        }
     },
     {
         slug: "uidai",
@@ -74,7 +90,21 @@ export const projects: Project[] = [
         ],
         future: [
             { title: "Vectorized Pattern Search", description: "Storing fraud patterns in a vector database for faster semantic similarity lookups." }
-        ]
+        ],
+        diagram: {
+            layout: "pipeline",
+            nodes: [
+                { id: "ingestor", label: "DATA_INGESTOR", type: "pipeline", description: "High-throughput asynchronous data entry." },
+                { id: "engine", label: "PATTERN_ENGINE", type: "logic", description: "Statistical and ML-based anomaly scanners." },
+                { id: "aggregator", label: "ALERT_HUB", type: "service", description: "Correlates individual events into risk clusters." },
+                { id: "dashboard", label: "ADVISORY_UI", type: "client", description: "Human-in-the-loop diagnostic interface." }
+            ],
+            connections: [
+                { from: "ingestor", to: "engine" },
+                { from: "engine", to: "aggregator" },
+                { from: "aggregator", to: "dashboard" }
+            ]
+        }
     },
     {
         slug: "pfcv",
@@ -111,6 +141,22 @@ export const projects: Project[] = [
         ],
         future: [
             { title: "Auto-Generation of Bridges", description: "Automatically synthesizing the FFI bridge code based on verified contracts." }
-        ]
+        ],
+        diagram: {
+            layout: "pipeline",
+            nodes: [
+                { id: "analyser", label: "SOURCE_ANALYSER", type: "pipeline", description: "Multi-language static code analysis." },
+                { id: "ast", label: "AST_EXTRACTOR", type: "logic", description: "Precise semantic mapping using Clang/Tree-Sitter." },
+                { id: "uir", label: "UIR_SYNTHESIZER", type: "logic", description: "Universal IR generation for cross-lang contracts." },
+                { id: "solver", label: "FORMAL_SOLVER", type: "service", description: "Z3-backed memory boundary verification." },
+                { id: "report", label: "SAFETY_REPORT", type: "interface", description: "Final validation status and audit trail." }
+            ],
+            connections: [
+                { from: "analyser", to: "ast" },
+                { from: "ast", to: "uir" },
+                { from: "uir", to: "solver" },
+                { from: "solver", to: "report" }
+            ]
+        }
     }
 ];
