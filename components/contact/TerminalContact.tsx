@@ -1,29 +1,24 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { identity } from "@/data/identity";
 import { cn } from "../../lib/utils";
 
-const COMMANDS = [
-  { cmd: "help", desc: "List all available diagnostic commands" },
-  { cmd: "bio", desc: "Download biological profile summary" },
-  { cmd: "links", desc: "Map all outgoing communication nodes" },
-  { cmd: "contact", desc: "Initialize secure mail protocol" },
-  { cmd: "status", desc: "Check system health and core metrics" },
-  { cmd: "clear", desc: "Purge terminal local history" },
+const SELECTABLE_COMMANDS = [
+  { id: "github", label: "connect github", action: "OPEN_GITHUB" },
+  { id: "linkedin", label: "open linkedin", action: "OPEN_LINKEDIN" },
+  { id: "message", label: "send message", action: "INIT_MAIL" },
+  { id: "resume", label: "download resume", action: "FETCH_RESUME" },
 ];
 
 export default function TerminalContact() {
   const [history, setHistory] = useState<{ type: 'input' | 'output'; content: string }[]>([
-    { type: 'output', content: "INITIALIZING_CONNECTION_V2.0.4..." },
-    { type: 'output', content: "IDENTITY_VERIFIED: DARSHIT_LAGDHIR" },
-    { type: 'output', content: "TYPE 'help' TO BEGIN..." }
+    { type: 'output', content: "GATEWAY_INITIALIZED: CONNECTION_STABLE" },
+    { type: 'output', content: "SELECT_COMMAND_TO_PROCEED..." }
   ]);
-  const [input, setInput] = useState("");
-  const [isFocused, setIsFocused] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const scrollToBottom = useCallback(() => {
     if (scrollRef.current) {
@@ -35,45 +30,41 @@ export default function TerminalContact() {
     scrollToBottom();
   }, [history, scrollToBottom]);
 
-  const handleCommand = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim()) return;
+  const executeCommand = async (cmdId: string, label: string) => {
+    if (isProcessing) return;
+    setIsProcessing(true);
 
-    const cmd = input.trim().toLowerCase();
-    const newHistory = [...history, { type: 'input', content: input }] as any;
-    
+    // Add input to history
+    setHistory(prev => [...prev, { type: 'input', content: label }]);
+
+    // Simulated processing delay
+    await new Promise(resolve => setTimeout(resolve, 600));
+
     let response = "";
-
-    switch (cmd) {
-      case "help":
-        response = "AVAILABLE_COMMANDS:\n\n" + COMMANDS.map(c => `${c.cmd.padEnd(12)} - ${c.desc}`).join("\n");
+    switch (cmdId) {
+      case "github":
+        window.open(identity.github, "_blank");
+        response = `REDIRECTING_TO_EXTERNAL_NODE: ${identity.github}\nSTATUS: DISPATCHED`;
         break;
-      case "bio":
-        response = `PROFILE_SUMMARY:\nNAME: ${identity.name}\nLOC: ${identity.location}\nEDU: ${identity.university}\nFOCUS: SYSTEMS_ARCHITECTURE\nOBJ: BUILDING_ENGINES_THAT_ENDURE`;
+      case "linkedin":
+        window.open(identity.linkedin, "_blank");
+        response = `REDIRECTING_TO_EXTERNAL_NODE: ${identity.linkedin}\nSTATUS: DISPATCHED`;
         break;
-      case "links":
-        response = `OUTGOING_NODES:\nGITHUB:   ${identity.github}\nLINKEDIN: ${identity.linkedin}\nRESUME:   ${identity.resume}`;
-        break;
-      case "contact":
+      case "message":
         window.location.href = `mailto:${identity.email}`;
-        response = `INITIALIZING_MAIL_PROTOCOL_FOR: ${identity.email}\nREDIRECTING...`;
+        response = `INITIALIZING_MAIL_PROTOCOL_FOR: ${identity.email}\nSTATUS: ACTIVE`;
         break;
-      case "status":
-        response = `SYSTEM_HEALTH:\nCPU: NOMINAL\nMEM: OPTIMIZED\nLATENCY: 0.04ms\nUPTIME: 100%\nSTATUS: ACTIVE_FOR_COLLABORATION`;
+      case "resume":
+        window.open(identity.resume, "_blank");
+        response = `FETCHING_DOC_PATH: ${identity.resume}\nSTATUS: DOWNLOADING`;
         break;
-      case "clear":
-        setHistory([]);
-        setInput("");
-        return;
       default:
-        response = `COMMAND_NOT_FOUND: ${cmd}. TYPE 'help' FOR DIAGNOSTIC LIST.`;
+        response = "ERROR: UNKNOWN_ACTION_REQUESTED";
     }
 
-    setHistory([...newHistory, { type: 'output', content: response }]);
-    setInput("");
+    setHistory(prev => [...prev, { type: 'output', content: response }]);
+    setIsProcessing(false);
   };
-
-  const focusInput = () => inputRef.current?.focus();
 
   return (
     <div className="w-full relative">
@@ -83,33 +74,36 @@ export default function TerminalContact() {
 
       <div className="grid-12">
         <div className="col-span-12 lg:col-span-8 lg:col-start-3">
+          <div className="mb-sys-48 text-center lg:text-left">
+            <h2 className="type-h1 mb-sys-16">INITIATE_CONNECTION_</h2>
+            <p className="type-body opacity-60 max-w-xl mx-auto lg:mx-0">
+                You have reached the end of the architectural manifest. Use the command panel below to interact with the system and initiate contact.
+            </p>
+          </div>
+
           <motion.div 
-            initial={{ opacity: 0, scale: 0.98 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className={cn(
-                "relative border border-border-dim bg-bg-secondary overflow-hidden transition-all duration-300 shadow-2xl",
-                isFocused ? "border-accent ring-1 ring-accent/20" : ""
-            )}
-            onClick={focusInput}
+            className="relative border border-border-dim bg-bg-secondary overflow-hidden shadow-2xl"
           >
             {/* TERMINAL HEADER */}
             <div className="bg-bg-primary border-b border-border-dim px-6 py-3 flex items-center justify-between">
               <div className="flex gap-2">
-                <div className="w-2.5 h-2.5 rounded-full bg-red-500/20" />
-                <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/20" />
-                <div className="w-2.5 h-2.5 rounded-full bg-green-500/20" />
+                <div className="w-2.5 h-2.5 rounded-full bg-border-dim opacity-30" />
+                <div className="w-2.5 h-2.5 rounded-full bg-border-dim opacity-30" />
+                <div className="w-2.5 h-2.5 rounded-full bg-border-dim opacity-30" />
               </div>
               <div className="type-metadata text-[0.5rem] opacity-30 tracking-widest font-mono">
-                DARSHIT_LAGDHIR_SHELL v2.0.4
+                CON_INTERFACE_v2.0
               </div>
-              <div className="w-12 h-1 bg-border-dim/20 rounded-full" />
+              <div className="w-12 h-1 bg-border-dim/10 rounded-full" />
             </div>
 
             {/* TERMINAL CONTENT */}
             <div 
               ref={scrollRef}
-              className="p-8 h-[500px] overflow-y-auto scrollbar-thin scrollbar-thumb-border-dim"
+              className="p-8 h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-border-dim bg-black/20"
             >
               <div className="space-y-4 font-mono text-[0.8rem] leading-relaxed">
                 {history.map((line, i) => (
@@ -117,7 +111,6 @@ export default function TerminalContact() {
                     key={i} 
                     initial={{ opacity: 0, x: -5 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.2 }}
                     className={cn(
                         "whitespace-pre-wrap",
                         line.type === 'input' ? "text-accent" : "text-text-secondary"
@@ -127,37 +120,48 @@ export default function TerminalContact() {
                     {line.content}
                   </motion.div>
                 ))}
+                
+                {isProcessing && (
+                  <motion.div 
+                    animate={{ opacity: [0, 1, 0] }}
+                    transition={{ duration: 1, repeat: Infinity }}
+                    className="text-accent"
+                  >
+                    &lambda; EXECUTING_PROCESS...
+                  </motion.div>
+                )}
               </div>
+            </div>
 
-              {/* INPUT LINE */}
-              <form onSubmit={handleCommand} className="flex mt-6 items-center">
-                <span className="text-accent mr-3 animate-pulse">&lambda;</span>
-                <input 
-                  ref={inputRef}
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onFocus={() => setIsFocused(true)}
-                  onBlur={() => setIsFocused(false)}
-                  className="bg-transparent border-none outline-none flex-grow text-text-primary font-mono text-[0.8rem] caret-accent"
-                  autoFocus
-                  spellCheck={false}
-                  autoComplete="off"
-                />
-              </form>
+            {/* COMMAND SELECTION PANEL */}
+            <div className="bg-bg-primary border-t border-border-dim p-6">
+              <div className="type-metadata text-[0.5rem] mb-4 opacity-30 tracking-[0.2em]">AVAILABLE_ACTIONS</div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {SELECTABLE_COMMANDS.map((cmd) => (
+                  <button
+                    key={cmd.id}
+                    onClick={() => executeCommand(cmd.id, cmd.label)}
+                    disabled={isProcessing}
+                    className="group flex items-center justify-between px-4 py-3 border border-border-dim hover:border-accent hover:bg-accent/5 transition-all text-left disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="text-accent group-hover:translate-x-1 transition-transform">&lambda;</span>
+                      <span className="type-nav text-[0.7rem]">{cmd.label.toUpperCase()}</span>
+                    </div>
+                    <span className="type-metadata text-[0.4rem] opacity-20 group-hover:opacity-100 transition-opacity">
+                      {cmd.action}
+                    </span>
+                  </button>
+                ))}
+              </div>
             </div>
 
             {/* DECORATIVE SCANLINE */}
-            <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-scanlines animate-scanline" />
+            <div className="absolute inset-0 pointer-events-none opacity-[0.02] bg-scanlines animate-scanline" />
           </motion.div>
 
-          {/* QUICK LINKS */}
-          <div className="mt-sys-64 flex justify-between items-center px-4">
-            <div className="flex gap-sys-32">
-                <a href={identity.github} target="_blank" className="type-nav text-[0.6rem] hover:text-accent transition-colors">GITHUB_REF</a>
-                <a href={identity.linkedin} target="_blank" className="type-nav text-[0.6rem] hover:text-accent transition-colors">LINKEDIN_REF</a>
-            </div>
-            <div className="type-metadata text-[0.5rem] opacity-20">ENCRYPTED_COMMS_ACTIVE</div>
+          <div className="mt-sys-64 text-center opacity-20">
+             <div className="type-metadata text-[0.5rem]">END_OF_MANIFEST // ALL_SYSTEMS_OPERATIONAL</div>
           </div>
         </div>
       </div>
