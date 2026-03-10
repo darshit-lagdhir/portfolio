@@ -1,835 +1,104 @@
 @import "tailwindcss";
 
 :root {
-  /* PHASE 3 - BLACK/WHITE DOMINANCE LOCK */
-  --background: #000000;
-  --foreground: #ffffff;
+  /* CORE ARCHITECTURAL TOKENS */
+  --bg-primary: #000000;
+  --bg-secondary: #050505;
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.6);
   --accent: #ffffff;
-  --muted: #888888;
-  --border: #ffffff;
+  --border-color: rgba(255, 255, 255, 0.1);
 
-  /* TYPE SCALE — PHASE 3 POWER (FIXED: capped max to prevent overflow) */
-  --fs-hero: clamp(3rem, 12vw, 10rem);
-  --fs-section: clamp(2rem, 5.5vw, 4rem);
-  --fs-sub: clamp(0.85rem, 1.8vw, 1.35rem);
-  --fs-body: 1rem;
-  --fs-micro: 0.75rem;
-  --white-bg: #ffffff;
-  --black-bg: #000000;
+  /* TYPE SYSTEM — PHASE 6 PRIMARY TOOL */
+  --font-identity: var(--font-identity); /* Fornire */
+  --font-heading: var(--font-heading);   /* Ranade */
+  --font-emphasis: var(--font-emphasis); /* Panchang */
+  --font-body: var(--font-body);         /* HK Grotesk Wide */
 
-  /* MOTION TOKENS — PHASE 41 & 44 INTERACTION COHERENCE */
-  --m-ease-entry: cubic-bezier(0.16, 1, 0.3, 1);
-  --m-ease-exit: cubic-bezier(0.25, 1, 0.5, 1);
-  --m-ease-calm: cubic-bezier(0.65, 0, 0.35, 1);
-  
-  --m-dur-fast: 150ms;
-  --m-dur-medium: 400ms;
-  --m-dur-slow: 700ms;
-  --m-dur-page: 1200ms;
-
-  /* Legacy Easing Mappings */
-  --m-ease-out: var(--m-ease-exit);
-  --m-ease-in-out: var(--m-ease-calm);
-  --m-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
-
-  /* FONTS — STEP 3 STRICT LOCK */
-  --font-hero: 'Clash Display', sans-serif;
-  --font-heading: 'Panchang', sans-serif;
-  --font-ui: 'HK Grotesk Wide', sans-serif;
-  --font-body: 'Space Grotesk', sans-serif;
-
-  /* PHASE 42 — VISUAL IDENTITY DNA TOKENS */
-  --dna-line: 1px;
-  --dna-line-thick: 2px;
-  --dna-pad: clamp(4rem, 10vw, 12rem);
-  --dna-gap: clamp(2rem, 5vw, 4rem);
-  --dna-radius: 0px;
-  --dna-border-opacity: 0.12;
-  --dna-accent-line: rgba(255, 255, 255, var(--dna-border-opacity));
+  /* SPATIAL HIERARCHY */
+  --page-padding: clamp(2rem, 8vw, 10rem);
+  --section-gap: clamp(4rem, 12vh, 15rem);
 }
 
 @theme {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
   --color-accent: var(--accent);
-  --color-muted: var(--muted);
-  --color-border: var(--border);
-  --font-hero: var(--font-hero);
+  --color-border-dim: var(--border-color);
+
+  --font-identity: var(--font-identity);
   --font-heading: var(--font-heading);
-  --font-ui: var(--font-ui);
+  --font-emphasis: var(--font-emphasis);
   --font-body: var(--font-body);
 }
 
+/* BASE STYLING */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  -webkit-font-smoothing: antialiased;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  * {
-    cursor: none !important;
-  }
-}
-
-html.lenis,
-html.lenis body {
-  height: auto;
-  min-height: 100%;
-}
-
-html {
-  scrollbar-width: none;
 }
 
 body {
-  background-color: var(--background);
-  color: var(--foreground);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-  max-width: 100vw;
-  line-height: 1.4;
-  -ms-overflow-style: none;
-  word-break: break-word;
-  overflow-wrap: break-word;
+  line-height: 1.6;
 }
 
-/* SECTION CHOREOGRAPHY — PHASE 6 */
-.section-frame-outer {
-  position: relative;
-  background-color: var(--black-bg);
-  width: 100%;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+/* TYPOGRAPHY UTILITIES */
+.font-identity { font-family: var(--font-identity); }
+.font-heading { font-family: var(--font-heading); }
+.font-emphasis { font-family: var(--font-emphasis); }
+.font-body { font-family: var(--font-body); }
+
+h1, h2, h3, h4, h5 {
+  font-weight: normal;
+  text-transform: uppercase;
 }
 
-.gallery-inset {
-  border: 0px;
-  margin: 1vh 1vw;
-  /* Frame inset */
-  border-radius: 4px;
-}
-
-.page-fade {
-  position: relative;
-  width: 100%;
-}
-
-/* PHASE 34: INTERACTION PHYSICS UTILITIES */
-.project-panel, [data-project='true'] {
-  --edge-light-x: 50%;
-  --edge-light-y: 50%;
-  transform-style: preserve-3d;
-  will-change: transform;
-}
-
-/* PHASE 42: ARCHITECTURAL LINE MOTIF */
-.dna-line-motif {
-  position: relative;
-  border-left: var(--dna-line) solid var(--dna-accent-line);
-  padding-left: var(--dna-gap);
-  margin-left: calc(-1 * var(--dna-gap));
-}
-
-.dna-line-motif.light {
-  border-left-color: rgba(0, 0, 0, var(--dna-border-opacity));
-}
-
-.dna-panel-frame {
-  border: var(--dna-line) solid var(--dna-accent-line);
-  padding: var(--dna-gap);
-  border-radius: var(--dna-radius);
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(10px);
-}
-
-.dna-panel-frame:hover {
-  border-color: rgba(255, 255, 255, 0.4);
-  background: rgba(255, 255, 255, 0.04);
-  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.3);
-}
-
-.dna-panel-frame:hover::after {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  background: linear-gradient(
-    90deg, 
-    transparent 0%, 
-    rgba(255,255,255,0.2) 50%, 
-    transparent 100%
-  );
-  background-size: 200% 100%;
-  animation: borderFlicker 3s linear infinite;
-  pointer-events: none;
-}
-
-@keyframes borderFlicker {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
-.dna-panel-frame.light:hover {
-  border-color: rgba(0, 0, 0, 0.3);
-  background: rgba(0, 0, 0, 0.04);
-}
-
-/* PHASE 43: DISCOVERY MECHANICS */
-.discovery-reveal-hint {
-  opacity: 0;
-  transform: translateY(5px);
-  transition: all var(--m-dur-medium) var(--m-ease-entry);
-}
-
-.group:hover .discovery-reveal-hint {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.discovery-node {
-  width: 4px;
-  height: 4px;
-  background: white;
-  opacity: 0.1;
-  border-radius: 50%;
-  transition: all 0.5s var(--m-ease-calm);
-}
-
-.discovery-node.active {
-  opacity: 0.6;
-  box-shadow: 0 0 10px white;
-  transform: scale(1.5);
-}
-
-.text-selection-glow::selection {
-  background: rgba(255, 255, 255, 0.99);
-  color: black;
-  text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
-}
-
-.kinetic-letter {
-  display: inline-block;
-  transition: letter-spacing var(--m-dur-medium) var(--m-ease-entry);
-}
-
-.bg-inverse {
-  background-color: #ffffff !important;
-  color: #000000 !important;
-}
-
-.text-inverse {
-  color: #000000 !important;
-}
-
-.border-inverse {
-  border-color: var(--black-bg);
-}
-
-/* PHASE 4 UTILITIES */
-.mask-reveal {
-  overflow: hidden;
-  position: relative;
-}
-
-.mask-inner {
-  display: block;
-}
-
-.white-wipe {
-  position: relative;
-  z-index: 10;
-  background: var(--white-bg);
-  clip-path: inset(100% 0 0 0);
-  transition: clip-path var(--m-dur-page) var(--m-ease-calm);
-}
-
-.white-wipe.active {
-  clip-path: inset(0 0 0 0);
-}
-
-
-.text-scramble {
-  font-variant-numeric: tabular-nums;
-}
-
-/* PHASE 5: DIMENSIONAL INTELLIGENCE SYSTEM */
-/* Note: Designed specifically to avoid WebGL "heaviness" */
-
-/* BASE Z-CONTEXT */
-.perspective-root {
-  perspective: var(--p-context);
-  perspective-origin: center center;
-  transform-style: preserve-3d;
-}
-
-/* HARDWARE ACCELERATION LOCK */
-.preserve-3d {
-  transform-style: preserve-3d;
-  will-change: transform;
-}
-
-/* Z-AXIS SEPARATION SCALES */
-.z-depth-far {
-  transform: translateZ(var(--z-far));
-}
-
-.z-depth-mid {
-  transform: translateZ(var(--z-mid));
-}
-
-.z-depth-near {
-  transform: translateZ(var(--z-near));
-}
-
-.z-depth-front {
-  transform: translateZ(var(--z-front));
-}
-
-/* SMOOTH TILT PHYSICS */
-.perspective-tilt {
-  /* Requires framer-motion rotate variables applied inline */
-  transition: transform var(--m-dur-slow) var(--m-ease-calm);
-}
-
-/* WHITE SECTION INSET DEPTH (STEP 7) */
-.white-section-depth {
-  background-color: var(--white-bg);
-  color: var(--black-bg);
-  /* Creates a subtle card elevation effect against the black abyss */
-  box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.05),
-    inset 0 0 1px rgba(0, 0, 0, 0.2);
-  border-top: 0px;
-  /* Contrast lip REMOVED */
-}
-
-/* SECTION TRANSITION DROP LOGIC */
-.section-layer-transition {
-  transition: transform var(--m-dur-slow) var(--m-ease-calm), opacity var(--m-dur-slow) var(--m-ease-calm);
-}
-
-.layer-exit {
-  transform: translateZ(var(--z-far)) scale(0.95);
-  opacity: 0.5;
-}
-
-.layer-enter {
-  transform: translateZ(var(--z-base)) scale(1);
-  opacity: 1;
-}
-
-.depth-layer {
-  pointer-events: none;
-  user-select: none;
-}
-
-.flash-invert {
-  animation: flash 0.15s var(--m-ease-out);
-}
-
-@keyframes flash {
-  0% {
-    filter: invert(0);
-  }
-
-  50% {
-    filter: invert(1);
-  }
-
-  100% {
-    filter: invert(0);
-  }
-}
-
-.grid-overlay {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9999;
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-  background-size: 10vw 10vh;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.grid-overlay.visible {
-  opacity: 1;
-}
-
-.grid-poster {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
+/* ARCHITECTURAL LAYOUT PRIMITIVES */
+.system-container {
   width: 100%;
   max-width: 1800px;
   margin: 0 auto;
-  gap: 2rem;
+  padding: 0 var(--page-padding);
 }
 
-/* TYPOGRAPHY ARCHITECTURE — PHASE 3 */
-.text-massive {
-  font-size: var(--fs-hero);
-  font-family: var(--font-hero);
-  line-height: 0.85;
-  text-transform: uppercase;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  max-width: 100%;
-  overflow-wrap: break-word;
-  padding-top: 0.05em;
-  padding-bottom: 0;
-  text-shadow:
-    3px 3px 0px rgba(0, 0, 0, 0.4),
-    0 0 20px rgba(255, 255, 255, 0.05); /* Simplified for Step 9 */
-}
-
-.text-massive-mini {
-  font-size: clamp(2rem, 6vw, 4.5rem);
-  font-family: var(--font-hero);
-  line-height: 0.85;
-  text-transform: uppercase;
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  padding-top: 0.05em; /* Added for baseline consistency */
-  max-width: 100%;
-}
-
-.text-large {
-  font-size: var(--fs-section);
-  font-family: var(--font-heading);
-  line-height: 0.95;
-  text-transform: uppercase;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  max-width: 100%;
-}
-
-.text-large-mini {
-  font-size: clamp(1.5rem, 4vw, 3rem);
-  font-family: var(--font-heading);
-  line-height: 0.95;
-  text-transform: uppercase;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-}
-
-.text-medium {
-  font-size: var(--fs-sub);
-  font-family: var(--font-ui);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  font-weight: 600;
-}
-
-/* FINISHED HIERARCHY LOCK — PHASE 29 COMPLETE */
-
-/* GRID & DIVIDERS — PHASE 3 */
-.divider-h {
-  width: 100%;
+.structural-line {
   height: 1px;
-  background-color: currentColor;
-  opacity: 1;
+  width: 100%;
+  background-color: var(--border-color);
 }
 
-.divider-v {
-  width: 1px;
-  height: 100%;
-  background-color: currentColor;
-  opacity: 1;
+/* PERFORMANCE-OPTIMIZED MOTION */
+.fade-in {
+  animation: fadeIn 0.6s cubic-bezier(0.2, 0, 0.2, 1) forwards;
 }
 
-/* SCROLLBAR REWRITE */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* SCROLLBAR RESET */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #000000;
+  background: var(--bg-primary);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #ffffff;
+  background: var(--text-secondary);
 }
 
-/* CURSOR INTERACTION STYLES */
-.cursor-invert {
-  mix-blend-mode: difference;
-}
-
-/* NOISY EFFECTS PURGED — CLEAN CANVAS LOCK */
-.env-grain {
-  display: none !important;
-}
-
-.grid-blueprint {
-  display: none !important;
-}
-
-/* ============================================= */
-/* PHASE 8 — CONTROLLED GLITCH MOMENTS           */
-/* ============================================= */
-
-/* STEP 1: MICRO GLITCH FLASH — HERO ONLY (ONE-SHOT) */
-@keyframes heroGlitch {
-  0% {
-    transform: translate(0, 0);
-    opacity: 1;
-  }
-
-  20% {
-    transform: translate(-4px, 0);
-    opacity: 0.7;
-  }
-
-  40% {
-    transform: translate(6px, -2px);
-    opacity: 0.85;
-  }
-
-  60% {
-    transform: translate(-2px, 1px);
-    opacity: 0.6;
-  }
-
-  80% {
-    transform: translate(3px, 0);
-    opacity: 0.9;
-  }
-
-  100% {
-    transform: translate(0, 0);
-    opacity: 1;
-  }
-}
-
-.hero-glitch-once {
-  animation: heroGlitch 0.12s steps(4) forwards;
-  animation-iteration-count: 1;
-}
-
-/* STEP 2: PROJECT TITLE SCANLINE FLICKER (HOVER-TRIGGERED) */
-@keyframes scanlineFlicker {
-  0% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  25% {
-    opacity: 0.6;
-    transform: translateX(2px);
-  }
-
-  50% {
-    opacity: 1;
-    transform: translateX(-1px);
-  }
-
-  75% {
-    opacity: 0.85;
-    transform: translateX(1px);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-.project-title-flicker {
-  animation: scanlineFlicker var(--m-dur-fast) steps(3) forwards;
-}
-
-/* STEP 11: BORDER DISTORTION FLICKER */
-@keyframes borderShift {
-  0% {
-    transform: translate(0, 0);
-  }
-
-  50% {
-    transform: translate(1px, -1px);
-  }
-
-  100% {
-    transform: translate(0, 0);
-  }
-}
-
-.border-distort-active {
-  animation: borderShift 0.1s ease-out forwards;
-  animation-iteration-count: 1;
-}
-
-/* STEP 13: BLACK/WHITE TRANSITION FLASH LINE */
-.section-boundary-flash {
-  position: relative;
-}
-
-.section-boundary-flash::after {
-  content: none;
-}
-
-/* STEP 4: NEGATIVE VOID SPACE */
-.negative-void {
-  position: relative;
-  min-height: 20vh;
-}
-
-/* STEP 14: PERFORMANCE LOCK — no filters, no blend stacking */
-.glitch-safe {
-  will-change: transform, opacity;
-  backface-visibility: hidden;
-}
-
-/* MOBILE DISABLE (from Phase 7 Step 14 carryover) */
-@media (max-width: 768px) {
-  .hero-glitch-once {
-    animation: none;
-  }
-
-  .project-title-flicker {
-    animation: none;
-  }
-
-  .border-distort-active {
-    animation: none;
-  }
-
-  .kinetic-letter {
-    transform: none !important;
-  }
-
-  /* PHASE 29 STEP 11: MOBILE TYPE SCALE ADAPTATION */
-  .text-massive {
-    font-size: clamp(2.5rem, 10vw, 4.5rem);
-    letter-spacing: -0.02em;
-    line-height: 0.95;
-  }
-
-  .text-large {
-    font-size: clamp(1.8rem, 8vw, 3rem);
-  }
-
-  .text-medium {
-    font-size: clamp(1.1rem, 4vw, 1.8rem);
-  }
-
-  .text-caption {
-    font-size: 0.85rem;
-    letter-spacing: 0.25em;
-  }
-
-  .text-short-body {
-    max-width: 100%;
-    font-size: 0.95rem;
-  }
-}
-
-/* ============================================= */
-/* PHASE 10 — KINETIC TYPOGRAPHY ENGINE           */
-/* ============================================= */
-
-/* STEP 3: INFINITE MARQUEE */
-@keyframes marqueeScroll {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-.marquee-track {
-  display: flex;
-  width: max-content;
-  animation: marqueeScroll 30s linear infinite;
-  will-change: transform;
-}
-
-.marquee-track:hover {
-  animation-duration: 18s;
-}
-
-/* STEP 2: IDLE WORD DRIFT */
-@keyframes idleDrift {
-  0% {
-    transform: translateX(0);
-  }
-
-  50% {
-    transform: translateX(6px);
-  }
-
-  100% {
-    transform: translateX(0);
-  }
-}
-
-.word-drift {
-  animation: idleDrift 10s ease-in-out infinite;
-}
-
-.word-drift-reverse {
-  animation: idleDrift 12s ease-in-out infinite reverse;
-}
-
-/* STEP 8: GHOST TEXT BACKDROP */
-.ghost-text {
-  position: absolute;
-  pointer-events: none;
-  user-select: none;
-  opacity: 0.02;
-  z-index: 0;
-  white-space: nowrap;
-  will-change: transform;
-}
-
-.project-row-transition {
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-[data-project='true'] {
-  perspective: 1000px;
-  transform-style: preserve-3d;
-  will-change: transform;
-}
-
-/* STEP 10: VERTICAL MASK REVEAL */
-.mask-reveal-up {
-  clip-path: inset(100% 0 0 0);
-  transition: clip-path var(--m-dur-slow) var(--m-ease-calm);
-}
-
-.mask-reveal-up.revealed {
-  clip-path: inset(0 0 0 0);
-}
-
-/* PHASE 27 STEP 1, 2, 7: GLOBAL TACTILE RESPONSES & BUTTON COMPRESSION */
-.tactile-btn {
-  transition: transform var(--m-dur-medium) var(--m-ease-entry), background-color var(--m-dur-medium) ease, opacity var(--m-dur-medium) ease, box-shadow var(--m-dur-medium) ease;
-  will-change: transform, opacity, background-color;
-}
-
-.tactile-btn:hover {
-  transform: translateY(-1px) scale(1.01);
-}
-
-.tactile-btn:active {
-  transform: translateY(1px) scale(0.97);
-  transition-duration: var(--m-dur-fast);
-  /* Snappy compression */
-}
-
-.tactile-btn:not(:hover) {
-  transition-duration: var(--m-dur-slow);
-  transition-timing-function: var(--m-ease-exit);
-}
-
-/* PHASE 27 STEP 5: TYPOGRAPHY MICRO-REACTIVITY */
-.txt-micro-react {
-  transition: opacity 150ms cubic-bezier(0.16, 1, 0.3, 1), transform 150ms cubic-bezier(0.16, 1, 0.3, 1), filter 150ms cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform, filter;
-}
-
-.txt-micro-react:hover {
-  opacity: 1 !important;
-  transform: scale(1.05);
-  /* Slight expansion of individual letter/word on hover */
-  z-index: 10;
-  filter: brightness(1.2);
-}
-
-/* PHASE 28 STEP 1: GLOBAL FILM GRAIN LAYER (REFINED) */
-.film-grain-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  z-index: 9990;
-  opacity: 0.025;
-  /* Even more subtle */
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  mix-blend-mode: overlay;
-  animation: grainShift 8s steps(10) infinite;
-}
-
-@keyframes grainShift {
-
-  0%,
-  100% {
-    transform: translate(0, 0);
-  }
-
-  10% {
-    transform: translate(-1%, -1%);
-  }
-
-  20% {
-    transform: translate(1%, 1%);
-  }
-
-  30% {
-    transform: translate(-2%, 0%);
-  }
-
-  40% {
-    transform: translate(0%, 2%);
-  }
-
-  50% {
-    transform: translate(-1%, -2%);
-  }
-
-  60% {
-    transform: translate(2%, 1%);
-  }
-
-  70% {
-    transform: translate(1%, -1%);
-  }
-
-  80% {
-    transform: translate(-2%, 2%);
-  }
-
-  90% {
-    transform: translate(2%, -2%);
-  }
-}
-
-/* PHASE 28 STEP 2: SOFT ROOM LIGHTING (CINEMATIC REFINEMENT) */
-.cinematic-light-layer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  z-index: 1;
-  /* Behind content */
-  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.025) 0%, rgba(0, 0, 0, 0) 70%);
-  mix-blend-mode: screen;
-}
-
-/* PHASE 29 STEP 4: CURSOR PROXIMITY TYPE REACTION (No sizing changes) */
-.type-react-hover {
-  transition: letter-spacing var(--m-dur-medium) var(--m-ease-entry), opacity var(--m-dur-medium) var(--m-ease-entry), transform var(--m-dur-medium) var(--m-ease-entry), filter var(--m-dur-medium) var(--m-ease-entry);
-  will-change: letter-spacing, opacity, transform, filter;
-}
-
-.type-react-hover:hover {
-  letter-spacing: 0.02em;
-  opacity: 1 !important;
-  transform: scale(1.01);
-  filter: brightness(1.2);
-}
-
-.type-react-hover:not(:hover) {
-  transition-duration: var(--m-dur-slow);
-  transition-timing-function: var(--m-ease-exit);
+::selection {
+  background-color: #ffffff;
+  color: #000000;
 }
