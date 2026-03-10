@@ -38,23 +38,10 @@ export function SceneProvider({ children }: { children: React.ReactNode }) {
             setIsScrolled(scrollY > 40);
             
             // Calculate progress
-            const height = document.documentElement.scrollHeight - window.innerHeight;
-            if (height > 0) {
-                setScrollProgress(scrollY / height);
-            }
-
-            // Detect Active Section
-            const sections: SectionId[] = ["hero", "philosophy", "systems", "capabilities", "about", "contact"];
-            for (const id of sections) {
-                const element = document.getElementById(id);
-                if (element) {
-                    const rect = element.getBoundingClientRect();
-                    // If the section is roughly in the middle of the viewport
-                    if (rect.top <= window.innerHeight / 3 && rect.bottom >= window.innerHeight / 3) {
-                        setActiveSection(id);
-                        break;
-                    }
-                }
+            const docElement = document.documentElement;
+            const scrollHeight = docElement.scrollHeight - window.innerHeight;
+            if (scrollHeight > 0) {
+                setScrollProgress(scrollY / scrollHeight);
             }
         };
 
@@ -67,6 +54,27 @@ export function SceneProvider({ children }: { children: React.ReactNode }) {
             }
         };
 
+        // --- NAVIGATION INTELLIGENCE LAYER ---
+        const observerOptions = {
+            root: null,
+            rootMargin: '-20% 0px -60% 0px',
+            threshold: 0,
+        };
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    setActiveSection(entry.target.id);
+                }
+            });
+        }, observerOptions);
+
+        const sections = ["hero", "philosophy", "systems", "capabilities", "about", "contact"];
+        sections.forEach((id) => {
+            const el = document.getElementById(id);
+            if (el) sectionObserver.observe(el);
+        });
+
         checkMobile();
         handleScroll();
         detectPerf();
@@ -77,6 +85,7 @@ export function SceneProvider({ children }: { children: React.ReactNode }) {
         return () => {
             window.removeEventListener("resize", checkMobile);
             window.removeEventListener("scroll", handleScroll);
+            sectionObserver.disconnect();
         };
     }, []);
 
