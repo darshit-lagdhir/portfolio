@@ -33,10 +33,19 @@ const TYPE_LABELS = {
 function ArchNode({ node, isActive, isDimmed, onClick }: ArchNodeProps) {
   return (
     <motion.div
+      role="button"
+      tabIndex={0}
+      aria-pressed={isActive}
       onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick();
+        }
+      }}
       whileHover={{ scale: isDimmed ? 1 : 1.02 }}
       className={cn(
-        "relative p-4 border transition-all duration-300 cursor-pointer select-none",
+        "relative p-4 border transition-all duration-300 cursor-pointer select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-accent",
         isActive 
           ? "border-accent bg-accent/10 ring-1 ring-accent/30 z-20" 
           : "border-border-dim bg-bg-secondary/80 hover:border-border-bright",

@@ -8,8 +8,32 @@ import SystemBackground from "@/components/layout/SystemBackground";
 import Cursor from "@/components/layout/Cursor";
 
 export const metadata: Metadata = {
-  title: "Darshit Lagdhir | Systems Engineer",
-  description: "Architectural portfolio of Darshit Lagdhir, focusing on systems thinking and high-performance digital environments.",
+  metadataBase: new URL("https://darshitlagdhir.is-a.dev"),
+  title: {
+    default: "Darshit Lagdhir | Systems Engineer",
+    template: "%s | Darshit Lagdhir"
+  },
+  description: "Architectural portfolio of Darshit Lagdhir, focusing on high-performance backend systems, distributed architectures, and explicit memory safety.",
+  keywords: ["Systems Engineering", "Backend Developer", "Rust", "Node.js", "Software Architecture", "Low-Latency"],
+  authors: [{ name: "Darshit Lagdhir", url: "https://darshitlagdhir.is-a.dev" }],
+  creator: "Darshit Lagdhir",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://darshitlagdhir.is-a.dev",
+    title: "Darshit Lagdhir | Systems Engineer",
+    description: "Architectural portfolio of Darshit Lagdhir, focusing on systems thinking and high-performance digital environments.",
+    siteName: "Darshit Lagdhir Portfolio",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Darshit Lagdhir | Systems Engineer",
+    description: "Architectural portfolio of Darshit Lagdhir, focusing on systems thinking.",
+    creator: "@darshitlagdhir"
+  },
+  icons: {
+    icon: "/favicon.ico",
+  }
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
