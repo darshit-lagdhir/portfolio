@@ -15,9 +15,8 @@ export default function Cursor() {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  // Smooth easing for the cursor movement
-  // Stiffness and Damping are tuned for a "snappy but fluid" feel
-  const springConfig = { damping: 25, stiffness: 250, mass: 0.5 };
+  // Ultra-responsive spring physics to match mouse speed precisely
+  const springConfig = { damping: 40, stiffness: 800, mass: 0.1 };
   const cursorX = useSpring(mouseX, springConfig);
   const cursorY = useSpring(mouseY, springConfig);
 
