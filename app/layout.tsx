@@ -5,6 +5,7 @@ import { SceneProvider } from "@/context/SceneContext";
 import NavigationDock from "@/components/layout/NavigationDock";
 import SmoothScroll from "@/components/layout/SmoothScroll";
 import SystemBackground from "@/components/layout/SystemBackground";
+import Cursor from "@/components/layout/Cursor";
 
 export const metadata: Metadata = {
   title: "Darshit Lagdhir | Systems Engineer",
@@ -22,6 +23,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SceneProvider>
           {/* Phase 3: System Grid Background Engine */}
           <SystemBackground />
+          
+          {/* Phase 13: Custom Cursor System */}
+          <Cursor />
           
           {/* Phase 4: Global Navigation Dock */}
           <NavigationDock />

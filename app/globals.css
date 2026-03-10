@@ -93,6 +93,18 @@ body {
   color: #ffffff;
 }
 
+@media (pointer: fine) {
+  body.custom-cursor-active {
+    cursor: none;
+  }
+  body.custom-cursor-active a,
+  body.custom-cursor-active button,
+  body.custom-cursor-active [role="button"],
+  body.custom-cursor-active [data-cursor="hover"] {
+    cursor: none;
+  }
+}
+
 /* 
    PHASE 4 & 6 — TYPOGRAPHY COMPONENTS
 */
