@@ -65,7 +65,7 @@ export function SceneProvider({ children }: { children: React.ReactNode }) {
                 const lowCpu = (navigator.hardwareConcurrency || 4) <= 4;
                 // @ts-expect-error - deviceMemory is not standard
                 const lowMem = (navigator.deviceMemory || 8) <= 4;
-                if (lowCpu || lowMem) setIsMobile(true); // Treat low-perf as mobile-lite
+                if (lowCpu || lowMem) setIsLowPerf(true);
             }
         };
 

@@ -131,7 +131,7 @@ body {
   font-size: var(--font-size-identity);
   line-height: 0.85;
   text-transform: uppercase;
-  letter-spacing: -0.05em; /* Tighter for massive scale */
+  letter-spacing: -0.04em;
   font-weight: 400;
 }
 
@@ -141,7 +141,7 @@ body {
   font-size: var(--font-size-h1);
   line-height: 1.05;
   text-transform: uppercase;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   font-weight: 700;
 }
 
@@ -150,7 +150,7 @@ body {
   font-size: var(--font-size-h2);
   line-height: 1.1;
   text-transform: uppercase;
-  letter-spacing: -0.01em;
+  letter-spacing: 0em;
   font-weight: 700;
 }
 
@@ -160,7 +160,7 @@ body {
   font-size: var(--font-size-h3);
   line-height: 1.3;
   text-transform: uppercase;
-  letter-spacing: 0.08em; /* Slightly wider for technical clarity */
+  letter-spacing: 0.1em;
   font-weight: 800;
 }
 
@@ -190,7 +190,6 @@ body {
   font-size: var(--font-size-body);
   line-height: 1.75;
   font-weight: 500;
-  letter-spacing: 0.01em; /* Micro-adjustment for wide grotesque legibility */
   color: var(--color-text-secondary);
 }
 
@@ -234,6 +233,12 @@ h3 {
   margin-right: auto;
   padding-left: var(--spacing-sys-32);
   padding-right: var(--spacing-sys-32);
+}
+
+@media (min-width: 1024px) {
+  .system-container {
+    padding-left: var(--spacing-sys-128); /* Ensures NavigationDock has a dedicated lane */
+  }
 }
 
 .grid-12 {
