@@ -1,15 +1,17 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 interface ArchConnectionProps {
   fromRect: DOMRect | null;
   toRect: DOMRect | null;
   parentRect: DOMRect | null;
   layout: "layered" | "pipeline";
+  isActive: boolean;
 }
 
-export default function ArchConnection({ fromRect, toRect, parentRect, layout }: ArchConnectionProps) {
+export default function ArchConnection({ fromRect, toRect, parentRect, layout, isActive }: ArchConnectionProps) {
   if (!fromRect || !toRect || !parentRect) return null;
 
   // Calculate coordinates relative to parent
@@ -49,9 +51,12 @@ export default function ArchConnection({ fromRect, toRect, parentRect, layout }:
         d={path}
         fill="none"
         stroke="currentColor"
-        strokeWidth="1"
-        strokeDasharray="4 4"
-        className="text-accent/20"
+        strokeWidth={isActive ? "1.5" : "1"}
+        strokeDasharray={isActive ? "0" : "4 4"}
+        className={cn(
+            "transition-colors duration-500",
+            isActive ? "text-accent" : "text-white/10"
+        )}
         initial={{ pathLength: 0, opacity: 0 }}
         animate={{ pathLength: 1, opacity: 1 }}
         transition={{ duration: 1.5, ease: "easeInOut" }}

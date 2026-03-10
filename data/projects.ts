@@ -41,11 +41,46 @@ export const projects: Project[] = [
         diagram: {
             layout: "layered",
             nodes: [
-                { id: "client", label: "CLIENT_UI", type: "client", description: "React-based interface for customers and staff." },
-                { id: "gateway", label: "API_GATEWAY", type: "interface", description: "Express-based entry point with session validation." },
-                { id: "rbac", label: "RBAC_ENGINE", type: "logic", description: "Strict role-based isolation policy enforcer." },
-                { id: "logistics", label: "LOGISTICS_SRV", type: "service", description: "Core shipment and fleet management logic." },
-                { id: "db", label: "POSTGRES_DB", type: "database", description: "ACID-compliant relational data store." }
+                { 
+                    id: "client", 
+                    label: "CLIENT_UI", 
+                    type: "client", 
+                    description: "React-based interface for customers and staff.",
+                    responsibilities: ["Session management", "Shipment booking interface", "Role-based view rendering"],
+                    tech: ["React", "Framer Motion", "TailwindCSS"]
+                },
+                { 
+                    id: "gateway", 
+                    label: "API_GATEWAY", 
+                    type: "interface", 
+                    description: "Express-based entry point with session validation.",
+                    responsibilities: ["Request routing", "JWT verification", "Rate limiting"],
+                    tech: ["Express", "JWT", "Helmet.js"]
+                },
+                { 
+                    id: "rbac", 
+                    label: "RBAC_ENGINE", 
+                    type: "logic", 
+                    description: "Strict role-based isolation policy enforcer.",
+                    responsibilities: ["Permission mapping", "Resource-level access control", "Audit logging"],
+                    tech: ["Custom Middleware", "Policy-as-Code"]
+                },
+                { 
+                    id: "logistics", 
+                    label: "LOGISTICS_SRV", 
+                    type: "service", 
+                    description: "Core shipment and fleet management logic.",
+                    responsibilities: ["Shipment state machine", "Fleet assignment algorithms", "Distance calculations"],
+                    tech: ["Node.js", "Clustered Worker Threads"]
+                },
+                { 
+                    id: "db", 
+                    label: "POSTGRES_DB", 
+                    type: "database", 
+                    description: "ACID-compliant relational data store.",
+                    responsibilities: ["Persistent storage", "Atomic shipment updates", "Relational integrity"],
+                    tech: ["PostgreSQL", "B-Tree Indexing"]
+                }
             ],
             connections: [
                 { from: "client", to: "gateway" },
@@ -94,10 +129,38 @@ export const projects: Project[] = [
         diagram: {
             layout: "pipeline",
             nodes: [
-                { id: "ingestor", label: "DATA_INGESTOR", type: "pipeline", description: "High-throughput asynchronous data entry." },
-                { id: "engine", label: "PATTERN_ENGINE", type: "logic", description: "Statistical and ML-based anomaly scanners." },
-                { id: "aggregator", label: "ALERT_HUB", type: "service", description: "Correlates individual events into risk clusters." },
-                { id: "dashboard", label: "ADVISORY_UI", type: "client", description: "Human-in-the-loop diagnostic interface." }
+                { 
+                    id: "ingestor", 
+                    label: "DATA_INGESTOR", 
+                    type: "pipeline", 
+                    description: "High-throughput asynchronous data entry.",
+                    responsibilities: ["Raw request normalization", "Async queue management", "Ingestion rate monitoring"],
+                    tech: ["Redis Queue", "Celery", "Pydantic"]
+                },
+                { 
+                    id: "engine", 
+                    label: "PATTERN_ENGINE", 
+                    type: "logic", 
+                    description: "Statistical and ML-based anomaly scanners.",
+                    responsibilities: ["Statistical outlier detection", "ML inference", "Pattern synthesis"],
+                    tech: ["Scikit-Learn", "NumPy", "Pandas"]
+                },
+                { 
+                    id: "aggregator", 
+                    label: "ALERT_HUB", 
+                    type: "service", 
+                    description: "Correlates individual events into risk clusters.",
+                    responsibilities: ["Anomaly grouping", "Severity score calculation", "Historical pattern matching"],
+                    tech: ["PostgreSQL", "SQLAlchemy"]
+                },
+                { 
+                    id: "dashboard", 
+                    label: "ADVISORY_UI", 
+                    type: "client", 
+                    description: "Human-in-the-loop diagnostic interface.",
+                    responsibilities: ["Real-time alert rendering", "Expert fallback triggers", "Decision record logging"],
+                    tech: ["React", "WebSockets", "D3.js"]
+                }
             ],
             connections: [
                 { from: "ingestor", to: "engine" },
@@ -145,11 +208,46 @@ export const projects: Project[] = [
         diagram: {
             layout: "pipeline",
             nodes: [
-                { id: "analyser", label: "SOURCE_ANALYSER", type: "pipeline", description: "Multi-language static code analysis." },
-                { id: "ast", label: "AST_EXTRACTOR", type: "logic", description: "Precise semantic mapping using Clang/Tree-Sitter." },
-                { id: "uir", label: "UIR_SYNTHESIZER", type: "logic", description: "Universal IR generation for cross-lang contracts." },
-                { id: "solver", label: "FORMAL_SOLVER", type: "service", description: "Z3-backed memory boundary verification." },
-                { id: "report", label: "SAFETY_REPORT", type: "interface", description: "Final validation status and audit trail." }
+                { 
+                    id: "analyser", 
+                    label: "SOURCE_ANALYSER", 
+                    type: "pipeline", 
+                    description: "Multi-language static code analysis.",
+                    responsibilities: ["Source file parsing", "Tokenization", "Contextual metadata extraction"],
+                    tech: ["Python", "Tree-Sitter"]
+                },
+                { 
+                    id: "ast", 
+                    label: "AST_EXTRACTOR", 
+                    type: "logic", 
+                    description: "Precise semantic mapping using Clang/Tree-Sitter.",
+                    responsibilities: ["AST tree generation", "Type signature extraction", "Memory layout analysis"],
+                    tech: ["Clang Tooling", "C++"]
+                },
+                { 
+                    id: "uir", 
+                    label: "UIR_SYNTHESIZER", 
+                    type: "logic", 
+                    description: "Universal IR generation for cross-lang contracts.",
+                    responsibilities: ["Type normalization", "Contract synthesis", "IR lowering"],
+                    tech: ["Rust", "cxx-bridge"]
+                },
+                { 
+                    id: "solver", 
+                    label: "FORMAL_SOLVER", 
+                    type: "service", 
+                    description: "Z3-backed memory boundary verification.",
+                    responsibilities: ["Constraint generation", "Formal proof solving", "Memory safety validation"],
+                    tech: ["Z3 Solver", "Formal Logic"]
+                },
+                { 
+                    id: "report", 
+                    label: "SAFETY_REPORT", 
+                    type: "interface", 
+                    description: "Final validation status and audit trail.",
+                    responsibilities: ["Safety metric aggregation", "Violation reporting", "Contract export"],
+                    tech: ["JSON", "Markdown Generator"]
+                }
             ],
             connections: [
                 { from: "analyser", to: "ast" },

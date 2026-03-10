@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 interface ArchNodeProps {
   node: DiagramNode;
   isActive: boolean;
+  isDimmed: boolean;
   onClick: () => void;
 }
 
@@ -28,16 +29,17 @@ const TYPE_LABELS = {
   client: "USER_INTERFACE"
 };
 
-export default function ArchNode({ node, isActive, onClick }: ArchNodeProps) {
+export default function ArchNode({ node, isActive, isDimmed, onClick }: ArchNodeProps) {
   return (
     <motion.div
       onClick={onClick}
-      whileHover={{ scale: 1.02 }}
+      whileHover={{ scale: isDimmed ? 1 : 1.02 }}
       className={cn(
         "relative p-4 border transition-all duration-300 cursor-pointer select-none",
         isActive 
-          ? "border-accent bg-accent/5 ring-1 ring-accent/20" 
-          : "border-border-dim bg-bg-secondary/80 hover:border-border-bright"
+          ? "border-accent bg-accent/10 ring-1 ring-accent/30 z-20" 
+          : "border-border-dim bg-bg-secondary/80 hover:border-border-bright",
+        isDimmed && !isActive && "opacity-20 grayscale scale-[0.98]"
       )}
     >
       <div className="flex flex-col gap-2">

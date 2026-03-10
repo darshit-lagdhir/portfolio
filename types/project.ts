@@ -30,6 +30,8 @@ export interface DiagramNode {
     label: string;
     description: string;
     type: "service" | "database" | "pipeline" | "interface" | "logic" | "client";
+    responsibilities?: string[];
+    tech?: string[];
 }
 
 export interface DiagramConnection {
