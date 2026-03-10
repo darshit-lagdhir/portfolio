@@ -6,12 +6,14 @@ import { ProjectDiagram } from "@/types/project";
 import ArchNode from "./ArchNode";
 import ArchConnection from "./ArchConnection";
 import { cn } from "@/lib/utils";
+import { useScene } from "@/context/SceneContext";
 
 interface ArchitectureDiagramProps {
   diagram: ProjectDiagram;
 }
 
 export default function ArchitectureDiagram({ diagram }: ArchitectureDiagramProps) {
+  const { isMobile } = useScene();
   const [activeNodeId, setActiveNodeId] = useState<string | null>(diagram.nodes[0]?.id || null);
   const containerRef = useRef<HTMLDivElement>(null);
   const nodeRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
@@ -34,7 +36,6 @@ export default function ArchitectureDiagram({ diagram }: ArchitectureDiagramProp
   useEffect(() => {
     updateRects();
     window.addEventListener("resize", updateRects);
-    // Intersection observer sometimes needs a tick
     const timer = setTimeout(updateRects, 100);
     return () => {
       window.removeEventListener("resize", updateRects);
@@ -49,10 +50,15 @@ export default function ArchitectureDiagram({ diagram }: ArchitectureDiagramProp
       <div 
         ref={containerRef}
         className={cn(
-          "relative grid gap-x-12 gap-y-16 lg:gap-y-24 transition-opacity duration-500",
-          diagram.layout === "pipeline" 
-            ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-4" 
-            : "grid-cols-1 md:grid-cols-3"
+          "relative grid gap-x-12 transition-opacity duration-500",
+          isMobile 
+            ? "grid-cols-1 gap-y-12" 
+            : cn(
+                "gap-y-16 lg:gap-y-24",
+                diagram.layout === "pipeline" 
+                  ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-4" 
+                  : "grid-cols-1 md:grid-cols-3"
+              )
         )}
       >
         {/* Connection Layer */}
@@ -75,10 +81,11 @@ export default function ArchitectureDiagram({ diagram }: ArchitectureDiagramProp
 
         {/* Nodes Layer */}
         {diagram.nodes.map((node) => (
-          <div 
+          <motion.div 
             key={node.id}
             ref={(el) => { nodeRefs.current[node.id] = el; }}
             className="z-10"
+            whileTap={{ scale: 0.98 }}
           >
             <ArchNode
               node={node}
@@ -86,7 +93,7 @@ export default function ArchitectureDiagram({ diagram }: ArchitectureDiagramProp
               isDimmed={!!activeNodeId && activeNodeId !== node.id}
               onClick={() => setActiveNodeId(activeNodeId === node.id ? null : node.id)}
             />
-          </div>
+          </motion.div>
         ))}
       </div>
 
@@ -98,15 +105,18 @@ export default function ArchitectureDiagram({ diagram }: ArchitectureDiagramProp
             initial={{ opacity: 0, scale: 0.98, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.98, y: -10 }}
-            className="mt-sys-64 border border-border-dim bg-bg-secondary/50 p-sys-48 relative overflow-hidden group"
+            className={cn(
+               "mt-sys-64 border border-border-dim bg-bg-secondary/50 relative overflow-hidden group",
+               isMobile ? "p-8" : "p-sys-48"
+            )}
           >
             <div className="absolute top-0 left-0 w-1 h-full bg-accent" />
             
-            <div className="grid-12 gap-sys-32">
-               <div className="col-span-12 lg:col-span-6 space-y-6">
+            <div className={cn("grid-12", isMobile ? "flex flex-col gap-8" : "gap-sys-32")}>
+               <div className={cn("col-span-12 lg:col-span-6 space-y-6")}>
                   <div>
                     <div className="type-metadata text-[0.45rem] text-accent mb-2">COMPONENT_SPECIFICATION</div>
-                    <h3 className="type-emphasis text-xl tracking-tighter">{activeNode.label}</h3>
+                    <h3 className="type-emphasis text-xl md:text-2xl tracking-tighter">{activeNode.label}</h3>
                   </div>
                   
                   <p className="type-body text-sm leading-relaxed text-text-secondary">
@@ -114,7 +124,7 @@ export default function ArchitectureDiagram({ diagram }: ArchitectureDiagramProp
                   </p>
 
                   <div className="flex flex-wrap gap-2 pt-4">
-                     {activeNode.tech?.map(t => (
+                     {activeNode.tech?.map((t: string) => (
                         <span key={t} className="type-metadata text-[0.4rem] px-2 py-1 bg-white/5 border border-white/10 uppercase">
                           {t}
                         </span>
@@ -122,12 +132,12 @@ export default function ArchitectureDiagram({ diagram }: ArchitectureDiagramProp
                   </div>
                </div>
 
-               <div className="col-span-12 lg:col-span-5 lg:col-start-8 space-y-8">
+               <div className={cn("col-span-12 lg:col-span-5 lg:col-start-8 space-y-8")}>
                   {activeNode.responsibilities && (
                     <div>
                        <div className="type-metadata text-[0.45rem] opacity-30 mb-4">CORE_RESPONSIBILITIES</div>
                        <ul className="space-y-3">
-                          {activeNode.responsibilities.map((res, i) => (
+                          {activeNode.responsibilities.map((res: string, i: number) => (
                             <li key={i} className="flex gap-3 items-start group/li">
                                <span className="type-metadata text-[0.4rem] text-accent mt-1.5 opacity-40 group-hover/li:opacity-100 transition-opacity">0{i+1}</span>
                                <span className="type-body text-xs text-text-muted group-hover/li:text-text-secondary transition-colors italic">{res}</span>
@@ -140,9 +150,11 @@ export default function ArchitectureDiagram({ diagram }: ArchitectureDiagramProp
             </div>
             
             {/* Background Identifier */}
-            <div className="absolute -bottom-12 -right-12 opacity-[0.03] select-none pointer-events-none group-hover:opacity-[0.05] transition-opacity duration-700">
-               <span className="type-identity text-[10rem]">{activeNode.id}</span>
-            </div>
+            {!isMobile && (
+              <div className="absolute -bottom-12 -right-12 opacity-[0.03] select-none pointer-events-none group-hover:opacity-[0.05] transition-opacity duration-700">
+                 <span className="type-identity text-[10rem]">{activeNode.id}</span>
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

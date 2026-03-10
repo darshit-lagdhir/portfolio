@@ -16,6 +16,7 @@ export default function SystemModule({ project, index }: SystemModuleProps) {
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
+        whileTap={{ scale: 0.98 }}
         viewport={{ once: true, margin: "-10%" }}
         transition={{
           duration: 0.8,

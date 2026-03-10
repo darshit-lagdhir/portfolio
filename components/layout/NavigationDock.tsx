@@ -38,39 +38,56 @@ export default function NavigationDock() {
 
   if (isMobile) {
     return (
-      <motion.nav
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        className={cn(
-          "fixed top-0 left-0 right-0 z-50 px-sys-24 h-sys-64 flex justify-between items-center transition-all duration-500",
-          isScrolled ? "bg-bg-primary/90 backdrop-blur-md border-b border-border-dim" : "bg-transparent"
-        )}
-      >
-        <div className="type-metadata text-[0.6rem] text-accent tracking-[0.2em]">DAR_LAG_SYS</div>
-        <div className="flex gap-sys-16">
-          {!isHomePage ? (
+      <>
+        {/* MOBILE TOP STATUS BAR (Internal Pages) */}
+        {!isHomePage && (
+          <motion.nav
+            initial={{ y: -50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className="fixed top-0 left-0 right-0 z-50 px-6 h-16 bg-bg-primary/80 backdrop-blur-md border-b border-border-dim flex items-center justify-between"
+          >
+            <div className="type-metadata text-[0.55rem] text-accent">SYSTEM_INTERNAL</div>
             <Link 
               href="/"
-              className="type-nav text-[0.6rem] text-accent flex items-center gap-1"
+              className="type-nav text-[0.6rem] text-accent flex items-center gap-2 border border-accent/20 px-4 py-2 bg-accent/5 rounded-full"
             >
               <span>←</span> RETURN_BASE
             </Link>
-          ) : (
-            NAV_ITEMS.filter(item => ["hero", "systems", "contact"].includes(item.id)).map((item) => (
-              <button
-                key={item.id}
-                onClick={() => handleScroll(item.id)}
-                className={cn(
-                  "type-nav text-[0.6rem] transition-colors p-2 focus:text-accent focus:outline-none",
-                  activeSection === item.id ? "text-accent" : "text-text-muted"
-                )}
-              >
-                {item.label}
-              </button>
-            ))
-          )}
-        </div>
-      </motion.nav>
+          </motion.nav>
+        )}
+
+        {/* MOBILE BOTTOM NAVIGATION HUB (Homepage) */}
+        {isHomePage && (
+          <motion.nav
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ type: "spring", damping: 20, stiffness: 100 }}
+            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 w-[90vw] max-w-sm"
+          >
+            <div className="bg-bg-secondary/90 backdrop-blur-xl border border-border-bright/20 rounded-2xl p-2 shadow-2xl flex items-center justify-between">
+              {NAV_ITEMS.filter(item => ["hero", "systems", "capabilities", "contact"].includes(item.id)).map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => handleScroll(item.id)}
+                  className={cn(
+                    "flex-1 flex flex-col items-center gap-1 py-3 transition-all rounded-xl",
+                    activeSection === item.id ? "bg-accent/10 text-accent scale-95" : "text-text-muted"
+                  )}
+                >
+                  <span className="type-metadata text-[0.35rem] opacity-40">{item.code}</span>
+                  <span className="type-nav text-[0.5rem] tracking-tight">{item.label}</span>
+                  {activeSection === item.id && (
+                    <motion.div 
+                      layoutId="mobile-nav-indicator"
+                      className="w-1 h-1 bg-accent rounded-full mt-1" 
+                    />
+                  )}
+                </button>
+              ))}
+            </div>
+          </motion.nav>
+        )}
+      </>
     );
   }
 
@@ -138,9 +155,11 @@ export default function NavigationDock() {
       ))}
 
       {/* Scroll Metric Telemetry */}
-      <div className="absolute -right-sys-8 top-0 bottom-0 w-[1px] bg-border-dim/20">
-        <SceneScrollProgress />
-      </div>
+      {isHomePage && (
+        <div className="absolute -right-sys-8 top-0 bottom-0 w-[1px] bg-border-dim/20">
+          <SceneScrollProgress />
+        </div>
+      )}
     </motion.nav>
   );
 }
