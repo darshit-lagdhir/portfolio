@@ -1,5 +1,6 @@
 "use client";
 
+import React, { memo } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -11,7 +12,7 @@ interface ArchConnectionProps {
   isActive: boolean;
 }
 
-export default function ArchConnection({ fromRect, toRect, parentRect, layout, isActive }: ArchConnectionProps) {
+function ArchConnection({ fromRect, toRect, parentRect, layout, isActive }: ArchConnectionProps) {
   if (!fromRect || !toRect || !parentRect) return null;
 
   // Calculate coordinates relative to parent
@@ -65,3 +66,5 @@ export default function ArchConnection({ fromRect, toRect, parentRect, layout, i
     </svg>
   );
 }
+
+export default memo(ArchConnection);

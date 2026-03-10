@@ -2,12 +2,19 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { Project } from "@/types/project";
 import { cn } from "@/lib/utils";
-import ArchitectureDiagram from "@/components/visualization/ArchitectureDiagram";
-
-import ProjectNetwork from "./ProjectNetwork";
 import { projects } from "@/data/projects";
+
+const ArchitectureDiagram = dynamic(() => import("@/components/visualization/ArchitectureDiagram"), {
+  loading: () => <div className="h-96 w-full animate-pulse bg-bg-secondary border border-border-dim" />,
+  ssr: false
+});
+
+const ProjectNetwork = dynamic(() => import("./ProjectNetwork"), {
+  ssr: false
+});
 
 interface ProjectDocumentationProps {
   project: Project;

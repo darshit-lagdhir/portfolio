@@ -28,20 +28,35 @@ export function SceneProvider({ children }: { children: React.ReactNode }) {
     
     const pathname = usePathname();
 
+    const lastScrollY = useRef(0);
+    const ticking = useRef(false);
+
     useEffect(() => {
         const checkMobile = () => {
             setIsMobile(window.innerWidth < 1024);
         };
         
-        const handleScroll = () => {
+        const updateScroll = () => {
             const scrollY = window.scrollY;
-            setIsScrolled(scrollY > 40);
             
-            // Calculate progress
-            const docElement = document.documentElement;
-            const scrollHeight = docElement.scrollHeight - window.innerHeight;
-            if (scrollHeight > 0) {
-                setScrollProgress(scrollY / scrollHeight);
+            // Centralized scroll logic
+            if (Math.abs(scrollY - lastScrollY.current) > 2) {
+                setIsScrolled(scrollY > 40);
+                
+                const docElement = document.documentElement;
+                const scrollHeight = docElement.scrollHeight - window.innerHeight;
+                if (scrollHeight > 0) {
+                    setScrollProgress(scrollY / scrollHeight);
+                }
+                lastScrollY.current = scrollY;
+            }
+            ticking.current = false;
+        };
+
+        const handleScroll = () => {
+            if (!ticking.current) {
+                requestAnimationFrame(updateScroll);
+                ticking.current = true;
             }
         };
 
@@ -50,7 +65,7 @@ export function SceneProvider({ children }: { children: React.ReactNode }) {
                 const lowCpu = (navigator.hardwareConcurrency || 4) <= 4;
                 // @ts-expect-error - deviceMemory is not standard
                 const lowMem = (navigator.deviceMemory || 8) <= 4;
-                if (lowCpu || lowMem) setIsLowPerf(true);
+                if (lowCpu || lowMem) setIsMobile(true); // Treat low-perf as mobile-lite
             }
         };
 

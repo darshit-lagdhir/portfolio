@@ -85,7 +85,23 @@ body {
   font-family: var(--font-body);
   line-height: 1.6;
   overflow-x: hidden;
-  text-rendering: optimizeLegibility;
+  text-rendering: optimizeSpeed; /* Performance over sub-pixel precision for heavy layouts */
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Hardware Acceleration Hints for common animated elements */
+.type-identity,
+.type-h1,
+.type-h2,
+.type-emphasis,
+.navigation-dock,
+.custom-cursor,
+.architecture-node,
+.scroll-reveal {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform: translateZ(0); /* Force GPU composite layer */
 }
 
 ::selection {

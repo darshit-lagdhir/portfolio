@@ -1,5 +1,6 @@
 "use client";
 
+import React, { memo } from "react";
 import { motion } from "framer-motion";
 import { DiagramNode } from "@/types/project";
 import { cn } from "@/lib/utils";
@@ -29,7 +30,7 @@ const TYPE_LABELS = {
   client: "USER_INTERFACE"
 };
 
-export default function ArchNode({ node, isActive, isDimmed, onClick }: ArchNodeProps) {
+function ArchNode({ node, isActive, isDimmed, onClick }: ArchNodeProps) {
   return (
     <motion.div
       onClick={onClick}
@@ -44,35 +45,29 @@ export default function ArchNode({ node, isActive, isDimmed, onClick }: ArchNode
     >
       <div className="flex flex-col gap-2">
         <div className="flex justify-between items-start">
-          <span className={cn(
-            "type-metadata text-[0.45rem] tracking-widest",
-            TYPE_COLORS[node.type] || "text-text-muted"
-          )}>
-            {TYPE_LABELS[node.type] || "COMPONENT"}
+          <span className={cn("type-metadata text-[0.4rem] uppercase font-bold", TYPE_COLORS[node.type])}>
+            {TYPE_LABELS[node.type]}
           </span>
-          <div className={cn(
-            "w-1.5 h-1.5 rounded-full",
-            isActive ? "bg-accent pulse" : "bg-border-dim"
-          )} />
+          {isActive && (
+            <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+          )}
         </div>
-        
-        <h4 className="type-label text-[0.65rem] tracking-wider text-text-primary">
+        <h4 className="type-label text-xs tracking-tight group-hover:text-accent transition-colors">
           {node.label}
         </h4>
-        
-        <p className="type-body text-[0.6rem] opacity-40 leading-tight">
-          {isActive ? node.description : node.description.substring(0, 40) + "..."}
-        </p>
       </div>
-
-      {isActive && (
-        <motion.div 
-          layoutId="node-glow"
-          className="absolute inset-0 bg-accent/5 pointer-events-none"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-        />
-      )}
+      
+      {/* Decorative Diagnostic Pattern */}
+      <div className="absolute bottom-1 right-1 opacity-[0.05] pointer-events-none">
+        <div className="grid grid-cols-2 gap-0.5">
+          <div className="w-0.5 h-0.5 bg-white" />
+          <div className="w-0.5 h-0.5 bg-white" />
+          <div className="w-0.5 h-0.5 bg-white" />
+          <div className="w-0.5 h-0.5 bg-white" />
+        </div>
+      </div>
     </motion.div>
   );
 }
+
+export default memo(ArchNode);
