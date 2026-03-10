@@ -6,21 +6,21 @@ import HeroArchitecture from "./HeroArchitecture";
 
 export default function Hero() {
   const { scrollY } = useScroll();
-  
+
   // Subtle scroll transitions for the hero section
   const opacity = useTransform(scrollY, [0, 400], [1, 0]);
   const y = useTransform(scrollY, [0, 400], [0, -50]);
 
   return (
     <section className="min-h-[85vh] flex flex-col justify-center relative py-sys-64 overflow-hidden">
-      <motion.div 
+      <motion.div
         style={{ opacity, y }}
         className="grid-12 items-center"
       >
         {/* IDENTITY LAYER */}
         <div className="col-span-12 lg:col-span-7 z-10">
           <HeroIdentity />
-          
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -47,7 +47,7 @@ export default function Hero() {
       </motion.div>
 
       {/* SCROLL INDICATOR ENGINE */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5, duration: 1 }}
@@ -55,7 +55,7 @@ export default function Hero() {
       >
         <span className="type-metadata text-[0.5rem] opacity-30 tracking-[0.3em]">SCROLL_FOR_TELEMETRY</span>
         <div className="w-[1px] h-sys-48 bg-border-dim relative overflow-hidden">
-          <motion.div 
+          <motion.div
             className="absolute top-0 left-0 w-full h-1/2 bg-accent opacity-60"
             animate={{ top: ["-50%", "100%"] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}

@@ -50,7 +50,7 @@ export default function About() {
 
           <div className="space-y-sys-96">
             {NARRATIVE_BLOCKS.map((block, index) => (
-              <motion.div 
+              <motion.div
                 key={block.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -72,24 +72,24 @@ export default function About() {
 
           {/* BIO DETAILS (Mobile only or integrated) */}
           <div className="lg:hidden mt-sys-64 pt-sys-64 border-t border-border-dim">
-             <div className="type-metadata text-[0.6rem] mb-2 opacity-30 tracking-widest">EDUCATION_REF</div>
-             <div className="type-emphasis text-sm">{identity.degree.toUpperCase()} @ {identity.university.toUpperCase()}</div>
+            <div className="type-metadata text-[0.6rem] mb-2 opacity-30 tracking-widest">EDUCATION_REF</div>
+            <div className="type-emphasis text-sm">{identity.degree.toUpperCase()} @ {identity.university.toUpperCase()}</div>
           </div>
         </div>
 
         {/* PHASE 4: SUPPORTING VISUAL ELEMENT */}
         <div className="hidden lg:block lg:col-span-4 lg:col-start-9 sticky top-sys-128 mt-sys-128">
-           <AboutVisualElement />
-           
-           <div className="mt-sys-64 space-y-sys-32 opacity-20">
-              <div className="type-metadata text-[0.5rem] tracking-[0.3em]">DIAGNOSTIC_TELEMETRY</div>
-              <div className="space-y-2 font-mono text-[0.45rem] leading-tight">
-                OBJ_CURIOSITY: ACTIVE <br />
-                STATE_LEARNING: ITERATIVE <br />
-                BUFFER_STAMINA: 1024GB <br />
-                LATENCY_THOUGHT: 0.04MS
-              </div>
-           </div>
+          <AboutVisualElement />
+
+          <div className="mt-sys-64 space-y-sys-32 opacity-20">
+            <div className="type-metadata text-[0.5rem] tracking-[0.3em]">DIAGNOSTIC_TELEMETRY</div>
+            <div className="space-y-2 font-mono text-[0.45rem] leading-tight">
+              OBJ_CURIOSITY: ACTIVE <br />
+              STATE_LEARNING: ITERATIVE <br />
+              BUFFER_STAMINA: 1024GB <br />
+              LATENCY_THOUGHT: 0.04MS
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -114,28 +114,28 @@ function AboutVisualElement() {
       {/* Central Diagram Elements */}
       <div className="relative z-10 w-full h-full flex items-center justify-center">
         <svg viewBox="0 0 200 200" className="w-full h-full text-accent opacity-30">
-          <motion.rect 
-            x="50" y="50" width="100" height="100" 
+          <motion.rect
+            x="50" y="50" width="100" height="100"
             stroke="currentColor" strokeWidth="1" fill="none"
             initial={{ pathLength: 0 }}
             whileInView={{ pathLength: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 2 }}
           />
-          <motion.circle 
-            cx="100" cy="100" r="40" 
+          <motion.circle
+            cx="100" cy="100" r="40"
             stroke="currentColor" strokeWidth="0.5" fill="none" strokeDasharray="4 4"
             animate={{ rotate: 360 }}
             transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
           />
-          <motion.path 
-            d="M 10 100 H 190 M 100 10 V 190" 
+          <motion.path
+            d="M 10 100 H 190 M 100 10 V 190"
             stroke="currentColor" strokeWidth="0.5" opacity="0.5"
             initial={{ scale: 0 }}
             whileInView={{ scale: 1 }}
             viewport={{ once: true }}
           />
-          
+
           {/* Conceptual Layers */}
           <g className="type-metadata text-[4px] fill-current">
             <text x="105" y="45">HARDWARE_LAYER</text>

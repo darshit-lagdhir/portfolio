@@ -33,7 +33,7 @@ export default function NavigationDock() {
 
   if (isMobile) {
     return (
-      <motion.nav 
+      <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         className={cn(
@@ -61,7 +61,7 @@ export default function NavigationDock() {
   }
 
   return (
-    <motion.nav 
+    <motion.nav
       initial={{ x: -100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
@@ -76,8 +76,8 @@ export default function NavigationDock() {
           {/* Diagnostic Code */}
           <span className={cn(
             "type-metadata text-[0.6rem] transition-all duration-300 w-sys-24",
-            activeSection === item.id 
-              ? "text-accent" 
+            activeSection === item.id
+              ? "text-accent"
               : "text-text-muted opacity-40 group-hover:opacity-100 group-hover:text-text-primary group-focus-visible:opacity-100"
           )}>
             {item.code}
@@ -85,11 +85,11 @@ export default function NavigationDock() {
 
           {/* Label Engine */}
           <div className="overflow-hidden">
-            <motion.span 
+            <motion.span
               className={cn(
                 "type-nav text-[0.7rem] block transition-all duration-300",
-                activeSection === item.id 
-                  ? "text-text-primary translate-x-0" 
+                activeSection === item.id
+                  ? "text-text-primary translate-x-0"
                   : "text-text-muted -translate-x-full group-hover:translate-x-0 group-hover:text-text-primary group-focus-visible:translate-x-0"
               )}
             >
@@ -100,7 +100,7 @@ export default function NavigationDock() {
           {/* Active Status Line */}
           <AnimatePresence>
             {activeSection === item.id && (
-              <motion.div 
+              <motion.div
                 layoutId="nav-active"
                 className="absolute -left-sys-12 w-1 h-sys-12 bg-accent"
                 initial={{ scaleY: 0 }}
@@ -112,7 +112,7 @@ export default function NavigationDock() {
           </AnimatePresence>
         </button>
       ))}
-      
+
       {/* Scroll Metric Telemetry */}
       <div className="absolute -right-sys-8 top-0 bottom-0 w-[1px] bg-border-dim/20">
         <SceneScrollProgress />
@@ -124,7 +124,7 @@ export default function NavigationDock() {
 function SceneScrollProgress() {
   const { scrollProgress } = useScene();
   return (
-    <motion.div 
+    <motion.div
       className="w-full bg-accent origin-top shadow-[0_0_8px_rgba(255,255,255,0.2)]"
       animate={{ height: `${scrollProgress * 100}%` }}
       transition={{ type: "spring", stiffness: 100, damping: 30, mass: 0.5 }}

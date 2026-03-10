@@ -71,7 +71,7 @@ export default function Capabilities() {
       {/* PHASE 3 & 6 — CAPABILITY MODULE GRID */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-sys-32">
         {capabilityClusters.map((cluster, index) => (
-          <motion.div 
+          <motion.div
             key={cluster.id}
             tabIndex={0}
             initial={{ opacity: 0, y: 20 }}
@@ -84,30 +84,30 @@ export default function Capabilities() {
               <span className="w-1 h-1 bg-accent rounded-full" />
               DOMAIN_00{index + 1}
             </div>
-            
+
             <h3 className="type-emphasis text-lg mb-sys-16 group-hover:text-text-primary transition-colors">
               {cluster.category}
             </h3>
-            
+
             <p className="type-body text-sm mb-sys-32 opacity-70 leading-relaxed flex-grow">
               {cluster.description}
             </p>
-            
+
             {/* TECHNICAL PRIMITIVES LIST */}
             <div className="mt-auto pt-sys-24 border-t border-border-dim">
-                <div className="type-metadata text-[0.5rem] mb-sys-12 opacity-30 tracking-widest">SUB_PRIMITIVES</div>
-                <div className="flex flex-wrap gap-x-sys-16 gap-y-sys-8">
-                    {cluster.items.map(item => (
-                        <span key={item} className="type-metadata text-[0.6rem] opacity-50 font-mono">
-                            {item.toUpperCase()}
-                        </span>
-                    ))}
-                </div>
+              <div className="type-metadata text-[0.5rem] mb-sys-12 opacity-30 tracking-widest">SUB_PRIMITIVES</div>
+              <div className="flex flex-wrap gap-x-sys-16 gap-y-sys-8">
+                {cluster.items.map(item => (
+                  <span key={item} className="type-metadata text-[0.6rem] opacity-50 font-mono">
+                    {item.toUpperCase()}
+                  </span>
+                ))}
+              </div>
             </div>
 
             {/* Subtle Diagnostic Corner */}
             <div className="absolute top-0 right-0 w-4 h-4 overflow-hidden pointer-events-none opacity-0 group-hover:opacity-10 transition-opacity">
-                <div className="absolute top-0 right-0 w-full h-full border-t border-r border-accent" />
+              <div className="absolute top-0 right-0 w-full h-full border-t border-r border-accent" />
             </div>
           </motion.div>
         ))}

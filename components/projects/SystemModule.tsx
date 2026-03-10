@@ -17,10 +17,10 @@ export default function SystemModule({ project, index }: SystemModuleProps) {
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-10%" }}
-        transition={{ 
-          duration: 0.8, 
-          delay: index * 0.1, 
-          ease: [0.16, 1, 0.3, 1] 
+        transition={{
+          duration: 0.8,
+          delay: index * 0.1,
+          ease: [0.16, 1, 0.3, 1]
         }}
         className="group relative border border-border-dim bg-bg-secondary p-sys-32 h-full flex flex-col transition-all duration-300 hover:border-accent/50 hover:bg-bg-secondary/80 md:hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent/5"
       >

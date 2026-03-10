@@ -77,11 +77,11 @@ export default function TerminalContact() {
           <div className="mb-sys-48 text-center lg:text-left">
             <h2 className="type-h1 mb-sys-16">INITIATE_CONNECTION_</h2>
             <p className="type-body opacity-60 max-w-xl mx-auto lg:mx-0">
-                You have reached the end of the architectural manifest. Use the command panel below to interact with the system and initiate contact.
+              You have reached the end of the architectural manifest. Use the command panel below to interact with the system and initiate contact.
             </p>
           </div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -101,28 +101,28 @@ export default function TerminalContact() {
             </div>
 
             {/* TERMINAL CONTENT */}
-            <div 
+            <div
               ref={scrollRef}
               className="p-8 h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-border-dim bg-black/20"
             >
               <div className="space-y-4 font-mono text-[0.8rem] leading-relaxed">
                 {history.map((line, i) => (
-                  <motion.div 
-                    key={i} 
+                  <motion.div
+                    key={i}
                     initial={{ opacity: 0, x: -5 }}
                     animate={{ opacity: 1, x: 0 }}
                     className={cn(
-                        "whitespace-pre-wrap",
-                        line.type === 'input' ? "text-accent" : "text-text-secondary"
+                      "whitespace-pre-wrap",
+                      line.type === 'input' ? "text-accent" : "text-text-secondary"
                     )}
                   >
                     {line.type === 'input' && <span className="mr-3 opacity-50">&lambda;</span>}
                     {line.content}
                   </motion.div>
                 ))}
-                
+
                 {isProcessing && (
-                  <motion.div 
+                  <motion.div
                     animate={{ opacity: [0, 1, 0] }}
                     transition={{ duration: 1, repeat: Infinity }}
                     className="text-accent"
@@ -161,7 +161,7 @@ export default function TerminalContact() {
           </motion.div>
 
           <div className="mt-sys-64 text-center opacity-20">
-             <div className="type-metadata text-[0.5rem]">END_OF_MANIFEST // ALL_SYSTEMS_OPERATIONAL</div>
+            <div className="type-metadata text-[0.5rem]">END_OF_MANIFEST // ALL_SYSTEMS_OPERATIONAL</div>
           </div>
         </div>
       </div>
