@@ -37,8 +37,8 @@ export default function TerminalContact() {
     // Add input to history
     setHistory(prev => [...prev, { type: 'input', content: label }]);
 
-    // Simulated processing delay
-    await new Promise(resolve => setTimeout(resolve, 600));
+    // Simulated processing delay optimization
+    await new Promise(resolve => setTimeout(resolve, 200));
 
     let response = "";
     switch (cmdId) {
@@ -124,7 +124,7 @@ export default function TerminalContact() {
                 {isProcessing && (
                   <motion.div
                     animate={{ opacity: [0, 1, 0] }}
-                    transition={{ duration: 1, repeat: Infinity }}
+                    transition={{ duration: 0.5, repeat: Infinity }}
                     className="text-accent"
                   >
                     &lambda; EXECUTING_PROCESS...

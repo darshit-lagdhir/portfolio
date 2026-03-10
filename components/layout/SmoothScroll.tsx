@@ -42,9 +42,9 @@ function VirtualScrollLayer({ children }: { children: React.ReactNode }) {
 
   const { scrollY } = useScroll();
   const smoothScrollY = useSpring(scrollY, {
-    damping: 25,
-    stiffness: 120,
-    mass: 0.1
+    damping: 45,
+    stiffness: 200,
+    mass: 0.05
   });
 
   const y = useTransform(smoothScrollY, (value) => -value);

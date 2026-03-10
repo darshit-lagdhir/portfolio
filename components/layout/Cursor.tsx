@@ -15,8 +15,8 @@ export default function Cursor() {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  // Ultra-responsive spring physics to match mouse speed precisely
-  const springConfig = { damping: 40, stiffness: 800, mass: 0.1 };
+  // Ultra-responsive spring physics to minimize tracking lag
+  const springConfig = { damping: 30, stiffness: 2000, mass: 0.01 };
   const cursorX = useSpring(mouseX, springConfig);
   const cursorY = useSpring(mouseY, springConfig);
 
@@ -108,9 +108,9 @@ export default function Cursor() {
       animate={cursorType}
       transition={{
         type: "spring",
-        stiffness: shouldReduceMotion ? 0 : 400,
-        damping: 30,
-        mass: 0.8
+        stiffness: shouldReduceMotion ? 0 : 500,
+        damping: 25,
+        mass: 0.1
       }}
     >
       {/* Reticle Dot */}

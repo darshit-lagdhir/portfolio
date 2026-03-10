@@ -102,9 +102,10 @@ export default function ArchitectureDiagram({ diagram }: ArchitectureDiagramProp
         {activeNode && (
           <motion.div
             key={activeNode.id}
-            initial={{ opacity: 0, scale: 0.98, y: 10 }}
+            initial={{ opacity: 0, scale: 0.98, y: 5 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.98, y: -10 }}
+            exit={{ opacity: 0, scale: 0.98, y: -5 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
             className={cn(
                "mt-sys-64 border border-border-dim bg-bg-secondary/50 relative overflow-hidden group",
                isMobile ? "p-8" : "p-sys-48"
@@ -151,7 +152,7 @@ export default function ArchitectureDiagram({ diagram }: ArchitectureDiagramProp
             
             {/* Background Identifier */}
             {!isMobile && (
-              <div className="absolute -bottom-12 -right-12 opacity-[0.03] select-none pointer-events-none group-hover:opacity-[0.05] transition-opacity duration-700">
+              <div className="absolute -bottom-12 -right-12 opacity-[0.03] select-none pointer-events-none group-hover:opacity-[0.05] transition-opacity duration-300">
                  <span className="type-identity text-[10rem]">{activeNode.id}</span>
               </div>
             )}
