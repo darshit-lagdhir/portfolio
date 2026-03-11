@@ -10,11 +10,12 @@ import { useScene } from "@/context/SceneContext";
 
 interface ArchitectureDiagramProps {
   diagram: ProjectDiagram;
+  highlightedNodes?: string[];
 }
 
-export default function ArchitectureDiagram({ diagram }: ArchitectureDiagramProps) {
+export default function ArchitectureDiagram({ diagram, highlightedNodes = [] }: ArchitectureDiagramProps) {
   const { isMobile } = useScene();
-  const [activeNodeId, setActiveNodeId] = useState<string | null>(diagram.nodes[0]?.id || null);
+  const [activeNodeId, setActiveNodeId] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const nodeRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const [nodeRects, setNodeRects] = useState<{ [key: string]: DOMRect | null }>({});
@@ -80,21 +81,28 @@ export default function ArchitectureDiagram({ diagram }: ArchitectureDiagramProp
         })}
 
         {/* Nodes Layer */}
-        {diagram.nodes.map((node) => (
-          <motion.div 
-            key={node.id}
-            ref={(el) => { nodeRefs.current[node.id] = el; }}
-            className="z-10"
-            whileTap={{ scale: 0.98 }}
-          >
-            <ArchNode
-              node={node}
-              isActive={activeNodeId === node.id}
-              isDimmed={!!activeNodeId && activeNodeId !== node.id}
-              onClick={() => setActiveNodeId(activeNodeId === node.id ? null : node.id)}
-            />
-          </motion.div>
-        ))}
+        {diagram.nodes.map((node) => {
+          const isHighlighted = highlightedNodes.includes(node.id);
+          const isSelected = activeNodeId === node.id;
+          const isAnyHighlighted = highlightedNodes.length > 0;
+          const isAnySelected = !!activeNodeId;
+
+          return (
+            <motion.div 
+              key={node.id}
+              ref={(el) => { nodeRefs.current[node.id] = el; }}
+              className="z-10"
+              whileTap={{ scale: 0.98 }}
+            >
+              <ArchNode
+                node={node}
+                isActive={isHighlighted || isSelected}
+                isDimmed={(isAnyHighlighted && !isHighlighted) || (isAnySelected && !isSelected && !isHighlighted)}
+                onClick={() => setActiveNodeId(activeNodeId === node.id ? null : node.id)}
+              />
+            </motion.div>
+          );
+        })}
       </div>
 
       {/* Node Detail Reveal - INTERACTIVE SYSTEM EXPLORATION LAYER */}

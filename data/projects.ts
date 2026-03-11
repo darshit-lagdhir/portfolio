@@ -116,6 +116,32 @@ export const projects: Project[] = [
                 description: "Chose clear, readable service layers over handwritten SQL optimizations for minor performance gains.",
                 impact: "MAINTAINABILITY"
             }
+        ],
+        storyFlow: [
+            {
+                id: "ingestion",
+                title: "Inbound Request Handshake",
+                description: "The system receives a shipment request through the encrypted Client UI. The API Gateway immediately initiates a security handshake to verify the origin.",
+                activeNodes: ["client", "gateway"]
+            },
+            {
+                id: "verification",
+                title: "RBAC Security Check",
+                description: "The request is passed to the RBAC Engine, which validates session integrity and ensures the user has appropriate permissions for the requested shipment action.",
+                activeNodes: ["gateway", "rbac"]
+            },
+            {
+                id: "transition",
+                title: "State Machine Update",
+                description: "The Logistics Service processes the business logic, transitioning the shipment through the state machine and calculating hub assignments.",
+                activeNodes: ["logistics"]
+            },
+            {
+                id: "persistence",
+                title: "Relational Commitment",
+                description: "Finally, the system performs an atomic commit to the PostgreSQL database, ensuring the new system state is persistent and auditable.",
+                activeNodes: ["logistics", "db"]
+            }
         ]
     },
     {
@@ -214,6 +240,32 @@ export const projects: Project[] = [
                 title: "Precision over Speed",
                 description: "Sacrificed near-instant alerts for deep-packet matching to reduce false alarms for operators.",
                 impact: "SCALABILITY"
+            }
+        ],
+        storyFlow: [
+            {
+                id: "ingestion",
+                title: "High-Throughput Stream",
+                description: "Raw identity data streams into the system through asynchronous ingestors, being normalized and queued for analysis.",
+                activeNodes: ["ingestor"]
+            },
+            {
+                id: "inference",
+                title: "Pattern Detection",
+                description: "The Pattern Engine runs statistical and ML models on the queued data to identify outliers and potential fraud vectors.",
+                activeNodes: ["engine"]
+            },
+            {
+                id: "aggregation",
+                title: "Risk Synthesis",
+                description: "Detected anomalies are aggregated into prioritized risk clusters within the Alert Hub for structured investigation.",
+                activeNodes: ["aggregator"]
+            },
+            {
+                id: "advisory",
+                title: "Human Oversight",
+                description: "The Advisory Dashboard presents the synthesis to a human operator, who provides the final resolution based on system advice.",
+                activeNodes: ["dashboard"]
             }
         ]
     },
@@ -322,6 +374,32 @@ export const projects: Project[] = [
                 title: "Simplicity over Runtime Performance",
                 description: "Chose exhaustive AST walkthroughs over optimized bytecode analysis to ensure absolute verification correctness.",
                 impact: "SIMPLICITY"
+            }
+        ],
+        storyFlow: [
+            {
+                id: "probing",
+                title: "Static Source Probing",
+                description: "The verifier first probes the target source files in multiple languages, tokenizing and extracting raw contextual metadata.",
+                activeNodes: ["analyser"]
+            },
+            {
+                id: "extraction",
+                title: "Semantic Mapping",
+                description: "Using the Clang frontend, the system extracts high-precision ASTs to map the exact memory layout of foreign functions.",
+                activeNodes: ["ast"]
+            },
+            {
+                id: "synthesis",
+                title: "Universal IR Synthesis",
+                description: "The system normalizes heterogeneous language types into a common Universal Intermediate Representation to enable cross-lang verification.",
+                activeNodes: ["uir"]
+            },
+            {
+                id: "verification",
+                title: "Formal Proof Engine",
+                description: "Finally, the Z3-backed logic solver verifies the memory safety of the contract and generates a comprehensive safety report.",
+                activeNodes: ["solver", "report"]
             }
         ]
     }

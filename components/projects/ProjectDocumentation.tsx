@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import dynamic from "next/dynamic";
@@ -16,11 +17,16 @@ const ProjectNetwork = dynamic(() => import("./ProjectNetwork"), {
   ssr: false
 });
 
+const SystemStoryFlow = dynamic(() => import("./SystemStoryFlow"), {
+  ssr: false
+});
+
 interface ProjectDocumentationProps {
   project: Project;
 }
 
 export default function ProjectDocumentation({ project }: ProjectDocumentationProps) {
+  const [highlightedNodes, setHighlightedNodes] = useState<string[]>([]);
   const currentIndex = projects.findIndex(p => p.slug === project.slug);
   const nextProject = projects[(currentIndex + 1) % projects.length];
 
@@ -28,10 +34,8 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
     <div className="min-h-screen pb-sys-128 bg-noise">
       {/* 
          PHASE 2: PROJECT IDENTITY HEADER 
-         Industrial, documentation-style header with primary metadata.
       */}
       <header className="relative py-sys-64 border-b border-border-dim overflow-hidden">
-        {/* Navigation Back */}
         <div className="system-container mb-sys-64">
           <Link 
             href="/#systems" 
@@ -102,19 +106,14 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
           </div>
         </div>
 
-        {/* Decorative Background Text */}
         <div className="absolute top-0 right-0 p-sys-32 opacity-[0.02] select-none pointer-events-none hidden lg:block">
            <span className="type-identity text-[15rem] leading-none uppercase">{project.slug}</span>
         </div>
       </header>
 
-      {/* 
-         PHASE 3 & 4: OVERVIEW & ARCHITECTURE 
-         The intellectual core of the documentation.
-      */}
       <main className="system-container pt-sys-96">
         <div className="grid-12 gap-sys-96">
-          {/* Detailed Narrative */}
+          {/* Section 01 & 02: Detailed Narrative & Architecture */}
           <div className="col-span-12 lg:col-span-7 space-y-sys-96">
             <section>
                <div className="section-divider mb-sys-48" data-label="01_SYSTEM_OVERVIEW">
@@ -142,7 +141,6 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
                    {project.architecture}
                  </p>
                  
-                 {/* Internal Components Grid */}
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-sys-24 mt-sys-48">
                     {project.internalComponents?.map((comp, idx) => (
                       <div key={idx} className="p-6 border border-border-dim bg-bg-secondary/50 group hover:border-accent/30 transition-colors">
@@ -153,12 +151,11 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
                     ))}
                  </div>
 
-                 {/* PHASE 1 & 6: ARCHITECTURE VISUALIZATION ENGINE */}
                  {project.diagram && (
                    <div className="mt-sys-96">
                      <div className="flex items-center gap-4 mb-sys-32 opacity-30">
                         <div className="h-[1px] flex-grow bg-border-dim" />
-                        <span className="type-metadata text-[0.5rem] tracking-widest">SYSTEM_VISUALIZATION_LAYER</span>
+                        <span className="type-metadata text-[0.5rem] tracking-widest">SYSTEM_BLUEPRINT_REFERENCE</span>
                         <div className="h-[1px] flex-grow bg-border-dim" />
                      </div>
                      <ArchitectureDiagram diagram={project.diagram} />
@@ -168,9 +165,7 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
             </section>
           </div>
 
-          {/* Sidepanel: Stack & Meta */}
           <aside className="col-span-12 lg:col-span-4 lg:col-start-9 space-y-sys-96">
-            {/* Tech Stack Grouping */}
             <section>
                <div className="section-divider mb-sys-32" data-label="03_TECH_STACK">
                  <span className="divider-label">03_TECH_STACK</span>
@@ -191,7 +186,6 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
                </div>
             </section>
 
-            {/* Diagnostic Metrics */}
             <section>
                <div className="section-divider mb-sys-32" data-label="04_SYSTEM_METRICS">
                  <span className="divider-label">04_SYSTEM_METRICS</span>
@@ -218,10 +212,6 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
           </aside>
         </div>
 
-        {/* 
-           PHASE 18 - ARCHITECTURAL STORYTELLING SYSTEM
-           Deep narrative on WHY the system exists in its current form.
-        */}
         <div className="mt-sys-128 space-y-sys-128">
            {/* Section 05: Engineering Decisions & Trade-offs */}
            <section>
@@ -241,7 +231,6 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
                       >
                          <div className="type-metadata text-[0.45rem] text-accent mb-4">DECISION_LOG_0{idx + 1}</div>
                          <h3 className="type-emphasis text-lg mb-8 uppercase tracking-tighter">{decision.title}</h3>
-                         
                          <div className="space-y-6">
                             <div>
                                <div className="type-metadata text-[0.4rem] opacity-30 mb-2">THE_PROBLEM</div>
@@ -252,12 +241,9 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
                                <p className="type-body text-sm text-text-primary">{decision.approach}</p>
                             </div>
                             <div className="pt-4 border-t border-border-dim">
-                                <p className="type-body text-xs italic opacity-60">
-                                  &quot;Reasoning: {decision.reasoning}&quot;
-                                </p>
+                                <p className="type-body text-xs italic opacity-60">&quot;Reasoning: {decision.reasoning}&quot;</p>
                             </div>
                          </div>
-
                          {decision.alternatives && (
                             <div className="mt-8 flex flex-wrap gap-3">
                                <span className="type-metadata text-[0.4rem] opacity-20">DISCARDED_VECTORS:</span>
@@ -270,9 +256,8 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
                     ))}
                  </div>
 
-                 <aside className="col-span-12 lg:col-span-4 lg:col-start-9 space-y-sys-64">
+                 <aside className="col-span-12 lg:col-span-4 lg:col-start-9">
                     <div className="sticky top-sys-64 space-y-sys-64">
-                       {/* Trade-offs Highlight */}
                        <div>
                           <div className="type-metadata text-[0.5rem] text-secondary mb-6 tracking-widest">SYSTEM_TRADE_OFFS</div>
                           <div className="space-y-8">
@@ -287,74 +272,62 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
                              ))}
                           </div>
                        </div>
-
-                       {/* Architecture Meta Summary */}
-                       <div className="p-6 border-l border-border-dim bg-bg-secondary/20">
-                          <p className="type-body text-xs font-mono opacity-40 leading-relaxed uppercase">
-                            Warning: Design maturity reached through iterative failure analysis. All listed approaches are verified against production constraints.
-                          </p>
-                       </div>
                     </div>
                  </aside>
               </div>
            </section>
 
-           {/* Section 06: System Evolution Timeline */}
-           {project.evolution && (
-             <section className="pb-sys-128">
-                <div className="section-divider mb-sys-96" data-label="06_SYSTEM_EVOLUTION">
-                  <span className="divider-label">06_SYSTEM_EVOLUTION</span>
+           {/* Section 06: Operational Runtime Simulation (Story Flow) */}
+           {project.storyFlow && project.diagram && (
+              <section className="py-sys-128 border-t border-border-dim">
+                <div className="section-divider mb-sys-64" data-label="06_RUNTIME_SIMULATION">
+                  <span className="divider-label">06_RUNTIME_SIMULATION</span>
                 </div>
-
-                <div className="relative max-w-4xl mx-auto pl-8 lg:pl-0">
-                   {/* Vertical Line */}
-                   <div className="absolute left-8 lg:left-1/2 top-0 bottom-0 w-[1px] bg-border-dim hidden lg:block" />
+                
+                <div className="space-y-sys-64">
+                   <ArchitectureDiagram 
+                      diagram={project.diagram} 
+                      highlightedNodes={highlightedNodes}
+                   />
                    
-                   <div className="space-y-sys-64">
-                      {project.evolution.map((step, idx) => (
-                        <motion.div 
-                          key={idx}
-                          initial={{ opacity: 0, x: idx % 2 === 0 ? -20 : 20 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          viewport={{ once: true }}
-                          className={cn(
-                            "relative flex flex-col lg:flex-row items-center gap-sys-32 lg:gap-0",
-                            idx % 2 === 0 ? "lg:flex-row-reverse" : ""
-                          )}
-                        >
-                           {/* Timeline Pointer */}
-                           <div className="absolute left-0 lg:left-1/2 -translate-x-1/2 w-3 h-3 bg-accent rounded-full border-4 border-bg-primary z-10" />
-                           
-                           <div className={cn(
-                             "w-full lg:w-1/2",
-                             idx % 2 === 0 ? "lg:pl-sys-64" : "lg:pr-sys-64 lg:text-right"
-                           )}>
-                              <div className="type-metadata text-[0.5rem] text-accent mb-2 uppercase tracking-[0.3em] font-bold">
-                                {step.date || `STEP_0${idx + 1}`}
-                              </div>
-                              <h4 className="type-emphasis text-sm mb-4">{step.milestone.toUpperCase()}</h4>
-                              <p className="type-body text-sm text-text-muted leading-relaxed max-w-sm lg:ml-auto lg:mr-0 inline-block">
-                                {step.description}
-                              </p>
-                           </div>
-                           
-                           {/* Empty side for layout on desktop */}
-                           <div className="hidden lg:block lg:w-1/2" />
-                        </motion.div>
-                      ))}
-                   </div>
+                   <SystemStoryFlow 
+                      steps={project.storyFlow}
+                      onStepChange={(step) => setHighlightedNodes(step.activeNodes)}
+                   />
                 </div>
-             </section>
+              </section>
            )}
 
-           {/* 
-              PHASE 7 & 8: CHALLENGES & FUTURE 
-              Final technical outlook modules.
-           */}
+           {/* Section 07: Evolution Timeline */}
+           {project.evolution && (
+              <section className="pb-sys-128">
+                 <div className="section-divider mb-sys-96" data-label="07_SYSTEM_EVOLUTION">
+                   <span className="divider-label">07_SYSTEM_EVOLUTION</span>
+                 </div>
+                 <div className="relative max-w-4xl mx-auto pl-8 lg:pl-0">
+                    <div className="absolute left-8 lg:left-1/2 top-0 bottom-0 w-[1px] bg-border-dim hidden lg:block" />
+                    <div className="space-y-sys-64">
+                       {project.evolution.map((step, idx) => (
+                         <motion.div key={idx} className={cn("relative flex flex-col lg:flex-row items-center gap-sys-32 lg:gap-0", idx % 2 === 0 ? "lg:flex-row-reverse" : "")}>
+                            <div className="absolute left-0 lg:left-1/2 -translate-x-1/2 w-3 h-3 bg-accent rounded-full border-4 border-bg-primary z-10" />
+                            <div className={cn("w-full lg:w-1/2", idx % 2 === 0 ? "lg:pl-sys-64" : "lg:pr-sys-64 lg:text-right")}>
+                               <div className="type-metadata text-[0.5rem] text-accent mb-2 uppercase tracking-[0.3em] font-bold">{step.date || `STEP_0${idx + 1}`}</div>
+                               <h4 className="type-emphasis text-sm mb-4">{step.milestone.toUpperCase()}</h4>
+                               <p className="type-body text-sm text-text-muted leading-relaxed max-w-sm lg:ml-auto lg:mr-0 inline-block">{step.description}</p>
+                            </div>
+                            <div className="hidden lg:block lg:w-1/2" />
+                         </motion.div>
+                       ))}
+                    </div>
+                 </div>
+              </section>
+           )}
+
+           {/* Section 08 & 09: Challenges & Future */}
            <div className="grid-12 pt-sys-96 border-t border-border-dim">
               <section className="col-span-12 lg:col-span-6 space-y-sys-48">
-                 <div className="section-divider" data-label="07_ENGINEERING_CHALLENGES">
-                   <span className="divider-label">07_ENGINEERING_CHALLENGES</span>
+                 <div className="section-divider" data-label="08_ENGINEERING_CHALLENGES">
+                   <span className="divider-label">08_ENGINEERING_CHALLENGES</span>
                  </div>
                  <div className="space-y-sys-40">
                     {project.challenges?.map((challenge, idx) => (
@@ -367,8 +340,8 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
               </section>
 
               <section className="col-span-12 lg:col-span-6 space-y-sys-48 mt-sys-96 lg:mt-0 lg:col-start-8">
-                 <div className="section-divider" data-label="08_SYSTEM_EVOLUTION_BEYOND">
-                   <span className="divider-label">08_SYSTEM_EVOLUTION_BEYOND</span>
+                 <div className="section-divider" data-label="09_SYSTEM_EVOLUTION_BEYOND">
+                   <span className="divider-label">09_SYSTEM_EVOLUTION_BEYOND</span>
                  </div>
                  <div className="space-y-sys-40">
                     {project.future?.map((item, idx) => (
@@ -381,18 +354,10 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
               </section>
            </div>
 
-           {/* 
-              PHASE 19 - CROSS-PROJECT NAVIGATION SYSTEM
-              Visualizing the larger engineering exploration.
-           */}
            <ProjectNetwork currentSlug={project.slug} />
         </div>
       </main>
 
-      {/* 
-         PHASE 19 - SEQUENTIAL PROJECT NAVIGATION
-         The next node in the exploration manifest.
-      */}
       <footer className="system-container mt-sys-128">
          <div className="pt-sys-96 border-t border-border-dim grid-12">
             <div className="col-span-12 lg:col-span-6">
@@ -408,8 +373,6 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
                   <h3 className="type-identity text-4xl uppercase tracking-tighter group-hover:text-accent transition-colors">
                     {nextProject.title}_
                   </h3>
-                  
-                  {/* Transition Glitch Effect */}
                   <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity select-none pointer-events-none">
                      <span className="type-identity text-7xl uppercase">{nextProject.slug}</span>
                   </div>

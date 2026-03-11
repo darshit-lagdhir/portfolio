@@ -66,6 +66,13 @@ export interface DesignTradeoff {
     impact: "PERFORMANCE" | "MAINTAINABILITY" | "SIMPLICITY" | "SCALABILITY";
 }
 
+export interface StoryStep {
+    id: string;
+    title: string;
+    description: string;
+    activeNodes: string[]; // IDs of diagram nodes to highlight
+}
+
 export interface Project {
     slug: string;
     title: string;
@@ -97,6 +104,7 @@ export interface Project {
     ifRebuildingToday?: string[];
     performance?: string;
     future?: ProjectChallenge[]; // Changed to structured objects
+    storyFlow?: StoryStep[]; // Phase 27: System Runtime Story
     githubRepoName?: string;
     githubUrl?: string;
     status: "COMPLETE" | "DEVELOPMENT" | string;
