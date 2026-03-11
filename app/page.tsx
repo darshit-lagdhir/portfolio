@@ -2,52 +2,71 @@ import Hero from "@/components/hero/Hero";
 import SystemModules from "@/components/projects/SystemModules";
 import EngineeringDomains from "@/components/home/EngineeringDomains";
 import EngineeringPhilosophy from "@/components/home/EngineeringPhilosophy";
+import SystemComparison from "@/components/home/SystemComparison";
 import About from "@/components/about/About";
 import TerminalContact from "@/components/contact/TerminalContact";
 import SectionContainer from "@/components/shared/SectionContainer";
 
 export default function Home() {
   return (
-    <main className="flex flex-col">
-      {/* PHASE 2: HERO SECTION */}
-      <SectionContainer id="hero" noPadding>
+    <div className="flex flex-col gap-sys-128 lg:gap-sys-192 pb-sys-128">
+      {/* 
+         MANIFEST_NODE_00: IDENTITY_PROBE
+      */}
+      <SectionContainer id="hero" noPadding className="pt-0">
         <Hero />
       </SectionContainer>
 
-      {/* PHASE 4: SYSTEMS */}
+      {/* 
+         MANIFEST_NODE_01: SYSTEM_CATALOGUE
+      */}
       <SectionContainer id="systems">
         <SystemModules />
       </SectionContainer>
 
-      {/* NEW: ENGINEERING DOMAINS */}
+      {/* 
+         MANIFEST_NODE_02: INTELLECTUAL_DOMAINS
+      */}
       <SectionContainer id="domains">
         <EngineeringDomains />
       </SectionContainer>
 
-      {/* NEW: ENGINEERING PHILOSOPHY */}
+      {/* 
+         MANIFEST_NODE_03: TECHNICAL_MINDSET
+      */}
       <SectionContainer id="philosophy">
         <EngineeringPhilosophy />
       </SectionContainer>
 
-      {/* PHASE 6: ABOUT (NARRATIVE) */}
+      {/* 
+         MANIFEST_NODE_04: COMPARATIVE_ANALYSIS
+      */}
+      <SectionContainer id="comparison">
+        <SystemComparison />
+      </SectionContainer>
+
+      {/* 
+         MANIFEST_NODE_05: HUMAN_CONSTRUCT
+      */}
       <SectionContainer id="about">
         <About />
       </SectionContainer>
 
-      {/* PHASE 7: CONTACT */}
+      {/* 
+         MANIFEST_NODE_06: CONNECTION_BUS
+      */}
       <SectionContainer id="contact">
         <TerminalContact />
       </SectionContainer>
 
-      {/* FOOTER */}
-      <footer className="py-sys-48 border-t border-border-dim opacity-20">
-        <div className="system-container flex justify-between items-center">
-          <div className="type-metadata text-[0.5rem]">
-            &copy; {new Date().getFullYear()} DARSHIT_LAGDHIR // ARCHITECTURAL_MANIFEST_V2
-          </div>
-          <div className="type-metadata text-[0.5rem]">
-            LATENCY: 0.04MS // BUFFER: 1024KB
-          </div>
+      <footer className="system-container py-sys-64 border-t border-border-dim/30">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6 opacity-30 text-[0.6rem] font-mono tracking-widest">
+           <span>© 2026 DARSHIT_LAGDHIR_SYSTEMS</span>
+           <div className="flex gap-8">
+              <span>LATENCY: 0.00ms</span>
+              <span>STATE: STABLE</span>
+              <span>VER: 3.1.2</span>
+           </div>
         </div>
       </footer>
 
@@ -57,6 +76,6 @@ export default function Home() {
           COORDS: 12.97°N 77.59°E // BENGALURU_SYSTEMS
         </div>
       </div>
-    </main>
+    </div>
   );
 }

@@ -11,8 +11,9 @@ const NAV_ITEMS = [
   { id: "systems", label: "SYSTEMS", code: "01", path: "/#systems" },
   { id: "domains", label: "DOMAINS", code: "02", path: "/#domains" },
   { id: "philosophy", label: "PHILOSOPHY", code: "03", path: "/#philosophy" },
-  { id: "about", label: "ABOUT", code: "04", path: "/#about" },
-  { id: "contact", label: "CONNECT", code: "05", path: "/#contact" },
+  { id: "comparison", label: "COMPARE", code: "04", path: "/#comparison" },
+  { id: "about", label: "ABOUT", code: "05", path: "/#about" },
+  { id: "contact", label: "CONNECT", code: "06", path: "/#contact" },
 ];
 
 export default function NavigationDock() {

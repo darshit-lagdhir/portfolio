@@ -34,7 +34,7 @@ const NARRATIVE_BLOCKS = [
 export default function About() {
   return (
     <div className="w-full relative">
-      <SectionDivider label="04_HUMAN_NARRATIVE" />
+      <SectionDivider label="05_HUMAN_NARRATIVE" />
 
       <div className="grid-12 items-start">
         <div className="col-span-12 lg:col-span-7 mb-sys-64">
