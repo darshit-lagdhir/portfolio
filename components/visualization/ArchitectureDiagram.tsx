@@ -16,10 +16,12 @@ interface ArchitectureDiagramProps {
 export default function ArchitectureDiagram({ diagram, highlightedNodes = [] }: ArchitectureDiagramProps) {
   const { isMobile } = useScene();
   const [activeNodeId, setActiveNodeId] = useState<string | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const nodeRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const [nodeRects, setNodeRects] = useState<{ [key: string]: DOMRect | null }>({});
   const [parentRect, setParentRect] = useState<DOMRect | null>(null);
+  const resizeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Measure nodes and parent for connections
   const updateRects = () => {
@@ -35,14 +37,32 @@ export default function ArchitectureDiagram({ diagram, highlightedNodes = [] }: 
   };
 
   useEffect(() => {
-    updateRects();
-    window.addEventListener("resize", updateRects);
-    const timer = setTimeout(updateRects, 100);
-    return () => {
-      window.removeEventListener("resize", updateRects);
-      clearTimeout(timer);
+    // Visibility observer to halt processing when not on screen
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+
+    if (containerRef.current) observer.observe(containerRef.current);
+
+    const debouncedUpdate = () => {
+      if (resizeTimeoutRef.current) clearTimeout(resizeTimeoutRef.current);
+      resizeTimeoutRef.current = setTimeout(updateRects, 100);
     };
-  }, [diagram]);
+
+    if (isVisible) {
+      updateRects();
+      window.addEventListener("resize", debouncedUpdate);
+    }
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", debouncedUpdate);
+      if (resizeTimeoutRef.current) clearTimeout(resizeTimeoutRef.current);
+    };
+  }, [diagram, isVisible]);
 
   const activeNode = diagram.nodes.find(n => n.id === activeNodeId);
 

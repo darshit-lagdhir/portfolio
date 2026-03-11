@@ -13,6 +13,7 @@ interface SceneContextType {
     isMobile: boolean;
     isScrolled: boolean;
     isLowPerf: boolean;
+    isIdle: boolean;
     scrollProgress: number;
 }
 
@@ -24,12 +25,14 @@ export function SceneProvider({ children }: { children: React.ReactNode }) {
     const [isMobile, setIsMobile] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [isLowPerf, setIsLowPerf] = useState(false);
+    const [isIdle, setIsIdle] = useState(false);
     const [scrollProgress, setScrollProgress] = useState(0);
     
     const pathname = usePathname();
 
     const lastScrollY = useRef(0);
     const ticking = useRef(false);
+    const idleTimer = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
         const checkMobile = () => {
@@ -102,16 +105,28 @@ export function SceneProvider({ children }: { children: React.ReactNode }) {
             if (el) sectionObserver.observe(el);
         });
 
+        const resetIdleTimer = () => {
+            setIsIdle(false);
+            if (idleTimer.current) clearTimeout(idleTimer.current);
+            idleTimer.current = setTimeout(() => setIsIdle(true), 15000); // 15s idle threshold
+        };
+
         checkMobile();
         handleScroll();
         detectPerf();
+        resetIdleTimer();
 
         window.addEventListener("resize", checkMobile);
         window.addEventListener("scroll", handleScroll, { passive: true });
+        window.addEventListener("mousemove", resetIdleTimer, { passive: true });
+        window.addEventListener("keydown", resetIdleTimer, { passive: true });
 
         return () => {
             window.removeEventListener("resize", checkMobile);
             window.removeEventListener("scroll", handleScroll);
+            window.removeEventListener("mousemove", resetIdleTimer);
+            window.removeEventListener("keydown", resetIdleTimer);
+            if (idleTimer.current) clearTimeout(idleTimer.current);
             sectionObserver.disconnect();
         };
     }, [pathname, isNavigating, isMobile]); // Added isNavigating to dependencies
@@ -137,7 +152,7 @@ export function SceneProvider({ children }: { children: React.ReactNode }) {
         <SceneContext.Provider value={{
             activeSection, setActiveSection,
             isNavigating, setIsNavigating,
-            isMobile, isScrolled, isLowPerf,
+            isMobile, isScrolled, isLowPerf, isIdle,
             scrollProgress
         }}>
             {children}

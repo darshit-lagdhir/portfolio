@@ -48,7 +48,8 @@ export default function Cursor() {
         target.closest('[role="button"]') ||
         target.closest('[data-cursor="hover"]');
       
-      setCursorType(isInteractive ? "hover" : "default");
+      const nextType = isInteractive ? "hover" : "default";
+      setCursorType(prev => prev === "active" ? "active" : nextType);
     };
 
     const handleMouseDown = () => setCursorType("active");

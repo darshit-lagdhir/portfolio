@@ -3,13 +3,17 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useScene } from "@/context/SceneContext";
 
 export default function PipelineBackpressureLab() {
   const [consumerSpeed, setConsumerSpeed] = useState(5); // 1-10
   const [producerQueue, setProducerQueue] = useState<number[]>([]);
   const [backpressure, setBackpressure] = useState(0); // 0-100%
+  const { isIdle } = useScene();
 
   useEffect(() => {
+    if (isIdle) return;
+    
     const producerInterval = setInterval(() => {
       setProducerQueue(prev => {
         if (prev.length < 15) {
@@ -20,9 +24,11 @@ export default function PipelineBackpressureLab() {
     }, 400);
 
     return () => clearInterval(producerInterval);
-  }, []);
+  }, [isIdle]);
 
   useEffect(() => {
+    if (isIdle) return;
+
     const consumerInterval = setInterval(() => {
       setProducerQueue(prev => {
         if (prev.length > 0) {
@@ -33,7 +39,7 @@ export default function PipelineBackpressureLab() {
     }, 1100 - (consumerSpeed * 100));
 
     return () => clearInterval(consumerInterval);
-  }, [consumerSpeed]);
+  }, [consumerSpeed, isIdle]);
 
   useEffect(() => {
     setBackpressure(Math.min(100, (producerQueue.length / 12) * 100));
