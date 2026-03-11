@@ -3,6 +3,7 @@ import SystemModules from "@/components/projects/SystemModules";
 import EngineeringDomains from "@/components/home/EngineeringDomains";
 import EngineeringPhilosophy from "@/components/home/EngineeringPhilosophy";
 import SystemComparison from "@/components/home/SystemComparison";
+import FinalReflection from "@/components/home/FinalReflection";
 import About from "@/components/about/About";
 import TerminalContact from "@/components/contact/TerminalContact";
 import SectionContainer from "@/components/shared/SectionContainer";
@@ -53,7 +54,14 @@ export default function Home() {
       </SectionContainer>
 
       {/* 
-         MANIFEST_NODE_06: CONNECTION_BUS
+         MANIFEST_NODE_06: SYSTEM_REFLECTIONS
+      */}
+      <SectionContainer id="reflections" noPadding>
+        <FinalReflection />
+      </SectionContainer>
+
+      {/* 
+         MANIFEST_NODE_07: CONNECTION_BUS
       */}
       <SectionContainer id="contact">
         <TerminalContact />

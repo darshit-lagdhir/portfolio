@@ -13,7 +13,8 @@ const NAV_ITEMS = [
   { id: "philosophy", label: "PHILOSOPHY", code: "03", path: "/#philosophy" },
   { id: "comparison", label: "COMPARE", code: "04", path: "/#comparison" },
   { id: "about", label: "ABOUT", code: "05", path: "/#about" },
-  { id: "contact", label: "CONNECT", code: "06", path: "/#contact" },
+  { id: "reflections", label: "REFLECT", code: "06", path: "/#reflections" },
+  { id: "contact", label: "CONNECT", code: "07", path: "/#contact" },
 ];
 
 export default function NavigationDock() {

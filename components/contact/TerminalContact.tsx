@@ -45,25 +45,25 @@ export default function TerminalContact() {
     switch (cmdId) {
       case "github":
         window.open(identity.github, "_blank");
-        response = `Establishing secure handshake with GitHub repository...\n--> REDIRECT: ${identity.github}\nEntering Darshit's commit history.`;
+        response = `Handshake established with git_node. Accessing source_manifest.\n--> STATUS: REDIRECT_SUCCESS [${identity.github}]\nIDENTITY_LOG: Exploring Darshit's architectural evolution.`;
         break;
       case "linkedin":
         window.open(identity.linkedin, "_blank");
-        response = `Locating professional network node...\n--> REDIRECT: ${identity.linkedin}\nConnection established. Proceeding to viewport.`;
+        response = `Mapping professional connection route. Handshaking with identity_node.\n--> STATUS: REDIRECT_SUCCESS [${identity.linkedin}]\nIDENTITY_LOG: Proceeding to LinkedIn viewport.`;
         break;
       case "message":
         const emailUrl = `mailto:${identity.email}`;
         setTimeout(() => {
           window.location.href = emailUrl;
         }, 0);
-        response = `Constructing localized mail stream to ${identity.email}...\n--> WAITING: Awaiting your transmission payload.`;
+        response = `Initializing encrypted mail stream. Resolving endpoint: ${identity.email}\n--> STATUS: WAITING_FOR_PAYLOAD\nIDENTITY_LOG: Awaiting technical transmission.`;
         break;
       case "resume":
         window.open(identity.resume, "_blank");
-        response = `Gathering architectural credentials and system specifications...\n--> FETCHING: ${identity.resume}\nPrepare for technical analysis.`;
+        response = `Fetching architectural credentials. Decrypting spec_document.\n--> STATUS: REDIRECT_SUCCESS [${identity.resume}]\nIDENTITY_LOG: Documentation verified. Prepare for analysis.`;
         break;
       default:
-        response = "ERROR: UNKNOWN_COMMAND_ID";
+        response = "ERROR: UNKNOWN_COMMAND_ID [CODE_404]";
     }
 
     setHistory(prev => [...prev, { type: 'output', content: response }]);
@@ -72,7 +72,7 @@ export default function TerminalContact() {
 
   return (
     <div className="w-full relative">
-      <SectionDivider label="06_CONNECTION_INTERFACE" />
+      <SectionDivider label="07_CONNECTION_INTERFACE" />
 
       <div className="grid-12">
         <div className="col-span-12 lg:col-span-8">

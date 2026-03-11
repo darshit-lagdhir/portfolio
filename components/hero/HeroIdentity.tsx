@@ -33,10 +33,11 @@ export default function HeroIdentity() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-        className="max-w-[480px]"
+        className="max-w-[520px] relative"
       >
+        <div className="absolute -left-6 top-2 bottom-2 w-[1px] bg-accent/30 hidden md:block" />
         <p className="type-body text-lg md:text-xl leading-relaxed text-text-secondary">
-          A {identity.positioning} who learns by building systems, observing how they fail, and redesigning them until they behave correctly. Driven by an intense curiosity to understand how software works internally.
+          A {identity.positioning} driven by an intense curiosity to deconstruct complex systems. I build by observing internal mechanics, analyzing points of failure, and engineering resilient architectures that withstand technical rigor.
         </p>
       </motion.div>
     </div>
