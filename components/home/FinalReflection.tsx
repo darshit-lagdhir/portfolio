@@ -8,39 +8,52 @@ export default function FinalReflection() {
     <div className="w-full relative">
       <SectionDivider label="08_SYSTEM_REFLECTIONS" />
       
-      <div className="py-sys-64 mb-sys-64">
-        <div className="max-w-4xl mx-auto text-center space-y-8">
+      <div className="py-sys-96 lg:py-sys-128 mb-sys-64">
+        <div className="max-w-4xl mx-auto text-center space-y-12">
+          {/* Visual Anchor - Minimal Interaction */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="inline-block p-2 border border-accent/20 bg-accent/5 rounded-full mb-8"
+            className="inline-block p-1 border border-accent/10 bg-accent/5 rounded-full mb-12"
           >
-            <div className="w-2 h-2 bg-accent rounded-full animate-pulse" />
+            <div className="w-1.5 h-1.5 bg-accent rounded-full opacity-40" />
           </motion.div>
           
+          {/* Reflective Heading */}
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="type-identity text-3xl md:text-5xl uppercase tracking-tighter"
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="type-identity text-3xl md:text-5xl uppercase tracking-tighter opacity-80"
           >
-            End_of_Manifest.
+            End_of_Manifest_
           </motion.h2>
 
+          {/* Deep Philosophical Statement */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="space-y-6"
+            transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="space-y-10"
           >
-            <p className="type-body text-lg md:text-xl text-text-secondary opacity-70 leading-relaxed italic">
-              "This portfolio is not just a collection of projects, but a continuous investigation into the internal mechanics of building software. It represents a commitment to architectural rigor, technical curiosity, and the belief that understanding how a system fails is the first step toward making it resilient."
+            <p className="type-body text-lg md:text-xl text-text-secondary opacity-60 leading-relaxed font-light px-6">
+              This portfolio is not a static archive of completed work, but a continuing investigation into the 
+              structural integrity of digital systems. It represents a journey of curiosity—of dissecting 
+              the internal mechanics of building software to understand not just how it works, but how 
+              it evolves and scales. We are perpetually exploring the boundary where architectural 
+              rigor meets engineering discovery.
             </p>
-            <div className="flex flex-col items-center gap-4">
-               <div className="w-12 h-[1px] bg-border-dim" />
-               <span className="type-metadata text-[0.45rem] opacity-30 tracking-[0.3em] uppercase">Architecture // Curiosity // Resilience</span>
+            
+            <div className="flex flex-col items-center gap-6">
+               <div className="w-[1px] h-16 bg-gradient-to-b from-border-dim to-transparent opacity-50" />
+               <div className="flex gap-8">
+                  <span className="type-metadata text-[0.4rem] opacity-20 tracking-[0.4em] uppercase hover:opacity-100 transition-opacity duration-700 cursor-default">EXPLORATION</span>
+                  <span className="type-metadata text-[0.4rem] opacity-20 tracking-[0.4em] uppercase hover:opacity-100 transition-opacity duration-700 cursor-default">CURIOSITY</span>
+                  <span className="type-metadata text-[0.4rem] opacity-20 tracking-[0.4em] uppercase hover:opacity-100 transition-opacity duration-700 cursor-default">SYNTHESIS</span>
+               </div>
             </div>
           </motion.div>
         </div>

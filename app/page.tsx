@@ -100,13 +100,23 @@ export default function Home() {
         <TerminalContact />
       </SectionContainer>
 
-      <footer className="system-container py-sys-64 border-t border-border-dim/30">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6 opacity-30 text-[0.6rem] font-mono tracking-widest">
-           <span>© 2026 DARSHIT_LAGDHIR_SYSTEMS</span>
-           <div className="flex gap-8">
-              <span>LATENCY: 0.00ms</span>
-              <span>STATE: STABLE</span>
-              <span>VER: 3.1.2</span>
+      <footer className="system-container py-sys-96 md:py-sys-128 border-t border-border-dim/20">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-12 text-center md:text-left">
+           <div className="space-y-2 opacity-30">
+              <span className="type-metadata text-[0.6rem] font-mono tracking-[0.4em]">© 2026 DARSHIT_LAGDHIR_SYSTEMS</span>
+              <p className="type-metadata text-[0.45rem] opacity-50">Exploration of Architectural Rigor & Systems Thinking</p>
+           </div>
+           
+           <div className="flex gap-12 font-mono text-[0.55rem] tracking-[0.3em] opacity-30">
+              <div className="flex items-center gap-2">
+                 <div className="w-1.5 h-1.5 bg-green-500/40 rounded-full animate-pulse" />
+                 <span>LATENCY: 0.00ms</span>
+              </div>
+              <div className="flex items-center gap-2">
+                 <div className="w-1.5 h-1.5 bg-accent/40 rounded-full" />
+                 <span>STATE: STABLE</span>
+              </div>
+              <span>VER: 3.4.0_EXP</span>
            </div>
         </div>
       </footer>
