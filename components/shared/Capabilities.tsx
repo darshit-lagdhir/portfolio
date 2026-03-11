@@ -2,36 +2,38 @@
 
 import { motion } from "framer-motion";
 
+import { identity } from "@/data/identity";
+
 const capabilityClusters = [
   {
     category: "LANGUAGES",
-    description: "Exploring the mechanics of systems languages, memory management, and high-performance execution environments.",
-    items: ["Java", "C++", "Python", "TypeScript", "Rust"],
+    description: "Actively working with several programming languages while exploring deeper concepts in data structures and memory behavior.",
+    items: identity.technologyStack.languages,
     id: "cap-lang"
   },
   {
-    category: "SYSTEMS_ENGINEERING",
-    description: "Researching scalable backend architectures, distributed service communication, and low-latency system design.",
-    items: ["Microservices", "API Design", "gRPC", "Node.js", "Docker"],
-    id: "cap-sys"
+    category: "BACKEND_&_WEB",
+    description: "Building backend systems and server logic with Node.js, Express, and React. Designing REST APIs, session management, and authentication flows.",
+    items: identity.technologyStack.web,
+    id: "cap-web"
   },
   {
-    category: "DATA_SYSTEMS",
-    description: "Investigating relational database technologies, query optimization, and designing systems for data reliability.",
-    items: ["PostgreSQL", "SQL", "Redis", "Data Modeling", "ORMs"],
+    category: "DATABASES",
+    description: "Working with multiple databases and learning how data infrastructure, schema design, and storage engines function under the hood.",
+    items: identity.technologyStack.databases,
     id: "cap-data"
   },
   {
-    category: "SECURITY_AND_OS",
-    description: "Deep-dives into operating system internals, shell scripting, and practical cybersecurity exploration.",
-    items: ["Linux", "OS Internals", "Cybersecurity", "Shell", "Isolation"],
-    id: "cap-sec"
+    category: "TOOLS_&_PLATFORMS",
+    description: "Day-to-day tools used for version control, development environments, and cloud exploration.",
+    items: identity.technologyStack.tools,
+    id: "cap-tools"
   },
   {
-    category: "ARTIFICIAL_INTELLIGENCE",
-    description: "Experimenting with machine learning pipelines, pattern detection, and future computational models.",
-    items: ["Machine Learning", "Data Pipelines", "Pattern Detection", "Transformers", "Neural Nets"],
-    id: "cap-ai"
+    category: "CURRENTLY_LEARNING",
+    description: "Areas of active exploration — studying Go and Rust for performance, Python for AI experimentation, and Linux internals for security research.",
+    items: ["Go", "Rust", "AI / ML", "Linux Internals", "Cybersecurity"],
+    id: "cap-learning"
   }
 ];
 

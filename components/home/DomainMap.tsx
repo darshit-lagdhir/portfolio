@@ -12,11 +12,12 @@ interface DomainMapProps {
 export default function DomainMap({ activeDomainId, onDomainClick }: DomainMapProps) {
   // Fixed positions for a controlled conceptual layout
   const nodePositions: { [key: string]: { x: number; y: number } } = {
-    backend_arch: { x: 50, y: 50 },
-    data_intelligence: { x: 80, y: 30 },
-    systems_verification: { x: 20, y: 30 },
-    distributed_systems: { x: 80, y: 70 },
-    security_engineering: { x: 20, y: 70 }
+    systems_engineering: { x: 50, y: 25 },
+    backend_development: { x: 80, y: 40 },
+    data_systems: { x: 75, y: 70 },
+    programming_languages: { x: 20, y: 40 },
+    security_linux: { x: 25, y: 70 },
+    ai_ml: { x: 50, y: 80 }
   };
 
   return (

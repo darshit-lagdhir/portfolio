@@ -26,12 +26,12 @@ export default function EngineeringDomains() {
 
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-sys-24 mb-sys-64">
          <div className="space-y-4">
-           <div className="type-metadata text-[0.45rem] text-accent opacity-50">INTELLECTUAL_MANIFEST</div>
-           <h2 className="type-identity text-3xl md:text-4xl uppercase tracking-tighter">Engineering_Domains</h2>
+           <div className="type-metadata text-[0.45rem] text-accent opacity-50">EXPLORATION_MAP</div>
+           <h2 className="type-identity text-3xl md:text-4xl uppercase tracking-tighter">Learning_Domains</h2>
          </div>
          <div className="max-w-md">
             <p className="type-body text-xs opacity-40 italic">
-              A conceptual map of technical exploration, categorizing individual systems into broader engineering themes and research vectors.
+              A map of technical areas I am currently exploring, learning, and building projects in. These domains represent active learning paths rather than established expertise.
             </p>
          </div>
       </div>
