@@ -124,6 +124,11 @@ export default function NavigationDock() {
           )}>
             {item.code}
           </span>
+          
+          <div className={cn(
+            "arch-marker scale-[0.3] transition-all duration-300",
+            activeSection === item.id ? "opacity-100 scale-50" : "opacity-0 group-hover:opacity-40"
+          )} />
 
           {/* Label Engine */}
           <div className="overflow-hidden">

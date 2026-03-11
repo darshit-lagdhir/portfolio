@@ -44,10 +44,10 @@ export default function EngineeringDomains() {
               key={domain.id}
               onClick={() => setActiveDomainId(activeDomainId === domain.id ? null : domain.id)}
               className={cn(
-                "w-full text-left p-6 border transition-all relative group",
+                "module-frame w-full text-left relative group !p-6",
                 activeDomainId === domain.id 
                   ? "border-accent bg-accent/5" 
-                  : "border-border-dim bg-bg-secondary/20 hover:border-border-bright"
+                  : "hover:border-border-bright"
               )}
             >
               <div className="flex justify-between items-center mb-2">
@@ -74,7 +74,7 @@ export default function EngineeringDomains() {
         </div>
 
         {/* Domain Detail & Map Area */}
-        <div className="lg:col-span-8 min-h-[500px] border border-border-dim bg-bg-secondary/10 relative p-8 md:p-12 overflow-hidden flex flex-col justify-center">
+        <div className="module-frame lg:col-span-8 min-h-[500px] relative !p-8 md:!p-12 overflow-hidden flex flex-col justify-center">
           {/* Visual Domain Map Layer */}
           <DomainMap 
             activeDomainId={activeDomainId} 
@@ -104,11 +104,10 @@ export default function EngineeringDomains() {
                         <Link 
                           key={project.slug}
                           href={`/${project.slug}`}
-                          className="group p-6 border border-border-dim hover:border-accent/40 bg-bg-primary/50 transition-all backdrop-blur-sm"
+                          className="module-frame group !p-6 relative transition-all backdrop-blur-sm"
                         >
-                           <div className="flex justify-between items-start mb-4">
-                              <span className="type-metadata text-[0.4rem] opacity-40">NODE_REF</span>
-                              <span className="type-metadata text-[0.4rem] text-accent opacity-0 group-hover:opacity-100 transition-opacity">EXPLORE →</span>
+                           <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                              <div className="arch-marker scale-50" />
                            </div>
                            <h4 className="type-emphasis text-sm group-hover:text-accent transition-colors">{project.title}</h4>
                            <p className="type-body text-[0.7rem] opacity-50 mt-2 line-clamp-2 italic">{project.shortDescription}</p>

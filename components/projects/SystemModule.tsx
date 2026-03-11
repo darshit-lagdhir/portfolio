@@ -23,7 +23,7 @@ export default function SystemModule({ project, index }: SystemModuleProps) {
           delay: index * 0.05,
           ease: [0.16, 1, 0.3, 1]
         }}
-        className="group relative border border-border-dim bg-bg-secondary p-sys-32 h-full flex flex-col transition-all duration-[250ms] ease-out hover:border-accent/50 hover:bg-bg-secondary/80 md:hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent/5"
+        className="module-frame group relative h-full flex flex-col transition-all duration-[250ms] ease-out hover:border-accent/50 md:hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent/5"
       >
         {/* Module Header Hook */}
         <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-100 transition-opacity">

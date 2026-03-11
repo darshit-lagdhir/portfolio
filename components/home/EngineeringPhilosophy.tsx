@@ -64,11 +64,11 @@ export default function EngineeringPhilosophy() {
                viewport={{ once: true }}
                transition={{ delay: index * 0.1, duration: 0.5 }}
                whileHover={{ y: -5 }}
-               className="p-8 border border-border-dim bg-bg-secondary/20 hover:border-accent/30 hover:bg-bg-secondary/40 transition-all group relative overflow-hidden h-full flex flex-col"
+                className="module-frame group relative overflow-hidden h-full flex flex-col hover:shadow-xl hover:shadow-accent/5"
              >
-                {/* Visual Accent */}
-                <div className="absolute top-0 right-0 w-16 h-16 opacity-5 pointer-events-none group-hover:opacity-10 transition-opacity">
-                   <span className="type-identity text-6xl leading-none">{principle.icon}</span>
+                {/* Visual Signature Marker */}
+                <div className="absolute top-4 right-4 group-hover:scale-110 transition-transform">
+                   <div className="arch-marker" />
                 </div>
 
                 <div className="flex flex-col h-full">

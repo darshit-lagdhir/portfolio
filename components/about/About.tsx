@@ -47,14 +47,25 @@ export default function About() {
             </p>
           </div>
 
-          <div className="space-y-sys-64">
-            {NARRATIVE_BLOCKS.map((block, index) => (
+          {/* BIO DETAILS (Mobile only or integrated) */}
+          <div className="lg:hidden mt-sys-64 pt-sys-64 border-t border-border-dim">
+            <div className="type-metadata text-[0.6rem] mb-2 opacity-30 tracking-widest">EDUCATION_REF</div>
+            <div className="type-emphasis text-sm">{identity.degree.toUpperCase()} @ {identity.university.toUpperCase()}</div>
+          </div>
+        </div>
+
+        <div className="col-span-12 lg:col-span-5 lg:col-start-8">
+          <div className="module-frame space-y-sys-48 relative overflow-hidden">
+             {/* Architectural Background Trace */}
+             <div className="absolute top-0 left-0 w-[1px] h-full bg-border-dim opacity-20" />
+             
+             {NARRATIVE_BLOCKS.map((block, idx) => (
               <motion.div
                 key={block.id}
                 initial={{ opacity: 0, x: -10 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-10%" }}
-                transition={{ delay: index * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ delay: idx * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 className="group"
               >
                 <div className="type-label text-accent mb-4 tracking-widest flex items-center gap-2">

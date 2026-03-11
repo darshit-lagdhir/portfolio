@@ -71,7 +71,10 @@ export default function SystemComparison() {
               <div className="type-metadata text-[0.45rem] opacity-30 tracking-[0.2em]">TECHNICAL_DIMENSIONS</div>
             </div>
             {projects.map((project, idx) => (
-              <div key={project.slug} className="col-span-3 border-l border-b border-border-dim p-8 group relative overflow-hidden">
+              <div key={project.slug} className="module-frame col-span-3 h-full group relative overflow-hidden !rounded-none border-t-0 border-r-0">
+                <div className="absolute top-2 right-2">
+                   <div className="arch-marker scale-50 opacity-20 group-hover:opacity-100 transition-opacity" />
+                </div>
                 <div className="type-metadata text-[0.4rem] text-accent mb-4">SYSTEM_NODE_0{idx + 1}</div>
                 <h3 className="type-emphasis text-lg mb-6 group-hover:text-accent transition-colors">
                   {project.title.toUpperCase()}
@@ -204,7 +207,7 @@ export default function SystemComparison() {
         ))}
       </div>
 
-      <div className="mt-sys-64 p-8 border border-border-dim bg-bg-secondary/10 flex flex-col md:flex-row items-center justify-between gap-6 opacity-40">
+      <div className="mt-sys-64 module-frame !p-8 flex flex-col md:flex-row items-center justify-between gap-6 opacity-40">
         <div className="type-metadata text-[0.45rem] tracking-[0.3em]">CROSS_SYSTEM_THEMES</div>
         <div className="flex flex-wrap justify-center gap-8">
           <div className="flex items-center gap-2">

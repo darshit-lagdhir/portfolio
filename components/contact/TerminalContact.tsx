@@ -87,19 +87,21 @@ export default function TerminalContact() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="relative border border-border-dim bg-bg-secondary overflow-hidden shadow-2xl"
+            className="module-frame relative overflow-hidden shadow-2xl !p-0"
           >
             {/* TERMINAL HEADER */}
-            <div className="bg-bg-primary border-b border-border-dim px-6 py-3 flex items-center justify-between">
-              <div className="flex gap-2">
-                <div className="w-2.5 h-2.5 rounded-full bg-border-dim opacity-30" />
-                <div className="w-2.5 h-2.5 rounded-full bg-border-dim opacity-30" />
-                <div className="w-2.5 h-2.5 rounded-full bg-border-dim opacity-30" />
+            <div className="bg-bg-primary/50 backdrop-blur-md border-b border-border-dim px-6 py-3 flex items-center justify-between">
+              <div className="flex gap-4">
+                <div className="arch-marker scale-50 opacity-40" />
+                <div className="type-metadata text-[0.45rem] opacity-30 tracking-widest font-mono">
+                  CON_INTERFACE_v2.0
+                </div>
               </div>
-              <div className="type-metadata text-[0.5rem] opacity-30 tracking-widest font-mono">
-                CON_INTERFACE_v2.0
+              <div className="flex gap-2 opacity-20">
+                <div className="w-1 h-3 bg-accent" />
+                <div className="w-1 h-3 bg-accent" />
+                <div className="w-1 h-3 bg-accent" />
               </div>
-              <div className="w-12 h-1 bg-border-dim/10 rounded-full" />
             </div>
 
             {/* TERMINAL CONTENT */}
@@ -136,16 +138,22 @@ export default function TerminalContact() {
             </div>
 
             {/* COMMAND SELECTION PANEL */}
-            <div className="bg-bg-primary border-t border-border-dim p-6">
-              <div className="type-metadata text-[0.5rem] mb-4 opacity-30 tracking-[0.2em]">AVAILABLE_ACTIONS</div>
+            <div className="bg-bg-primary/30 border-t border-border-dim p-8">
+              <div className="type-metadata text-[0.5rem] mb-6 opacity-30 tracking-[0.2em] flex items-center gap-3">
+                 <div className="w-1.5 h-1.5 bg-accent" />
+                 AVAILABLE_ACTIONS
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {SELECTABLE_COMMANDS.map((cmd) => (
                   <button
                     key={cmd.id}
                     onClick={() => executeCommand(cmd.id, cmd.label)}
                     disabled={isProcessing}
-                    className="group flex items-center justify-between px-4 py-3 border border-border-dim hover:border-accent/50 hover:bg-accent/5 transition-all text-left disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-1 focus-visible:ring-accent/50 md:hover:translate-x-1"
+                    className="module-frame group flex items-center justify-between !p-5 relative transition-all text-left disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-1 focus-visible:ring-accent/50 md:hover:translate-x-1"
                   >
+                    <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                       <div className="arch-marker scale-[0.3]" />
+                    </div>
                     <div className="flex items-center gap-3">
                       <span className="text-accent group-hover:translate-x-1 transition-transform">&lambda;</span>
                       <span className="type-nav text-[0.7rem]">{cmd.label.toUpperCase()}</span>
