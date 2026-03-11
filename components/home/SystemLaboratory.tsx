@@ -87,7 +87,7 @@ export default function SystemLaboratory() {
         <div className="lg:col-span-8 min-h-[500px] flex flex-col">
            <div className="module-frame flex-grow relative overflow-hidden bg-bg-secondary/20 !p-0 flex flex-col">
               {/* VIEWPORT HEADER */}
-              <div className="p-6 border-b border-border-dim bg-bg-primary/40 backdrop-blur-md flex justify-between items-center z-20">
+              <div className="p-6 border-b border-border-dim bg-bg-secondary flex justify-between items-center z-20">
                  <div className="flex items-center gap-4">
                     <span className="type-metadata text-[0.45rem] opacity-40">EXPERIMENT_VIEWPORT</span>
                     <div className="w-[1px] h-3 bg-border-dim/50" />

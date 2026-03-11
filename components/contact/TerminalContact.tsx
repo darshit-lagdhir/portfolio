@@ -94,7 +94,7 @@ export default function TerminalContact() {
             className="module-frame relative overflow-hidden !p-0 bg-bg-secondary/5 border-dashed"
           >
             {/* TERMINAL HEADER */}
-            <div className="bg-bg-primary/30 backdrop-blur-md border-b border-border-dim px-8 py-6 flex items-center justify-between">
+            <div className="bg-bg-secondary border-b border-border-dim px-8 py-6 flex items-center justify-between">
               <div className="flex gap-4 items-center">
                 <div className="w-1.5 h-1.5 bg-accent/30 rounded-full" />
                 <div className="type-metadata text-[0.4rem] opacity-20 tracking-[0.4em] font-mono uppercase">
@@ -150,7 +150,7 @@ export default function TerminalContact() {
             </div>
 
             {/* COMMAND SELECTION PANEL */}
-            <div className="bg-bg-primary/40 backdrop-blur-sm border-t border-border-dim p-8 md:p-12">
+            <div className="bg-bg-secondary border-t border-border-dim p-8 md:p-12">
               <div className="type-metadata text-[0.5rem] mb-8 opacity-30 tracking-[0.4em] flex items-center gap-4">
                  <div className="w-1 h-3 bg-accent" />
                  SELECT_COMMAND_PAYLOAD

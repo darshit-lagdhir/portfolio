@@ -79,7 +79,7 @@ export default function AuthBoundaryLab() {
       </div>
 
       {/* Controls */}
-      <div className="module-frame !bg-bg-primary/60 backdrop-blur-md w-full max-w-xs !p-5 space-y-4">
+      <div className="module-frame bg-bg-secondary w-full max-w-xs !p-5 space-y-4">
          <div className="flex justify-between items-center">
             <span className="type-metadata text-[0.45rem] opacity-30 uppercase tracking-widest font-mono">ENFORCE_STRICT_RBAC</span>
             <button 

@@ -48,7 +48,7 @@ export default function NavigationDock() {
           <motion.nav
             initial={{ y: -50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className="fixed top-0 left-0 right-0 z-50 px-6 h-16 bg-bg-primary/80 backdrop-blur-md border-b border-border-dim flex items-center justify-between"
+            className="fixed top-0 left-0 right-0 z-50 px-6 h-16 bg-bg-primary border-b border-border-dim flex items-center justify-between"
           >
             <div className="type-metadata text-[0.55rem] text-accent">SYSTEM_INTERNAL</div>
             <Link 
@@ -68,7 +68,7 @@ export default function NavigationDock() {
             transition={{ type: "spring", damping: 20, stiffness: 100 }}
             className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 w-[95vw] max-w-sm"
           >
-            <div className="bg-bg-secondary/90 backdrop-blur-xl border border-border-bright/20 rounded-2xl p-2 shadow-2xl flex items-center justify-between">
+            <div className="bg-bg-secondary border border-border-dim rounded-sm p-2 shadow-2xl flex items-center justify-between">
               {NAV_ITEMS.filter(item => ["hero", "systems", "domains", "contact"].includes(item.id)).map((item) => (
                 <button
                   key={item.id}

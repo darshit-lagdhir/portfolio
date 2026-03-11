@@ -77,7 +77,7 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
                initial={{ opacity: 0 }}
                animate={{ opacity: 1 }}
                transition={{ delay: 0.2 }}
-               className="type-body text-xl md:text-2xl text-text-secondary max-w-3xl leading-snug mb-sys-32"
+               className="type-body text-lg md:text-xl text-text-secondary max-w-2xl leading-relaxed mb-sys-64 opacity-50 font-medium"
              >
                {project.shortDescription}
              </motion.p>
@@ -118,18 +118,17 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
           {/* Section 01 & 02: Detailed Narrative & Architecture */}
           <div className="col-span-12 lg:col-span-7 space-y-sys-96">
             <section>
-               <SectionDivider label="01_SYSTEM_OVERVIEW" className="mb-sys-48" />
-               <div className="space-y-sys-32">
-                 <p className="type-body text-lg leading-relaxed text-text-primary">
-                   {project.overview}
-                 </p>
-                 <div className="bg-bg-secondary border-l-2 border-accent/30 p-8">
-                    <div className="type-metadata text-[0.5rem] text-accent mb-4 tracking-tighter">PROBLEM_STATEMENT</div>
-                    <p className="type-body opacity-70 italic text-sm md:text-base">
-                       &quot;{project.problem}&quot;
-                    </p>
-                 </div>
-               </div>
+                <div className="space-y-sys-48">
+                  <p className="type-body text-base md:text-lg leading-relaxed text-text-primary opacity-80 font-medium">
+                    {project.overview}
+                  </p>
+                  <div className="module-frame !p-10 border-dashed opacity-60">
+                     <div className="type-metadata text-[0.4rem] text-accent/40 mb-6 tracking-[0.3em] font-mono uppercase">PROBLEM_DEFINITION</div>
+                     <p className="type-body opacity-80 italic text-base md:text-lg font-medium leading-relaxed">
+                        &quot;{project.problem}&quot;
+                     </p>
+                  </div>
+                </div>
             </section>
 
             <section>
@@ -239,31 +238,31 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
                     {project.architectureDecisions?.map((decision, idx) => (
                       <motion.div 
                         key={idx}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
                         viewport={{ once: true }}
-                        className="p-8 border border-border-dim bg-bg-secondary/30 relative group"
+                        className="module-frame group relative"
                       >
-                         <div className="type-metadata text-[0.45rem] text-accent mb-4">DECISION_LOG_0{idx + 1}</div>
-                         <h3 className="type-emphasis text-lg mb-8 uppercase tracking-tighter">{decision.title}</h3>
-                         <div className="space-y-6">
+                         <div className="type-metadata text-[0.4rem] text-accent/30 mb-8 tracking-[0.3em] font-mono">DECISION_LOG_0{idx + 1}</div>
+                         <h3 className="type-emphasis text-sm mb-10 uppercase tracking-tight opacity-70 group-hover:opacity-100 transition-opacity">{decision.title}</h3>
+                         <div className="space-y-8">
                             <div>
-                               <div className="type-metadata text-[0.4rem] opacity-30 mb-2">THE_PROBLEM</div>
-                               <p className="type-body text-sm text-text-secondary">{decision.problem}</p>
+                               <div className="type-metadata text-[0.35rem] opacity-20 mb-3 tracking-widest font-mono">CORE_PROBLEM</div>
+                               <p className="type-body text-xs md:text-sm text-text-secondary opacity-60 font-medium leading-relaxed">{decision.problem}</p>
                             </div>
                             <div>
-                               <div className="type-metadata text-[0.4rem] opacity-30 mb-2">THE_APPROACH</div>
-                               <p className="type-body text-sm text-text-primary">{decision.approach}</p>
+                               <div className="type-metadata text-[0.35rem] opacity-20 mb-3 tracking-widest font-mono">TECHNICAL_PATH</div>
+                               <p className="type-body text-xs md:text-sm text-text-primary opacity-80 font-medium leading-relaxed">{decision.approach}</p>
                             </div>
-                            <div className="pt-4 border-t border-border-dim">
-                                <p className="type-body text-xs italic opacity-60">&quot;Reasoning: {decision.reasoning}&quot;</p>
+                            <div className="pt-6 border-t border-border-dim/20">
+                                <p className="type-body text-[0.65rem] italic opacity-40 font-medium leading-relaxed">&quot;{decision.reasoning}&quot;</p>
                             </div>
                          </div>
                          {decision.alternatives && (
-                            <div className="mt-8 flex flex-wrap gap-3">
-                               <span className="type-metadata text-[0.4rem] opacity-20">DISCARDED_VECTORS:</span>
+                            <div className="mt-8 flex flex-wrap gap-4 opacity-20">
+                               <span className="type-metadata text-[0.35rem] tracking-widest font-mono">DISCARD_NODES:</span>
                                {decision.alternatives.map(alt => (
-                                 <span key={alt} className="type-metadata text-[0.4rem] text-text-muted line-through opacity-40">{alt}</span>
+                                 <span key={alt} className="type-metadata text-[0.35rem] text-text-muted line-through">{alt}</span>
                                ))}
                             </div>
                          )}
@@ -315,18 +314,18 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
            {project.authority?.deepDives && (
               <section>
                  <SectionDivider label="08_TECHNICAL_DEEP_DIVES" className="mb-sys-64" />
-                 <div className="grid-12 gap-sys-48">
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-sys-48">
                     {project.authority.deepDives.map((dive, idx) => (
                       <div 
                         key={idx} 
-                        className="col-span-12 lg:col-span-6 p-10 border border-border-dim bg-bg-secondary/20 hover:border-accent/40 transition-all group"
+                        className="module-frame group"
                       >
-                         <div className="type-metadata text-[0.45rem] text-accent mb-6 flex items-center gap-3">
-                            <span className="w-1 h-1 bg-accent" />
-                            DEEP_DIVE_0{idx + 1} {'//'} {dive.type}
+                         <div className="type-metadata text-[0.4rem] text-accent/40 mb-8 flex items-center gap-3 font-mono tracking-[0.2em] uppercase">
+                            <span className="w-1 h-1 bg-accent/30 rounded-full" />
+                            DEEP_DIVE_0{idx + 1}
                          </div>
-                         <h3 className="type-emphasis text-xl mb-6 tracking-tighter group-hover:text-accent transition-colors">{dive.title}</h3>
-                         <p className="type-body text-sm leading-relaxed text-text-secondary opacity-80 group-hover:opacity-100 transition-opacity">
+                         <h3 className="type-emphasis text-sm mb-6 tracking-tight opacity-70 group-hover:opacity-100 transition-opacity">{dive.title}</h3>
+                         <p className="type-body text-xs leading-relaxed text-text-secondary opacity-50 font-medium">
                             {dive.content}
                          </p>
                       </div>

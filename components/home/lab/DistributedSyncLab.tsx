@@ -81,7 +81,7 @@ export default function DistributedSyncLab() {
       </div>
 
       {/* Controls */}
-      <div className="module-frame !bg-bg-primary/60 backdrop-blur-md w-full max-w-xs !p-4 space-y-4">
+      <div className="module-frame bg-bg-secondary w-full max-w-xs !p-4 space-y-4">
          <div className="flex justify-between items-center">
             <span className="type-metadata text-[0.45rem] opacity-30">NETWORK_LATENCY</span>
             <span className="type-metadata text-accent font-mono">{latency * 100}ms</span>

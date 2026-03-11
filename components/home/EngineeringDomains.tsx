@@ -102,7 +102,7 @@ export default function EngineeringDomains() {
                         <Link 
                           key={project.slug}
                           href={`/${project.slug}`}
-                          className="module-frame group !p-6 relative transition-all backdrop-blur-sm"
+                          className="module-frame group !p-6 relative transition-all"
                         >
                            <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
                               <div className="arch-marker scale-50" />
