@@ -8,7 +8,8 @@ import { useScene } from "@/context/SceneContext";
 export default function Cursor() {
   const { isLowPerf, isMobile } = useScene();
   const [cursorType, setCursorType] = useState<"default" | "hover" | "active">("default");
-  const [isPointer, setIsPointer] = useState(false);
+  const [isPointer, setIsPointer] = useState(true); // Default to true for better hydration matching on desktop
+  const [hasMoved, setHasMoved] = useState(false);
   const cursorRef = useRef<HTMLDivElement>(null);
   
   const shouldReduceMotion = useReducedMotion();
@@ -35,9 +36,7 @@ export default function Cursor() {
     const updatePosition = (e: MouseEvent) => {
       mouseX.set(e.clientX);
       mouseY.set(e.clientY);
-      if (cursorRef.current && cursorRef.current.style.opacity === "0") {
-        cursorRef.current.style.opacity = "1";
-      }
+      if (!hasMoved) setHasMoved(true);
     };
 
     const handleMouseOver = (e: MouseEvent) => {
@@ -69,7 +68,7 @@ export default function Cursor() {
       window.removeEventListener("mouseup", handleMouseUp);
       document.body.classList.remove("custom-cursor-active");
     };
-  }, [mouseX, mouseY, isMobile]);
+  }, [mouseX, mouseY, isMobile, hasMoved]);
 
   // Disable on mobile/touch or if pointer is not fine
   if (!isPointer || isMobile) return null;
@@ -77,8 +76,8 @@ export default function Cursor() {
   const variants = {
     default: {
       scale: 1,
-      backgroundColor: "transparent",
-      borderColor: "var(--color-border-bright)",
+      backgroundColor: "rgba(255, 255, 255, 0.05)",
+      borderColor: "rgba(255, 255, 255, 0.3)",
       borderWidth: "1px",
     },
     hover: {
@@ -98,13 +97,15 @@ export default function Cursor() {
   return (
     <motion.div
       ref={cursorRef}
-      className="fixed top-0 left-0 w-6 h-6 rounded-full border pointer-events-none z-[9999] mix-blend-difference opacity-0 transition-opacity duration-300"
+      className={cn(
+        "custom-cursor fixed top-0 left-0 w-6 h-6 rounded-full border pointer-events-none z-[9999] mix-blend-difference transition-opacity duration-500",
+        hasMoved ? "opacity-100" : "opacity-0"
+      )}
       style={{
         x: cursorX,
         y: cursorY,
         translateX: "-50%",
         translateY: "-50%",
-        // Use translate3d for hardware acceleration
         translateZ: 0,
       }}
       variants={variants}
@@ -122,8 +123,11 @@ export default function Cursor() {
         animate={{ opacity: cursorType === 'hover' ? 0 : 1 }}
       >
         <motion.div 
-          className="w-1 h-1 rounded-full"
-          animate={{ backgroundColor: cursorType === 'active' ? "var(--color-accent)" : "var(--color-text-secondary)" }}
+          className="w-1.5 h-1.5 rounded-full"
+          animate={{ 
+            backgroundColor: cursorType === 'active' ? "var(--color-accent)" : "rgba(255, 255, 255, 0.8)",
+            scale: cursorType === 'active' ? 1.5 : 1
+          }}
         />
       </motion.div>
     </motion.div>
