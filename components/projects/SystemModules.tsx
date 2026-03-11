@@ -2,14 +2,12 @@
 
 import { projects } from "@/data/projects";
 import SystemModule from "./SystemModule";
+import SectionDivider from "@/components/shared/SectionDivider";
 
 export default function SystemModules() {
   return (
     <div className="w-full">
-      {/* SECTION HEADER LAYER */}
-      <div className="section-divider" data-label="01_ENGINEERING_SYSTEMS">
-        <span className="divider-label">01_ENGINEERING_SYSTEMS</span>
-      </div>
+      <SectionDivider label="01_ENGINEERING_SYSTEMS" />
 
       <div className="grid-12 mb-sys-64">
         <div className="col-span-12 lg:col-span-10">

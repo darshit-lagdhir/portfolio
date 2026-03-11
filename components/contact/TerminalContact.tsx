@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { identity } from "@/data/identity";
 import { cn } from "../../lib/utils";
+import SectionDivider from "@/components/shared/SectionDivider";
 
 const SELECTABLE_COMMANDS = [
   { id: "github", label: "connect github", action: "OPEN_GITHUB" },
@@ -71,9 +72,7 @@ export default function TerminalContact() {
 
   return (
     <div className="w-full relative">
-      <div className="section-divider" data-label="05_CONNECTION_INTERFACE">
-        <span className="divider-label">05_CONNECTION_INTERFACE</span>
-      </div>
+      <SectionDivider label="05_CONNECTION_INTERFACE" />
 
       <div className="grid-12">
         <div className="col-span-12 lg:col-span-8">

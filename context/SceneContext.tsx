@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 
-type SectionId = "hero" | "philosophy" | "systems" | "capabilities" | "about" | "contact" | string;
+type SectionId = "hero" | "systems" | "domains" | "philosophy" | "about" | "contact" | string;
 
 interface SceneContextType {
     activeSection: SectionId;
@@ -84,7 +84,7 @@ export function SceneProvider({ children }: { children: React.ReactNode }) {
             });
         }, observerOptions);
 
-        const sections = ["hero", "philosophy", "systems", "capabilities", "about", "contact"];
+        const sections = ["hero", "systems", "domains", "philosophy", "about", "contact"];
         sections.forEach((id) => {
             const el = document.getElementById(id);
             if (el) sectionObserver.observe(el);
@@ -102,7 +102,7 @@ export function SceneProvider({ children }: { children: React.ReactNode }) {
             window.removeEventListener("scroll", handleScroll);
             sectionObserver.disconnect();
         };
-    }, []);
+    }, [pathname]); // Re-observe when pathname changes (e.g. back to home)
 
     // Sync activeSection with route change if not on home
     useEffect(() => {

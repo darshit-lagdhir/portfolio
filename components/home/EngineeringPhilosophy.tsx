@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import SectionDivider from "@/components/shared/SectionDivider";
 
 const PRINCIPLES = [
   {
@@ -32,10 +33,8 @@ const PRINCIPLES = [
 
 export default function EngineeringPhilosophy() {
   return (
-    <section className="w-full">
-      <div className="section-divider mb-sys-64" data-label="03_ENGINEERING_PHILOSOPHY">
-        <span className="divider-label">03_ENGINEERING_PHILOSOPHY</span>
-      </div>
+    <div className="w-full">
+      <SectionDivider label="03_ENGINEERING_PHILOSOPHY" />
 
       <div className="grid-12 items-start gap-y-sys-64 md:gap-y-0">
         <div className="col-span-12 lg:col-span-12 mb-sys-96 text-center lg:text-left">
@@ -95,6 +94,6 @@ export default function EngineeringPhilosophy() {
            ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 }

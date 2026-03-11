@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { identity } from "@/data/identity";
+import SectionDivider from "@/components/shared/SectionDivider";
 
 const NARRATIVE_BLOCKS = [
   {
@@ -33,13 +34,9 @@ const NARRATIVE_BLOCKS = [
 export default function About() {
   return (
     <div className="w-full relative">
-      {/* PHASE 1: SECTION CONTAINER & HEADERS */}
-      <div className="section-divider" data-label="04_HUMAN_NARRATIVE">
-        <span className="divider-label">04_HUMAN_NARRATIVE</span>
-      </div>
+      <SectionDivider label="04_HUMAN_NARRATIVE" />
 
       <div className="grid-12 items-start">
-        {/* PHASE 3 & 8: NARRATIVE COLUMN (Primary Edge Alignment) */}
         <div className="col-span-12 lg:col-span-7 mb-sys-64">
           <div className="mb-sys-64">
             <h2 className="type-h1 mb-sys-24">SYSTEM_THINKER_</h2>
@@ -52,17 +49,17 @@ export default function About() {
             {NARRATIVE_BLOCKS.map((block, index) => (
               <motion.div
                 key={block.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: -10 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-10%" }}
-                transition={{ delay: index * 0.05, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ delay: index * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 className="group"
               >
                 <div className="type-label text-accent mb-4 tracking-widest flex items-center gap-2">
                   <span className="w-1 h-1 bg-accent rounded-full opacity-50" />
                   {block.label}
                 </div>
-                <h3 className="type-emphasis text-xl mb-6 tracking-tighter">{block.title}</h3>
+                <h3 className="type-emphasis text-xl mb-6 tracking-tighter group-hover:text-accent transition-colors">{block.title}</h3>
                 <p className="type-body text-text-secondary leading-relaxed text-sm md:text-base">
                   {block.content}
                 </p>
@@ -77,7 +74,6 @@ export default function About() {
           </div>
         </div>
 
-        {/* PHASE 4: SUPPORTING VISUAL ELEMENT */}
         <div className="hidden lg:block lg:col-span-4 lg:col-start-9 sticky top-sys-128 mt-sys-128">
           <AboutVisualElement />
 

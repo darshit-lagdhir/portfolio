@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 import { Project } from "@/types/project";
 import { cn } from "@/lib/utils";
 import { projects } from "@/data/projects";
+import SectionDivider from "@/components/shared/SectionDivider";
 
 const ArchitectureDiagram = dynamic(() => import("@/components/visualization/ArchitectureDiagram"), {
   loading: () => <div className="h-96 w-full animate-pulse bg-bg-secondary border border-border-dim" />,
@@ -116,9 +117,7 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
           {/* Section 01 & 02: Detailed Narrative & Architecture */}
           <div className="col-span-12 lg:col-span-7 space-y-sys-96">
             <section>
-               <div className="section-divider mb-sys-48" data-label="01_SYSTEM_OVERVIEW">
-                 <span className="divider-label">01_SYSTEM_OVERVIEW</span>
-               </div>
+               <SectionDivider label="01_SYSTEM_OVERVIEW" className="mb-sys-48" />
                <div className="space-y-sys-32">
                  <p className="type-body text-lg leading-relaxed text-text-primary">
                    {project.overview}
@@ -133,9 +132,7 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
             </section>
 
             <section>
-               <div className="section-divider mb-sys-48" data-label="02_ARCHITECTURE_SPEC">
-                 <span className="divider-label">02_ARCHITECTURE_SPEC</span>
-               </div>
+               <SectionDivider label="02_ARCHITECTURE_SPEC" className="mb-sys-48" />
                <div className="space-y-sys-32">
                  <p className="type-body leading-relaxed text-text-secondary">
                    {project.architecture}
@@ -167,9 +164,7 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
 
           <aside className="col-span-12 lg:col-span-4 lg:col-start-9 space-y-sys-96">
             <section>
-               <div className="section-divider mb-sys-32" data-label="03_TECH_STACK">
-                 <span className="divider-label">03_TECH_STACK</span>
-               </div>
+               <SectionDivider label="03_TECH_STACK" className="mb-sys-32" />
                <div className="space-y-sys-32">
                   {project.techGroups?.map((group, idx) => (
                     <div key={idx} className="space-y-3">
@@ -187,9 +182,7 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
             </section>
 
             <section>
-               <div className="section-divider mb-sys-32" data-label="04_SYSTEM_METRICS">
-                 <span className="divider-label">04_SYSTEM_METRICS</span>
-               </div>
+               <SectionDivider label="04_SYSTEM_METRICS" className="mb-sys-32" />
                <div className="bg-bg-secondary/30 p-6 border border-border-dim font-mono text-[0.6rem] space-y-3 text-text-muted">
                   <div className="flex justify-between">
                     <span>UPTIME_GUARANTEE</span>
@@ -215,9 +208,7 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
         <div className="mt-sys-128 space-y-sys-128">
            {/* Section 05: Engineering Decisions & Trade-offs */}
            <section>
-              <div className="section-divider mb-sys-64" data-label="05_DESIGN_REASONING">
-                <span className="divider-label">05_DESIGN_REASONING</span>
-              </div>
+              <SectionDivider label="05_DESIGN_REASONING" className="mb-sys-64" />
               
               <div className="grid-12 gap-sys-64">
                  <div className="col-span-12 lg:col-span-7 space-y-sys-64">
@@ -280,9 +271,7 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
            {/* Section 06: Operational Runtime Simulation (Story Flow) */}
            {project.storyFlow && project.diagram && (
               <section className="py-sys-128 border-t border-border-dim">
-                <div className="section-divider mb-sys-64" data-label="06_RUNTIME_SIMULATION">
-                  <span className="divider-label">06_RUNTIME_SIMULATION</span>
-                </div>
+                <SectionDivider label="06_RUNTIME_SIMULATION" className="mb-sys-64" />
                 
                 <div className="space-y-sys-64">
                    <ArchitectureDiagram 
@@ -301,9 +290,7 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
            {/* Section 07: Evolution Timeline */}
            {project.evolution && (
               <section className="pb-sys-128">
-                 <div className="section-divider mb-sys-96" data-label="07_SYSTEM_EVOLUTION">
-                   <span className="divider-label">07_SYSTEM_EVOLUTION</span>
-                 </div>
+                 <SectionDivider label="07_SYSTEM_EVOLUTION" className="mb-sys-96" />
                  <div className="relative max-w-4xl mx-auto pl-8 lg:pl-0">
                     <div className="absolute left-8 lg:left-1/2 top-0 bottom-0 w-[1px] bg-border-dim hidden lg:block" />
                     <div className="space-y-sys-64">
@@ -326,9 +313,7 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
            {/* Section 08 & 09: Challenges & Future */}
            <div className="grid-12 pt-sys-96 border-t border-border-dim">
               <section className="col-span-12 lg:col-span-6 space-y-sys-48">
-                 <div className="section-divider" data-label="08_ENGINEERING_CHALLENGES">
-                   <span className="divider-label">08_ENGINEERING_CHALLENGES</span>
-                 </div>
+                 <SectionDivider label="08_ENGINEERING_CHALLENGES" />
                  <div className="space-y-sys-40">
                     {project.challenges?.map((challenge, idx) => (
                       <div key={idx} className="max-w-xl">
@@ -340,9 +325,7 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
               </section>
 
               <section className="col-span-12 lg:col-span-6 space-y-sys-48 mt-sys-96 lg:mt-0 lg:col-start-8">
-                 <div className="section-divider" data-label="09_SYSTEM_EVOLUTION_BEYOND">
-                   <span className="divider-label">09_SYSTEM_EVOLUTION_BEYOND</span>
-                 </div>
+                 <SectionDivider label="09_SYSTEM_EVOLUTION_BEYOND" />
                  <div className="space-y-sys-40">
                     {project.future?.map((item, idx) => (
                       <div key={idx} className="max-w-xl">
