@@ -6,6 +6,8 @@ import NavigationDock from "@/components/layout/NavigationDock";
 import SmoothScroll from "@/components/layout/SmoothScroll";
 import SystemBackground from "@/components/layout/SystemBackground";
 import Cursor from "@/components/layout/Cursor";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://darshitlagdhir.is-a.dev"),
@@ -64,6 +66,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </SmoothScroll>
           </div>
         </SceneProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
