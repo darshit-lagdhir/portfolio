@@ -8,27 +8,15 @@ import DiscoveryHint from "@/components/shared/DiscoveryHint";
 const NARRATIVE_BLOCKS = [
   {
     id: "curiosity",
-    label: "CURIOSITY",
-    title: "INTERNAL_MECHANICS",
-    content: "My approach to engineering is driven by an intense curiosity to understand the 'how' behind the 'what'. I don't just use tools; I investigate their internal mechanics. I learn primarily by building systems directly and experimenting with technologies to see what makes them tick."
+    label: "INTERNAL_MECHANICS",
+    title: "UNDERSTANDING_SYSTEMS",
+    content: identity.aboutNarrative
   },
   {
     id: "learning",
     label: "LEARNING_PROCESS",
     title: "CONSTRUCT_AND_DEBUG",
-    content: "I believe in a high-fidelity learning loop: Build, break, debug, and redesign. Whenever problems appear, I don't view them as blockers, but as an opportunity to redesign architectures and make them more resilient. I value the lessons learned from a broken state as much as the success of a stable build."
-  },
-  {
-    id: "interests",
-    label: "TECHNICAL_INTERESTS",
-    title: "DOMAIN_EXPLORATION",
-    content: "Currently, I am deep-diving into systems programming, exploring formal architecture contracts, and building high-performance backend engines. I'm fascinated by the intersection of security, distributed logic, and the raw performance of near-metal code."
-  },
-  {
-    id: "perspective",
-    label: "PERSPECTIVE",
-    title: "HUMILITY_IN_SYSTEMS",
-    content: "Building real-world systems requires a balanced blend of architectural ambition and engineering humility. I've learned that systems are living entities—they evolve, they fail, and they require continuous attention. My goal is to build software that isn't just functional, but enduring."
+    content: identity.learningPhilosophy
   }
 ];
 
@@ -40,9 +28,9 @@ export default function About() {
       <div className="grid-12 items-start">
         <div className="col-span-12 lg:col-span-7 mb-sys-64">
           <div className="mb-sys-64">
-            <h2 className="type-h1 mb-sys-24">SYSTEM_THINKER_</h2>
+            <h2 className="type-h1 mb-sys-24">SYSTEM_STUDENT_</h2>
             <p className="type-body text-lg opacity-60 leading-relaxed max-w-xl">
-              A detailed look into the investigative mindset and philosophical framework that drives my engineering process.
+              An ongoing exploration into internal system mechanics, high-performance architecture, and technical resilience.
             </p>
           </div>
 
@@ -77,6 +65,55 @@ export default function About() {
                 </p>
               </motion.div>
             ))}
+          </div>
+
+          {/* EXPLORATION DOMAINS */}
+          <div className="mt-sys-64 pt-sys-64 border-t border-border-dim/20">
+             <div className="type-label text-accent mb-8 tracking-widest flex items-center gap-2">
+                <span className="w-1 h-1 bg-accent rounded-full opacity-50" />
+                ACTIVE_EXPLORATION_DOMAINS
+             </div>
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-sys-32">
+                {identity.currentExplorationDomains.map((domain, idx) => (
+                    <motion.div 
+                      key={domain.title}
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: idx * 0.1, duration: 0.5 }}
+                      className="module-frame opacity-80 hover:opacity-100 transition-opacity"
+                    >
+                        <h4 className="type-emphasis text-sm mb-3 text-text-primary tracking-tight">{domain.title}</h4>
+                        <p className="type-body text-xs text-text-secondary opacity-60 leading-relaxed font-medium">{domain.description}</p>
+                    </motion.div>
+                ))}
+             </div>
+          </div>
+
+          {/* TECHNOLOGY STACK */}
+          <div className="mt-sys-64 pt-sys-64 border-t border-border-dim/20">
+             <div className="type-label text-accent mb-8 tracking-widest flex items-center gap-2">
+                <span className="w-1 h-1 bg-accent rounded-full opacity-50" />
+                SYSTEM_TOOLS_&_CAPABILITIES
+             </div>
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-sys-48">
+                <div>
+                  <h4 className="type-metadata text-[0.6rem] opacity-30 mb-4 tracking-widest">LANGUAGES</h4>
+                  <p className="type-body text-sm font-medium text-text-secondary leading-relaxed">{identity.technologyStack.languages.join(" • ")}</p>
+                </div>
+                <div>
+                  <h4 className="type-metadata text-[0.6rem] opacity-30 mb-4 tracking-widest">WEB_DEVELOPMENT</h4>
+                  <p className="type-body text-sm font-medium text-text-secondary leading-relaxed">{identity.technologyStack.web.join(" • ")}</p>
+                </div>
+                <div>
+                  <h4 className="type-metadata text-[0.6rem] opacity-30 mb-4 tracking-widest">DATABASES</h4>
+                  <p className="type-body text-sm font-medium text-text-secondary leading-relaxed">{identity.technologyStack.databases.join(" • ")}</p>
+                </div>
+                <div>
+                  <h4 className="type-metadata text-[0.6rem] opacity-30 mb-4 tracking-widest">TOOLS_&_PLATFORMS</h4>
+                  <p className="type-body text-sm font-medium text-text-secondary leading-relaxed">{identity.technologyStack.tools.join(" • ")}</p>
+                </div>
+             </div>
           </div>
 
           {/* BIO DETAILS (Mobile only or integrated) */}

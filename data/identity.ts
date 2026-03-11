@@ -10,4 +10,34 @@ export const identity = {
     linkedin: "https://www.linkedin.com/in/darshitlagdhir/",
     email: "darshitlagdhir@gmail.com",
     resume: "/resume.pdf",
+    aboutNarrative: "I enjoy understanding how systems actually work internally. Instead of focusing only on writing code that runs, I try to understand what happens underneath the application—exploring memory behavior, service communication, data flow between components, and architectural failures. I am still learning how large continuous systems are designed, and my technical exploration is very much an ongoing, hands-on process.",
+    learningPhilosophy: "My learning process follows a repeated cycle: Build something interesting. Watch it break. Read documentation until the system becomes understandable. Redesign the architecture. Repeat. I view debugging not just as a problem to fix, but as a primary learning tool to investigate unexpected system failures.",
+    currentExplorationDomains: [
+        {
+            title: "Languages & Deep Data Structures",
+            description: "Deepening my knowledge of Java and C++ with a strong focus on Data Structures and Algorithms."
+        },
+        {
+            title: "High-Performance Systems",
+            description: "Learning Go and Rust to understand system-level performance and raw execution limits."
+        },
+        {
+            title: "AI & Machine Learning",
+            description: "Using Python to experiment with Artificial Intelligence loops and data models."
+        },
+        {
+            title: "Security & Linux Systems",
+            description: "Exploring cybersecurity boundaries and Linux internal mechanics."
+        },
+        {
+            title: "Databases & Data Systems",
+            description: "Understanding how data infrastructure works and how storage engines persist information."
+        }
+    ],
+    technologyStack: {
+        languages: ["C", "C++", "Java", "Python", "JavaScript", "TypeScript"],
+        web: ["HTML", "CSS", "React", "Node.js"],
+        databases: ["PostgreSQL", "MySQL", "MongoDB", "SQLite"],
+        tools: ["Git", "GitHub", "VS Code", "Google Cloud"]
+    }
 };

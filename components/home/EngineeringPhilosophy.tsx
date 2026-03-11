@@ -7,26 +7,26 @@ import DiscoveryHint from "@/components/shared/DiscoveryHint";
 const PRINCIPLES = [
   {
     id: "experimentation",
-    title: "ITERATIVE_EXPERIMENTATION",
-    description: "I learn primarily by building systems directly and observing how they behave under synthetic stress. True mastery comes from the feedback loop between construction and controlled failure.",
+    title: "BUILD_AND_BREAK",
+    description: "I learn primarily by building systems directly and exposing them to stress. True understanding comes from the feedback loop of construction and controlled failure.",
     icon: "01"
   },
   {
     id: "debugging",
-    title: "MECHANICAL_DEBUGGING",
-    description: "Understanding problems starts with investigating internal system states rather than guessing symptoms. I prioritize deep instrumentation and observability to eliminate technical ambiguity.",
+    title: "DEBUGGING_AS_LEARNING",
+    description: "Many of my technical insights come from investigating unexpected system failures. I view debugging not just as a problem to fix, but as a primary learning tool.",
     icon: "02"
   },
   {
-    id: "architecture",
-    title: "ARCHITECTURAL_THINKING",
-    description: "Designing systems that remain understandable beyond their initial implementation. I value predictable data flows and strict boundary separation over clever but opaque optimizations.",
+    id: "redesign",
+    title: "CONTINUOUS_REDESIGN",
+    description: "Whenever architectural problems appear, I see an opportunity to tear down and reconstruct. I value the lessons learned from a broken state as much as a stable build.",
     icon: "03"
   },
   {
-    id: "curiosity",
-    title: "RADICAL_CURIOSITY",
-    description: "Continually exploring unfamiliar technical domains to expand my mental model of system behavior. Every new architecture is a diagnostic study in how logic and memory interact.",
+    id: "humility",
+    title: "TECHNICAL_HUMILITY",
+    description: "I am actively learning how large, continuous systems are designed. My exploration is an ongoing, hands-on process driven by curiosity rather than assumed expertise.",
     icon: "04"
   }
 ];
@@ -50,10 +50,10 @@ export default function EngineeringPhilosophy() {
               </h2>
               <div className="space-y-6">
                 <p className="type-body text-xl md:text-2xl text-text-primary/70 leading-relaxed max-w-3xl">
-                  I believe that building robust systems requires a commitment to understanding their internal mechanics. 
+                  I believe that the best way to learn how a system works is to build it, break it, and then spend hours figuring out why it failed.
                 </p>
                 <p className="type-body text-base md:text-lg text-text-secondary leading-relaxed max-w-2xl opacity-60">
-                  My goal is to build software that isn&apos;t just functional, but architectural—stable, predictable, and resilient by design.
+                  My goal isn&apos;t just to write code that runs. I am actively learning how to architect software that is stable, predictable, and resilient by studying real-world mechanics.
                 </p>
               </div>
            </motion.div>
