@@ -4,20 +4,20 @@ export const projects: Project[] = [
     {
         slug: "movex",
         title: "MoveX",
-        shortDescription: "Modern Logistics System. Security-heavy, role-based modular backend.",
-        techStack: ["Node.js", "Express", "PostgreSQL", "JWT"],
+        shortDescription: "A full logistics and courier management system handling parcel operations, multi-role staff workflows, and shipment tracking with strict access control.",
+        techStack: ["Node.js", "Express", "PostgreSQL", "Vanilla JS"],
         techGroups: [
-            { role: "Backend Services", items: ["Node.js", "Express", "TypeScript"] },
-            { role: "Database Layer", items: ["PostgreSQL", "Prisma ORM", "Redis"] },
-            { role: "Security & Auth", items: ["JWT", "Bcrypt", "RBAC Policy Engine"] },
-            { role: "Infrastructure", items: ["Docker", "Heroku", "AWS S3"] }
+            { role: "Backend Services", items: ["Node.js", "Express"] },
+            { role: "Database Layer", items: ["PostgreSQL"] },
+            { role: "Security & Auth", items: ["JWT", "Bcrypt", "Role-Based Access Control"] },
+            { role: "Frontend", items: ["HTML", "CSS", "Vanilla JavaScript"] }
         ],
         tier: 1,
         githubRepoName: "movex",
         githubUrl: "https://github.com/darshit-lagdhir/movex",
         status: "COMPLETE",
         domains: ["backend_development", "security_linux", "data_systems"],
-        overview: "MoveX is a full-scale logistics management system designed to handle the complexities of franchise-based shipping, staffing, and fleet coordination. The system prioritizes strict access control and reliable state preservation across the entire delivery lifecycle.",
+        overview: "MoveX is a logistics management system built to handle franchise-based shipping, staffing, and fleet coordination. It manages the full delivery lifecycle — from customer booking and pricing through pickup scheduling, dispatch, hub transfers, and final delivery confirmation. The system focuses on backend architecture and operational workflows rather than UI complexity.",
         problem: "Traditional logistics software often suffers from monolithic coupling where a breach in one role (e.g., customer) can escalate to administrative control. MoveX was built to solve this through rigid role-based session isolation.",
         engineeringFocus: "Systems Architecture & Role Isolation",
         technicalMeta: {
@@ -174,20 +174,20 @@ export const projects: Project[] = [
     {
         slug: "uidai",
         title: "UIDAI Advisory System",
-        shortDescription: "Advisory intelligence system for pattern detection and human-in-the-loop oversight.",
-        techStack: ["Python", "FastAPI", "Data Pipeline"],
+        shortDescription: "A hackathon project analyzing Aadhaar enrollment data to identify regional patterns and provide advisory insights to human operators.",
+        techStack: ["Python", "FastAPI", "Pandas"],
         techGroups: [
             { role: "Core Language", items: ["Python 3.10+"] },
-            { role: "API Gateway", items: ["FastAPI", "Uvicorn"] },
-            { role: "Processing Engine", items: ["Pandas", "Scikit-Learn"] },
-            { role: "State Management", items: ["PostgreSQL", "Redis Caching"] }
+            { role: "API Layer", items: ["FastAPI", "Uvicorn"] },
+            { role: "Data Processing", items: ["Pandas", "Scikit-Learn"] },
+            { role: "Database", items: ["PostgreSQL"] }
         ],
         tier: 1,
         githubRepoName: "uidai-advisory",
         githubUrl: "https://github.com/darshit-lagdhir/uidai-advisory-system",
-        status: "DEVELOPMENT",
+        status: "HACKATHON",
         domains: ["data_systems", "ai_ml", "systems_engineering"],
-        overview: "The UIDAI Advisory System is a diagnostic platform built to assist human operators in detecting anomalies and patterns within large-scale identity datasets. It emphasizes 'Advisory Intelligence'—where the system suggests rather than decides.",
+        overview: "The UIDAI Advisory Intelligence System was built during a hackathon focused on Aadhaar enrollment data. It analyzes enrollment datasets across thousands of pincodes to identify patterns such as regions with unusual enrollment spikes, declining activity, or high volatility. The system remains strictly advisory — it highlights patterns with confidence scores and explanatory context, but never makes decisions. All final decisions remain in human hands.",
         problem: "Identifying subtle fraud patterns at a national scale requires a system that can process high volumes of data without eliminating the nuance that human operators provide. Automation alone often results in high false-positives.",
         engineeringFocus: "Human-in-the-loop Pattern Detection",
         technicalMeta: {
@@ -326,20 +326,20 @@ export const projects: Project[] = [
     {
         slug: "pfcv",
         title: "Polyglot FFI Verifier",
-        shortDescription: "Cross-Language Safety. Formal contract synthesis and memory verification.",
+        shortDescription: "A verification pipeline exploring cross-language safety when connecting high-level languages to native C/C++ libraries through Foreign Function Interfaces.",
         techStack: ["C++", "Rust", "Python", "Clang"],
         techGroups: [
-            { role: "Core Verification", items: ["C++", "LLVM/Clang Tooling"] },
-            { role: "Safety Logic", items: ["Rust", "cxx-bridge"] },
+            { role: "Core Verification", items: ["C++", "Clang Tooling"] },
+            { role: "Safety Logic", items: ["Rust"] },
             { role: "Analysis Layer", items: ["Python", "Z3 Solver"] },
             { role: "Runtime", items: ["Clang/LLVM", "PyBind11"] }
         ],
         tier: 1,
         githubRepoName: "polyglot-ffi-verifier",
         githubUrl: "https://github.com/darshit-lagdhir/polyglot-ffi-verifier",
-        status: "COMPLETE",
+        status: "ACTIVE_DEVELOPMENT",
         domains: ["systems_engineering", "programming_languages", "security_linux"],
-        overview: "The Polyglot FFI Contract Verifier (PFCV) is a core systems tool designed to ensure memory safety and contract integrity when bridging code between different programming languages (e.g., Python calling C++).",
+        overview: "The Polyglot FFI Contract Verifier (PFCV) is a verification pipeline designed to ensure safety when connecting high-level programming languages to native C/C++ libraries. FFI boundaries can introduce type mismatches, memory safety problems, and ABI compatibility issues. PFCV attempts to solve this by extracting metadata from native source code, converting it into a universal intermediate representation, generating formal safety contracts, and enforcing those contracts at runtime. This project is an ongoing exploration into cross-language verification and runtime safety.",
         problem: "Foreign Function Interfaces (FFI) are notorious for creating 'safety gaps' where the compiler's guarantees from one language vanish when calling another, leading to silent memory corruption and exploitable vulnerabilities.",
         engineeringFocus: "Formal Contract Synthesis",
         technicalMeta: {
@@ -483,62 +483,5 @@ export const projects: Project[] = [
                 activeNodes: ["solver", "report"]
             }
         ]
-    },
-    {
-        slug: "go-distributed-worker",
-        title: "Go Distributed Worker",
-        shortDescription: "Experimental distributed task runner with gossip-protocol discovery.",
-        techStack: ["Go", "gRPC", "Protobuf"],
-        tier: 2,
-        status: "RESEARCH",
-        domains: ["systems_engineering", "backend_development"],
-        overview: "A research project exploring node discovery and task balancing in a decentralized environment using Go and gRPC.",
-        problem: "Centralized orchestrators are single points of failure. This experiment probes the viability of gossip-based state sync.",
-        architecture: "Nodes gossip about their current load and health, using a distributed consensus algorithm to pick the next worker.",
-        authority: {
-            complexityScore: 5,
-            architectureDepth: "GOSP_DISC",
-            researchFocus: "Decentralized Orchestration",
-            primaryDomain: "Distributed Systems",
-            experimentationAreas: ["SWIM Protocol", "Raft Consensus Simplification"]
-        }
-    },
-    {
-        slug: "rust-kv-store",
-        title: "Rust Core KV",
-        shortDescription: "LSM-tree based key-value store built in pure Rust.",
-        techStack: ["Rust", "Tokio", "LSM Tree"],
-        tier: 2,
-        status: "ACTIVE_RESEARCH",
-        domains: ["programming_languages", "data_systems"],
-        overview: "An exploration of specialized storage engines, specifically Log-Structured Merge-Trees and their performance in write-heavy workloads.",
-        problem: "B-Trees often suffer from write-amplification. LSM-Trees optimize for fast sequential writes, but require efficient compaction strategies.",
-        architecture: "Features a multi-level compaction engine, Bloom filter normalization, and an async WAL (Write-Ahead Log) for crash recovery.",
-        authority: {
-            complexityScore: 6,
-            architectureDepth: "LSM_STORAGE",
-            researchFocus: "Write-Ahead Log Reliability",
-            primaryDomain: "Database Engineering",
-            experimentationAreas: ["Compaction Strategies", "Bloom Filter False Positives"]
-        }
-    },
-    {
-        slug: "cpp-jit-exp",
-        title: "C++ JIT Experiment",
-        shortDescription: "A minimal Just-In-Time compiler for a domain-specific mathematical language.",
-        techStack: ["C++", "LLVM", "X86_64"],
-        tier: 3,
-        status: "ARCHIVED",
-        domains: ["programming_languages", "systems_engineering"],
-        overview: "A low-level probe into runtime code generation and the LLVM infrastructure.",
-        problem: "Interpreting math expressions is slow. This experiment JIT-compiles expressions directly to machine code at runtime.",
-        architecture: "Parsing → SSA Generation → LLVM Optimization → Execution.",
-        authority: {
-            complexityScore: 4,
-            architectureDepth: "RUNTIME_CodeGen",
-            researchFocus: "LLVM IR Mapping",
-            primaryDomain: "Compiler Engineering",
-            experimentationAreas: ["SSA Form", "Machine Code Emission"]
-        }
     }
 ];

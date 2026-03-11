@@ -36,10 +36,14 @@ export default function SystemModule({ project, index }: SystemModuleProps) {
           <div className="flex items-center gap-3">
             <span className={cn(
               "w-1 h-1 rounded-full",
-              project.status === "COMPLETE" ? "bg-accent/30" : "bg-text-muted/30"
+              project.status === "COMPLETE" ? "bg-accent/30" : 
+              project.status === "ACTIVE_DEVELOPMENT" ? "bg-yellow-500/40" :
+              project.status === "HACKATHON" ? "bg-blue-400/40" : "bg-text-muted/30"
             )} />
             <span className="type-metadata text-[0.4rem] opacity-30 tracking-widest font-mono">
-              {project.status === "COMPLETE" ? "STABLE" : "RESEARCH"}
+              {project.status === "COMPLETE" ? "STABLE" : 
+               project.status === "ACTIVE_DEVELOPMENT" ? "IN_DEVELOPMENT" :
+               project.status === "HACKATHON" ? "HACKATHON" : "RESEARCH"}
             </span>
           </div>
           
