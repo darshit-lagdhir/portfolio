@@ -96,7 +96,7 @@ export default function AuthBoundaryLab() {
             </button>
          </div>
          <div className="type-metadata text-[0.4rem] opacity-30 leading-relaxed">
-            Toggling strict enforcement patches the 'STAFF' privilege escalation boundary, ensuring rigid security isolation across the system manifest.
+            Toggling strict enforcement patches the &apos;STAFF&apos; privilege escalation boundary, ensuring rigid security isolation across the system manifest.
          </div>
       </div>
     </div>

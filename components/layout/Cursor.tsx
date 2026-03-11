@@ -29,6 +29,7 @@ export default function Cursor() {
   useEffect(() => {
     // Check if device uses a fine pointer (mouse/trackpad)
     const mediaQuery = window.matchMedia("(pointer: fine)");
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsPointer(mediaQuery.matches);
 
     if (!mediaQuery.matches || isMobile) return;

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { laboratoryExperiments, LaboratoryExperiment } from "@/data/laboratory";
+import { laboratoryExperiments } from "@/data/laboratory";
 import SectionDivider from "@/components/shared/SectionDivider";
 import { cn } from "@/lib/utils";
 

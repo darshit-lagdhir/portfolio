@@ -1,14 +1,14 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import { motion, useAnimation } from "framer-motion";
+import { useState, useCallback } from "react";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 export default function DistributedSyncLab() {
   const [latency, setLatency] = useState(2); // 1-10 scale
   const [packets, setPackets] = useState<{ id: number; state: 'ready' | 'syncing' | 'complete' }[]>([]);
   const [isSyncing, setIsSyncing] = useState(false);
-  const controls = useAnimation();
+  
 
   const initiateSync = useCallback(() => {
     if (isSyncing) return;

@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
 import SectionDivider from "@/components/shared/SectionDivider";
 import DiscoveryHint from "@/components/shared/DiscoveryHint";
 
@@ -54,7 +53,7 @@ export default function EngineeringPhilosophy() {
                   I believe that building robust systems requires a commitment to understanding their internal mechanics. 
                 </p>
                 <p className="type-body text-base md:text-lg text-text-secondary leading-relaxed max-w-2xl opacity-60">
-                  My goal is to build software that isn't just functional, but architectural—stable, predictable, and resilient by design.
+                  My goal is to build software that isn&apos;t just functional, but architectural—stable, predictable, and resilient by design.
                 </p>
               </div>
            </motion.div>

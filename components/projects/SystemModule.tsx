@@ -64,7 +64,7 @@ export default function SystemModule({ project, index }: SystemModuleProps) {
         </div>
 
         <div className="mb-sys-32">
-          <div className="type-metadata text-[0.35rem] text-accent/20 mb-3 tracking-[0.3em] font-mono">NODE_{index + 1} // {project.authority?.primaryDomain.toUpperCase() || "CORE"}</div>
+          <div className="type-metadata text-[0.35rem] text-accent/20 mb-3 tracking-[0.3em] font-mono">NODE_{index + 1} {'//'} {project.authority?.primaryDomain.toUpperCase() || "CORE"}</div>
           <h3 className="type-h2 leading-tight text-xl md:text-2xl tracking-tighter">{project.title.toLowerCase()}</h3>
         </div>
 
@@ -77,7 +77,7 @@ export default function SystemModule({ project, index }: SystemModuleProps) {
           <div className="mb-sys-64 space-y-4 pt-8 border-t border-border-dim/20">
              <div>
                 <div className="type-metadata text-[0.35rem] opacity-20 mb-3 uppercase tracking-widest font-mono">Inquiry_Vector</div>
-                <div className="type-body text-[0.6rem] opacity-40 italic text-text-secondary font-medium">"{project.authority.researchFocus}"</div>
+                <div className="type-body text-[0.6rem] opacity-40 italic text-text-secondary font-medium">&quot;{project.authority.researchFocus}&quot;</div>
              </div>
           </div>
         )}

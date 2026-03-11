@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { StoryStep } from "@/types/project";
 import { cn } from "@/lib/utils";
@@ -14,7 +14,7 @@ interface SystemStoryFlowProps {
 export default function SystemStoryFlow({ steps, onStepChange }: SystemStoryFlowProps) {
   const { isMobile } = useScene();
   const [activeStepIndex, setActiveStepIndex] = useState(0);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  
 
   const activeStep = steps[activeStepIndex];
 

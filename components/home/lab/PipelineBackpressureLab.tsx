@@ -58,7 +58,7 @@ export default function PipelineBackpressureLab() {
 
         {/* The Pipeline */}
         <div className="flex-grow h-12 border-x border-border-dim/20 relative flex items-center px-2 gap-2 overflow-hidden">
-           {producerQueue.map((id, i) => (
+           {producerQueue.map((id) => (
              <motion.div
                key={id}
                layoutId={String(id)}

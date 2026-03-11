@@ -1,18 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { projects } from "@/data/projects";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import SectionDivider from "@/components/shared/SectionDivider";
 import DiscoveryHint from "@/components/shared/DiscoveryHint";
+import { Project } from "@/types/project";
 
 interface ComparisonAttribute {
   id: string;
   label: string;
   description: string;
-  getValue: (project: any) => string | number | string[];
+  getValue: (project: Project) => string | number | string[];
 }
 
 const COMPARISON_ATTRIBUTES: ComparisonAttribute[] = [

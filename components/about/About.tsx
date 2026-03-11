@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { identity } from "@/data/identity";
-import { useRef } from "react";
 import SectionDivider from "@/components/shared/SectionDivider";
 import DiscoveryHint from "@/components/shared/DiscoveryHint";
 
