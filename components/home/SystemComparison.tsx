@@ -114,7 +114,7 @@ export default function SystemComparison() {
                 )}>
                   {attr.label}
                 </h4>
-                <p className="type-body text-[0.65rem] opacity-30 italic leading-relaxed">
+                <p className="type-body text-[0.6rem] opacity-20 italic font-medium">
                   {attr.description}
                 </p>
               </div>
@@ -125,23 +125,23 @@ export default function SystemComparison() {
                 return (
                   <div key={`${project.slug}-${attr.id}`} className="col-span-3 p-8 border-l border-b border-border-dim flex items-center">
                     {attr.id === "complexity" ? (
-                      <div className="flex gap-1.5 w-full">
+                      <div className="flex gap-1 w-full opacity-60">
                         {[...Array(10)].map((_, i) => (
                           <div 
                             key={i} 
                             className={cn(
-                              "flex-1 h-3 transition-all duration-500", 
+                              "flex-1 h-2", 
                               i < Number(value) 
-                                ? (activeAttr === attr.id ? "bg-accent" : "bg-accent/40") 
+                                ? "bg-accent/30" 
                                 : "bg-border-dim"
                             )} 
                           />
                         ))}
                       </div>
                     ) : attr.id === "experimentation" ? (
-                      <div className="flex flex-col gap-1.5">
+                      <div className="flex flex-col gap-1.5 grayscale opacity-40">
                         {(value as string[]).slice(0, 2).map(area => (
-                          <span key={area} className="type-metadata text-[0.45rem] opacity-50 px-2 py-0.5 border border-border-dim bg-bg-primary/30 uppercase truncate">
+                          <span key={area} className="type-metadata text-[0.4rem] px-2 py-0.5 border border-border-dim uppercase truncate">
                             {area}
                           </span>
                         ))}
@@ -149,7 +149,7 @@ export default function SystemComparison() {
                     ) : (
                       <span className={cn(
                         "type-emphasis text-[0.65rem] leading-snug tracking-tight uppercase transition-all",
-                        activeAttr === attr.id ? "text-text-primary" : "text-text-secondary opacity-60"
+                        activeAttr === attr.id ? "text-text-primary/70" : "text-text-secondary opacity-30"
                       )}>
                         {value}
                       </span>

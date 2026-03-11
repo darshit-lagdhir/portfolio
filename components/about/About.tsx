@@ -107,9 +107,9 @@ export default function About() {
 
 function AboutVisualElement() {
   return (
-    <div className="relative w-full aspect-square border border-border-dim p-sys-32 flex items-center justify-center overflow-hidden">
+    <div className="relative w-full aspect-square border border-border-dim/50 p-sys-32 flex items-center justify-center overflow-hidden">
       {/* Background Grid Pattern */}
-      <div className="absolute inset-0 opacity-10 pointer-events-none">
+      <div className="absolute inset-0 opacity-5 pointer-events-none">
         <svg width="100%" height="100%">
           <defs>
             <pattern id="about-grid" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -122,24 +122,24 @@ function AboutVisualElement() {
 
       {/* Central Diagram Elements */}
       <div className="relative z-10 w-full h-full flex items-center justify-center">
-        <svg viewBox="0 0 200 200" className="w-full h-full text-accent opacity-30">
+        <svg viewBox="0 0 200 200" className="w-full h-full text-accent opacity-[0.15]">
           <motion.rect
             x="50" y="50" width="100" height="100"
-            stroke="currentColor" strokeWidth="1" fill="none"
+            stroke="currentColor" strokeWidth="0.5" fill="none"
             initial={{ pathLength: 0 }}
             whileInView={{ pathLength: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 2 }}
+            transition={{ duration: 3 }}
           />
           <motion.circle
             cx="100" cy="100" r="40"
-            stroke="currentColor" strokeWidth="0.5" fill="none" strokeDasharray="4 4"
+            stroke="currentColor" strokeWidth="0.5" fill="none" strokeDasharray="6 6"
             animate={{ rotate: 360 }}
-            transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+            transition={{ duration: 45, repeat: Infinity, ease: "linear" }}
           />
           <motion.path
             d="M 10 100 H 190 M 100 10 V 190"
-            stroke="currentColor" strokeWidth="0.5" opacity="0.5"
+            stroke="currentColor" strokeWidth="0.5" opacity="0.3"
             initial={{ scale: 0 }}
             whileInView={{ scale: 1 }}
             viewport={{ once: true }}

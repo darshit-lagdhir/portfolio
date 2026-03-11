@@ -76,60 +76,60 @@ export default function TerminalContact() {
 
       <div className="grid-12">
         <div className="col-span-12 lg:col-span-8">
-          <div className="mb-sys-64 text-left space-y-4">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-1.5 h-1.5 bg-accent rounded-full animate-pulse" />
-              <span className="type-metadata text-[0.45rem] tracking-[0.2em] text-accent">TRANSMISSION_BUS</span>
+          <div className="mb-sys-96 text-left space-y-6">
+            <div className="flex items-center gap-3 mb-2 opacity-30">
+              <div className="w-1 h-1 bg-accent/40 rounded-full" />
+              <span className="type-metadata text-[0.4rem] tracking-[0.3em] font-mono">CONNECTION_READY</span>
             </div>
-            <h2 className="type-h1 uppercase tracking-tighter">Initiate_Connection_</h2>
-            <p className="type-body text-lg text-text-secondary max-w-xl opacity-60 leading-relaxed">
+            <h2 className="type-h1 uppercase tracking-tighter">Initiate_Discovery_</h2>
+            <p className="type-body text-base text-text-secondary max-w-xl opacity-50 leading-relaxed font-medium">
               You have reached the end of the architectural manifest. Use the command panel below to interact with the system and initiate contact.
             </p>
           </div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="module-frame relative overflow-hidden shadow-2xl !p-0 bg-bg-secondary/10"
+            className="module-frame relative overflow-hidden !p-0 bg-bg-secondary/5 border-dashed"
           >
             {/* TERMINAL HEADER */}
-            <div className="bg-bg-primary/50 backdrop-blur-md border-b border-border-dim px-6 py-4 flex items-center justify-between">
+            <div className="bg-bg-primary/30 backdrop-blur-md border-b border-border-dim px-8 py-6 flex items-center justify-between">
               <div className="flex gap-4 items-center">
-                <div className="w-2 h-2 bg-accent/40 rounded-full" />
-                <div className="type-metadata text-[0.45rem] opacity-30 tracking-[0.3em] font-mono">
-                  CON_INTERFACE_v2.1 // SYSTEM_REF: {new Date().getFullYear()}_END
+                <div className="w-1.5 h-1.5 bg-accent/30 rounded-full" />
+                <div className="type-metadata text-[0.4rem] opacity-20 tracking-[0.4em] font-mono uppercase">
+                  CON_INTERFACE_v2.1 // {new Date().getFullYear()}
                 </div>
               </div>
-              <div className="flex gap-2">
-                <div className="w-1.5 h-3 bg-accent opacity-10" />
-                <div className="w-1.5 h-3 bg-accent opacity-20" />
-                <div className="w-1.5 h-3 bg-accent opacity-40" />
+              <div className="flex gap-1">
+                <div className="w-1 h-3 bg-accent opacity-5" />
+                <div className="w-1 h-3 bg-accent opacity-10" />
+                <div className="w-1 h-3 bg-accent opacity-20" />
               </div>
             </div>
 
             {/* TERMINAL CONTENT */}
             <div
               ref={scrollRef}
-              className="p-8 h-[450px] overflow-y-auto scrollbar-thin scrollbar-thumb-border-dim/50 bg-black/30"
+              className="p-10 h-[400px] overflow-y-auto bg-black/10"
             >
-              <div className="space-y-6 font-mono text-[0.8rem] leading-relaxed">
+              <div className="space-y-6 font-mono text-[0.75rem] leading-relaxed">
                 {history.map((line, i) => (
                   <motion.div
                     key={i}
-                    initial={{ opacity: 0, x: -5 }}
-                    animate={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
                     transition={{ duration: 0.3 }}
                     className={cn(
-                      "whitespace-pre-wrap flex gap-4",
-                      line.type === 'input' ? "text-accent" : "text-text-secondary"
+                      "whitespace-pre-wrap flex gap-6",
+                      line.type === 'input' ? "text-accent/60" : "text-text-secondary/80"
                     )}
                   >
-                    <span className="opacity-30 shrink-0">
+                    <span className="opacity-20 shrink-0">
                       {line.type === 'input' ? 'λ' : '»'}
                     </span>
                     <span className={cn(
-                      line.type === 'input' ? "font-bold tracking-tight" : "opacity-80"
+                      line.type === 'input' ? "font-bold tracking-tight" : "font-medium opacity-60"
                     )}>
                       {line.content}
                     </span>
@@ -139,10 +139,10 @@ export default function TerminalContact() {
                 {isProcessing && (
                   <motion.div
                     animate={{ opacity: [0.1, 1, 0.1] }}
-                    transition={{ duration: 0.8, repeat: Infinity }}
-                    className="text-accent flex gap-4"
+                    transition={{ duration: 1, repeat: Infinity }}
+                    className="text-accent/40 flex gap-6"
                   >
-                    <span className="opacity-30 shrink-0">λ</span>
+                    <span className="opacity-20 shrink-0">λ</span>
                     <span>HANDSHAKE_INITIATED // RESOLVING_ENDPOINT_</span>
                   </motion.div>
                 )}

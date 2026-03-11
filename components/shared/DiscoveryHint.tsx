@@ -33,11 +33,11 @@ export default function DiscoveryHint({
     >
       <Link href={href} className="inline-flex items-center gap-4">
         <div className="flex flex-col">
-          <span className="type-metadata text-[0.45rem] text-accent tracking-[0.2em] opacity-50 group-hover:opacity-100 transition-opacity uppercase">
-            Discovery_Vector_
+          <span className="type-metadata text-[0.4rem] text-accent/40 tracking-[0.3em] font-mono mb-1 uppercase">
+            PATH:RESOLVE
           </span>
-          <span className="type-nav text-[0.65rem] border-b border-accent/20 group-hover:border-accent transition-all pb-1 uppercase">
-            {label} ↗
+          <span className="type-nav text-[0.6rem] border-b border-border-dim/50 group-hover:border-accent/40 transition-all pb-1 uppercase tracking-widest text-text-secondary/70 group-hover:text-accent/80">
+            {label} &rarr;
           </span>
         </div>
       </Link>

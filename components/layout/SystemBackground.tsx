@@ -10,7 +10,7 @@ export default function SystemBackground() {
     <div 
       className={cn(
         "system-bg-grid fixed inset-0 pointer-events-none z-[-10] transition-opacity duration-1000",
-        isLowPerf || isMobile ? "opacity-15" : (isIdle ? "opacity-20" : "opacity-60")
+        isLowPerf || isMobile ? "opacity-10" : (isIdle ? "opacity-15" : "opacity-40")
       )}
       style={{
         // If low performance, disable the CSS background fixed behavior or heavy masks

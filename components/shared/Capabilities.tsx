@@ -69,46 +69,39 @@ export default function Capabilities() {
       </div>
 
       {/* PHASE 3 & 6 — CAPABILITY MODULE GRID */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-sys-32">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
         {capabilityClusters.map((cluster, index) => (
           <motion.div
             key={cluster.id}
             tabIndex={0}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            whileTap={{ scale: 0.98 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ delay: index * 0.1, duration: 0.6 }}
-            className="group relative border border-border-dim bg-bg-secondary p-sys-32 hover:border-accent/50 transition-all duration-[250ms] ease-out flex flex-col h-full focus:outline-none focus-visible:ring-1 focus-visible:ring-accent/50 md:hover:-translate-y-1 hover:shadow-xl hover:shadow-accent/5"
+            transition={{ delay: index * 0.1, duration: 1 }}
+            className="module-frame group relative bg-bg-secondary/10 p-10 hover:border-accent/20 transition-all duration-[400ms] flex flex-col h-full focus:outline-none focus-visible:ring-1 focus-visible:ring-accent/30"
           >
-            <div className="type-label mb-sys-16 text-accent flex items-center gap-2">
-              <span className="w-1 h-1 bg-accent rounded-full" />
-              DOMAIN_00{index + 1}
+            <div className="type-metadata mb-8 text-accent/40 flex items-center gap-3">
+              <span className="w-1 h-1 bg-accent/30 rounded-full" />
+              DOMAIN_0{index + 1}
             </div>
 
-            <h3 className="type-emphasis text-lg mb-sys-16 group-hover:text-text-primary transition-colors">
+            <h3 className="type-emphasis text-sm mb-6 group-hover:text-accent/60 transition-colors tracking-tight">
               {cluster.category}
             </h3>
 
-            <p className="type-body text-sm mb-sys-32 opacity-70 leading-relaxed flex-grow">
+            <p className="type-body text-xs mb-10 opacity-30 leading-relaxed flex-grow font-medium">
               {cluster.description}
             </p>
 
             {/* TECHNICAL PRIMITIVES LIST */}
-            <div className="mt-auto pt-sys-24 border-t border-border-dim">
-              <div className="type-metadata text-[0.5rem] mb-sys-12 opacity-30 tracking-widest">SUB_PRIMITIVES</div>
-              <div className="flex flex-wrap gap-x-sys-16 gap-y-sys-8">
+            <div className="mt-auto pt-8 border-t border-border-dim/20">
+              <div className="flex flex-wrap gap-x-6 gap-y-3">
                 {cluster.items.map(item => (
-                  <span key={item} className="type-metadata text-[0.6rem] opacity-50 font-mono">
-                    {item.toUpperCase()}
+                  <span key={item} className="type-metadata text-[0.4rem] opacity-20 group-hover:opacity-40 transition-opacity uppercase font-mono tracking-widest">
+                    {item}
                   </span>
                 ))}
               </div>
-            </div>
-
-            {/* Subtle Diagnostic Corner */}
-            <div className="absolute top-0 right-0 w-4 h-4 overflow-hidden pointer-events-none opacity-0 group-hover:opacity-10 transition-opacity">
-              <div className="absolute top-0 right-0 w-full h-full border-t border-r border-accent" />
             </div>
           </motion.div>
         ))}

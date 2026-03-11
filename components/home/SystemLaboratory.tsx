@@ -29,9 +29,9 @@ export default function SystemLaboratory() {
 
       <div className="grid-12 mb-sys-64">
         <div className="col-span-12 lg:col-span-8">
-           <div className="flex items-center gap-3 mb-4 opacity-40">
-              <div className="w-1.5 h-1.5 bg-accent/60 rounded-full" />
-              <span className="type-metadata text-[0.45rem] tracking-[0.2em]">EXPERIMENTAL_ZONE</span>
+           <div className="flex items-center gap-3 mb-6 opacity-30">
+              <div className="w-1 h-1 bg-accent/40 rounded-full" />
+              <span className="type-metadata text-[0.4rem] tracking-[0.3em] font-mono">WORKSPACE_SANDBOX</span>
            </div>
            <h2 className="type-h1 uppercase tracking-tighter mb-6">Engineering_Lab_</h2>
            <p className="type-body text-sm text-text-secondary max-w-2xl opacity-50">

@@ -152,7 +152,7 @@ export default function NavigationDock() {
             {activeSection === item.id && (
               <motion.div
                 layoutId="nav-active"
-                className="absolute -left-sys-12 w-1 h-sys-12 bg-accent"
+                className="absolute -left-sys-12 w-[2px] h-sys-12 bg-accent/40"
                 initial={{ scaleY: 0 }}
                 animate={{ scaleY: 1 }}
                 exit={{ scaleY: 0 }}

@@ -11,8 +11,8 @@
   --color-text-muted: #525252;
   --color-accent: #0066ff;
   --color-accent-dim: #003380;
-  --color-border-dim: rgba(255, 255, 255, 0.05);
-  --color-border-bright: rgba(255, 255, 255, 0.15);
+  --color-border-dim: rgba(255, 255, 255, 0.03);
+  --color-border-bright: rgba(255, 255, 255, 0.08);
 
   /* 
      PHASE 2 & 4 — TYPOGRAPHY SYSTEM (ROLES & SPACING)
@@ -46,9 +46,9 @@
   --spacing-sys-64: 4rem;
   --spacing-sys-80: 5rem;
   --spacing-sys-96: 6rem;
-  --spacing-sys-128: 8rem;
-  --spacing-sys-192: 12rem;
-  --spacing-sys-256: 16rem;
+  --spacing-sys-128: 10rem;
+  --spacing-sys-192: 15rem;
+  --spacing-sys-256: 20rem;
 
   /* 
      PHASE 3 — LAYOUT GRID
@@ -83,9 +83,9 @@ body {
   background-color: var(--color-bg-primary);
   color: var(--color-text-primary);
   font-family: var(--font-body);
-  line-height: 1.6;
+  line-height: 1.8;
   overflow-x: hidden;
-  text-rendering: optimizeSpeed; /* Performance over sub-pixel precision for heavy layouts */
+  text-rendering: optimizeLegibility;
   touch-action: pan-y;
   -webkit-tap-highlight-color: transparent;
 }
@@ -270,9 +270,9 @@ h3 {
   background-image: 
     linear-gradient(to right, var(--color-border-dim) 1px, transparent 1px),
     linear-gradient(to bottom, var(--color-border-dim) 1px, transparent 1px);
-  background-size: 60px 60px;
-  mask-image: radial-gradient(circle at center, black, transparent 90%);
-  opacity: 0.6;
+  background-size: 80px 80px;
+  mask-image: radial-gradient(circle at center, black, transparent 80%);
+  opacity: 0.35;
 }
 
 /* 
@@ -280,11 +280,12 @@ h3 {
    Recurring architectural motifs that define the systems engineering environment.
 */
 .arch-marker {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   background-color: var(--color-accent);
   rotate: 45deg;
   position: relative;
+  opacity: 0.6;
 }
 
 .arch-marker::before {
@@ -309,16 +310,16 @@ h3 {
 
 .module-frame {
   border: 1px solid var(--color-border-dim);
-  background-color: rgba(15, 15, 15, 0.4);
-  backdrop-filter: blur(10px);
-  padding: var(--spacing-sys-32);
+  background-color: rgba(12, 12, 12, 0.3);
+  backdrop-filter: blur(12px);
+  padding: var(--spacing-sys-48);
   border-radius: 2px;
-  transition: border-color var(--transition-smooth), background-color var(--transition-smooth);
+  transition: all var(--transition-smooth);
 }
 
 .module-frame:hover {
-  border-color: var(--color-border-bright);
-  background-color: rgba(15, 15, 15, 0.6);
+  border-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(15, 15, 15, 0.45);
 }
 
 .section-divider {

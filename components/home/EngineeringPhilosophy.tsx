@@ -60,41 +60,40 @@ export default function EngineeringPhilosophy() {
            </motion.div>
         </div>
 
-        <div className="col-span-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="col-span-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
            {PRINCIPLES.map((principle, index) => (
              <motion.div
                key={principle.id}
-               initial={{ opacity: 0, y: 20 }}
-               whileInView={{ opacity: 1, y: 0 }}
+               initial={{ opacity: 0 }}
+               whileInView={{ opacity: 1 }}
                viewport={{ once: true }}
-               transition={{ delay: index * 0.1, duration: 0.5 }}
-               whileHover={{ y: -5 }}
-                className="module-frame group relative overflow-hidden h-full flex flex-col hover:shadow-xl hover:shadow-accent/5"
+               transition={{ delay: index * 0.1, duration: 1 }}
+               className="module-frame group relative overflow-hidden h-full flex flex-col hover:shadow-lg transition-all"
              >
                 {/* Visual Signature Marker */}
-                <div className="absolute top-4 right-4 group-hover:scale-110 transition-transform">
-                   <div className="arch-marker" />
+                <div className="absolute top-6 right-6 opacity-20 group-hover:opacity-60 transition-opacity">
+                   <div className="arch-marker scale-75" />
                 </div>
 
                 <div className="flex flex-col h-full">
-                   <div className="type-metadata text-[0.45rem] text-accent mb-6 flex items-center gap-3">
-                      <span className="w-1 h-1 bg-accent" />
-                      PRINCIPLE_0{principle.icon}
+                   <div className="type-metadata text-[0.45rem] text-accent/40 mb-10 flex items-center gap-2">
+                      <span className="w-1 h-1 bg-accent/40" />
+                      PRINC_0{principle.icon}
                    </div>
                    
-                   <h3 className="type-emphasis text-base mb-6 tracking-tight group-hover:text-accent transition-colors">
+                   <h3 className="type-emphasis text-sm mb-8 tracking-tight group-hover:text-accent/80 transition-colors">
                      {principle.title}
                    </h3>
                    
-                   <p className="type-body text-sm opacity-60 leading-relaxed group-hover:opacity-80 transition-opacity">
+                   <p className="type-body text-xs opacity-40 leading-relaxed group-hover:opacity-60 transition-opacity max-w-[90%] font-medium">
                      {principle.description}
                    </p>
                 </div>
 
                 {/* Bottom interactive hint */}
-                <div className="mt-8 pt-4 border-t border-border-dim/50 opacity-0 group-hover:opacity-100 transition-opacity flex justify-between items-center">
-                   <span className="type-metadata text-[0.35rem] opacity-30">SYSTEM_ALIGNMENT: OK</span>
-                   <div className="w-1.5 h-1.5 bg-accent" />
+                <div className="mt-12 pt-6 border-t border-border-dim opacity-0 group-hover:opacity-40 transition-opacity flex justify-between items-center">
+                   <span className="type-metadata text-[0.35rem]">ALIGN_VERIFIED</span>
+                   <div className="w-1 h-1 bg-accent" />
                 </div>
              </motion.div>
            ))}

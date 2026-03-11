@@ -38,37 +38,33 @@ export default function EngineeringDomains() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-sys-48 items-start">
         {/* Domain Selection Sidebar */}
-        <div className="lg:col-span-4 space-y-4">
+        <div className="lg:col-span-4 space-y-6">
           {engineeringDomains.map((domain) => (
             <button
               key={domain.id}
               onClick={() => setActiveDomainId(activeDomainId === domain.id ? null : domain.id)}
               className={cn(
-                "module-frame w-full text-left relative group !p-6",
+                "module-frame w-full text-left relative group !p-8",
                 activeDomainId === domain.id 
-                  ? "border-accent bg-accent/5" 
+                  ? "border-accent/30 bg-accent/5" 
                   : "hover:border-border-bright"
               )}
             >
-              <div className="flex justify-between items-center mb-2">
-                 <span className="type-metadata text-[0.4rem] opacity-30">{domain.id.split('_')[0].toUpperCase()}</span>
+              <div className="flex justify-between items-center mb-3">
+                 <span className="type-metadata text-[0.4rem] opacity-20 tracking-widest">{domain.id.split('_')[0].toUpperCase()}</span>
                  {activeDomainId === domain.id && (
                    <motion.div 
                      layoutId="active-indicator"
-                     className="w-1.5 h-1.5 bg-accent"
+                     className="w-1 h-1 bg-accent/60"
                    />
                  )}
               </div>
               <h3 className={cn(
-                "type-emphasis text-sm md:text-base transition-colors",
-                activeDomainId === domain.id ? "text-accent" : "text-text-primary"
+                "type-emphasis text-xs md:text-sm transition-colors tracking-tight",
+                activeDomainId === domain.id ? "text-accent/80" : "text-text-primary/70"
               )}>
-                {domain.name}
+                {domain.name.toUpperCase()}
               </h3>
-              
-              {activeDomainId === domain.id && !isMobile && (
-                 <div className="absolute top-0 right-0 w-1 h-full bg-accent" />
-              )}
             </button>
           ))}
         </div>

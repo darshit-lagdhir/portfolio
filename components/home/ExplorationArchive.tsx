@@ -33,38 +33,38 @@ export default function ExplorationArchive() {
           >
             <Link 
               href={`/${project.slug}`}
-              className="module-frame group block h-full flex flex-col relative !p-6 hover:border-accent/40 transition-all border-dashed"
+              className="module-frame group block h-full flex flex-col relative !p-10 hover:border-accent/20 transition-all border-dashed"
             >
               <div className="absolute top-2 right-2 flex gap-2">
                  {project.tier === 3 && (
-                   <span className="type-metadata text-[0.4rem] px-1.5 py-0.5 border border-text-muted/30 text-text-muted bg-bg-primary/50">
-                     ARCHIVED
+                   <span className="type-metadata text-[0.35rem] px-1.5 py-0.5 border border-border-dim text-text-muted bg-transparent">
+                     ARCHIVED_03
                    </span>
                  )}
-                 <div className="arch-marker scale-50 opacity-20 group-hover:opacity-100 transition-opacity" />
+                 <div className="arch-marker scale-[0.4] opacity-10 group-hover:opacity-40 transition-opacity" />
               </div>
 
-              <div className="flex items-center gap-2 mb-4">
+              <div className="flex items-center gap-2 mb-6 opacity-30">
                  <span className={cn(
                    "w-1 h-3",
-                   project.tier === 2 ? "bg-accent" : "bg-text-muted"
+                   project.tier === 2 ? "bg-accent/40" : "bg-text-muted"
                  )} />
-                 <span className="type-metadata text-[0.45rem] tracking-widest opacity-40 group-hover:opacity-100 transition-opacity">
-                   SYS_EP_{project.slug.toUpperCase().substring(0, 8)}
+                 <span className="type-metadata text-[0.35rem] tracking-[0.2em] group-hover:opacity-100 transition-opacity">
+                   REF_{project.slug.toUpperCase().substring(0, 4)}
                  </span>
               </div>
 
-              <h3 className="type-emphasis text-sm mb-2 group-hover:text-accent transition-colors">
-                {project.title.toUpperCase()}
+              <h3 className="type-emphasis text-xs mb-4 group-hover:text-accent/60 transition-colors tracking-tight">
+                {project.title.toLowerCase()}
               </h3>
               
-              <p className="type-body text-[0.7rem] opacity-50 mb-6 flex-grow leading-relaxed">
+              <p className="type-body text-[0.65rem] opacity-30 mb-8 flex-grow leading-relaxed font-medium">
                 {project.shortDescription}
               </p>
 
-              <div className="flex flex-wrap gap-2 pt-4 border-t border-border-dim/30">
-                {project.techStack.map(tech => (
-                  <span key={tech} className="type-metadata text-[0.4rem] opacity-30 group-hover:opacity-60 transition-opacity">
+              <div className="flex flex-wrap gap-2 pt-6 border-t border-border-dim/20">
+                {project.techStack.slice(0, 3).map(tech => (
+                  <span key={tech} className="type-metadata text-[0.35rem] opacity-20 group-hover:opacity-40 transition-opacity">
                     {tech.toUpperCase()}
                   </span>
                 ))}
