@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import HeroIdentity from "./HeroIdentity";
 import HeroArchitecture from "./HeroArchitecture";
+import DiscoveryHint from "@/components/shared/DiscoveryHint";
 
 export default function Hero() {
   const { scrollY } = useScroll();
@@ -62,6 +63,16 @@ export default function Hero() {
           />
         </div>
       </motion.div>
+
+      {/* Interface Intelligence Hint */}
+      <div className="absolute bottom-sys-32 right-sys-32 hidden lg:block">
+        <DiscoveryHint 
+          label="EXPLORE_SYSTEM_CATALOGUE" 
+          href="#systems"
+          description="Deep-dive into the technical specifications and runtime narratives of curated engineering builds."
+          orientation="right"
+        />
+      </div>
 
       {/* Background Section Identifier */}
       <div className="absolute top-0 right-0 p-sys-32 opacity-[0.03] select-none pointer-events-none">

@@ -3,6 +3,7 @@
 import { projects } from "@/data/projects";
 import SystemModule from "./SystemModule";
 import SectionDivider from "@/components/shared/SectionDivider";
+import DiscoveryHint from "@/components/shared/DiscoveryHint";
 
 export default function SystemModules() {
   return (
@@ -27,6 +28,15 @@ export default function SystemModules() {
             index={index} 
           />
         ))}
+      </div>
+
+      <div className="mt-sys-64 flex justify-end">
+        <DiscoveryHint 
+          label="IDENTIFY_CORE_DOMAINS" 
+          href="#domains"
+          description="Explore the technical territory clusters that define the engineer's domain expertise."
+          orientation="right"
+        />
       </div>
     </div>
   );

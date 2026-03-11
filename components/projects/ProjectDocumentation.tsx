@@ -8,6 +8,7 @@ import { Project } from "@/types/project";
 import { cn } from "@/lib/utils";
 import { projects } from "@/data/projects";
 import SectionDivider from "@/components/shared/SectionDivider";
+import DiscoveryHint from "@/components/shared/DiscoveryHint";
 
 const ArchitectureDiagram = dynamic(() => import("@/components/visualization/ArchitectureDiagram"), {
   loading: () => <div className="h-96 w-full animate-pulse bg-bg-secondary border border-border-dim" />,
@@ -216,6 +217,15 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
                  </div>
               </section>
             )}
+
+            <section className="pt-sys-48 border-t border-border-dim/20">
+               <DiscoveryHint 
+                  label="COMPARE_MANIFEST_NODES" 
+                  href="/#comparison"
+                  description="Analyze how this system's architecture compares to other builds in the architectural manifest."
+                  orientation="left"
+               />
+            </section>
           </aside>
         </div>
 
@@ -426,17 +436,25 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
                </Link>
             </div>
 
-            <div className="col-span-12 lg:col-span-4 lg:col-start-9 flex flex-col justify-end mt-sys-64 lg:mt-0">
-               <div className="space-y-6 text-left lg:text-right">
-                  <p className="type-body text-xs text-text-muted leading-relaxed italic">
-                    All systems represented in this manifest are part of a unified exploration of technical frontiers.
-                  </p>
-                  <Link 
-                    href="/#systems" 
-                    className="type-nav text-[0.55rem] text-accent border border-accent/20 px-8 py-3 hover:bg-accent/5 transition-all inline-block uppercase"
-                  >
-                    Return to core manifest
-                  </Link>
+            <div className="col-span-12 lg:col-span-4 lg:col-start-9 flex flex-col justify-end mt-sys-64 lg:mt-0 items-start lg:items-end">
+               <div className="space-y-12 text-left lg:text-right w-full">
+                  <DiscoveryHint 
+                    label="ESTABLISH_CROSS_PROJECT_CONTEXT" 
+                    href="/#comparison"
+                    description="After exploring this specific system, analyze how it situates within the broader architectural comparison matrix."
+                    orientation="right"
+                  />
+                  <div className="space-y-6">
+                    <p className="type-body text-xs text-text-muted leading-relaxed italic">
+                      All systems represented in this manifest are part of a unified exploration of technical frontiers.
+                    </p>
+                    <Link 
+                      href="/#systems" 
+                      className="type-nav text-[0.55rem] text-accent border border-accent/20 px-8 py-3 hover:bg-accent/5 transition-all inline-block uppercase"
+                    >
+                      Return to core manifest
+                    </Link>
+                  </div>
                </div>
             </div>
          </div>

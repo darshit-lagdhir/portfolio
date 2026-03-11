@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { useScene } from "@/context/SceneContext";
 import SectionDivider from "@/components/shared/SectionDivider";
 import DomainMap from "./DomainMap";
+import DiscoveryHint from "@/components/shared/DiscoveryHint";
 
 export default function EngineeringDomains() {
   const { isMobile } = useScene();
@@ -144,7 +145,21 @@ export default function EngineeringDomains() {
              <div className="w-full h-full" style={{ backgroundImage: 'linear-gradient(var(--color-border-dim) 1px, transparent 1px), linear-gradient(90deg, var(--color-border-dim) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
           </div>
         </div>
+        <div className="mt-sys-64 flex flex-col md:flex-row justify-between items-start md:items-end gap-sys-32">
+        <DiscoveryHint 
+          label="COMPARE_TECHNICAL_ARCHITECTURES" 
+          href="#comparison"
+          description="Identify technical themes and divergent architectural goals across the system portfolio."
+          orientation="left"
+        />
+        <DiscoveryHint 
+          label="ANALYZE_ENGINEERING_PHILOSOPHY" 
+          href="#philosophy"
+          description="Explore the intellectual framework and core principles that guide the construction of these systems."
+          orientation="right"
+        />
       </div>
+    </div>
     </div>
   );
 }

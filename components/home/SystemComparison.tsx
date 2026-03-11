@@ -6,6 +6,7 @@ import { projects } from "@/data/projects";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import SectionDivider from "@/components/shared/SectionDivider";
+import DiscoveryHint from "@/components/shared/DiscoveryHint";
 
 interface ComparisonAttribute {
   id: string;
@@ -220,6 +221,15 @@ export default function SystemComparison() {
           </div>
         </div>
         <div className="type-metadata text-[0.4rem] font-mono">HASH: 77_ARCH_DISCOVERY_2026</div>
+      </div>
+
+      <div className="mt-sys-64 flex justify-end">
+        <DiscoveryHint 
+          label="EXPLORE_HUMAN_NARRATIVE" 
+          href="#about"
+          description="Move from system architectures to the conceptual framework of the engineer's career evolution."
+          orientation="right"
+        />
       </div>
     </div>
   );

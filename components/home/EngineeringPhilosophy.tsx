@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import SectionDivider from "@/components/shared/SectionDivider";
+import DiscoveryHint from "@/components/shared/DiscoveryHint";
 
 const PRINCIPLES = [
   {
@@ -93,6 +94,15 @@ export default function EngineeringPhilosophy() {
              </motion.div>
            ))}
         </div>
+      </div>
+
+      <div className="mt-sys-128 flex flex-col items-center text-center">
+        <DiscoveryHint 
+          label="COMPARE_SYSTEM_ARCHITECTURES" 
+          href="#comparison"
+          description="See how these engineering principles are applied across different technical domains."
+          orientation="center"
+        />
       </div>
     </div>
   );

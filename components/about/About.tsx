@@ -2,7 +2,9 @@
 
 import { motion } from "framer-motion";
 import { identity } from "@/data/identity";
+import { useRef } from "react";
 import SectionDivider from "@/components/shared/SectionDivider";
+import DiscoveryHint from "@/components/shared/DiscoveryHint";
 
 const NARRATIVE_BLOCKS = [
   {
@@ -141,8 +143,16 @@ function AboutVisualElement() {
         </svg>
       </div>
 
-      <div className="absolute bottom-4 right-4 type-metadata text-[0.5rem] opacity-20">
-        SYS_MINDSET_v1.0
+      <div className="mt-sys-128 pt-sys-64 border-t border-border-dim/20 relative">
+        <DiscoveryHint 
+          label="ESTABLISH_CONNECTION_TERMINAL" 
+          href="#contact"
+          description="Initiate an encrypted communication channel for technical inquiries or architectural collaboration."
+          orientation="left"
+        />
+        <div className="absolute bottom-0 right-0 type-metadata text-[0.4rem] opacity-20 hidden md:block">
+          SYS_MINDSET_v1.0
+        </div>
       </div>
     </div>
   );
