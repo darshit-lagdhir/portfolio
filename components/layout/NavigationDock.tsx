@@ -10,12 +10,13 @@ const NAV_ITEMS = [
   { id: "hero", label: "HOME", code: "00", path: "/#hero" },
   { id: "systems", label: "SYSTEMS", code: "01", path: "/#systems" },
   { id: "archive", label: "ARCHIVE", code: "02", path: "/#archive" },
-  { id: "domains", label: "DOMAINS", code: "03", path: "/#domains" },
-  { id: "philosophy", label: "PHILOSOPHY", code: "04", path: "/#philosophy" },
-  { id: "comparison", label: "COMPARE", code: "05", path: "/#comparison" },
-  { id: "about", label: "ABOUT", code: "06", path: "/#about" },
-  { id: "reflections", label: "REFLECT", code: "07", path: "/#reflections" },
-  { id: "contact", label: "CONNECT", code: "08", path: "/#contact" },
+  { id: "laboratory", label: "LAB", code: "03", path: "/#laboratory" },
+  { id: "domains", label: "DOMAINS", code: "04", path: "/#domains" },
+  { id: "philosophy", label: "PHILOSOPHY", code: "05", path: "/#philosophy" },
+  { id: "comparison", label: "COMPARE", code: "06", path: "/#comparison" },
+  { id: "about", label: "ABOUT", code: "07", path: "/#about" },
+  { id: "reflections", label: "REFLECT", code: "08", path: "/#reflections" },
+  { id: "contact", label: "CONNECT", code: "09", path: "/#contact" },
 ];
 
 export default function NavigationDock() {

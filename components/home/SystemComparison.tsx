@@ -53,7 +53,7 @@ export default function SystemComparison() {
 
   return (
     <div id="comparison" className="w-full relative py-sys-32">
-      <SectionDivider label="05_COMPARATIVE_ANALYSIS" />
+      <SectionDivider label="06_COMPARATIVE_ANALYSIS" />
 
       <div className="mb-sys-64">
         <h2 className="type-h1 uppercase tracking-tighter mb-4">Architectural_Themes_</h2>
