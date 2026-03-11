@@ -1,14 +1,31 @@
+import dynamic from "next/dynamic";
 import Hero from "@/components/hero/Hero";
 import SystemModules from "@/components/projects/SystemModules";
-import ExplorationArchive from "@/components/home/ExplorationArchive";
-import SystemLaboratory from "@/components/home/SystemLaboratory";
-import EngineeringDomains from "@/components/home/EngineeringDomains";
-import EngineeringPhilosophy from "@/components/home/EngineeringPhilosophy";
-import SystemComparison from "@/components/home/SystemComparison";
-import FinalReflection from "@/components/home/FinalReflection";
-import About from "@/components/about/About";
-import TerminalContact from "@/components/contact/TerminalContact";
 import SectionContainer from "@/components/shared/SectionContainer";
+
+// --- LAZY-LOADED ARCHITECTURAL NODES ---
+// We use dynamic imports to reduce initial bundle size and execution time.
+// Loading skeletons match the engineering aesthetic of the portal.
+const ExplorationArchive = dynamic(() => import("@/components/home/ExplorationArchive"), { 
+  loading: () => <div className="w-full h-[400px] border border-dashed border-border-dim animate-pulse flex items-center justify-center type-metadata opacity-20">INITIALIZING_ARCHIVE_DATA...</div>
+});
+
+const SystemLaboratory = dynamic(() => import("@/components/home/SystemLaboratory"), {
+  loading: () => <div className="w-full h-[500px] border border-border-dim bg-bg-secondary/10 flex items-center justify-center type-metadata opacity-20">BOOTING_LAB_ENVIRONMENT...</div>
+});
+
+const EngineeringDomains = dynamic(() => import("@/components/home/EngineeringDomains"), {
+  loading: () => <div className="w-full h-[600px] border border-border-dim flex items-center justify-center type-metadata opacity-20">MAPPING_TECHNICAL_TERRITORY...</div>
+});
+
+const EngineeringPhilosophy = dynamic(() => import("@/components/home/EngineeringPhilosophy"));
+const SystemComparison = dynamic(() => import("@/components/home/SystemComparison"), {
+  loading: () => <div className="w-full h-[500px] border border-border-dim flex items-center justify-center type-metadata opacity-20">COMPUTING_SYSTEM_MATRICES...</div>
+});
+
+const FinalReflection = dynamic(() => import("@/components/home/FinalReflection"));
+const About = dynamic(() => import("@/components/about/About"));
+const TerminalContact = dynamic(() => import("@/components/contact/TerminalContact"));
 
 export default function Home() {
   return (

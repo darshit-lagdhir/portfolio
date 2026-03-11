@@ -1,13 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, useMotionValue, useSpring, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useScene } from "@/context/SceneContext";
 
 export default function Cursor() {
+  const { isLowPerf, isMobile } = useScene();
   const [cursorType, setCursorType] = useState<"default" | "hover" | "active">("default");
-  const [isVisible, setIsVisible] = useState(false);
   const [isPointer, setIsPointer] = useState(false);
+  const cursorRef = useRef<HTMLDivElement>(null);
   
   const shouldReduceMotion = useReducedMotion();
 
@@ -15,24 +17,27 @@ export default function Cursor() {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  // Ultra-responsive spring physics to minimize tracking lag
-  const springConfig = { damping: 30, stiffness: 2000, mass: 0.01 };
+  // Responsive spring physics - simplified if low performance
+  const springConfig = isLowPerf 
+    ? { damping: 40, stiffness: 400, mass: 1 } 
+    : { damping: 30, stiffness: 2000, mass: 0.01 };
+    
   const cursorX = useSpring(mouseX, springConfig);
   const cursorY = useSpring(mouseY, springConfig);
 
   useEffect(() => {
     // Check if device uses a fine pointer (mouse/trackpad)
     const mediaQuery = window.matchMedia("(pointer: fine)");
-    const timer = setTimeout(() => {
-      setIsPointer(mediaQuery.matches);
-    }, 0);
+    setIsPointer(mediaQuery.matches);
 
-
+    if (!mediaQuery.matches || isMobile) return;
 
     const updatePosition = (e: MouseEvent) => {
       mouseX.set(e.clientX);
       mouseY.set(e.clientY);
-      if (!isVisible) setIsVisible(true);
+      if (cursorRef.current && cursorRef.current.style.opacity === "0") {
+        cursorRef.current.style.opacity = "1";
+      }
     };
 
     const handleMouseOver = (e: MouseEvent) => {
@@ -43,38 +48,30 @@ export default function Cursor() {
         target.closest('[role="button"]') ||
         target.closest('[data-cursor="hover"]');
       
-      if (isInteractive) {
-        setCursorType("hover");
-      } else {
-        setCursorType("default");
-      }
+      setCursorType(isInteractive ? "hover" : "default");
     };
 
     const handleMouseDown = () => setCursorType("active");
     const handleMouseUp = () => setCursorType("hover");
 
-    if (mediaQuery.matches) {
-      window.addEventListener("mousemove", updatePosition);
-      window.addEventListener("mouseover", handleMouseOver);
-      window.addEventListener("mousedown", handleMouseDown);
-      window.addEventListener("mouseup", handleMouseUp);
-      
-      // Add class to body to hide native cursor
-      document.body.classList.add("custom-cursor-active");
-    }
+    window.addEventListener("mousemove", updatePosition, { passive: true });
+    window.addEventListener("mouseover", handleMouseOver, { passive: true });
+    window.addEventListener("mousedown", handleMouseDown, { passive: true });
+    window.addEventListener("mouseup", handleMouseUp, { passive: true });
+    
+    document.body.classList.add("custom-cursor-active");
 
     return () => {
-      clearTimeout(timer);
       window.removeEventListener("mousemove", updatePosition);
       window.removeEventListener("mouseover", handleMouseOver);
       window.removeEventListener("mousedown", handleMouseDown);
       window.removeEventListener("mouseup", handleMouseUp);
       document.body.classList.remove("custom-cursor-active");
     };
-  }, [mouseX, mouseY, isVisible]);
+  }, [mouseX, mouseY, isMobile]);
 
-  // Disable on mobile/touch
-  if (!isPointer) return null;
+  // Disable on mobile/touch or if pointer is not fine
+  if (!isPointer || isMobile) return null;
 
   const variants = {
     default: {
@@ -84,13 +81,13 @@ export default function Cursor() {
       borderWidth: "1px",
     },
     hover: {
-      scale: 2.5,
+      scale: isLowPerf ? 1.5 : 2.5,
       backgroundColor: "var(--color-accent)",
-      opacity: 0.15,
+      opacity: isLowPerf ? 0.3 : 0.15,
       borderColor: "transparent",
     },
     active: {
-      scale: 1.8,
+      scale: isLowPerf ? 1.2 : 1.8,
       backgroundColor: "var(--color-accent)",
       opacity: 0.3,
       borderColor: "transparent",
@@ -99,15 +96,15 @@ export default function Cursor() {
 
   return (
     <motion.div
-      className={cn(
-        "fixed top-0 left-0 w-6 h-6 rounded-full border pointer-events-none z-[9999] mix-blend-difference",
-        !isVisible && "opacity-0"
-      )}
+      ref={cursorRef}
+      className="fixed top-0 left-0 w-6 h-6 rounded-full border pointer-events-none z-[9999] mix-blend-difference opacity-0 transition-opacity duration-300"
       style={{
         x: cursorX,
         y: cursorY,
         translateX: "-50%",
         translateY: "-50%",
+        // Use translate3d for hardware acceleration
+        translateZ: 0,
       }}
       variants={variants}
       animate={cursorType}
