@@ -18,7 +18,7 @@ export default function SystemLaboratory() {
     <div className="w-full relative">
       <SectionDivider 
         label="06_ARCHIVE" 
-        description={identity.sectionTransitions.toArchive}
+        description={identity.section_transitions.toArchive}
       />
 
       <div className="grid-12 mb-sys-64">
@@ -173,9 +173,9 @@ export default function SystemLaboratory() {
 
       <div className="mt-sys-64 flex justify-end">
         <DiscoveryHint 
-          label={identity.discoveryHints.toPhilosophy.label}
+          label={identity.discovery_hints.toPhilosophy.label}
           href="#philosophy"
-          description={identity.discoveryHints.toPhilosophy.description}
+          description={identity.discovery_hints.toPhilosophy.description}
           orientation="right"
         />
       </div>

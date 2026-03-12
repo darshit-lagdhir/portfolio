@@ -11,7 +11,7 @@ export default function SystemModules() {
     <div className="w-full">
       <SectionDivider 
         label="03_SYSTEMS" 
-        description={identity.sectionTransitions.toSystems}
+        description={identity.section_transitions.toSystems}
       />
 
       <div className="grid-12 mb-sys-64">
@@ -36,9 +36,9 @@ export default function SystemModules() {
 
       <div className="mt-sys-64 flex justify-end">
         <DiscoveryHint 
-          label={identity.discoveryHints.toComparison.label} 
+          label={identity.discovery_hints.toComparison.label} 
           href="#comparison"
-          description={identity.discoveryHints.toComparison.description}
+          description={identity.discovery_hints.toComparison.description}
           orientation="right"
         />
       </div>
