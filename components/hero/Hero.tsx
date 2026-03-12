@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import HeroIdentity from "./HeroIdentity";
 import HeroArchitecture from "./HeroArchitecture";
+import { identity } from "@/data/identity";
 import DiscoveryHint from "@/components/shared/DiscoveryHint";
 
 export default function Hero() {
@@ -71,9 +72,9 @@ export default function Hero() {
       {/* Interface Intelligence Hint */}
       <div className="absolute bottom-sys-32 right-sys-32 hidden lg:block opacity-40">
         <DiscoveryHint 
-          label="01_SYSTEMS" 
-          href="#systems"
-          description="Access the primary engineering manifest for core project architecture."
+          label={identity.discoveryHints.toAbout.label}
+          href="#about"
+          description={identity.discoveryHints.toAbout.description}
           orientation="right"
         />
       </div>

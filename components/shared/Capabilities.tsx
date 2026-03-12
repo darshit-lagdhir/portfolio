@@ -3,6 +3,8 @@
 import { motion } from "framer-motion";
 
 import { identity } from "@/data/identity";
+import SectionDivider from "@/components/shared/SectionDivider";
+import DiscoveryHint from "@/components/shared/DiscoveryHint";
 
 const capabilityClusters = identity.capabilities.map((cap, idx) => ({
   ...cap,
@@ -28,10 +30,10 @@ export default function Capabilities() {
         </svg>
       </div>
 
-      {/* PHASE 1 — SECTION CONTAINER & HEADERS */}
-      <div className="section-divider" data-label="03_ENGINEERING_CAPABILITIES">
-        <span className="divider-label">03_ENGINEERING_CAPABILITIES</span>
-      </div>
+      <SectionDivider 
+        label="05_EXPLORATION" 
+        description={identity.sectionTransitions.toExploration}
+      />
 
       <div className="grid-12 mb-sys-64">
         <div className="col-span-12 lg:col-span-8">
@@ -90,6 +92,15 @@ export default function Capabilities() {
             </div>
           </motion.div>
         ))}
+      </div>
+      
+      <div className="mt-sys-64 flex justify-end">
+        <DiscoveryHint 
+          label={identity.discoveryHints.toArchive.label}
+          href="#archive"
+          description={identity.discoveryHints.toArchive.description}
+          orientation="right"
+        />
       </div>
     </div>
   );

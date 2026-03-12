@@ -8,13 +8,13 @@ import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
   { id: "hero", label: "HOME", code: "00", path: "/#hero" },
-  { id: "systems", label: "SYSTEMS", code: "01", path: "/#systems" },
+  { id: "about", label: "ABOUT", code: "01", path: "/#about" },
   { id: "domains", label: "DOMAINS", code: "02", path: "/#domains" },
-  { id: "philosophy", label: "PHILOSOPHY", code: "03", path: "/#philosophy" },
-  { id: "archive", label: "ARCHIVE", code: "04", path: "/#archive" },
-  { id: "laboratory", label: "LAB", code: "05", path: "/#laboratory" },
-  { id: "comparison", label: "COMPARE", code: "06", path: "/#comparison" },
-  { id: "about", label: "ABOUT", code: "07", path: "/#about" },
+  { id: "systems", label: "SYSTEMS", code: "03", path: "/#systems" },
+  { id: "comparison", label: "COMPARE", code: "04", path: "/#comparison" },
+  { id: "exploration", label: "EXPLORE", code: "05", path: "/#exploration" },
+  { id: "archive", label: "ARCHIVE", code: "06", path: "/#archive" },
+  { id: "philosophy", label: "PHILOSOPHY", code: "07", path: "/#philosophy" },
   { id: "reflections", label: "REFLECT", code: "08", path: "/#reflections" },
   { id: "contact", label: "CONNECT", code: "09", path: "/#contact" },
 ];

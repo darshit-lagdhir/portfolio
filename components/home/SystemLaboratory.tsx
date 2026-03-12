@@ -4,8 +4,10 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { laboratoryExplorations } from "@/data/laboratory";
 import SectionDivider from "@/components/shared/SectionDivider";
+import { identity } from "@/data/identity";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import DiscoveryHint from "@/components/shared/DiscoveryHint";
 
 export default function SystemLaboratory() {
   const [activeId, setActiveId] = useState<string>(laboratoryExplorations[0].id);
@@ -14,7 +16,10 @@ export default function SystemLaboratory() {
 
   return (
     <div className="w-full relative">
-      <SectionDivider label="05_SYSTEMS_EXPLORATION" />
+      <SectionDivider 
+        label="06_ARCHIVE" 
+        description={identity.sectionTransitions.toArchive}
+      />
 
       <div className="grid-12 mb-sys-64">
         <div className="col-span-12 lg:col-span-8">
@@ -164,6 +169,15 @@ export default function SystemLaboratory() {
               </div>
            </div>
         </div>
+      </div>
+
+      <div className="mt-sys-64 flex justify-end">
+        <DiscoveryHint 
+          label={identity.discoveryHints.toPhilosophy.label}
+          href="#philosophy"
+          description={identity.discoveryHints.toPhilosophy.description}
+          orientation="right"
+        />
       </div>
     </div>
   );

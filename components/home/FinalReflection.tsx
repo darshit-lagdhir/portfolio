@@ -3,11 +3,15 @@
 import { motion } from "framer-motion";
 import SectionDivider from "@/components/shared/SectionDivider";
 import { identity } from "@/data/identity";
+import DiscoveryHint from "@/components/shared/DiscoveryHint";
 
 export default function FinalReflection() {
   return (
     <div className="w-full relative">
-      <SectionDivider label="08_SYSTEM_REFLECTIONS" />
+      <SectionDivider 
+        label="08_REFLECTION" 
+        description={identity.sectionTransitions.toReflection}
+      />
       
       <div className="py-sys-96 lg:py-sys-128 mb-sys-64">
         <div className="max-w-4xl mx-auto text-center space-y-12">
@@ -53,6 +57,15 @@ export default function FinalReflection() {
                </div>
             </div>
           </motion.div>
+        </div>
+
+        <div className="mt-sys-96 flex justify-center">
+           <DiscoveryHint 
+             label={identity.discoveryHints.toContact.label}
+             href="#contact"
+             description={identity.discoveryHints.toContact.description}
+             orientation="center"
+           />
         </div>
       </div>
     </div>

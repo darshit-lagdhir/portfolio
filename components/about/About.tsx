@@ -23,7 +23,10 @@ const NARRATIVE_BLOCKS = [
 export default function About() {
   return (
     <div className="w-full relative">
-      <SectionDivider label="07_HUMAN_CONSTRUCT" />
+      <SectionDivider 
+        label="01_ABOUT" 
+        description={identity.sectionTransitions.toAbout}
+      />
 
       <div className="grid-12 items-start">
         <div className="col-span-12 lg:col-span-7 mb-sys-64">
@@ -127,6 +130,15 @@ export default function About() {
           </div>
         </div>
       </div>
+      
+      <div className="mt-sys-96 flex justify-end">
+        <DiscoveryHint 
+          label={identity.discoveryHints.toDomains.label}
+          href="#domains"
+          description={identity.discoveryHints.toDomains.description}
+          orientation="right"
+        />
+      </div>
     </div>
   );
 }
@@ -182,9 +194,9 @@ function AboutVisualElement() {
 
       <div className="mt-sys-128 pt-sys-64 border-t border-border-dim/20 relative">
         <DiscoveryHint 
-          label="ESTABLISH_CONNECTION_TERMINAL" 
+          label={identity.discoveryHints.toContact.label} 
           href="#contact"
-          description="Initiate an encrypted communication channel for technical inquiries or architectural collaboration."
+          description={identity.discoveryHints.toContact.description}
           orientation="left"
         />
         <div className="absolute bottom-0 right-0 type-metadata text-[0.4rem] opacity-20 hidden md:block">

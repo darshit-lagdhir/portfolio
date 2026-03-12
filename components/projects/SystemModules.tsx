@@ -3,12 +3,16 @@
 import { projects } from "@/data/projects";
 import SystemModule from "./SystemModule";
 import SectionDivider from "@/components/shared/SectionDivider";
+import { identity } from "@/data/identity";
 import DiscoveryHint from "@/components/shared/DiscoveryHint";
 
 export default function SystemModules() {
   return (
     <div className="w-full">
-      <SectionDivider label="01_SYSTEM_CATALOGUE" />
+      <SectionDivider 
+        label="03_SYSTEMS" 
+        description={identity.sectionTransitions.toSystems}
+      />
 
       <div className="grid-12 mb-sys-64">
         <div className="col-span-12 lg:col-span-10">
@@ -32,9 +36,9 @@ export default function SystemModules() {
 
       <div className="mt-sys-64 flex justify-end">
         <DiscoveryHint 
-          label="IDENTIFY_CORE_DOMAINS" 
-          href="#domains"
-          description="Explore the technical territory clusters that define the engineer's domain expertise."
+          label={identity.discoveryHints.toComparison.label} 
+          href="#comparison"
+          description={identity.discoveryHints.toComparison.description}
           orientation="right"
         />
       </div>

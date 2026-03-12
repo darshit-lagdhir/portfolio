@@ -99,7 +99,7 @@ export function SceneProvider({ children }: { children: React.ReactNode }) {
             });
         }, observerOptions);
 
-        const sections = ["hero", "systems", "archive", "laboratory", "domains", "philosophy", "comparison", "about", "reflections", "contact"];
+        const sections = ["hero", "about", "domains", "systems", "comparison", "exploration", "archive", "philosophy", "reflections", "contact"];
         sections.forEach((id) => {
             const el = document.getElementById(id);
             if (el) sectionObserver.observe(el);

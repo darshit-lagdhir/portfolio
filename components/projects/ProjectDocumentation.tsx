@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import { identity } from "@/data/identity";
 import { Project } from "@/types/project";
 import { cn } from "@/lib/utils";
 import { projects } from "@/data/projects";
@@ -222,12 +223,12 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
             )}
 
             <section className="pt-sys-48 border-t border-border-dim/20">
-               <DiscoveryHint 
-                  label="COMPARE_MANIFEST_NODES" 
-                  href="/#comparison"
-                  description="Analyze how this system's architecture compares to other builds in the architectural manifest."
-                  orientation="left"
-               />
+                <DiscoveryHint 
+                   label={identity.discoveryHints.toProjectComparison.label} 
+                   href="/#comparison"
+                   description={identity.discoveryHints.toProjectComparison.description}
+                   orientation="left"
+                />
             </section>
           </aside>
         </div>
@@ -442,9 +443,9 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
             <div className="col-span-12 lg:col-span-4 lg:col-start-9 flex flex-col justify-end mt-sys-64 lg:mt-0 items-start lg:items-end">
                <div className="space-y-12 text-left lg:text-right w-full">
                   <DiscoveryHint 
-                    label="ESTABLISH_CROSS_PROJECT_CONTEXT" 
+                    label={identity.discoveryHints.toProjectComparisonMatrix.label} 
                     href="/#comparison"
-                    description="After exploring this specific system, analyze how it situates within the broader architectural comparison matrix."
+                    description={identity.discoveryHints.toProjectComparisonMatrix.description}
                     orientation="right"
                   />
                   <div className="space-y-6">

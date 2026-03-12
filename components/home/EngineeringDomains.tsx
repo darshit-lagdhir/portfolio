@@ -8,6 +8,7 @@ import { projects } from "@/data/projects";
 import { cn } from "@/lib/utils";
 import { useScene } from "@/context/SceneContext";
 import SectionDivider from "@/components/shared/SectionDivider";
+import { identity } from "@/data/identity";
 import DomainMap from "./DomainMap";
 import DiscoveryHint from "@/components/shared/DiscoveryHint";
 
@@ -22,7 +23,10 @@ export default function EngineeringDomains() {
 
   return (
     <div className="w-full relative">
-      <SectionDivider label="02_ENGINEERING_DOMAINS" />
+      <SectionDivider 
+        label="02_DOMAINS" 
+        description={identity.sectionTransitions.toDomains}
+      />
 
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-sys-24 mb-sys-64">
          <div className="space-y-4">
@@ -155,15 +159,9 @@ export default function EngineeringDomains() {
         </div>
         <div className="mt-sys-64 flex flex-col md:flex-row justify-between items-start md:items-end gap-sys-32">
         <DiscoveryHint 
-          label="COMPARE_TECHNICAL_ARCHITECTURES" 
-          href="#comparison"
-          description="Identify technical themes and divergent architectural goals across the system portfolio."
-          orientation="left"
-        />
-        <DiscoveryHint 
-          label="ANALYZE_ENGINEERING_PHILOSOPHY" 
-          href="#philosophy"
-          description="Explore the intellectual framework and core principles that guide the construction of these systems."
+          label={identity.discoveryHints.toSystems.label}
+          href="#systems"
+          description={identity.discoveryHints.toSystems.description}
           orientation="right"
         />
       </div>

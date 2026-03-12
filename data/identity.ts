@@ -98,5 +98,62 @@ export const identity = {
             icon: "04"
         }
     ],
-    closingReflection: "This portfolio represents a small part of my journey trying to understand how complex software systems actually work. Most of what I learn comes from building projects, watching them fail, and then spending time figuring out why they failed. The systems shown here are not perfect solutions — they are experiments that helped me understand backend architectures, cross-language interfaces, and data analysis systems. I am still learning, still exploring new areas, and still breaking things along the way. But that process is what makes understanding technology interesting."
+    closingReflection: "This portfolio represents a small part of my journey trying to understand how complex software systems actually work. Most of what I learn comes from building projects, watching them fail, and then spending time figuring out why they failed. The systems shown here are not perfect solutions — they are experiments that helped me understand backend architectures, cross-language interfaces, and data analysis systems. I am still learning, still exploring new areas, and still breaking things along the way. But that process is what makes understanding technology interesting.",
+    sectionTransitions: {
+        toAbout: "Before looking at the systems themselves, it helps to understand how I approach learning and building software.",
+        toDomains: "These are the technical areas I am currently exploring while building systems and studying how they behave internally.",
+        toSystems: "These are the systems I have built while exploring backend architecture, language boundaries, and data analysis.",
+        toComparison: "Each system explores a different technical problem. Comparing them helps reveal what each one was designed to investigate.",
+        toExploration: "Not everything I learn becomes a full project. Some ideas begin as small investigations while trying to understand how systems behave.",
+        toArchive: "These are small technical investigations that influenced how I understand software systems.",
+        toPhilosophy: "Most of what I learn comes from building systems, breaking them, and then trying to understand why they failed.",
+        toReflection: "After exploring the systems and experiments above, this portfolio really represents one thing: a continuing attempt to understand how complex software actually works.",
+        toContact: "If you enjoy discussing system architecture, debugging strange software behavior, or exploring how systems work internally, feel free to connect."
+    },
+    discoveryHints: {
+        toAbout: {
+            label: "UNDERSTAND_SYSTEM_STUDENT",
+            description: "Understand the mindset and educational background supporting these explorations."
+        },
+        toDomains: {
+            label: "MAPPING_TECHNICAL_DOMAINS",
+            description: "Explore the technical territories and research clusters shaping my current learning path."
+        },
+        toSystems: {
+            label: "IDENTIFY_CORE_SYSTEMS",
+            description: "Explore the systems built to investigate specific architectural and performance hypotheses."
+        },
+        toComparison: {
+            label: "COMPARE_ARCHITECTURES",
+            description: "Identify recurring engineering patterns and divergent architectural goals across projects."
+        },
+        toExploration: {
+            label: "RESEARCH_INVESTIGATIONS",
+            description: "Examine small-scale technical investigations and curiosity-driven research experiments."
+        },
+        toArchive: {
+            label: "SYSTEM_LAB_RECORDS",
+            description: "Review small technical investigations that influenced how I understand software systems."
+        },
+        toPhilosophy: {
+            label: "ANALYZE_ENGINEERING_PHILOSOPHY",
+            description: "Understand the engineering principles and workflow that guide the construction of these systems."
+        },
+        toReflection: {
+            label: "SYSTEM_REFLECTIONS",
+            description: "Review the final thoughts on architectural rigor and systems thinking."
+        },
+        toContact: {
+            label: "ESTABLISH_CONNECTION",
+            description: "Connect to discuss backend architecture, systems debugging, or performance optimizations."
+        },
+        toProjectComparison: {
+            label: "COMPARE_ARCHITECTURAL_NODES",
+            description: "Analyze how this system's architecture compares to other builds in the manifest."
+        },
+        toProjectComparisonMatrix: {
+            label: "CROSS_PROJECT_CONTEXT",
+            description: "Analyze how this specific system situtates within the broader architectural comparison matrix."
+        }
+    }
 };

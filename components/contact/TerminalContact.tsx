@@ -71,7 +71,10 @@ export default function TerminalContact() {
 
   return (
     <div className="w-full relative">
-      <SectionDivider label="09_CONNECTION_INTERFACE" />
+      <SectionDivider 
+        label="09_CONTACT" 
+        description={identity.sectionTransitions.toContact}
+      />
 
       <div className="grid-12">
         <div className="col-span-12 lg:col-span-8">

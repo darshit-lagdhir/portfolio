@@ -8,7 +8,10 @@ import { identity } from "@/data/identity";
 export default function EngineeringPhilosophy() {
   return (
     <div className="w-full">
-      <SectionDivider label="03_TECHNICAL_MINDSET" />
+      <SectionDivider 
+        label="07_PHILOSOPHY" 
+        description={identity.sectionTransitions.toPhilosophy}
+      />
 
       <div className="grid-12 items-start gap-y-sys-64 md:gap-y-0">
         <div className="col-span-12 lg:col-span-12 mb-sys-96 text-center lg:text-left">
@@ -97,9 +100,9 @@ export default function EngineeringPhilosophy() {
 
       <div className="mt-sys-128 flex flex-col items-center text-center">
         <DiscoveryHint 
-          label="COMPARE_SYSTEM_ARCHITECTURES" 
-          href="#comparison"
-          description="See how these engineering principles are applied across different technical domains."
+          label={identity.discoveryHints.toReflection.label} 
+          href="#reflections"
+          description={identity.discoveryHints.toReflection.description}
           orientation="center"
         />
       </div>

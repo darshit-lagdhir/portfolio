@@ -6,6 +6,7 @@ import { projects } from "@/data/projects";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import SectionDivider from "@/components/shared/SectionDivider";
+import { identity } from "@/data/identity";
 import DiscoveryHint from "@/components/shared/DiscoveryHint";
 import { Project } from "@/types/project";
 
@@ -60,7 +61,10 @@ export default function SystemComparison() {
 
   return (
     <div id="comparison" className="w-full relative py-sys-32">
-      <SectionDivider label="06_COMPARATIVE_ANALYSIS" />
+      <SectionDivider 
+        label="04_COMPARISON" 
+        description={identity.sectionTransitions.toComparison}
+      />
 
       <div className="mb-sys-64">
         <h2 className="type-h1 uppercase tracking-tighter mb-4">Architectural_Themes_</h2>
@@ -210,9 +214,9 @@ export default function SystemComparison() {
 
       <div className="mt-sys-64 flex justify-end">
         <DiscoveryHint 
-          label="EXPLORE_HUMAN_NARRATIVE" 
-          href="#about"
-          description="Move from system architectures to the conceptual framework of the engineer's career evolution."
+          label={identity.discoveryHints.toExploration.label} 
+          href="#exploration"
+          description={identity.discoveryHints.toExploration.description}
           orientation="right"
         />
       </div>

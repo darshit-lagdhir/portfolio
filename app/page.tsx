@@ -21,6 +21,7 @@ const SystemComparison = dynamic(() => import("@/components/home/SystemCompariso
 
 const FinalReflection = dynamic(() => import("@/components/home/FinalReflection"));
 const About = dynamic(() => import("@/components/about/About"));
+const Capabilities = dynamic(() => import("@/components/shared/Capabilities"));
 const TerminalContact = dynamic(() => import("@/components/contact/TerminalContact"));
 
 export default function Home() {
@@ -34,10 +35,10 @@ export default function Home() {
       </SectionContainer>
 
       {/* 
-         MANIFEST_NODE_01: SYSTEM_CATALOGUE
+         MANIFEST_NODE_01: HUMAN_CONSTRUCT
       */}
-      <SectionContainer id="systems">
-        <SystemModules />
+      <SectionContainer id="about">
+        <About />
       </SectionContainer>
 
       {/* 
@@ -48,42 +49,49 @@ export default function Home() {
       </SectionContainer>
 
       {/* 
-         MANIFEST_NODE_03: TECHNICAL_MINDSET
+         MANIFEST_NODE_03: SYSTEM_CATALOGUE
       */}
-      <SectionContainer id="philosophy">
-        <EngineeringPhilosophy />
+      <SectionContainer id="systems">
+        <SystemModules />
       </SectionContainer>
 
       {/* 
-         MANIFEST_NODE_04: SYSTEMS_EXPLORATION
-      */}
-      <SectionContainer id="laboratory">
-        <SystemLaboratory />
-      </SectionContainer>
-
-      {/* 
-         MANIFEST_NODE_05: COMPARATIVE_ANALYSIS
+         MANIFEST_NODE_04: COMPARATIVE_ANALYSIS
       */}
       <SectionContainer id="comparison">
         <SystemComparison />
       </SectionContainer>
 
       {/* 
-         MANIFEST_NODE_06: HUMAN_CONSTRUCT
+         MANIFEST_NODE_05: TECHNICAL_EXPLORATIONS
       */}
-      <SectionContainer id="about">
-        <About />
+      <SectionContainer id="exploration">
+        <Capabilities />
       </SectionContainer>
 
       {/* 
-         MANIFEST_NODE_07: SYSTEM_REFLECTIONS
+         MANIFEST_NODE_06: SYSTEM_ARCHIVE
+      */}
+      <SectionContainer id="archive">
+        <SystemLaboratory />
+      </SectionContainer>
+
+      {/* 
+         MANIFEST_NODE_07: TECHNICAL_MINDSET
+      */}
+      <SectionContainer id="philosophy">
+        <EngineeringPhilosophy />
+      </SectionContainer>
+
+      {/* 
+         MANIFEST_NODE_08: SYSTEM_REFLECTIONS
       */}
       <SectionContainer id="reflections" noPadding>
         <FinalReflection />
       </SectionContainer>
 
       {/* 
-         MANIFEST_NODE_08: CONNECTION_BUS
+         MANIFEST_NODE_09: CONNECTION_BUS
       */}
       <SectionContainer id="contact">
         <TerminalContact />
