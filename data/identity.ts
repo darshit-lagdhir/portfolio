@@ -97,5 +97,6 @@ export const identity = {
             description: "Once the root cause is understood, the system is refactored. The new design attempts to eliminate the weakness discovered earlier.",
             icon: "04"
         }
-    ]
+    ],
+    closingReflection: "This portfolio represents a small part of my journey trying to understand how complex software systems actually work. Most of what I learn comes from building projects, watching them fail, and then spending time figuring out why they failed. The systems shown here are not perfect solutions — they are experiments that helped me understand backend architectures, cross-language interfaces, and data analysis systems. I am still learning, still exploring new areas, and still breaking things along the way. But that process is what makes understanding technology interesting."
 };

@@ -7,16 +7,17 @@ import { cn } from "../../lib/utils";
 import SectionDivider from "@/components/shared/SectionDivider";
 
 const SELECTABLE_COMMANDS = [
-  { id: "github", label: "connect github", action: "OPEN_GITHUB" },
-  { id: "linkedin", label: "open linkedin", action: "OPEN_LINKEDIN" },
-  { id: "message", label: "send message", action: "INIT_MAIL" },
-  { id: "resume", label: "download resume", action: "FETCH_RESUME" },
+  { id: "about", label: "about", action: "FETCH_IDENTITY" },
+  { id: "projects", label: "projects", action: "LIST_SYSTEMS" },
+  { id: "github", label: "github", action: "OPEN_SOURCE" },
+  { id: "linkedin", label: "linkedin", action: "CONNECT_NODE" },
+  { id: "contact", label: "contact", action: "GET_CHANNELS" },
 ];
 
 export default function TerminalContact() {
   const [history, setHistory] = useState<{ type: 'input' | 'output'; content: string }[]>([
     { type: 'output', content: "SYSTEM_INITIALIZED: IDENTITY_VERIFIED" },
-    { type: 'output', content: "Awaiting human input. Select a command to proceed." }
+    { type: 'output', content: "Awaiting input. Select a command or type 'help' to proceed." }
   ]);
   const [isProcessing, setIsProcessing] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -35,35 +36,33 @@ export default function TerminalContact() {
     if (isProcessing) return;
     setIsProcessing(true);
 
-    // Add input to history
     setHistory(prev => [...prev, { type: 'input', content: label }]);
-
-    // Simulated processing delay optimization
-    await new Promise(resolve => setTimeout(resolve, 300));
+    await new Promise(resolve => setTimeout(resolve, 400));
 
     let response = "";
     switch (cmdId) {
+      case "about":
+        response = `${identity.name}\n${identity.positioning}\n\nExploration Focus: Understanding how complex software systems behave internally and investigating failure points in high-performance architectures.`;
+        break;
+      case "projects":
+        response = "SYSTEM_MANIFEST [ACTIVE_NODES]:\n\n- MoveX: Logistics management system built with Node.js and PostgreSQL.\n- PFCV: Cross-language FFI verification pipeline investigating runtime safety.\n- UIDAI Advisory: Data pattern analysis system for Aadhaar enrollment datasets.";
+        break;
       case "github":
         window.open(identity.github, "_blank");
-        response = `Handshake established with git_node. Accessing source_manifest.\n--> STATUS: REDIRECT_SUCCESS [${identity.github}]\nIDENTITY_LOG: Exploring Darshit's architectural evolution. Opening repository view.`;
+        response = `Handshake established with git_node. Redirecting to source repositories.\nSTATUS: REDIRECT_SUCCESS [${identity.github}]`;
         break;
       case "linkedin":
         window.open(identity.linkedin, "_blank");
-        response = `Mapping professional connection route. Handshaking with identity_node.\n--> STATUS: REDIRECT_SUCCESS [${identity.linkedin}]\nIDENTITY_LOG: Proceeding to LinkedIn viewport. Connection established.`;
+        response = `Mapping professional connection route. Handshaking with identity_node.\nSTATUS: REDIRECT_SUCCESS [${identity.linkedin}]`;
         break;
-      case "message":
-        const emailUrl = `mailto:${identity.email}`;
-        setTimeout(() => {
-          window.location.href = emailUrl;
-        }, 0);
-        response = `Initializing encrypted mail stream. Resolving endpoint: ${identity.email}\n--> STATUS: WAITING_FOR_PAYLOAD\nIDENTITY_LOG: Awaiting technical transmission. Protocol initialized.`;
+      case "contact":
+        response = "If you would like to discuss systems architecture, backend development, or debugging strange software behavior, feel free to connect through GitHub or LinkedIn.";
         break;
-      case "resume":
-        window.open(identity.resume, "_blank");
-        response = `Fetching architectural credentials. Decrypting spec_document.\n--> STATUS: REDIRECT_SUCCESS [${identity.resume}]\nIDENTITY_LOG: Documentation verified. Credential analysis ready.`;
+      case "help":
+        response = "AVAILABLE_COMMANDS:\n- about: Display developer identity\n- projects: List core system modules\n- github: Access source code repositories\n- linkedin: Open professional connection node\n- contact: View communication options";
         break;
       default:
-        response = "ERROR: UNKNOWN_COMMAND_ID [CODE_404]";
+        response = "ERROR: UNKNOWN_COMMAND_ID [CODE_404]. Type 'help' for available commands.";
     }
 
     setHistory(prev => [...prev, { type: 'output', content: response }]);

@@ -121,7 +121,7 @@ export default function SystemLaboratory() {
                              <div className="absolute -left-[3px] top-0 w-[5px] h-[5px] bg-accent" />
                              <h4 className="type-metadata text-[0.45rem] opacity-30 mb-4 tracking-widest uppercase italic">Key_Discovery_insight</h4>
                              <p className="type-body text-lg text-text-primary leading-relaxed italic">
-                                "{activeExploration?.insight}"
+                                &quot;{activeExploration?.insight}&quot;
                              </p>
                           </div>
 
