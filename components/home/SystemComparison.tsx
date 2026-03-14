@@ -50,6 +50,12 @@ const COMPARISON_ATTRIBUTES: ComparisonAttribute[] = [
     getValue: (p) => p.status || "N/A"
   },
   {
+    id: "scale",
+    label: "SYSTEM_SCALE",
+    description: "Scope and magnitude of the system implementation.",
+    getValue: (p) => p.technicalMeta?.scale || "N/A"
+  },
+  {
     id: "outcomes",
     label: "LEARNING_OUTCOMES",
     description: "Key architectural insights gained.",

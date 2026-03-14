@@ -6,11 +6,11 @@ export const projects: Project[] = [
         name: "MoveX",
         slug: "movex",
         route: "/movex",
-        shortDescription: "An experiment in operational backend architecture exploring role-based workflows, session isolation, and shipment state coordination.",
+        shortDescription: "A backend logistics system designed to explore role-based workflows, authentication, and shipment management.",
         longDescription: "MoveX is a backend architecture exploration designed to solve the coordination challenges of a multi-role logistics environment. Rather than focusing on UI complexity, the system investigates how to reliably manage interactions between Administrators, Franchise Branches, Staff, and Customers. The project serves as a laboratory for testing authentication boundaries, relational database integrity under operational load, and secure session management in a distributed environment.",
         category: "Operational Backend System",
         techStack: ["Node.js", "Express", "PostgreSQL", "Vanilla JS"],
-        status: "Completed",
+        status: "Completed prototype system",
         learningOutcomes: ["Backend Architecture", "Role-Based Access Control", "Relational Schema Design"],
         techGroups: [
             { role: "Backend Services", items: ["Node.js", "Express"] },
@@ -24,6 +24,7 @@ export const projects: Project[] = [
             systemType: "Operational backend system",
             architectureStyle: "Modular Monolith",
             storageType: "Relational (PostgreSQL)",
+            scale: "6 Core Modules",
         },
         authority: {
             complexityScore: 7,
@@ -184,12 +185,12 @@ export const projects: Project[] = [
         ],
         storyTitle: "Shipment Lifecycle",
         internalComponents: [
-            { name: "User Management", description: "Handles account creation, secure login sessions, and role-based assignment for all participants." },
-            { name: "Franchise and Staff Operations", description: "Enables administrators to manage branch hierarchies and assign staff members to specific nodes." },
-            { name: "Customer Booking and Pricing", description: "Processes shipment requests and calculates dynamic delivery costs based on regional metrics." },
-            { name: "Pickup and Dispatch Management", description: "Coordinates parcel collection tasks and handles the handoff between hub staff and drivers." },
-            { name: "Shipment Tracking and Delivery", description: "Governs the lifecycle of a parcel, managing real-time status updates and delivery confirmations." },
-            { name: "Reports and Analytics", description: "Aggregates operational data into dashboards for reviewing branch performance and shipment volume." }
+            { name: "User Management", description: "Handles authentication, account creation, and role-based permissions for all system participants." },
+            { name: "Franchise Operations", description: "Enables administrators to manage branch hierarchies and assign staff members to specific operational nodes." },
+            { name: "Customer Booking", description: "Processes shipment requests and calculates delivery costs based on regional metrics and parcel weight." },
+            { name: "Dispatch Management", description: "Coordinates parcel collection tasks and handles the handoff between hub staff and drivers." },
+            { name: "Shipment Tracking", description: "Governs the parcel lifecycle, managing real-time status updates and delivery confirmations." },
+            { name: "Reports & Analytics", description: "Aggregates operational data into dashboards for reviewing branch performance and shipment volume." }
         ],
         future: [
             { title: "Automated Dispatch Logic", description: "Refining the backend to suggest optimal delivery routes based on destination density scores." },
@@ -201,11 +202,11 @@ export const projects: Project[] = [
         name: "UIDAI Advisory System",
         slug: "uidai",
         route: "/uidai",
-        shortDescription: "A hackathon project analyzing aggregated Aadhaar enrollment data to identify regional patterns and provide contextual advisory insights to human operators.",
+        shortDescription: "A data analysis system that identifies unusual patterns in Aadhaar enrollment activity.",
         longDescription: "The UIDAI Advisory Intelligence System was developed for a hackathon focused on analyzing aggregated Aadhaar enrollment data. The system monitors enrollment counts across thousands of locations to identify patterns that may require human attention. It is designed as a purely advisory tool; it identifies patterns and provides contextual explanations so that officials can interpret data more effectively. The system highlights trends with confidence scores but never makes autonomous decisions.",
         category: "Advisory Data Analysis System",
         techStack: ["Python", "FastAPI", "Pandas", "Scikit-Learn"],
-        status: "Hackathon Project",
+        status: "Hackathon prototype",
         learningOutcomes: ["Statistical Pattern Detection", "Advisory Signal Design", "Privacy-by-Aggregation"],
         techGroups: [
             { role: "Core Engine", items: ["Python", "Pandas", "NumPy"] },
@@ -219,6 +220,7 @@ export const projects: Project[] = [
             systemType: "Data analysis and advisory system",
             architectureStyle: "Sequential Data Pipeline",
             storageType: "Aggregated Pincode-Level Data",
+            scale: "4 Analysis Stages",
         },
         authority: {
             complexityScore: 8,
@@ -377,12 +379,12 @@ export const projects: Project[] = [
         ],
         storyTitle: "Advisory Pipeline",
         internalComponents: [
-            { name: "Enrollment Data Aggregator", description: "Ingests raw regional counts and organizes them into spatial datasets for temporal analysis." },
-            { name: "Regional Baseline Synthesis", description: "Generates historical enrollment norms to serve as moving reference points for anomaly detection." },
-            { name: "Pattern Detection Modules", description: "Identifies specific zones such as 'Baby Booms', 'School Ready', or 'Employment Magnets'." },
-            { name: "Signal Propagation Layer", description: "Translates anomalies into specific, context-rich flags like 'High Stress' or 'Volatility'." },
-            { name: "Official Advisory Dashboard", description: "The interface designed to present signals to humans without triggering automated responses." },
-            { name: "Privacy Ingestion Barrier", description: "The architecture-level guard that prevents PII or biometric data from entering the analysis flow." }
+            { name: "Data Aggregator", description: "Ingests raw regional counts and organizes them into spatial datasets for temporal analysis while discarding PII." },
+            { name: "Baseline Engine", description: "Generates historical enrollment norms to serve as moving reference points for anomaly detection across regions." },
+            { name: "Pattern Detection", description: "Identifies specific demographic trends such as local spikes, ghost zones, and population shifts." },
+            { name: "Signal Propagation", description: "Translates statistical anomalies into specific, context-rich flags like 'High Stress' or 'Volatility'." },
+            { name: "Advisory Dashboard", description: "Visualizes signals on spatial heatmaps to empower human officials with context without automated execution." },
+            { name: "Privacy Guard", description: "Enforces an architecture-level barrier that prevents biometric or personal data from entering the analysis flow." }
         ],
         future: [
             { title: "Multi-Source Correlation", description: "Integrating external event data (festivals, policy changes) to automatically explain common signals." },
@@ -394,11 +396,11 @@ export const projects: Project[] = [
         name: "Polyglot FFI Verifier",
         slug: "pfcv",
         route: "/pfcv",
-        shortDescription: "A systems engineering research prototype exploring cross-language safety at dangerous FFI boundaries between high-level runtimes and native code.",
+        shortDescription: "A verification pipeline that analyzes foreign function interfaces to detect unsafe cross-language interactions.",
         longDescription: "PFCV (Polyglot FFI Contract Verifier) is a verification pipeline designed to investigate the fragility of Foreign Function Interfaces. Modern systems frequently rely on native C/C++ libraries for performance, but the boundary between languages is often unprotected, leading to catastrophic memory failures and undefined behavior. PFCV explores an automated approach to this problem: extracting interface metadata, generating formal safety contracts, and enforcing those rules at runtime to prevent cross-language crashes. It is a research-first prototype aimed at making systems programming more predictable.",
         category: "Verification Pipeline",
         techStack: ["C++", "Rust", "Python", "Clang"],
-        status: "Active Development",
+        status: "Active development research project",
         learningOutcomes: ["Language Interoperability", "Compiler Tooling (Clang)", "Contract-Driven Verification"],
         techGroups: [
             { role: "Core Verification", items: ["C++", "Clang Tooling", "LLVM"] },
@@ -412,6 +414,7 @@ export const projects: Project[] = [
             systemType: "Systems engineering research prototype",
             architectureStyle: "Multi-Stage Verification Pipeline",
             storageType: "In-Memory AST State & IR Streams",
+            scale: "5 Pipeline Nodes",
         },
         authority: {
             complexityScore: 9,
@@ -578,12 +581,12 @@ export const projects: Project[] = [
         ],
         storyTitle: "Verification Pipeline",
         internalComponents: [
-            { name: "Architecture Layer", description: "Defines the structural constraints and system boundaries for the entire verification process." },
-            { name: "Pipeline Orchestration", description: "Coordinates the flow of data from source extraction through to runtime enforcement." },
-            { name: "Ingestion Layer", description: "Leverages Clang and LLVM to accurately ingest C++ header metadata and function signatures." },
-            { name: "IR Normalization", description: "Standardizes extracted metadata into a canonical format for cross-language reasoning." },
-            { name: "Contract Synthesis", description: "The logical core that generates safety rules for nullability, alignment, and ownership." },
-            { name: "Language Adapters", description: "The final enforcement point where contracts are used to protect cross-language call boundaries." }
+            { name: "Architecture Layout", description: "Defines the structural constraints and system boundaries for the entire cross-language verification process." },
+            { name: "Pipeline Orchestrator", description: "Coordinates the flow of data from raw source extraction through to synthesized runtime enforcement." },
+            { name: "Clang Extractor", description: "Leverages LLVM infrastructure to accurately ingest C++ header metadata and analyze abstract syntax trees." },
+            { name: "IR Normalizer", description: "Standardizes extracted metadata into a canonical format (Universal Intermediate Representation) for cross-language reasoning." },
+            { name: "Contract Synthesizer", description: "The logical core that evaluates IR data to generate formal safety rules for nullability, alignment, and ownership." },
+            { name: "Runtime Adapters", description: "The final enforcement layer where contracts are used to shield FFI boundaries and intercept unsafe calls." }
         ],
         future: [
             { title: "Recursive Type Synthesis", description: "Expanding the analyzer to automatically handle deeply nested structures and union types in contracts." },

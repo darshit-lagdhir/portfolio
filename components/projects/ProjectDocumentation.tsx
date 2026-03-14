@@ -69,7 +69,7 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
                initial={{ opacity: 0, y: 30 }}
                animate={{ opacity: 1, y: 0 }}
                transition={{ duration: 0.8 }}
-               className="type-h1 text-5xl md:text-8xl leading-none mb-sys-32"
+               className="type-h1 leading-none mb-sys-32"
              >
                {formatLabel(project.name)}_
              </motion.h1>             <motion.p 
@@ -88,7 +88,7 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
                className="flex flex-wrap gap-4"
              >
                 {project.techStack.map(tech => (
-                  <span key={tech} className="type-metadata text-[0.45rem] text-text-muted border border-border-dim px-2 py-1">
+                  <span key={tech} className="type-metadata text-text-muted border border-border-dim px-2 py-1">
                     {formatLabel(tech)}
                   </span>
                 ))}
@@ -97,13 +97,19 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
 
           <div className="col-span-12 lg:col-span-4 mt-sys-48 lg:mt-0 flex flex-col gap-6 lg:items-end">
              <div className="text-left lg:text-right">
-                <div className="type-metadata text-[0.5rem] text-text-muted mb-2">SYSTEM_ARCHITECTURE</div>
+                <div className="type-metadata text-text-muted mb-2">SYSTEM_ARCHITECTURE</div>
                 <div className="type-label text-accent">{formatLabel(project.technicalMeta?.architectureStyle || "")}</div>
              </div>
-             <div className="text-left lg:text-right">
-                <div className="type-metadata text-[0.5rem] text-text-muted mb-2">CORE_CLASSIFICATION</div>
-                <div className="type-label text-text-primary">{formatLabel(project.technicalMeta?.systemType || "")}</div>
-             </div>
+              <div className="text-left lg:text-right">
+                 <div className="type-metadata text-text-muted mb-2">CORE_CLASSIFICATION</div>
+                 <div className="type-label text-text-primary">{formatLabel(project.technicalMeta?.systemType || "")}</div>
+              </div>
+              {project.technicalMeta?.scale && (
+                <div className="text-left lg:text-right">
+                   <div className="type-metadata text-text-muted mb-2">SYSTEM_SCALE</div>
+                   <div className="type-label text-accent-dim">{formatLabel(project.technicalMeta.scale)}</div>
+                </div>
+              )}
           </div>
         </div>
 
@@ -117,6 +123,7 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
           {/* Section 01 & 02: Detailed Narrative & Architecture */}
           <div className="col-span-12 lg:col-span-7 space-y-sys-96">
             <section>
+                <SectionDivider label="01_SYSTEM_OVERVIEW" className="mb-sys-48" />
                 <div className="space-y-sys-48">
                   <p className="type-body text-base md:text-lg leading-relaxed text-text-primary font-medium">
                     {project.longDescription}
@@ -131,21 +138,25 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
             </section>
 
             <section>
-               <SectionDivider label="02_ARCHITECTURE_SPEC" className="mb-sys-48" />
-               <div className="space-y-sys-32">
-                 <p className="type-body leading-relaxed text-text-secondary">
-                   {project.engineeringFocus}
-                 </p>
-                 
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-sys-24 mt-sys-48">
-                    {project.internalComponents?.map((comp, idx) => (
-                      <div key={idx} className="p-6 border border-border-dim bg-bg-secondary group hover:border-accent transition-colors">
-                        <div className="type-metadata text-[0.5rem] text-accent mb-3">COMP_0{idx + 1}</div>
-                        <h4 className="type-label text-sm text-text-primary mb-2">{formatLabel(comp.name)}</h4>
-                        <p className="type-body text-xs text-text-muted leading-relaxed">{comp.description}</p>
-                      </div>
-                    ))}
-                 </div>
+                <SectionDivider label="02_ARCHITECTURE_OVERVIEW" className="mb-sys-48" />
+                <div className="space-y-sys-32">
+                  <p className="type-body leading-relaxed text-text-secondary">
+                    {project.engineeringFocus}
+                  </p>
+                  
+                  <div className="pt-sys-48">
+                    <div className="type-metadata text-accent mb-6">CORE_SYSTEM_MODULES</div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-sys-24">
+                       {project.internalComponents?.map((comp, idx) => (
+                         <div key={idx} className="p-6 border border-border-dim bg-bg-secondary group hover:border-accent transition-colors">
+                           <div className="type-metadata text-accent mb-3">MODULE_0{idx + 1}</div>
+                           <h4 className="type-label text-sm text-text-primary mb-2">{formatLabel(comp.name)}</h4>
+                           <div className="type-metadata text-[0.4rem] opacity-30 mb-2 font-mono">CORE_RESPONSIBILITY:</div>
+                           <p className="type-body text-xs text-text-muted leading-relaxed">{comp.description}</p>
+                         </div>
+                       ))}
+                    </div>
+                  </div>
 
                  <div className="mt-sys-96">
                    <div className="flex items-center gap-4 mb-sys-32 opacity-30">
@@ -197,10 +208,16 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
                     <span>STORAGE</span>
                     <span>{formatLabel(project.technicalMeta?.storageType || "")}</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span>FOCUS</span>
-                    <span className="text-accent">{formatLabel(project.engineeringFocus || "")}</span>
-                  </div>
+                   <div className="flex justify-between">
+                     <span>FOCUS</span>
+                     <span className="text-accent">{formatLabel(project.engineeringFocus || "")}</span>
+                   </div>
+                   {project.technicalMeta?.scale && (
+                     <div className="flex justify-between pt-2 border-t border-border-dim/20">
+                       <span>SCALE</span>
+                       <span className="text-text-primary">{formatLabel(project.technicalMeta.scale)}</span>
+                     </div>
+                   )}
                </div>
             </section>
 
@@ -232,7 +249,7 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
         <div className="mt-sys-128 space-y-sys-128">
            {/* Section 05: Engineering Decisions & Trade-offs */}
            <section>
-              <SectionDivider label="06_DESIGN_REASONING" className="mb-sys-64" />
+              <SectionDivider label="06_ENGINEERING_DECISIONS" className="mb-sys-64" />
               
               <div className="grid-12 gap-sys-64">
                  <div className="col-span-12 lg:col-span-7 space-y-sys-64">
@@ -292,11 +309,11 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
               </div>
            </section>
            {/* Section 06: System Evolution Journey (Story Flow) */}
-           {project.development_story && (
-              <section className="py-sys-128 border-t border-border-dim">
-                 <SectionDivider label="07_SYSTEM_JOURNEY" className="mb-sys-64" />
-                
-                 <div className="space-y-sys-64">
+            {project.development_story && (
+               <section className="py-sys-128 border-t border-border-dim">
+                  <SectionDivider label="07_SYSTEM_WORKFLOW" className="mb-sys-64" />
+                 
+                  <div className="space-y-sys-64">
                    <ArchitectureDiagram 
                       layout={project.layout} 
                       nodes={project.architecture_nodes}
@@ -337,10 +354,10 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
               </section>
            )}
 
-           {/* Section 09: Experimentation Log */}
+           {/* Section 09: Technical Lessons Learned */}
            {project.authority?.experimentationNotes && (
               <section>
-                 <SectionDivider label="09_EXPERIMENTATION_LOG" className="mb-sys-64" />
+                 <SectionDivider label="09_TECHNICAL_LESSONS_LEARNED" className="mb-sys-64" />
                  <div className="bg-bg-secondary/40 border border-border-dim p-12">
                     <div className="grid-12 gap-sys-64">
                        <div className="col-span-12 lg:col-span-4">

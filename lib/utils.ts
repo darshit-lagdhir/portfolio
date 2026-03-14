@@ -82,16 +82,16 @@ export function getStatusMetadata(status: string) {
   const s = status.toLowerCase();
   
   if (s.includes("complete")) {
-    return { color: "bg-accent", label: "COMPLETE" };
+    return { color: "bg-accent", label: status.toUpperCase() };
   }
-  if (s.includes("active") || s.includes("development")) {
-    return { color: "bg-accent-dim pulse", label: "ACTIVE_DEVELOPMENT" };
+  if (s.includes("active") || s.includes("research") || s.includes("development")) {
+    return { color: "bg-accent-dim pulse", label: status.toUpperCase() };
   }
-  if (s.includes("hackathon")) {
-    return { color: "bg-accent-dim", label: "HACKATHON_PROJECT" };
+  if (s.includes("hackathon") || s.includes("prototype")) {
+    return { color: "bg-accent-dim", label: status.toUpperCase() };
   }
   
-  return { color: "bg-accent-dim pulse", label: "IN_DEVELOPMENT" };
+  return { color: "bg-accent-dim pulse", label: status.toUpperCase() };
 }
 
 /**

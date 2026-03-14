@@ -45,8 +45,8 @@ export default function SystemModule({ project, index }: SystemModuleProps) {
         <div className="flex items-center justify-between mb-sys-48">
           <div className="flex items-center gap-3">
             <span className={cn("w-1 h-1 rounded-full", statusMeta.color)} />
-            <span className="type-metadata text-[0.4rem] text-text-muted tracking-widest font-mono">
-              {statusMeta.label === "COMPLETE" ? "STABLE" : statusMeta.label}
+            <span className="type-metadata text-[0.35rem] text-text-muted tracking-wider font-mono">
+              {statusMeta.label}
             </span>
           </div>
           

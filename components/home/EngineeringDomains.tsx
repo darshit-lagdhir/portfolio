@@ -28,11 +28,11 @@ export default function EngineeringDomains() {
         description={identity.section_transitions.toDomains}
       />
 
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-sys-24 mb-sys-64">
-         <div className="space-y-4">
-           <div className="type-metadata text-[0.45rem] text-accent opacity-60">EXPLORATION_MAP</div>
-           <h2 className="type-h1 text-3xl md:text-4xl uppercase tracking-tighter">Learning_Domains</h2>
-         </div>
+       <div className="flex flex-col md:flex-row md:items-end justify-between gap-sys-32 mb-sys-64">
+        <div className="space-y-4">
+          <div className="type-metadata text-accent opacity-60">EXPLORATION_MAP</div>
+          <h2 className="type-h1">Learning_Domains</h2>
+        </div>
          <div className="max-w-md">
             <p className="type-body text-xs text-text-muted italic">
               A map of technical areas I am currently exploring, learning, and building projects in. These domains represent active learning paths rather than established expertise.
@@ -48,7 +48,7 @@ export default function EngineeringDomains() {
               key={domain.domain_id}
               onClick={() => setActiveDomainId(activeDomainId === domain.domain_id ? null : domain.domain_id)}
               className={cn(
-                "module-frame w-full text-left relative group !p-8 transition-all duration-300",
+                "module-frame w-full text-left relative group transition-all duration-300",
                 activeDomainId === domain.domain_id 
                   ? "border-accent bg-accent/5 ring-1 ring-accent/20" 
                   : "hover:border-border-bright"

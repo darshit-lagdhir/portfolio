@@ -25,7 +25,7 @@ export default function ExplorationArchive() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.1 }}
-            className="module-frame group hover:border-accent/30 transition-all flex flex-col h-full !p-8"
+            className="module-frame group hover:border-accent/30 transition-all flex flex-col h-full"
           >
             <div className="flex justify-between items-start mb-6">
               <span className="type-metadata text-[0.35rem] opacity-30 uppercase font-mono">
@@ -43,7 +43,7 @@ export default function ExplorationArchive() {
             </p>
 
             <div className="mt-auto space-y-6">
-              <div className="pt-6 border-t border-border-dim/30">
+              <div className="border-t border-border-dim/30">
                 <h4 className="type-metadata text-[0.35rem] opacity-20 mb-3 tracking-widest uppercase italic">Key_Insight</h4>
                 <p className="type-body text-[0.7rem] text-text-primary/80 italic leading-relaxed">
                   &quot;{item.insight}&quot;

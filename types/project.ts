@@ -7,6 +7,7 @@ export interface TechnicalMeta {
     systemType: string;
     architectureStyle: string;
     storageType: string;
+    scale?: string;
     authType?: string;
 }
 
