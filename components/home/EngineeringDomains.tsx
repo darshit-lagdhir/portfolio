@@ -31,7 +31,7 @@ export default function EngineeringDomains() {
        <div className="flex flex-col md:flex-row md:items-end justify-between gap-sys-32 mb-sys-64">
         <div className="space-y-4">
           <div className="type-metadata text-accent opacity-60">EXPLORATION_MAP</div>
-          <h2 className="type-h1">Research_Nodes</h2>
+          <h3 className="type-h1">Research_Nodes</h3>
         </div>
          <div className="max-w-md">
             <p className="type-body text-xs text-text-muted italic">
@@ -47,6 +47,7 @@ export default function EngineeringDomains() {
             <button
               key={domain.domain_id}
               onClick={() => setActiveDomainId(activeDomainId === domain.domain_id ? null : domain.domain_id)}
+              aria-label={`Explore ${domain.name} domain`}
               className={cn(
                 "module-frame w-full text-left relative group transition-all duration-300",
                 activeDomainId === domain.domain_id 

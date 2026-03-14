@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
+import { useReducedMotion } from "framer-motion";
 import { useActiveSection, useScrollProgress, usePerformanceDetection } from "@/lib/interaction";
 
 type SectionId = "hero" | "systems" | "domains" | "philosophy" | "about" | "contact" | string;
@@ -16,6 +17,7 @@ interface SceneContextType {
     isLowPerf: boolean;
     isIdle: boolean;
     scrollProgress: number;
+    prefersReducedMotion: boolean;
 }
 
 const SceneContext = createContext<SceneContextType | undefined>(undefined);
@@ -23,6 +25,7 @@ const SceneContext = createContext<SceneContextType | undefined>(undefined);
 const SECTIONS = ["hero", "about", "domains", "systems", "comparison", "exploration", "archive", "philosophy", "reflections", "contact"];
 
 export function SceneProvider({ children }: { children: React.ReactNode }) {
+    const prefersReducedMotion = useReducedMotion() ?? false;
     const [isNavigating, setIsNavigating] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const [isIdle, setIsIdle] = useState(false);
@@ -89,7 +92,8 @@ export function SceneProvider({ children }: { children: React.ReactNode }) {
             setActiveSection: setManualActiveSection,
             isNavigating, setIsNavigating,
             isMobile, isScrolled, isLowPerf, isIdle,
-            scrollProgress
+            scrollProgress,
+            prefersReducedMotion
         }}>
             {children}
         </SceneContext.Provider>

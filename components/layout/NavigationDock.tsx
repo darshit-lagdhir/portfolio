@@ -73,6 +73,7 @@ export default function NavigationDock() {
                 <button
                   key={item.id}
                   onClick={() => handleScroll(item.id)}
+                  aria-label={`Navigate to ${item.label} section`}
                   className={cn(
                     "flex-1 flex flex-col items-center gap-1 py-3 transition-all rounded-xl",
                     activeSection === item.id ? "bg-accent/5 text-accent scale-95" : "text-text-muted"
@@ -116,6 +117,7 @@ export default function NavigationDock() {
         <button
           key={item.id}
           onClick={() => handleScroll(item.id)}
+          aria-label={`Navigate to ${item.label} section`}
           className="group flex items-center gap-sys-16 text-left relative focus:outline-none focus-visible:ring-1 focus-visible:ring-accent/50 p-1"
         >
           {/* Diagnostic Code */}

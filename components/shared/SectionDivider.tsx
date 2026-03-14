@@ -12,7 +12,7 @@ export default function SectionDivider({ label, description, className }: Sectio
   return (
     <div className={`section-divider-container ${className || "mb-sys-64"}`}>
       <div className="section-divider" data-label={label}>
-        <motion.span 
+        <motion.h2 
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-10%" }}
@@ -20,7 +20,7 @@ export default function SectionDivider({ label, description, className }: Sectio
           className="divider-label"
         >
           {label}
-        </motion.span>
+        </motion.h2>
       </div>
       {description && (
         <motion.p 

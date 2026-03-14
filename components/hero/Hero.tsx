@@ -5,13 +5,15 @@ import HeroIdentity from "./HeroIdentity";
 import HeroArchitecture from "./HeroArchitecture";
 import { identity } from "@/data/identity";
 import DiscoveryHint from "@/components/shared/DiscoveryHint";
+import { useScene } from "@/context/SceneContext";
 
 export default function Hero() {
+  const { prefersReducedMotion } = useScene();
   const { scrollY } = useScroll();
 
-  // Subtle scroll transitions for the hero section
+  // Subtle scroll transitions for the hero section, disabled for reduced motion
   const opacity = useTransform(scrollY, [0, 400], [1, 0]);
-  const y = useTransform(scrollY, [0, 400], [0, -50]);
+  const y = useTransform(scrollY, [0, 400], [0, prefersReducedMotion ? 0 : -50]);
 
   return (
     <section className="min-h-[85vh] flex flex-col justify-center relative py-sys-64 overflow-hidden">
@@ -26,14 +28,15 @@ export default function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="mt-sys-64"
           >
             <button 
               onClick={() => {
                 const el = document.getElementById('about');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
+                if (el) el.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' });
               }}
+              aria-label="Initiate identity probe and scroll to about section"
               className="btn-primary opacity-60 hover:opacity-100 transition-opacity"
             >
               INITIATE_IDENTITY_PROBE

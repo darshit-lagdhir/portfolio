@@ -8,7 +8,7 @@
   --color-bg-secondary: #0f0f0f;
   --color-text-primary: #e5e5e5;
   --color-text-secondary: #a3a3a3;
-  --color-text-muted: #525252;
+  --color-text-muted: #858585; /* Increased from #525252 for readability */
   --color-accent: #0066ff;
   --color-accent-dim: #003380;
   --color-border-dim: rgba(255, 255, 255, 0.05);
@@ -30,8 +30,8 @@
   --font-size-h2: clamp(1.5rem, 3vw, 2.5rem);
   --font-size-h3: clamp(1rem, 1.5vw, 1.25rem);
   --font-size-body: 1rem;
-  --font-size-label: 0.75rem;
-  --font-size-micro: 0.6rem;
+  --font-size-label: 0.8rem; /* Increased from 0.75rem */
+  --font-size-micro: 0.7rem; /* Increased from 0.6rem */
 
   /* 
      PHASE 2 — SPACING SYSTEM (MODULAR SCALE)
@@ -213,10 +213,16 @@ body {
 /* ACCENT (FORNIRE) */
 .type-accent {
   font-family: var(--font-accent);
-  font-size: 0.65rem;
+  font-size: 0.7rem;
   line-height: 1;
   text-transform: uppercase;
   letter-spacing: 0.1em;
+}
+
+/* ACCESSIBILITY: Visible Focus States */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
 }
 
 /* 
@@ -378,7 +384,7 @@ h3 {
 
 .divider-label {
   font-family: var(--font-structural);
-  font-size: 0.6rem;
+  font-size: var(--font-size-micro);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.4em;

@@ -22,9 +22,9 @@ export default function EngineeringPhilosophy() {
              transition={{ duration: 0.8 }}
              className="max-w-5xl"
            >
-              <h2 className="type-h1 text-4xl md:text-5xl mb-sys-48 uppercase leading-[1.05] tracking-tighter">
+              <h3 className="type-h1 text-4xl md:text-5xl mb-sys-48 uppercase leading-[1.05] tracking-tighter">
                 Architecture is a <span className="text-accent underline decoration-accent/20 decoration-1 underline-offset-[12px]">Diagnostic Discipline</span>, not just a constructive one.
-              </h2>
+              </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                 <div className="space-y-6">
                   <p className="type-body text-xl md:text-2xl text-text-primary/70 leading-relaxed">

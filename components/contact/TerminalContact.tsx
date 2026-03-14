@@ -83,7 +83,7 @@ export default function TerminalContact() {
               <div className="w-1 h-1 bg-current rounded-full" />
               <span className="type-metadata text-[0.4rem] tracking-[0.3em] font-mono">CONNECTION_READY</span>
             </div>
-            <h2 className="type-h1 uppercase tracking-tighter">Initiate_Discovery_</h2>
+            <h3 className="type-h1 uppercase tracking-tighter">Initiate_Discovery_</h3>
             <p className="type-body text-base text-text-secondary max-w-xl opacity-50 leading-relaxed font-medium">
               You have reached the end of the architectural manifest. Use the command panel below to interact with the system and initiate contact.
             </p>
@@ -175,6 +175,7 @@ export default function TerminalContact() {
                     key={cmd.id}
                     onClick={() => executeCommand(cmd.id, cmd.label)}
                     disabled={isProcessing}
+                    aria-label={`Execute command: ${cmd.label}`}
                     className="module-frame group flex items-center justify-between !p-6 relative transition-all text-left disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-1 focus-visible:ring-accent md:hover:translate-x-1 hover:bg-accent/5 hover:border-accent/40"
                   >
                     <div className="absolute top-2 right-2 opacity-20 group-hover:opacity-100 transition-opacity">
