@@ -1,4 +1,4 @@
-import { cn, getTierProjects } from "@/lib/utils";
+import { getTierProjects } from "@/lib/utils";
 import SystemModule from "./SystemModule";
 import SectionDivider from "@/components/shared/SectionDivider";
 import { identity } from "@/data/identity";

@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { identity } from "@/data/identity";
-import { cn, formatLabel, unslugify } from "@/lib/utils";
+import { cn, formatLabel } from "@/lib/utils";
 import SectionDivider from "@/components/shared/SectionDivider";
 
 const SELECTABLE_COMMANDS = [

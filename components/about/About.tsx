@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { identity } from "@/data/identity";
 import SectionDivider from "@/components/shared/SectionDivider";
 import DiscoveryHint from "@/components/shared/DiscoveryHint";
-import { formatLabel, unslugify } from "@/lib/utils";
+import { formatLabel } from "@/lib/utils";
 
 const NARRATIVE_BLOCKS = [
   {
@@ -118,7 +118,6 @@ export default function About() {
             <AboutVisualElement />
 
             <div className="mt-sys-64 space-y-sys-32 opacity-20">
-            <div className="mt-sys-64 space-y-sys-32 opacity-20">
               <div className="type-metadata text-[0.5rem] tracking-[0.3em]">STUDENT_INVESTIGATION_STATUS</div>
               <div className="space-y-2 font-mono text-[0.45rem] leading-tight">
                 MINDSET: CURIOUS <br />
@@ -127,7 +126,6 @@ export default function About() {
                 SYSTEM_ACCESS: READ_WRITE <br />
                 CURRENT_VERSION: 1.0.0
               </div>
-            </div>
             </div>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import ProjectDocumentation from "@/components/projects/ProjectDocumentation";
 import { projects } from "@/data/projects";
 import { getProjectBySlug } from "@/lib/utils";
+import { Metadata } from "next";
 
 /**
  * GENERATE STATIC PARAMS
@@ -10,6 +11,22 @@ export function generateStaticParams() {
   return projects.map((project) => ({
     slug: project.slug,
   }));
+}
+
+/**
+ * GENERATE METADATA
+ * Dynamically constructs the page head based on the active project node.
+ */
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const project = getProjectBySlug(slug);
+  
+  if (!project) return { title: "System Not Found" };
+
+  return {
+    title: project.name,
+    description: project.shortDescription,
+  };
 }
 
 interface PageProps {
