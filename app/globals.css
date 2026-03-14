@@ -272,7 +272,9 @@ h3 {
     linear-gradient(to bottom, var(--color-border-dim) 1px, transparent 1px);
   background-size: 100px 100px;
   mask-image: radial-gradient(circle at center, black, transparent 85%);
+  -webkit-mask-image: radial-gradient(circle at center, black, transparent 85%);
   opacity: 0.25;
+  transform: translateZ(0); /* Force GPU layer */
 }
 
 /* 
@@ -314,6 +316,7 @@ h3 {
   padding: var(--spacing-sys-48);
   border-radius: 1px;
   transition: border-color var(--transition-smooth);
+  will-change: transform, border-color, background-color;
 }
 
 .module-frame:hover {

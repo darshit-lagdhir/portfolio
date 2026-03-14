@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Project } from "@/types/project";
 import Link from "next/link";
 import { cn, getProjectUrl, getStatusMetadata, formatLabel } from "@/lib/utils";
+import { useScene } from "@/context/SceneContext";
 
 interface SystemModuleProps {
   project: Project;
@@ -11,6 +12,7 @@ interface SystemModuleProps {
 }
 
 export default function SystemModule({ project, index }: SystemModuleProps) {
+  const { isLowPerf } = useScene();
   const statusMeta = getStatusMetadata(project.status);
 
   return (
@@ -20,11 +22,12 @@ export default function SystemModule({ project, index }: SystemModuleProps) {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, margin: "-10%" }}
         transition={{
-          duration: 1,
-          delay: index * 0.05,
+          duration: isLowPerf ? 0.3 : 1,
+          delay: isLowPerf ? 0 : index * 0.05,
           ease: [0.16, 1, 0.3, 1]
         }}
         className="module-frame group relative h-full flex flex-col"
+        style={{ willChange: "transform, opacity" }}
       >
         {/* Module Header Hook */}
         <div className="absolute top-0 right-0 p-6 opacity-[0.05] group-hover:opacity-20 transition-opacity">

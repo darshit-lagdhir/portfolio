@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { laboratoryExplorations } from "@/data/laboratory";
 import SectionDivider from "@/components/shared/SectionDivider";
 import { identity } from "@/data/identity";
-import { cn } from "@/lib/utils";
+import { cn, unslugify, formatLabel, getProjectUrl } from "@/lib/utils";
 import Link from "next/link";
 import DiscoveryHint from "@/components/shared/DiscoveryHint";
 import ExplorationArchive from "./ExplorationArchive";
@@ -58,7 +58,7 @@ export default function SystemLaboratory() {
               )}
             >
               <div className="flex justify-between items-start mb-3">
-                 <span className="type-metadata text-[0.35rem] opacity-40">{item.related_domains[0].replace(/_/g, ' ').toUpperCase()}</span>
+                 <span className="type-metadata text-[0.35rem] opacity-40">{unslugify(item.related_domains[0])}</span>
                  <div className={cn(
                    "arch-marker scale-[0.4] transition-all",
                    activeId === item.investigation_id ? "opacity-100" : "opacity-20 group-hover:opacity-100"
@@ -68,12 +68,12 @@ export default function SystemLaboratory() {
                 "type-emphasis text-base mb-2 transition-colors",
                 activeId === item.investigation_id ? "text-accent" : "text-text-primary"
               )}>
-                {item.title.toUpperCase()}
+                {formatLabel(item.title)}
               </h3>
               
               <div className="flex flex-wrap gap-2 mt-4">
                 {item.related_domains.map(domainId => (
-                  <span key={domainId} className="type-metadata text-[0.3rem] opacity-30 uppercase">{domainId.replace(/_/g, ' ')}</span>
+                  <span key={domainId} className="type-metadata text-[0.3rem] opacity-30 uppercase">{unslugify(domainId)}</span>
                 ))}
               </div>
 
@@ -96,7 +96,7 @@ export default function SystemLaboratory() {
                     <span className="type-metadata text-[0.45rem] opacity-40">RESEARCH_LOG</span>
                     <div className="w-[1px] h-3 bg-border-dim/50" />
                     <span className="type-metadata text-[0.45rem] text-accent font-mono uppercase">
-                      {activeExploration?.investigation_id.toUpperCase()}
+                      {formatLabel(activeExploration?.investigation_id || "")}
                     </span>
                  </div>
                  <div className="flex gap-1.5 opacity-20">
@@ -144,8 +144,8 @@ export default function SystemLaboratory() {
                              <h4 className="type-metadata text-[0.45rem] opacity-30 mb-4 tracking-widest uppercase font-mono">Linked_Domains</h4>
                              <div className="flex flex-wrap gap-3">
                                 {activeExploration?.related_domains.map(domain => (
-                                  <span key={domain} className="px-3 py-1.5 border border-border-dim type-metadata text-[0.4rem] opacity-40 bg-bg-primary/30">
-                                    {domain.toUpperCase()}
+                                  <span key={domain} className="px-3 py-1.5 border border-border-dim type-metadata text-[0.4rem] opacity-40 bg-bg-primary/30 uppercase">
+                                    {unslugify(domain)}
                                   </span>
                                 ))}
                              </div>
@@ -155,15 +155,15 @@ export default function SystemLaboratory() {
                             <div>
                                <h4 className="type-metadata text-[0.45rem] opacity-30 mb-4 tracking-widest uppercase font-mono">Applied_Environment</h4>
                                <div className="flex flex-wrap gap-4">
-                                {activeExploration.related_projects.map(project => (
+                                 {activeExploration.related_projects.map(project => (
                                    <Link 
                                      key={project}
-                                     href={`/${project}`}
+                                     href={getProjectUrl(project)}
                                      className="inline-flex items-center gap-4 group/link"
                                    >
                                       <div className="w-8 h-[1px] bg-accent/20 group-hover/link:w-12 transition-all" />
                                       <span className="type-metadata text-[0.45rem] text-accent/60 group-hover/link:text-accent transition-colors">
-                                        {project.toUpperCase()}
+                                        {formatLabel(project)}
                                       </span>
                                    </Link>
                                 ))}

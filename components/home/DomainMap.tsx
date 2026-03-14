@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { engineeringDomains } from "@/data/domains";
 import { cn } from "@/lib/utils";
+import { useScene } from "@/context/SceneContext";
 
 interface DomainMapProps {
   activeDomainId: string | null;
@@ -10,6 +11,7 @@ interface DomainMapProps {
 }
 
 export default function DomainMap({ activeDomainId, onDomainClick }: DomainMapProps) {
+  const { isLowPerf } = useScene();
   const activeDomain = activeDomainId ? engineeringDomains.find(d => d.domain_id === activeDomainId) : null;
   
   // Fixed positions for a controlled conceptual layout
@@ -49,7 +51,7 @@ export default function DomainMap({ activeDomainId, onDomainClick }: DomainMapPr
                 )}
                 initial={{ pathLength: 0 }}
                 animate={{ pathLength: 1 }}
-                transition={{ duration: 1.5, ease: "easeInOut" }}
+                transition={{ duration: isLowPerf ? 0 : 1.5, ease: "easeInOut" }}
               />
             );
           })
@@ -78,7 +80,7 @@ export default function DomainMap({ activeDomainId, onDomainClick }: DomainMapPr
                 whileHover={{ r: 2.5 }}
               />
               {/* Optional: Glow Effect for Active Node */}
-              {isActive && (
+              {isActive && !isLowPerf && (
                 <motion.circle
                   cx={pos.x}
                   cy={pos.y}

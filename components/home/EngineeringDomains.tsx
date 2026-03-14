@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { engineeringDomains } from "@/data/domains";
 import { projects } from "@/data/projects";
-import { cn } from "@/lib/utils";
+import { cn, unslugify, formatLabel, getProjectUrl } from "@/lib/utils";
 import { useScene } from "@/context/SceneContext";
 import SectionDivider from "@/components/shared/SectionDivider";
 import { identity } from "@/data/identity";
@@ -55,7 +55,7 @@ export default function EngineeringDomains() {
               )}
             >
               <div className="flex justify-between items-center mb-3">
-                 <span className="type-metadata text-[0.4rem] opacity-20 tracking-widest">{domain.domain_id.split('_')[0].toUpperCase()}</span>
+                 <span className="type-metadata text-[0.4rem] opacity-20 tracking-widest">{formatLabel(domain.domain_id.split('_')[0])}</span>
                  {activeDomainId === domain.domain_id && (
                    <motion.div 
                      layoutId="active-indicator"
@@ -67,7 +67,7 @@ export default function EngineeringDomains() {
                 "type-emphasis text-xs md:text-sm transition-colors tracking-tight",
                 activeDomainId === domain.domain_id ? "text-accent/80" : "text-text-primary/70"
               )}>
-                {domain.name.toUpperCase()}
+                {formatLabel(domain.name)}
               </h3>
             </button>
           ))}
@@ -116,7 +116,7 @@ export default function EngineeringDomains() {
                       {relatedProjects.map(project => (
                         <Link 
                           key={project.slug}
-                          href={`/${project.slug}`}
+                          href={getProjectUrl(project.slug)}
                           className="module-frame group !p-6 relative transition-all"
                         >
                            <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">

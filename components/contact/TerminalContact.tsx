@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { identity } from "@/data/identity";
-import { cn } from "../../lib/utils";
+import { cn, formatLabel, unslugify } from "@/lib/utils";
 import SectionDivider from "@/components/shared/SectionDivider";
 
 const SELECTABLE_COMMANDS = [
@@ -143,9 +143,9 @@ export default function TerminalContact() {
                     animate={{ opacity: [0.1, 1, 0.1] }}
                     transition={{ duration: 1, repeat: Infinity }}
                     className="text-accent/40 flex gap-6"
-                  >
+                   >
                     <span className="opacity-20 shrink-0">λ</span>
-                    <span>HANDSHAKE_INITIATED // RESOLVING_ENDPOINT_</span>
+                    <span>{formatLabel("HANDSHAKE_INITIATED // RESOLVING_ENDPOINT_")}</span>
                   </motion.div>
                 )}
               </div>
@@ -168,10 +168,10 @@ export default function TerminalContact() {
                     <div className="absolute top-2 right-2 opacity-10 group-hover:opacity-100 transition-opacity">
                        <div className="arch-marker scale-[0.3]" />
                     </div>
-                    <div className="flex items-center gap-4">
+                     <div className="flex items-center gap-4">
                       <span className="text-accent opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all">λ</span>
                       <span className="type-nav text-[0.7rem] font-bold group-hover:text-white transition-colors">
-                        {cmd.label.toUpperCase()}
+                        {formatLabel(cmd.label)}
                       </span>
                     </div>
                     <span className="type-metadata text-[0.4rem] opacity-20 group-hover:opacity-100 transition-opacity">

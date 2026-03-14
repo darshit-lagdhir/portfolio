@@ -2,12 +2,14 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { useScene } from "@/context/SceneContext";
 
 /**
  * Lightweight Architectural Visualization
  * Renders a grid of nodes with subtle data flow lines.
  */
 export default function HeroArchitecture() {
+  const { isLowPerf } = useScene();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -42,12 +44,12 @@ export default function HeroArchitecture() {
                 key={`flow-${i}`}
                 d={d}
                 stroke="currentColor"
-                strokeWidth="1.5"
-                strokeDasharray="4 20"
+                strokeWidth={isLowPerf ? "0.5" : "1.5"}
+                strokeDasharray={isLowPerf ? "1 40" : "4 20"}
                 initial={{ strokeDashoffset: 100 }}
                 animate={{ strokeDashoffset: 0 }}
                 transition={{ 
-                    duration: 4 + i, 
+                    duration: isLowPerf ? 15 + i : 4 + i, 
                     repeat: Infinity, 
                     ease: "linear" 
                 }}
@@ -73,16 +75,18 @@ export default function HeroArchitecture() {
                     animate={{ scale: 1 }}
                     transition={{ delay: 1 + i * 0.2 }}
                 />
-                <motion.circle 
-                    cx={node.x} 
-                    cy={node.y} 
-                    r="6" 
-                    stroke="currentColor" 
-                    fill="transparent"
-                    strokeWidth="0.5"
-                    animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
-                    transition={{ duration: 3, repeat: Infinity, delay: i }}
-                />
+                {!isLowPerf && (
+                  <motion.circle 
+                      cx={node.x} 
+                      cy={node.y} 
+                      r="6" 
+                      stroke="currentColor" 
+                      fill="transparent"
+                      strokeWidth="0.5"
+                      animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
+                      transition={{ duration: 3, repeat: Infinity, delay: i }}
+                  />
+                )}
                 <text 
                     x={node.x + 10} 
                     y={node.y + 3} 
@@ -99,9 +103,9 @@ export default function HeroArchitecture() {
             cy="200" 
             r="30" 
             stroke="currentColor" 
-            strokeWidth="0.5" 
+            strokeWidth="0.2" 
             strokeDasharray="2 4"
-            animate={{ rotate: 360 }}
+            animate={isLowPerf ? {} : { rotate: 360 }}
             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
         />
         <text 

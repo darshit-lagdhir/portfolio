@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { StoryStep } from "@/types/project";
-import { cn } from "@/lib/utils";
+import { cn, formatLabel } from "@/lib/utils";
 import { useScene } from "@/context/SceneContext";
 
 interface SystemStoryFlowProps {
@@ -80,7 +80,7 @@ export default function SystemStoryFlow({ steps, onStepChange }: SystemStoryFlow
             )}
           >
             <div className="space-y-2">
-               <div className="type-metadata text-[0.45rem] text-accent/60 uppercase tracking-widest">{activeStep.id}</div>
+               <div className="type-metadata text-[0.45rem] text-accent/60 uppercase tracking-widest">{formatLabel(activeStep.id)}</div>
                <h3 className="type-emphasis text-xl md:text-2xl">{activeStep.title}</h3>
             </div>
             
@@ -94,7 +94,7 @@ export default function SystemStoryFlow({ steps, onStepChange }: SystemStoryFlow
                   <div className="flex gap-2">
                     {activeStep.activeNodes.map(nodeId => (
                       <span key={nodeId} className="type-metadata text-[0.4rem] px-2 py-0.5 border border-accent/20 text-accent/80 bg-accent/5">
-                        {nodeId.toUpperCase()}
+                        {formatLabel(nodeId)}
                       </span>
                     ))}
                   </div>

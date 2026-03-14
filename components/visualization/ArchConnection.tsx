@@ -62,6 +62,7 @@ function ArchConnection({ fromRect, toRect, parentRect, layout, isActive }: Arch
         animate={{ pathLength: 1, opacity: 1 }}
         transition={{ duration: 1.5, ease: "easeInOut" }}
         markerEnd="url(#arrowhead)"
+        style={{ willChange: "pathLength, opacity" }}
       />
     </svg>
   );

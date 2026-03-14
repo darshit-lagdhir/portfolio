@@ -51,6 +51,7 @@ function ArchNode({ node, isActive, isDimmed, onClick }: ArchNodeProps) {
           : "border-border-dim bg-bg-secondary/80 hover:border-border-bright",
         isDimmed && !isActive && "opacity-20 grayscale scale-[0.98]"
       )}
+      style={{ willChange: "transform" }}
     >
       <div className="flex flex-col gap-2">
         <div className="flex justify-between items-start">

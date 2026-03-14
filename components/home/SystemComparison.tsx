@@ -9,6 +9,7 @@ import SectionDivider from "@/components/shared/SectionDivider";
 import { identity } from "@/data/identity";
 import DiscoveryHint from "@/components/shared/DiscoveryHint";
 import { Project } from "@/types/project";
+import { formatLabel, unslugify, getProjectUrl } from "@/lib/utils";
 
 interface ComparisonAttribute {
   id: string;
@@ -88,10 +89,10 @@ export default function SystemComparison() {
                 </div>
                 <div className="type-metadata text-[0.4rem] text-accent mb-4">SYSTEM_NODE_0{idx + 1}</div>
                 <h3 className="type-emphasis text-lg mb-6 group-hover:text-accent transition-colors">
-                  {project.name.toUpperCase()}
+                  {formatLabel(project.name)}
                 </h3>
                 <Link 
-                  href={`/${project.slug}`}
+                  href={getProjectUrl(project.slug)}
                   className="type-nav text-[0.5rem] text-text-muted hover:text-accent border border-border-dim px-3 py-1.5 transition-all inline-block uppercase"
                 >
                   View full spec →
@@ -141,7 +142,7 @@ export default function SystemComparison() {
                       <div className="flex flex-wrap gap-1.5 grayscale opacity-40 group-hover:opacity-80 transition-all">
                         {(value as string[]).map(item => (
                           <span key={item} className="type-metadata text-[0.35rem] px-2 py-0.5 border border-border-dim uppercase truncate">
-                            {item}
+                            {formatLabel(item)}
                           </span>
                         ))}
                       </div>
@@ -166,11 +167,11 @@ export default function SystemComparison() {
         {projects.filter(p => p.tier === 1).map((project, pIdx) => (
           <div key={project.name} className="border border-border-dim bg-bg-secondary/20 overflow-hidden">
             <div className="bg-bg-primary p-6 border-b border-border-dim flex justify-between items-center">
-              <div>
+               <div>
                 <div className="type-metadata text-[0.4rem] text-accent mb-1">SYSTEM_0{pIdx + 1}</div>
-                <h3 className="type-emphasis text-sm">{project.name.toUpperCase()}</h3>
+                <h3 className="type-emphasis text-sm">{formatLabel(project.name)}</h3>
               </div>
-              <Link href={`/${project.slug}`} className="type-nav text-[0.5rem] border border-border-dim px-3 py-1">
+              <Link href={getProjectUrl(project.slug)} className="type-nav text-[0.5rem] border border-border-dim px-3 py-1">
                 SPEC →
               </Link>
             </div>
@@ -183,7 +184,7 @@ export default function SystemComparison() {
                   <div key={attr.id} className="space-y-2">
                     <div className="type-metadata text-[0.45rem] opacity-30 uppercase tracking-[0.2em]">{attr.label}</div>
                     <div className="type-emphasis text-[0.7rem] text-text-secondary leading-tight uppercase">
-                      {isArray ? (value as string[]).join(" // ") : value}
+                      {isArray ? (value as string[]).map(v => formatLabel(v)).join(" // ") : formatLabel(String(value))}
                     </div>
                   </div>
                 );
