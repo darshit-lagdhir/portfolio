@@ -2,18 +2,18 @@ import { Identity } from "@/types/identity";
 
 export const identity: Identity = {
     name: "Darshit Lagdhir",
-    headline: "Aspiring Systems Architect | Learning High-Performance Backend & Distributed Systems",
-    short_identity: "Systems-focused developer building and breaking software to understand how it actually works.",
+    headline: "System Investigator & Student Architect | Exploring Backend Mechanics & Performance Boundaries",
+    short_identity: "I build and break software to understand exactly how it works internally.",
     
     hero_identity: {
-        hero_title: "EXPLORING MECHANICS",
-        hero_subtitle: "Building systems to understand their internal behavior.",
-        hero_description: "I build and break systems to understand their internal mechanics. My focus is on exploring how services communicate, how data flows, and where architectures fail in production-like environments."
+        hero_title: "INTERNAL_MECHANICS",
+        hero_subtitle: "Building systems to understand how they actually work under the hood.",
+        hero_description: "I am a student fascinated by how software behaves when pushed. I don't just write code; I build, break, and investigate systems to understand their internal flow, memory behavior, and architectural limits."
     },
     
     about: {
-        about_intro: "I enjoy understanding how systems actually work internally. Instead of focusing only on writing code that runs, I try to understand what happens underneath the application—exploring memory behavior, service communication, data flow between components, and architectural failures.",
-        about_learning_context: "I am a student currently exploring system architecture through hands-on experimentation. I view my development projects not just as functional tools, but as technical research to understand the trade-offs and failures inherent in software design."
+        about_intro: "I am curious about the hidden layers of software. For me, building a system is an investigation—I want to see what happens when services communicate, how memory is managed at the boundary, and where a design finally reaches its breaking point.",
+        about_learning_context: "As a student at Kristu Jayanti University, I treat every project as a lab experiment. I build to study trade-offs, I debug to understand failure, and I redesign to achieve technical resilience."
     },
     
     learning_workflow: [
@@ -38,31 +38,31 @@ export const identity: Identity = {
     capabilities: [
         {
             category: "Programming Languages",
-            description: "Tools for architectural exploration. Currently using Java and C++ to study deep data structures and algorithmic thinking, while using Python for data analysis.",
+            description: "These are my tools for architectural exploration. I use Java and C++ to study memory mechanics and recursive structures, while using Python for data analysis pipelines.",
             items: ["C", "C++", "Java", "Python", "JavaScript", "TypeScript"],
             projects: ["PFCV", "UIDAI", "MoveX"]
         },
         {
             category: "Backend Technologies",
-            description: "Designing server logic and workflows. Node.js and Express were the primary tools used for building the MoveX operational backend.",
+            description: "I focus on designing logic that survives operational stress. I used Node.js and Express to build the multi-role coordination engine for the MoveX backend.",
             items: ["Node.js", "Express", "REST APIs", "Session Auth", "Middlewares"],
             projects: ["MoveX"]
         },
         {
             category: "Frontend Technologies",
-            description: "Building interfaces for system management. Using React and Vanilla JavaScript to create dashboards for multi-role logistics systems.",
+            description: "I build interfaces to visualize and manage complex system states. I used React to create the diagnostic dashboards for my logistics and advisory projects.",
             items: ["HTML", "CSS", "React", "Vanilla JS", "Tailwind"],
             projects: ["MoveX", "UIDAI"]
         },
         {
             category: "Databases",
-            description: "Managing operational data persistence. PostgreSQL serves as the main relational engine for tracking shipments and user sessions.",
+            description: "I view storage as the foundation of system reliability. I use PostgreSQL to explore relational integrity and high-concurrency state tracking.",
             items: ["PostgreSQL", "MySQL", "MongoDB", "SQLite"],
             projects: ["MoveX", "UIDAI"]
         },
         {
             category: "Tools & Platforms",
-            description: "Infrastructural support for the development lifecycle, from version control to early cloud exploration.",
+            description: "I leverage Clang for static analysis research and Git for managing the iterative build-break loops of my projects.",
             items: ["Git", "GitHub", "VS Code", "Google Cloud", "Clang Tooling"],
             projects: ["PFCV"]
         }
@@ -102,7 +102,7 @@ export const identity: Identity = {
         resume_url: "/resume.pdf"
     },
     
-    final_reflection: "This portfolio represents a small part of my journey trying to understand how complex software systems actually work. Most of what I learn comes from building projects, watching them fail, and then spending time figuring out why they failed. The systems shown here are not perfect solutions — they are experiments that helped me understand backend architectures, cross-language interfaces, and data analysis systems. I am still learning, still exploring new areas, and still breaking things along the way. But that process is what makes technology interesting.",
+    final_reflection: "This manifest represents my journey of building, breaking, and understanding. I don't aim for finished commercial products; I aim for a deeper understanding of architectural rigor. Most of what I know hasn't come from success, but from watching a system fail and refusing to look away until I understood why. I am still learning, still exploring, and still breaking things—because that is the only way I know how to truly understand software.",
     
     section_transitions: {
         toAbout: "Every system build begins with a specific mindset. This is how I approach the act of construction and the inevitability of failure.",

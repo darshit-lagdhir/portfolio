@@ -8,7 +8,7 @@ import SectionDivider from "@/components/shared/SectionDivider";
 
 const SELECTABLE_COMMANDS = [
   { id: "about", label: "about", action: "FETCH_IDENTITY" },
-  { id: "projects", label: "projects", action: "LIST_SYSTEMS" },
+  { id: "projects", label: "projects", action: "LIST_MANIFEST" },
   { id: "github", label: "github", action: "OPEN_SOURCE" },
   { id: "linkedin", label: "linkedin", action: "CONNECT_NODE" },
   { id: "contact", label: "contact", action: "GET_CHANNELS" },
@@ -42,10 +42,10 @@ export default function TerminalContact() {
     let response = "";
     switch (cmdId) {
       case "about":
-        response = `${identity.name}\n${identity.headline}\n\nExploration Focus: ${identity.short_identity}`;
+        response = `${identity.name}\n${identity.headline}\n\n${identity.short_identity}`;
         break;
       case "projects":
-        response = "SYSTEM_MANIFEST [ACTIVE_NODES]:\n\n- MoveX: Logistics management system built with Node.js and PostgreSQL.\n- PFCV: Cross-language FFI verification pipeline investigating runtime safety.\n- UIDAI Advisory: Data pattern analysis system for Aadhaar enrollment datasets.";
+        response = `SYSTEM_MANIFEST [ACTIVE_NODES]:\n\n- MoveX: I build this to explore backend logistics and role-based coordination.\n- PFCV: I am investigating cross-language boundaries and memory safety with Clang.\n- UIDAI Advisory: I developed this to explore responsible data analysis and advisory design.`;
         break;
       case "github":
         window.open(identity.contact.github_url, "_blank");
@@ -56,7 +56,7 @@ export default function TerminalContact() {
         response = `Mapping professional connection route. Handshaking with identity_node.\nSTATUS: REDIRECT_SUCCESS [${identity.contact.linkedin_url}]`;
         break;
       case "contact":
-        response = identity.section_transitions.toContact;
+        response = "I am open to discussing system architecture, backend development, or debugging complex failures. Reach out via Email or LinkedIn.";
         break;
       case "help":
         response = "AVAILABLE_COMMANDS:\n- about: Display developer identity\n- projects: List core system modules\n- github: Access source code repositories\n- linkedin: Open professional connection node\n- contact: View communication options";

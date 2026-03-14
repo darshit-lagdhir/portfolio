@@ -29,8 +29,14 @@ export default function HeroIdentity() {
         transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
         className="type-display mb-sys-48 leading-[0.85] tracking-tighter"
       >
-        {identity.hero_identity.hero_title.split(' ')[0]} <br />
-        <span className="text-text-muted">{identity.hero_identity.hero_title.split(' ')[1]}_</span>
+        {identity.hero_identity.hero_title.includes('_') ? (
+          <>
+            {identity.hero_identity.hero_title.split('_')[0]} <br />
+            <span className="text-text-muted">{identity.hero_identity.hero_title.split('_')[1]}_</span>
+          </>
+        ) : (
+          identity.hero_identity.hero_title + "_"
+        )}
       </motion.h1>
 
       <motion.div

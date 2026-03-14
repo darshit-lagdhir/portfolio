@@ -32,7 +32,7 @@ export default function About() {
       <div className="grid-12 items-start">
         <div className="col-span-12 lg:col-span-7 mb-sys-64 lg:mb-0">
           <div className="mb-sys-96">
-            <h2 className="type-h1 mb-sys-32">SYSTEM_STUDENT_</h2>
+            <h2 className="type-h1 mb-sys-32">SYSTEM_INVESTIGATOR_</h2>
             <p className="type-body text-lg text-text-secondary max-w-xl leading-relaxed">
               An ongoing exploration into internal system mechanics, high-performance architecture, and technical resilience. My focus lies at the intersection of systems engineering and specialized verification pipelines.
             </p>
@@ -118,13 +118,16 @@ export default function About() {
             <AboutVisualElement />
 
             <div className="mt-sys-64 space-y-sys-32 opacity-20">
-              <div className="type-metadata text-[0.5rem] tracking-[0.3em]">DIAGNOSTIC_TELEMETRY</div>
+            <div className="mt-sys-64 space-y-sys-32 opacity-20">
+              <div className="type-metadata text-[0.5rem] tracking-[0.3em]">STUDENT_INVESTIGATION_STATUS</div>
               <div className="space-y-2 font-mono text-[0.45rem] leading-tight">
-                OBJ_CURIOSITY: ACTIVE <br />
-                STATE_LEARNING: ITERATIVE <br />
-                BUFFER_STAMINA: 1024GB <br />
-                LATENCY_THOUGHT: 0.04MS
+                MINDSET: CURIOUS <br />
+                LEARNING_LOG: ACTIVE <br />
+                FAILURE_TOLERANCE: NOMINAL <br />
+                SYSTEM_ACCESS: READ_WRITE <br />
+                CURRENT_VERSION: 1.0.0
               </div>
+            </div>
             </div>
           </div>
         </div>
