@@ -27,7 +27,7 @@ export default function SectionContainer({ id, children, className, noPadding = 
       ref={containerRef as React.RefObject<HTMLElement>}
       id={id}
       className={cn(
-        "system-container relative",
+        "system-container relative overflow-x-hidden",
         !noPadding && "py-sys-48 md:py-sys-64",
         className
       )}

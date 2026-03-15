@@ -23,7 +23,7 @@ const NARRATIVE_BLOCKS = [
 
 export default function About() {
   return (
-    <div className="w-full relative">
+    <div className="w-full relative pb-sys-256 lg:pb-0 overflow-x-hidden">
       <SectionDivider 
         label="01_ABOUT" 
         description={identity.section_transitions.toAbout}
@@ -32,8 +32,8 @@ export default function About() {
       <div className="grid-12 items-start">
         <div className="col-span-12 lg:col-span-7 mb-sys-64 lg:mb-0">
           <div className="mb-sys-96">
-            <h3 className="type-h1 mb-sys-32">SYSTEM_INVESTIGATOR_</h3>
-            <p className="type-body text-lg text-text-secondary max-w-xl leading-relaxed">
+            <h3 className="text-xl sm:text-2xl md:type-h1 mb-sys-32 break-words">SYSTEM_INVESTIGATOR_</h3>
+            <p className="type-body text-lg text-text-secondary prose-readable leading-relaxed">
               An ongoing exploration into internal system mechanics, high-performance architecture, and technical resilience. My focus lies at the intersection of systems engineering and specialized verification pipelines.
             </p>
           </div>
@@ -107,7 +107,7 @@ export default function About() {
                   {block.label}
                 </div>
                 <h3 className="type-emphasis text-xl mb-6 tracking-tighter group-hover:text-accent transition-colors">{block.title}</h3>
-                <p className="type-body text-text-secondary leading-relaxed text-sm md:text-base max-w-md">
+                <p className="type-body text-text-secondary leading-relaxed text-sm md:text-base prose-readable">
                   {block.content}
                 </p>
               </motion.div>

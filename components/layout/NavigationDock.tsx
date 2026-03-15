@@ -66,7 +66,7 @@ export default function NavigationDock() {
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ type: "spring", damping: 20, stiffness: 100 }}
-            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] w-[95vw] max-w-sm"
+            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] w-[90vw] max-w-sm"
           >
             <div className="bg-bg-secondary/90 backdrop-blur-xl border border-border-bright/20 rounded-sm p-2 shadow-2xl flex items-center justify-between">
               {NAV_ITEMS.filter(item => ["hero", "systems", "domains", "contact"].includes(item.id)).map((item) => (
