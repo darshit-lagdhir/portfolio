@@ -16,7 +16,7 @@ export default function Hero() {
   const y = useTransform(scrollY, [0, 400], [0, prefersReducedMotion ? 0 : -50]);
 
   return (
-    <section className="min-h-[85vh] flex flex-col justify-center relative py-sys-64 overflow-hidden">
+    <section className="min-h-[85vh] flex flex-col justify-center relative py-sys-48 md:py-sys-96 overflow-hidden">
       <motion.div
         style={{ opacity, y }}
         className="grid-12 items-center"
@@ -37,7 +37,7 @@ export default function Hero() {
                 if (el) el.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' });
               }}
               aria-label="Initiate identity probe and scroll to about section"
-              className="btn-primary opacity-60 hover:opacity-100 transition-opacity"
+              className="btn-primary opacity-80 hover:opacity-100 transition-opacity"
             >
               INITIATE_IDENTITY_PROBE
             </button>
@@ -82,8 +82,8 @@ export default function Hero() {
         />
       </div>
       {/* Background Section Identifier */}
-      <div className="absolute top-0 right-0 p-sys-32 opacity-[0.03] select-none pointer-events-none">
-        <span className="type-display text-[10rem] leading-none">00</span>
+      <div className="absolute top-sys-16 right-sys-16 p-sys-32 opacity-[0.02] select-none pointer-events-none hidden md:block">
+        <span className="type-display text-[8rem] leading-none">00</span>
       </div>
     </section>
   );

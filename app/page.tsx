@@ -118,9 +118,9 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* Visual Anchor Metadata - Repositioned to avoid dock overlap on mobile */}
-      <div className="fixed top-sys-32 right-sys-32 md:top-auto md:right-auto md:bottom-sys-32 md:left-sys-32 pointer-events-none z-[60]">
-        <div className="type-metadata opacity-20 text-[0.45rem] md:text-[0.5rem] bg-bg-primary/80 backdrop-blur-md p-2 eng-bracket border border-border-dim/30">
+      {/* Visual Anchor Metadata - Repositioned to avoid hero content collisions on mobile */}
+      <div className="fixed top-4 right-4 md:top-auto md:right-auto md:bottom-sys-32 md:left-sys-32 pointer-events-none z-[60]">
+        <div className="type-metadata opacity-20 text-[0.4rem] md:text-[0.5rem] bg-bg-primary/80 backdrop-blur-md p-1.5 eng-bracket border border-border-dim/30">
           COORDS: 12.97°N 77.59°E // BENGALURU_SYSTEMS
         </div>
       </div>

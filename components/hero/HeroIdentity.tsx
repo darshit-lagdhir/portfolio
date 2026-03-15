@@ -13,11 +13,11 @@ export default function HeroIdentity() {
         className="flex flex-col gap-1 mb-sys-48"
       >
         <div className="flex items-center gap-3">
-          <span className="w-2 h-2 rounded-full bg-accent shrink-0" />
+          <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-accent shrink-0" />
           <h2 className="type-emphasis text-lg md:text-2xl tracking-tighter text-text-primary">
-            <span className="inline-flex flex-wrap">
+            <span className="flex flex-wrap gap-x-4">
               {identity.name.split(' ').map((word, wIdx) => (
-                <span key={wIdx} className="whitespace-nowrap inline-block mr-[0.3em]">
+                <span key={wIdx} className="inline-block whitespace-nowrap">
                   {word.split('').map((char, i) => (
                     <motion.span
                       key={i}
@@ -38,22 +38,23 @@ export default function HeroIdentity() {
             </span>
           </h2>
         </div>
-        <p className="type-metadata text-[0.6rem] md:text-[0.65rem] tracking-[0.3em] text-accent uppercase font-bold pl-5 mt-2">
+        <p className="type-metadata text-[0.45rem] md:text-[0.65rem] tracking-[0.2em] md:tracking-[0.3em] text-accent uppercase font-bold pl-5 mt-4 max-w-[70vw] leading-relaxed">
           {identity.headline}
         </p>
       </motion.div>
 
       <motion.h1
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="type-display mb-sys-48 leading-[0.85] tracking-tighter"
+        transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        className="type-display mb-sys-48 leading-[0.85] tracking-tighter w-full"
+        style={{ fontSize: "clamp(1.5rem, 11vw, 7.5rem)" }}
       >
         {identity.hero_identity.hero_title.includes('_') ? (
-          <>
-            {identity.hero_identity.hero_title.split('_')[0]} <br />
-            <span className="text-text-muted">{identity.hero_identity.hero_title.split('_')[1]}_</span>
-          </>
+          <div className="flex flex-col gap-2">
+            <span className="block w-fit">{identity.hero_identity.hero_title.split('_')[0]}</span>
+            <span className="text-text-muted block w-fit">{identity.hero_identity.hero_title.split('_')[1]}_</span>
+          </div>
         ) : (
           identity.hero_identity.hero_title + "_"
         )}
