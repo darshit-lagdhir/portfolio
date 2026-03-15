@@ -10,7 +10,7 @@ export default function HeroIdentity() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="flex flex-col gap-1 mb-sys-48"
+        className="flex flex-col gap-1 mb-sys-48 mt-sys-32 md:mt-0"
       >
         <div className="flex items-center gap-3">
           <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-accent shrink-0" />

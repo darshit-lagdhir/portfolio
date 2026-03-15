@@ -16,7 +16,7 @@ export default function Hero() {
   const y = useTransform(scrollY, [0, 400], [0, prefersReducedMotion ? 0 : -50]);
 
   return (
-    <section className="min-h-[85vh] flex flex-col justify-center relative py-sys-48 md:py-sys-96 overflow-hidden">
+    <section className="min-h-[85vh] flex flex-col justify-center relative pt-sys-96 pb-sys-48 md:py-sys-96 overflow-hidden">
       <motion.div
         style={{ opacity, y }}
         className="grid-12 items-center"

@@ -121,14 +121,14 @@ export default function NavigationDock() {
           className="group flex items-center gap-sys-16 text-left relative focus:outline-none focus-visible:ring-1 focus-visible:ring-accent/50 p-1"
         >
           {/* Diagnostic Code */}
-          <span className={cn(
-            "type-metadata text-[0.6rem] transition-all duration-200 w-sys-24",
-            activeSection === item.id
-              ? "text-accent"
-              : "text-text-muted opacity-40 group-hover:opacity-100 group-hover:text-accent group-focus-visible:opacity-100"
-          )}>
-            {item.code}
-          </span>
+            <span className={cn(
+              "type-metadata text-[0.6rem] transition-all duration-200 w-sys-32 shrink-0",
+              activeSection === item.id
+                ? "text-accent"
+                : "text-text-muted opacity-40 group-hover:opacity-100 group-hover:text-accent group-focus-visible:opacity-100"
+            )}>
+              {item.code}
+            </span>
           
           <div className={cn(
             "arch-marker scale-[0.3] transition-all duration-200",
@@ -136,10 +136,10 @@ export default function NavigationDock() {
           )} />
 
           {/* Label Engine */}
-          <div className="overflow-hidden">
+          <div className="overflow-hidden min-w-[100px]">
             <motion.span
               className={cn(
-                "type-nav text-[0.7rem] block transition-all duration-200",
+                "type-nav text-[0.7rem] block transition-all duration-200 whitespace-nowrap",
                 activeSection === item.id
                   ? "text-text-primary translate-x-0"
                   : "text-text-muted -translate-x-full group-hover:translate-x-0 group-hover:text-accent group-focus-visible:translate-x-0"
