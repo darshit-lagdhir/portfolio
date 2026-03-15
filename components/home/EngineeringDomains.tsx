@@ -11,15 +11,27 @@ import SectionDivider from "@/components/shared/SectionDivider";
 import { identity } from "@/data/identity";
 import DomainMap from "./DomainMap";
 import DiscoveryHint from "@/components/shared/DiscoveryHint";
+import { useCallback, useMemo } from "react";
 
 export default function EngineeringDomains() {
   const { isMobile } = useScene();
   const [activeDomainId, setActiveDomainId] = useState<string | null>(null);
 
-  const activeDomain = engineeringDomains.find(d => d.domain_id === activeDomainId);
-  const relatedProjects = activeDomainId 
-    ? projects.filter(p => p.domains?.includes(activeDomainId))
-    : [];
+  const activeDomain = useMemo(() => 
+    engineeringDomains.find(d => d.domain_id === activeDomainId),
+    [activeDomainId]
+  );
+
+  const relatedProjects = useMemo(() => 
+    activeDomainId 
+      ? projects.filter(p => p.domains?.includes(activeDomainId))
+      : [],
+    [activeDomainId]
+  );
+
+  const handleDomainClick = useCallback((id: string) => {
+    setActiveDomainId(prev => prev === id ? null : id);
+  }, []);
 
   return (
     <div className="w-full relative">
@@ -46,7 +58,7 @@ export default function EngineeringDomains() {
           {engineeringDomains.map((domain) => (
             <button
               key={domain.domain_id}
-              onClick={() => setActiveDomainId(activeDomainId === domain.domain_id ? null : domain.domain_id)}
+              onClick={() => handleDomainClick(domain.domain_id)}
               aria-label={`Explore ${domain.name} domain`}
               className={cn(
                 "module-frame w-full text-left relative group transition-all duration-300",
@@ -79,7 +91,7 @@ export default function EngineeringDomains() {
           {/* Visual DomainMap Layer */}
           <DomainMap 
             activeDomainId={activeDomainId} 
-            onDomainClick={(id) => setActiveDomainId(id)} 
+            onDomainClick={handleDomainClick} 
             simplified={isMobile}
           />
 
@@ -112,12 +124,12 @@ export default function EngineeringDomains() {
 
                 <div className="space-y-6">
                    <div className="type-metadata text-[0.45rem] text-text-muted uppercase tracking-widest">Connected_Systems</div>
-                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
                       {relatedProjects.map(project => (
                         <Link 
                           key={project.slug}
                           href={getProjectUrl(project.slug)}
-                          className="module-frame group !p-6 relative transition-all"
+                          className="module-frame group !p-6 relative transition-all h-full"
                         >
                            <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
                               <div className="arch-marker scale-50" />
@@ -143,8 +155,15 @@ export default function EngineeringDomains() {
                 </div>
                 <div className="w-16 h-[1px] bg-accent-dim" />
                 
-                {/* Background Visualization Hint */}
-                {!isMobile && (
+                {/* Background Visualization Hint - Optimized for mobile logic */}
+                {isMobile ? (
+                  <div className="flex flex-col items-center gap-4 py-8">
+                     <div className="type-metadata text-[0.4rem] opacity-30 text-center uppercase tracking-[0.2em]">
+                       Select_Node_from_List_Above <br />
+                       to_Initialize_Mapping
+                     </div>
+                  </div>
+                ) : (
                   <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] select-none pointer-events-none -z-10">
                      <span className="type-display text-[15rem]">DOMAIN_MAP</span>
                   </div>
@@ -159,7 +178,7 @@ export default function EngineeringDomains() {
         </div>
       </div>
       
-      <div className="mt-sys-96 flex flex-col md:flex-row justify-between items-start md:items-end gap-sys-32">
+      <div className="mt-sys-96 pb-sys-192 lg:pb-0 flex flex-col md:flex-row justify-between items-start md:items-end gap-sys-32">
         <DiscoveryHint 
           label={identity.discovery_hints.toSystems.label}
           href="#systems"
