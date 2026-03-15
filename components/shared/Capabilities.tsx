@@ -54,24 +54,24 @@ export default function Capabilities() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.1, duration: 0.8 }}
-            className="module-frame group relative bg-bg-secondary/10 p-10 hover:border-accent/20 transition-[border-color,background-color,box-shadow,ring] duration-300 flex flex-col h-full focus:outline-none focus-visible:ring-1 focus-visible:ring-accent/30 col-span-full md:col-span-6 lg:col-span-4"
+            className="module-frame group relative bg-bg-secondary/10 p-sys-40 hover:border-accent/20 transition-[border-color,background-color,box-shadow,ring] duration-300 flex flex-col h-full focus:outline-none focus-visible:ring-1 focus-visible:ring-accent/30 col-span-full md:col-span-6 lg:col-span-4"
           >
-            <div className="type-metadata mb-8 text-accent/40 flex items-center relative">
+            <div className="type-metadata mb-sys-32 text-accent/40 flex items-center relative">
               <span className="absolute -left-6 w-1 h-1 bg-accent/30 rounded-full" />
               DOMAIN_0{index + 1}
             </div>
 
-            <h3 className="type-emphasis text-sm mb-6 group-hover:text-accent/60 transition-colors tracking-tight">
+            <h3 className="type-emphasis text-sm mb-sys-24 group-hover:text-accent/60 transition-colors tracking-tight">
               {cluster.category}
             </h3>
 
-            <p className="type-body text-xs mb-8 opacity-40 leading-relaxed flex-grow font-medium">
+            <p className="type-body text-xs mb-sys-32 opacity-40 leading-relaxed flex-grow font-medium">
               {cluster.description}
             </p>
 
             {/* ASSOCIATED PROJECTS */}
             {cluster.projects && cluster.projects.length > 0 && (
-              <div className="mb-8 flex flex-wrap gap-2">
+              <div className="mb-sys-32 flex flex-wrap gap-2">
                 {cluster.projects.map(proj => (
                   <span key={proj} className="type-metadata text-[0.35rem] text-accent/60 px-1.5 py-0.5 border border-accent/10 bg-accent/5">
                     {proj}
@@ -81,7 +81,7 @@ export default function Capabilities() {
             )}
 
             {/* TECHNICAL PRIMITIVES LIST */}
-            <div className="mt-auto pt-8 border-t border-border-dim/20">
+            <div className="mt-auto pt-sys-32 border-t border-border-dim/20">
               <div className="flex flex-wrap gap-x-6 gap-y-3">
                 {cluster.items.map(item => (
                   <span key={item} className="type-metadata text-[0.4rem] opacity-20 group-hover:opacity-60 transition-opacity uppercase font-mono tracking-widest">

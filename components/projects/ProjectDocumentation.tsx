@@ -42,7 +42,7 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
         <div className="system-container mb-sys-64">
           <Link 
             href="/#systems" 
-            className="group inline-flex items-center gap-2 type-nav text-text-muted hover:text-accent transition-colors"
+            className="group inline-flex items-center gap-sys-8 type-nav text-text-muted hover:text-accent transition-colors"
           >
             <span className="group-hover:-translate-x-1 transition-transform">←</span>
             RETURN_TO_MANIFEST
@@ -54,7 +54,7 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
              <motion.div 
                initial={{ opacity: 0, x: -20 }}
                animate={{ opacity: 1, x: 0 }}
-               className="flex items-center gap-3 mb-sys-24"
+               className="flex items-center gap-sys-12 mb-sys-24"
              >
                <span className={cn(
                  "w-1.5 h-1.5 rounded-full shrink-0",
@@ -86,28 +86,28 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
                initial={{ opacity: 0 }}
                animate={{ opacity: 1 }}
                transition={{ delay: 0.3 }}
-               className="flex flex-wrap gap-4"
+               className="flex flex-wrap gap-sys-16"
              >
                 {project.techStack.map(tech => (
-                  <span key={tech} className="type-metadata text-text-muted border border-border-dim px-2 py-1">
+                  <span key={tech} className="type-metadata text-text-muted border border-border-dim px-sys-8 py-sys-4">
                     {formatLabel(tech)}
                   </span>
                 ))}
              </motion.div>
           </div>
 
-          <div className="col-span-full lg:col-span-4 lg:col-start-9 mt-sys-64 lg:mt-0 flex flex-col gap-6 items-start lg:items-end justify-start lg:justify-end z-10">
+          <div className="col-span-full lg:col-span-4 lg:col-start-9 mt-sys-64 lg:mt-0 flex flex-col gap-sys-24 items-start lg:items-end justify-start lg:justify-end z-10">
              <div className="text-left lg:text-right">
-                <div className="type-metadata text-[0.45rem] text-text-muted mb-2 opacity-40">SYSTEM_ARCHITECTURE</div>
+                <div className="type-metadata text-[0.45rem] text-text-muted mb-sys-12 opacity-40">SYSTEM_ARCHITECTURE</div>
                 <div className="type-label text-accent text-xs">{formatLabel(project.technicalMeta?.architectureStyle || "")}</div>
              </div>
               <div className="text-left lg:text-right">
-                 <div className="type-metadata text-[0.45rem] text-text-muted mb-2 opacity-40">CORE_CLASSIFICATION</div>
+                 <div className="type-metadata text-[0.45rem] text-text-muted mb-sys-12 opacity-40">CORE_CLASSIFICATION</div>
                  <div className="type-label text-text-primary text-xs">{formatLabel(project.technicalMeta?.systemType || "")}</div>
               </div>
               {project.technicalMeta?.scale && (
                 <div className="text-left lg:text-right">
-                   <div className="type-metadata text-[0.45rem] text-text-muted mb-2 opacity-40">SYSTEM_SCALE</div>
+                   <div className="type-metadata text-[0.45rem] text-text-muted mb-sys-12 opacity-40">SYSTEM_SCALE</div>
                    <div className="type-label text-accent-dim text-xs">{formatLabel(project.technicalMeta.scale)}</div>
                 </div>
               )}
@@ -129,8 +129,8 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
                   <p className="type-body text-base md:text-lg leading-relaxed text-text-primary font-medium prose-readable">
                     {project.longDescription}
                   </p>
-                  <div className="module-frame !p-6 md:!p-10 border-dashed opacity-60">
-                     <div className="type-metadata text-[0.4rem] text-accent-dim mb-6 tracking-[0.3em] font-mono uppercase">PROBLEM_DEFINITION</div>
+                  <div className="module-frame !p-sys-24 md:!p-sys-40 border-dashed opacity-60">
+                     <div className="type-metadata text-[0.4rem] text-accent-dim mb-sys-24 tracking-[0.3em] font-mono uppercase">PROBLEM_DEFINITION</div>
                      <p className="type-body text-text-secondary italic text-base md:text-lg font-medium leading-relaxed">
                         &quot;{project.problem}&quot;
                      </p>
@@ -146,13 +146,13 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
                   </p>
                   
                   <div className="pt-sys-48">
-                    <div className="type-metadata text-accent mb-6">CORE_SYSTEM_MODULES</div>
+                    <div className="type-metadata text-accent mb-sys-24">CORE_SYSTEM_MODULES</div>
                     <div className="grid-12 gap-y-sys-24">
                        {project.internalComponents?.map((comp, idx) => (
-                          <div key={idx} className="p-sys-24 border border-border-dim bg-bg-secondary group hover:border-accent transition-colors col-span-full md:col-span-6">
+                          <div key={idx} className="p-sys-24 border border-border-dim bg-bg-secondary group hover:border-accent transition-all duration-300 col-span-full md:col-span-6">
                             <div className="type-metadata text-accent mb-sys-12">MODULE_0{idx + 1}</div>
-                            <h4 className="type-label text-sm text-text-primary mb-2">{formatLabel(comp.name)}</h4>
-                            <div className="type-metadata text-[0.4rem] opacity-30 mb-2 font-mono">CORE_RESPONSIBILITY:</div>
+                            <h4 className="type-label text-sm text-text-primary mb-sys-8">{formatLabel(comp.name)}</h4>
+                            <div className="type-metadata text-[0.4rem] opacity-30 mb-sys-8 font-mono">CORE_RESPONSIBILITY:</div>
                             <p className="type-body text-xs text-text-muted leading-relaxed">{comp.description}</p>
                           </div>
                         ))}
@@ -182,9 +182,9 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
                    {project.techGroups?.map((group, idx) => (
                      <div key={idx} className="space-y-sys-12">
                         <h5 className="type-metadata text-[0.5rem] opacity-30 tracking-widest">{formatLabel(group.role)}</h5>
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-sys-8">
                           {group.items.map(item => (
-                            <span key={item} className="px-2 py-1 bg-bg-secondary border border-border-dim type-metadata text-[0.6rem] hover:border-accent transition-colors">
+                            <span key={item} className="px-sys-8 py-sys-4 bg-bg-secondary border border-border-dim type-metadata text-[0.6rem] hover:border-accent transition-all duration-300">
                               {item}
                             </span>
                           ))}
@@ -443,7 +443,7 @@ export default function ProjectDocumentation({ project }: ProjectDocumentationPr
                  href={`/${nextProject.slug}`}
                  className="group relative block p-12 border border-border-dim bg-bg-secondary/10 hover:border-accent transition-all overflow-hidden"
                >
-                  <div className="flex justify-between items-center mb-6">
+                  <div className="flex justify-between items-center mb-sys-32">
                      <span className="type-metadata text-[0.4rem] text-accent">0{((getProjectIndex(project.slug) + 1) % projects.length) + 1} {'//'} SEQUENTIAL_JUMP</span>
                     <span className="type-metadata text-[0.45rem] text-text-muted group-hover:text-text-primary transition-colors">EXPLORE_NODE →</span>
                   </div>

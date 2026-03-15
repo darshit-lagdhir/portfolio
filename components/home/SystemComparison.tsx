@@ -89,9 +89,9 @@ export default function SystemComparison() {
               <div className="type-metadata text-[0.45rem] opacity-30 tracking-[0.2em]">TECHNICAL_DIMENSIONS</div>
             </div>
             {projects.filter(p => p.tier === 1).map((project, idx) => (
-              <div key={project.slug} className="module-frame col-span-3 h-full group relative overflow-hidden !rounded-none border-t-0 border-r-0">
-                <div className="absolute top-2 right-2">
-                   <div className="arch-marker scale-50 opacity-20 group-hover:opacity-100 transition-opacity" />
+              <div key={project.slug} className="module-frame col-span-3 min-h-[160px] group relative overflow-hidden !rounded-none border-t-0 border-r-0 flex flex-col justify-center">
+                <div className="absolute top-sys-8 right-sys-8 opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-out">
+                   <div className="arch-marker scale-50" />
                 </div>
                 <div className="type-metadata text-[0.4rem] text-accent mb-4">SYSTEM_NODE_0{idx + 1}</div>
                 <h3 className="type-emphasis text-lg mb-6 group-hover:text-accent transition-colors">
@@ -99,7 +99,7 @@ export default function SystemComparison() {
                 </h3>
                 <Link 
                   href={getProjectUrl(project.slug)}
-                  className="type-nav text-[0.5rem] text-text-muted hover:text-accent border border-border-dim px-3 py-1.5 transition-all inline-block uppercase"
+                  className="type-nav text-[0.45rem] text-text-muted hover:text-accent border border-border-dim px-3 py-1.5 transition-all inline-block uppercase w-fit"
                 >
                   View full spec →
                 </Link>

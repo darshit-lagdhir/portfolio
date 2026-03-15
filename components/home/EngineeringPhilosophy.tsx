@@ -26,7 +26,7 @@ export default function EngineeringPhilosophy() {
                 Architecture is a <span className="text-accent underline decoration-accent/20 decoration-1 underline-offset-[12px]">Diagnostic Discipline</span>, not just a constructive one.
               </h3>
               <div className="grid-12 gap-y-sys-48">
-                <div className="col-span-full md:col-span-6 lg:col-span-8 space-y-6">
+                <div className="col-span-full md:col-span-6 lg:col-span-8 space-y-sys-24">
                   <p className="type-body text-xl md:text-2xl text-text-primary/70 leading-relaxed text-wrap-balance">
                     {identity.about.about_learning_context.split('. ')[0]}.
                   </p>
@@ -35,21 +35,21 @@ export default function EngineeringPhilosophy() {
                   </p>
                 </div>
                 <div className="col-span-full md:col-span-6 lg:col-span-4 space-y-sys-24 border-l border-border-dim pl-sys-48 hidden md:block">
-                  <p className="type-metadata text-[0.45rem] text-accent/40 mb-4 opacity-100 relative flex items-center">
+                  <p className="type-metadata text-[0.45rem] text-accent/40 mb-sys-16 opacity-100 relative flex items-center">
                     <span className="absolute -left-6 w-1 h-1 bg-accent/40" />
                     APPLIED_PROJECT_INSIGHTS
                   </p>
                   <div className="space-y-sys-16">
                     <div className="group/insight">
-                      <span className="type-metadata text-[0.35rem] text-text-muted block mb-1">MOVEX</span>
+                      <span className="type-metadata text-[0.35rem] text-text-muted block mb-sys-4">MOVEX</span>
                       <p className="type-body text-[0.65rem] opacity-40 group-hover/insight:opacity-80 transition-opacity">Debugging session boundaries taught me the hidden complexity of role isolation.</p>
                     </div>
                     <div className="group/insight">
-                      <span className="type-metadata text-[0.35rem] text-text-muted block mb-1">PFCV</span>
+                      <span className="type-metadata text-[0.35rem] text-text-muted block mb-sys-4">PFCV</span>
                       <p className="type-body text-[0.65rem] opacity-40 group-hover/insight:opacity-80 transition-opacity">Exploring cross-language FFI revealed subtle memory safety violations at the ABI level.</p>
                     </div>
                     <div className="group/insight">
-                      <span className="type-metadata text-[0.35rem] text-text-muted block mb-1">UIDAI</span>
+                      <span className="type-metadata text-[0.35rem] text-text-muted block mb-sys-4">UIDAI</span>
                       <p className="type-body text-[0.65rem] opacity-40 group-hover/insight:opacity-80 transition-opacity">Designing advisory-only boundaries taught me the importance of ethical system constraints.</p>
                     </div>
                   </div>
@@ -58,7 +58,7 @@ export default function EngineeringPhilosophy() {
            </motion.div>
         </div>
 
-        <div className="col-span-full grid-12 gap-y-sys-48 items-stretch mt-sys-96">
+        <div className="col-span-full grid-12 gap-y-sys-64 items-stretch mt-sys-96">
            {identity.learning_workflow.map((principle, index) => (
              <motion.div
                key={principle.title}
@@ -69,17 +69,17 @@ export default function EngineeringPhilosophy() {
                 className="module-frame group relative overflow-hidden h-full flex flex-col transition-[border-color,background-color,box-shadow] duration-300 col-span-full md:col-span-6 lg:col-span-3"
              >
                 {/* Visual Signature Marker */}
-                <div className="absolute top-6 right-6 opacity-20 group-hover:opacity-60 transition-opacity">
+                <div className="absolute top-sys-24 right-sys-24 opacity-0 scale-90 group-hover:opacity-60 group-hover:scale-100 transition-all duration-300 ease-out">
                    <div className="arch-marker scale-75" />
                 </div>
 
                 <div className="flex flex-col h-full">
-                   <div className="type-metadata text-[0.45rem] text-accent/40 mb-10 relative flex items-center">
+                   <div className="type-metadata text-[0.45rem] text-accent/40 mb-sys-40 relative flex items-center">
                       <span className="absolute -left-6 w-1 h-1 bg-accent/40" />
                       PRINC_0{index + 1}
                    </div>
                    
-                   <h3 className="type-emphasis text-sm mb-8 tracking-tight group-hover:text-accent/80 transition-colors">
+                   <h3 className="type-emphasis text-sm mb-sys-32 tracking-tight group-hover:text-accent/80 transition-colors">
                      {principle.title}
                    </h3>
                                       <p className="type-body text-xs text-text-secondary/80 leading-relaxed group-hover:text-text-primary transition-colors max-w-[90%] font-medium">
@@ -88,7 +88,7 @@ export default function EngineeringPhilosophy() {
                 </div>
 
                 {/* Bottom interactive hint */}
-                <div className="mt-12 pt-6 border-t border-border-dim opacity-0 group-hover:opacity-40 transition-opacity flex justify-between items-center">
+                <div className="mt-sys-48 pt-sys-24 border-t border-border-dim opacity-0 group-hover:opacity-40 transition-opacity flex justify-between items-center">
                    <span className="type-metadata text-[0.35rem]">ALIGN_VERIFIED</span>
                    <div className="w-1 h-1 bg-accent" />
                 </div>

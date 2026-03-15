@@ -41,7 +41,7 @@ export default function About() {
           <div className="space-y-sys-96">
             {/* BIO DETAILS */}
             <div className="pt-sys-48 border-t border-border-dim/20">
-              <div className="type-metadata mb-4 opacity-30">EDUCATION_MANIFEST</div>
+              <div className="type-metadata mb-sys-16 opacity-30">EDUCATION_MANIFEST</div>
               <div className="type-emphasis text-base text-text-primary">
                 {formatLabel(identity.degree || "")} @ {formatLabel(identity.university || "")}
               </div>
@@ -61,9 +61,9 @@ export default function About() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: idx * 0.1, duration: 0.5 }}
-                        className="module-frame opacity-80 hover:opacity-100 transition-opacity !p-6 col-span-full lg:col-span-6"
+                        className="module-frame opacity-80 hover:opacity-100 transition-opacity !p-sys-24 col-span-full lg:col-span-6"
                       >
-                          <h4 className="type-emphasis text-sm mb-3 text-text-primary tracking-tight">{domain.title}</h4>
+                          <h4 className="type-emphasis text-sm mb-sys-12 text-text-primary tracking-tight">{domain.title}</h4>
                           <p className="type-body text-xs text-text-secondary opacity-60 leading-relaxed font-medium">{domain.description}</p>
                       </motion.div>
                   ))}
@@ -78,7 +78,7 @@ export default function About() {
               </div>
               <div className="grid-12 gap-y-sys-48">
                   {identity.capabilities.slice(0, 4).map((cap, idx) => (
-                    <div key={idx} className="space-y-4 col-span-full lg:col-span-6">
+                    <div key={idx} className="space-y-sys-16 col-span-full lg:col-span-6">
                       <h4 className="type-metadata opacity-30 uppercase">{formatLabel(cap.category.replace(/ /g, "_"))}</h4>
                       <p className="type-body text-sm font-medium text-text-secondary leading-relaxed max-w-xs">{cap.items.join(" • ")}</p>
                     </div>
@@ -102,11 +102,11 @@ export default function About() {
                 transition={{ delay: idx * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 className="group"
               >
-                <div className="type-label text-accent mb-4 tracking-widest flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 bg-accent rounded-full opacity-50" />
+                <div className="type-label text-accent mb-sys-16 tracking-widest flex items-center relative">
+                  <span className="absolute -left-6 w-1 h-1 bg-accent rounded-full opacity-50" />
                   {block.label}
                 </div>
-                <h3 className="type-emphasis text-xl mb-6 tracking-tighter group-hover:text-accent transition-colors">{block.title}</h3>
+                <h3 className="type-emphasis text-xl mb-sys-24 tracking-tighter group-hover:text-accent transition-colors">{block.title}</h3>
                 <p className="type-body text-text-secondary leading-relaxed text-sm md:text-base prose-readable">
                   {block.content}
                 </p>

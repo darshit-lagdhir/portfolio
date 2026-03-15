@@ -51,7 +51,7 @@ export default function SystemLaboratory() {
               key={item.investigation_id}
               onClick={() => setActiveId(item.investigation_id)}
               className={cn(
-                "module-frame w-full text-left transition-[border-color,background-color,opacity] relative group !p-6",
+                "module-frame w-full text-left transition-[border-color,background-color,opacity] relative group !p-sys-24",
                 activeId === item.investigation_id 
                   ? "border-accent/40 bg-accent/5 shadow-[var(--shadow-sys-accent)]" 
                   : "hover:border-border-bright opacity-60 hover:opacity-100"
@@ -60,12 +60,12 @@ export default function SystemLaboratory() {
               <div className="flex justify-between items-start mb-sys-12">
                  <span className="type-metadata text-[0.35rem] opacity-40 uppercase tracking-widest">{item.investigation_id.split('-').join('_')}</span>
                  <div className={cn(
-                   "arch-marker scale-[0.4] transition-all",
-                   activeId === item.investigation_id ? "opacity-100" : "opacity-20 group-hover:opacity-100"
+                   "arch-marker scale-[0.4] transition-all duration-300",
+                   activeId === item.investigation_id ? "opacity-100 scale-100" : "opacity-20 scale-90 group-hover:opacity-100 group-hover:scale-100"
                  )} />
               </div>
               <h3 className={cn(
-                "type-emphasis text-base mb-2 transition-colors",
+                "type-emphasis text-base mb-sys-8 transition-colors",
                 activeId === item.investigation_id ? "text-accent" : "text-text-primary"
               )}>
                 {formatLabel(item.title)}
@@ -88,21 +88,21 @@ export default function SystemLaboratory() {
            <div className="module-frame flex-grow relative overflow-hidden bg-bg-secondary/20 !p-0 flex flex-col">
               {/* VIEWPORT HEADER */}
               <div className="p-sys-24 border-b border-border-dim bg-bg-secondary flex justify-between items-center z-20">
-                 <div className="flex items-center gap-4">
+                 <div className="flex items-center gap-sys-16">
                     <span className="type-metadata text-[0.45rem] opacity-40">RESEARCH_LOG</span>
-                    <div className="w-[1px] h-3 bg-border-dim/50" />
+                    <div className="w-[1px] h-[8px] bg-border-dim/50" />
                     <span className="type-metadata text-[0.45rem] text-accent font-mono uppercase">
                       {formatLabel(activeExploration?.investigation_id || "")}
                     </span>
                  </div>
-                 <div className="flex gap-1.5 opacity-20">
-                    <div className="w-1 h-3 bg-accent animate-pulse" />
-                    <div className="w-1 h-3 bg-accent" />
+                 <div className="flex gap-sys-8 opacity-20">
+                    <div className="w-1 h-[8px] bg-accent animate-pulse" />
+                    <div className="w-1 h-[8px] bg-accent" />
                  </div>
               </div>
 
               {/* CONTENT AREA */}
-              <div className="flex-grow relative overflow-hidden flex flex-col p-6 md:p-16">
+              <div className="flex-grow relative overflow-hidden flex flex-col p-sys-24 md:p-sys-64">
                  <AnimatePresence mode="wait">
                     <motion.div
                       key={activeId}
@@ -112,7 +112,7 @@ export default function SystemLaboratory() {
                       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                       className="max-w-xl will-change-[transform,opacity]"
                     >
-                       <div className="type-metadata text-[0.35rem] text-accent/60 mb-sys-32 border-l border-accent/20 pl-4 py-1">
+                       <div className="type-metadata text-[0.35rem] text-accent/60 mb-sys-32 border-l border-accent/20 pl-sys-16 py-1">
                          INVESTIGATION_STATE // {activeExploration?.status.toUpperCase()}
                        </div>
                        
@@ -122,23 +122,23 @@ export default function SystemLaboratory() {
                        
                        <div className="space-y-sys-48">
                          <div>
-                            <h4 className="type-metadata text-[0.45rem] opacity-30 mb-4 tracking-widest uppercase font-mono">Research_Context</h4>
+                            <h4 className="type-metadata text-[0.45rem] opacity-30 mb-sys-16 tracking-widest uppercase font-mono">Research_Context</h4>
                             <p className="type-body text-base opacity-60 leading-relaxed">
                                {activeExploration?.context}
                             </p>
                          </div>
 
-                          <div className="relative pl-8 border-l border-accent/30">
+                          <div className="relative pl-sys-32 border-l border-accent/30">
                              <div className="absolute -left-[3px] top-0 w-[5px] h-[5px] bg-accent" />
-                             <h4 className="type-metadata text-[0.45rem] opacity-30 mb-4 tracking-widest uppercase italic">Preliminary_Insights</h4>
+                             <h4 className="type-metadata text-[0.45rem] opacity-30 mb-sys-16 tracking-widest uppercase italic">Preliminary_Insights</h4>
                              <p className="type-body text-lg text-text-primary leading-relaxed italic">
                                 {activeExploration?.insight}
                              </p>
                           </div>
 
                           <div>
-                             <h4 className="type-metadata text-[0.45rem] opacity-30 mb-4 tracking-widest uppercase font-mono">Linked_Domains</h4>
-                             <div className="flex flex-wrap gap-3">
+                             <h4 className="type-metadata text-[0.45rem] opacity-30 mb-sys-16 tracking-widest uppercase font-mono">Linked_Domains</h4>
+                             <div className="flex flex-wrap gap-sys-12">
                                 {activeExploration?.related_domains.map(domain => (
                                   <span key={domain} className="px-3 py-1.5 border border-border-dim type-metadata text-[0.4rem] opacity-40 bg-bg-primary/30 uppercase">
                                     {unslugify(domain)}
@@ -149,15 +149,15 @@ export default function SystemLaboratory() {
 
                           {activeExploration?.related_projects && activeExploration.related_projects.length > 0 && (
                             <div>
-                               <h4 className="type-metadata text-[0.45rem] opacity-30 mb-4 tracking-widest uppercase font-mono">Applied_Environment</h4>
-                               <div className="flex flex-wrap gap-4">
+                               <h4 className="type-metadata text-[0.45rem] opacity-30 mb-sys-16 tracking-widest uppercase font-mono">Applied_Environment</h4>
+                               <div className="flex flex-wrap gap-sys-16">
                                  {activeExploration.related_projects.map(project => (
                                    <Link 
                                      key={project}
                                      href={getProjectUrl(project)}
-                                     className="inline-flex items-center gap-4 group/link"
+                                     className="inline-flex items-center gap-sys-16 group/link"
                                    >
-                                      <div className="w-8 h-[1px] bg-accent/20 group-hover/link:w-12 transition-all" />
+                                      <div className="w-sys-32 h-[1px] bg-accent/20 group-hover/link:w-sys-48 transition-all" />
                                       <span className="type-metadata text-[0.45rem] text-accent/60 group-hover/link:text-accent transition-colors">
                                         {formatLabel(project)}
                                       </span>
@@ -172,7 +172,7 @@ export default function SystemLaboratory() {
               </div>
 
               {/* VIEWPORT FOOTER */}
-              <div className="p-6 border-t border-border-dim bg-bg-primary/20 bg-grid-dim bg-[size:10px_10px]">
+              <div className="p-sys-24 border-t border-border-dim bg-bg-primary/20 bg-grid-dim bg-[size:10px_10px]">
                  <div className="flex justify-between items-center opacity-20">
                     <div className="type-metadata text-[0.35rem]">TELEMETRY: ACTIVE</div>
                     <div className="type-metadata text-[0.35rem]">ID: {activeExploration?.investigation_id.toUpperCase()}</div>

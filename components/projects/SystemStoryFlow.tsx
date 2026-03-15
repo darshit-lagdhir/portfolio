@@ -47,7 +47,7 @@ export default function SystemStoryFlow({ steps, onStepChange, title = "System_S
            <button 
              onClick={handlePrev}
              disabled={activeStepIndex === 0}
-             className="p-3 border border-border-dim hover:border-accent disabled:opacity-20 disabled:hover:border-border-dim transition-colors group"
+             className="p-sys-12 border border-border-dim hover:border-accent disabled:opacity-20 disabled:hover:border-border-dim transition-colors group"
              aria-label="Previous Step"
            >
               <span className="type-metadata text-[0.5rem] group-hover:text-accent group-disabled:text-inherit transition-colors">← PREV_PHASE</span>
@@ -55,7 +55,7 @@ export default function SystemStoryFlow({ steps, onStepChange, title = "System_S
            <button 
              onClick={handleNext}
              disabled={activeStepIndex === steps.length - 1}
-             className="p-3 border border-border-dim hover:border-accent disabled:opacity-20 disabled:hover:border-border-dim transition-colors group"
+             className="p-sys-12 border border-border-dim hover:border-accent disabled:opacity-20 disabled:hover:border-border-dim transition-colors group"
              aria-label="Next Step"
            >
               <span className="type-metadata text-[0.5rem] group-hover:text-accent group-disabled:text-inherit transition-colors">NEXT_PHASE →</span>
@@ -64,7 +64,7 @@ export default function SystemStoryFlow({ steps, onStepChange, title = "System_S
       </div>
 
       <div className="relative border border-border-dim bg-bg-secondary/20 overflow-hidden min-h-[250px] md:min-h-[200px]">
-        <div className="absolute top-0 right-0 p-4 border-l border-b border-border-dim">
+        <div className="absolute top-0 right-0 p-sys-16 border-l border-b border-border-dim">
            <div className="type-metadata text-[0.4rem] opacity-30">EVOLUTION_STEP // 0{activeStepIndex + 1}_OF_0{steps.length}</div>
         </div>
 
@@ -76,7 +76,7 @@ export default function SystemStoryFlow({ steps, onStepChange, title = "System_S
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
             className={cn(
-              "p-8 md:p-12 h-full flex flex-col justify-center",
+              "p-sys-32 md:p-sys-48 h-full flex flex-col justify-center",
               isMobile ? "space-y-6" : "space-y-4"
             )}
           >
@@ -90,9 +90,9 @@ export default function SystemStoryFlow({ steps, onStepChange, title = "System_S
             </p>
 
             {activeStep.activeNodes.length > 0 && (
-               <div className="pt-4 flex items-center gap-3">
+               <div className="pt-sys-16 flex items-center gap-sys-12">
                   <div className="type-metadata text-[0.4rem] opacity-30 uppercase">Related_Components:</div>
-                  <div className="flex gap-2">
+                  <div className="flex gap-sys-8">
                     {activeStep.activeNodes.map(nodeId => (
                       <span key={nodeId} className="type-metadata text-[0.4rem] px-2 py-0.5 border border-accent/20 text-accent/80 bg-accent/5">
                         {formatLabel(nodeId)}
@@ -116,7 +116,7 @@ export default function SystemStoryFlow({ steps, onStepChange, title = "System_S
       </div>
 
       {/* Step Grid Indicators */}
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-4 gap-sys-16">
          {steps.map((step, idx) => (
            <button
              key={step.id}

@@ -78,8 +78,8 @@ export default function TerminalContact() {
 
       <div className="grid-12">
         <div className="col-span-full lg:col-span-8">
-            <div className="mb-sys-96 text-left space-y-6">
-            <div className="relative mb-2 opacity-30 text-accent flex items-center">
+            <div className="mb-sys-96 text-left space-y-sys-24">
+            <div className="relative mb-sys-12 opacity-30 text-accent flex items-center">
               <div className="absolute -left-6 status-dot active" />
               <span className="type-metadata text-[0.4rem] tracking-[0.3em] font-mono">CONNECTION_READY</span>
             </div>
@@ -96,14 +96,14 @@ export default function TerminalContact() {
             className="module-frame relative overflow-hidden !p-0 bg-transparent border-dashed hover:shadow-none hover:transform-none"
           >
             {/* TERMINAL HEADER */}
-            <div className="bg-bg-secondary border-b border-border-dim px-8 py-6 flex items-center justify-between">
-              <div className="flex gap-4 items-center">
+            <div className="bg-bg-secondary border-b border-border-dim px-sys-32 py-sys-24 flex items-center justify-between">
+              <div className="flex gap-sys-16 items-center">
                 <div className="status-dot opacity-40" />
                 <div className="type-metadata text-[0.4rem] opacity-20 tracking-[0.4em] font-mono uppercase">
                   CON_INTERFACE_v2.1 // {new Date().getFullYear()}
                 </div>
               </div>
-              <div className="flex gap-1">
+              <div className="flex gap-sys-4">
                 <div className="w-1 h-3 bg-accent opacity-10" />
                 <div className="w-1 h-3 bg-accent opacity-20" />
                 <div className="w-1 h-3 bg-accent opacity-30" />
@@ -113,9 +113,9 @@ export default function TerminalContact() {
             {/* TERMINAL CONTENT */}
             <div
               ref={scrollRef}
-              className="p-4 md:p-12 h-[350px] md:h-[450px] overflow-y-auto bg-bg-primary/40 scrollbar-hide scroll-smooth"
+              className="p-sys-16 md:p-sys-48 h-[350px] md:h-[450px] overflow-y-auto bg-bg-primary/40 scrollbar-hide scroll-smooth"
             >
-              <div className="space-y-6 font-mono text-[0.8rem] leading-relaxed">
+              <div className="space-y-sys-24 font-mono text-[0.8rem] leading-relaxed">
                 {history.map((line, i) => (
                   <motion.div
                     key={i}
@@ -123,7 +123,7 @@ export default function TerminalContact() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.2 }}
                     className={cn(
-                      "whitespace-pre-wrap break-all flex gap-3 md:gap-4 items-start",
+                      "whitespace-pre-wrap break-all flex gap-sys-12 md:gap-sys-16 items-start",
                       line.type === 'input' ? "text-accent" : "text-text-secondary"
                     )}
                   >
@@ -140,7 +140,7 @@ export default function TerminalContact() {
                 ))}
 
                 {!isProcessing && (
-                  <div className="flex gap-3 md:gap-4 items-start text-accent">
+                  <div className="flex gap-sys-12 md:gap-sys-16 items-start text-accent">
                     <span className="opacity-30 shrink-0 select-none font-mono">λ</span>
                     <motion.div 
                       className="w-[8px] h-[15px] bg-accent mt-[1px]"
@@ -154,7 +154,7 @@ export default function TerminalContact() {
                   <motion.div
                     animate={{ opacity: [0.3, 1, 0.3] }}
                     transition={{ duration: 1, repeat: Infinity }}
-                    className="text-accent/60 flex gap-6"
+                    className="text-accent/60 flex gap-sys-24"
                    >
                     <span className="opacity-20 shrink-0">λ</span>
                     <span>{formatLabel("HANDSHAKE_INITIATED // RESOLVING_ENDPOINT_")}</span>
@@ -164,24 +164,24 @@ export default function TerminalContact() {
             </div>
 
             {/* COMMAND SELECTION PANEL */}
-            <div className="bg-bg-secondary border-t border-border-dim p-4 md:p-12">
-              <div className="type-metadata text-[0.5rem] mb-8 opacity-40 tracking-[0.4em] flex items-center gap-4 text-text-secondary font-bold">
-                 <div className="w-1 h-3 bg-accent" />
+            <div className="bg-bg-secondary border-t border-border-dim p-sys-16 md:p-sys-48">
+              <div className="type-metadata text-[0.5rem] mb-sys-32 opacity-40 tracking-[0.4em] flex items-center gap-sys-16 text-text-secondary font-bold">
+                 <div className="w-1 h-[8px] bg-accent" />
                  SELECT_COMMAND_PAYLOAD
               </div>
-              <div className="grid-12 gap-y-4">
+              <div className="grid-12 gap-y-sys-16">
                 {SELECTABLE_COMMANDS.map((cmd) => (
                   <button
                     key={cmd.id}
                     onClick={() => executeCommand(cmd.id, cmd.label)}
                     disabled={isProcessing}
                     aria-label={`Execute command: ${cmd.label}`}
-                    className="module-frame group flex items-center justify-between !p-4 relative text-left disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-1 focus-visible:ring-accent md:hover:translate-x-1 hover:bg-accent/5 hover:border-accent/40 min-w-0 overflow-hidden col-span-full md:col-span-6"
+                    className="module-frame group flex items-center justify-between !p-sys-16 relative text-left disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-1 focus-visible:ring-accent transform md:hover:translate-x-1 hover:bg-accent/5 hover:border-accent/40 min-w-0 overflow-hidden col-span-full md:col-span-6 transition-all duration-300 ease-in-out"
                   >
-                    <div className="absolute top-2 right-2 opacity-20 group-hover:opacity-100 transition-opacity">
+                    <div className="absolute top-sys-8 right-sys-8 opacity-20 group-hover:opacity-100 transition-opacity">
                        <div className="arch-marker scale-[0.3]" />
                     </div>
-                     <div className="flex items-center gap-3 shrink-0">
+                     <div className="flex items-center gap-sys-12 shrink-0">
                       <span className="text-accent opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all font-mono">λ</span>
                       <span className="type-nav text-[0.7rem] font-bold group-hover:text-accent transition-colors">
                         {formatLabel(cmd.label)}
@@ -199,7 +199,7 @@ export default function TerminalContact() {
             <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-scanlines animate-scanline" />
           </motion.div>
 
-          <footer className="mt-sys-96 text-center space-y-6">
+          <footer className="mt-sys-96 text-center space-y-sys-24">
             <div className="w-[1px] h-12 bg-border-dim mx-auto opacity-30" />
             <div className="type-metadata text-[0.55rem] tracking-[0.5em] opacity-40 uppercase">
                SYSTEM_OFFLINE // DARSHIT_SYSTEMS_2026

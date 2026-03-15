@@ -152,17 +152,17 @@ export default function ArchitectureDiagram({ layout, nodes, connections, highli
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.98, y: -5 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className={cn(
-               "mt-sys-64 border border-border-dim bg-bg-secondary relative overflow-hidden group",
-               isMobile ? "p-8" : "p-sys-48"
-            )}
+             className={cn(
+                "mt-sys-64 border border-border-dim bg-bg-secondary relative overflow-hidden group",
+                isMobile ? "p-sys-32" : "p-sys-48"
+             )}
           >
             <div className="absolute top-0 left-0 w-1 h-full bg-accent" />
             
-            <div className={cn("grid-12", isMobile ? "flex flex-col gap-8" : "gap-sys-32")}>
-               <div className={cn("col-span-full lg:col-span-6 space-y-6")}>
+            <div className={cn("grid-12", isMobile ? "flex flex-col gap-sys-32" : "gap-sys-32")}>
+               <div className={cn("col-span-full lg:col-span-6 space-y-sys-24")}>
                   <div>
-                    <div className="type-metadata text-[0.45rem] text-accent mb-2">COMPONENT_SPECIFICATION</div>
+                    <div className="type-metadata text-[0.45rem] text-accent mb-sys-8">COMPONENT_SPECIFICATION</div>
                     <h3 className="type-emphasis text-xl md:text-2xl tracking-tighter">{activeNode.label}</h3>
                   </div>
                   <span className="type-display text-8xl text-text-primary/5 uppercase select-none pointer-events-none">
@@ -172,7 +172,7 @@ export default function ArchitectureDiagram({ layout, nodes, connections, highli
                     {activeNode.description}
                   </p>
 
-                  <div className="flex flex-wrap gap-2 pt-4">
+                  <div className="flex flex-wrap gap-sys-8 pt-sys-16">
                      {activeNode.tech?.map((t: string) => (
                         <span key={t} className="type-metadata text-[0.4rem] px-2 py-1 bg-bg-primary border border-border-dim text-text-muted uppercase">
                           {t}
@@ -181,14 +181,14 @@ export default function ArchitectureDiagram({ layout, nodes, connections, highli
                   </div>
                </div>
 
-               <div className={cn("col-span-full lg:col-span-5 lg:col-start-8 space-y-8")}>
+               <div className={cn("col-span-full lg:col-span-5 lg:col-start-8 space-y-sys-32")}>
                   {activeNode.responsibilities && (
                     <div>
-                       <div className="type-metadata text-[0.45rem] text-text-muted mb-4">CORE_RESPONSIBILITIES</div>
-                       <ul className="space-y-3">
+                       <div className="type-metadata text-[0.45rem] text-text-muted mb-sys-16">CORE_RESPONSIBILITIES</div>
+                       <ul className="space-y-sys-12">
                           {activeNode.responsibilities.map((res: string, i: number) => (
-                            <li key={i} className="flex gap-3 items-start group/li">
-                               <span className="type-metadata text-[0.4rem] text-accent mt-1.5 opacity-40 group-hover/li:opacity-100 transition-opacity">0{i+1}</span>
+                            <li key={i} className="flex gap-sys-12 items-start group/li">
+                               <span className="type-metadata text-[0.4rem] text-accent mt-[6px] opacity-40 group-hover/li:opacity-100 transition-opacity">0{i+1}</span>
                                <span className="type-body text-xs text-text-muted group-hover/li:text-text-secondary transition-colors italic">{res}</span>
                             </li>
                           ))}

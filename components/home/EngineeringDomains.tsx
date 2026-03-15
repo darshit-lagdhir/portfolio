@@ -42,7 +42,7 @@ export default function EngineeringDomains() {
 
       <div className="grid-12 gap-y-sys-48 items-end mb-sys-64">
         <div className="col-span-full lg:col-span-7">
-          <div className="type-metadata text-accent opacity-60 mb-4">EXPLORATION_MAP</div>
+          <div className="type-metadata text-accent opacity-60 mb-sys-16">EXPLORATION_MAP</div>
           <h3 className="type-h1 break-words hyphens-auto mb-0">Research_Nodes</h3>
         </div>
         <div className="col-span-full lg:col-span-4 lg:col-start-9">
@@ -87,7 +87,7 @@ export default function EngineeringDomains() {
         </div>
 
         {/* Domain Detail & Map Area */}
-        <div className="module-frame col-span-full lg:col-span-8 min-h-[500px] relative !p-6 md:!p-16 overflow-hidden flex flex-col justify-center">
+        <div className="module-frame col-span-full lg:col-span-8 min-h-[500px] relative !p-sys-24 md:!p-sys-64 overflow-hidden flex flex-col justify-center">
           {/* Visual DomainMap Layer */}
           <DomainMap 
             activeDomainId={activeDomainId} 
@@ -130,13 +130,13 @@ export default function EngineeringDomains() {
                         <Link 
                           key={project.slug}
                           href={getProjectUrl(project.slug)}
-                          className="module-frame group !p-6 relative transition-all h-full"
+                          className="module-frame group !p-sys-24 relative transition-all h-full"
                         >
-                           <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                           <div className="absolute top-sys-8 right-sys-8 opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-out">
                               <div className="arch-marker scale-50" />
                            </div>
                             <h4 className="type-emphasis text-sm group-hover:text-accent transition-colors">{project.name}</h4>
-                            <p className="type-body text-[0.7rem] text-text-secondary opacity-50 mt-2 line-clamp-2 italic">{project.shortDescription}</p>
+                            <p className="type-body text-[0.7rem] text-text-secondary opacity-50 mt-sys-8 line-clamp-2 italic">{project.shortDescription}</p>
                         </Link>
                       ))}
                    </div>
@@ -147,10 +147,10 @@ export default function EngineeringDomains() {
                 key="empty"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="h-full flex flex-col items-center justify-center text-center space-y-6 py-sys-48 relative z-10"
+                className="h-full flex flex-col items-center justify-center text-center space-y-sys-24 py-sys-48 relative z-10"
               >
                 <div className="w-16 h-[1px] bg-accent-dim" />
-                <div className="space-y-2">
+                <div className="space-y-sys-8">
                   <div className="type-metadata text-[0.45rem] text-text-muted">SYSTEM_IDLE</div>
                   <h3 className="type-emphasis text-lg text-text-muted uppercase tracking-widest">SELECT_DOMAIN_FOR_EXPLORATION</h3>
                 </div>
@@ -158,7 +158,7 @@ export default function EngineeringDomains() {
                 
                 {/* Background Visualization Hint - Optimized for mobile logic */}
                 {isMobile ? (
-                  <div className="flex flex-col items-center gap-4 py-8">
+                  <div className="flex flex-col items-center gap-sys-16 py-sys-32">
                      <div className="type-metadata text-[0.4rem] opacity-30 text-center uppercase tracking-[0.2em]">
                        Select_Node_from_List_Above <br />
                        to_Initialize_Mapping

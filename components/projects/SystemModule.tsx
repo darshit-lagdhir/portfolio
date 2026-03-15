@@ -34,7 +34,7 @@ export default function SystemModule({ project, index }: SystemModuleProps) {
         style={{ willChange: "transform, opacity" }}
       >
         {/* Module Header Hook */}
-        <div className="absolute top-0 right-0 p-sys-24 opacity-30 group-hover:opacity-100 transition-opacity text-accent">
+        <div className="absolute top-0 right-0 p-sys-24 opacity-30 group-hover:opacity-100 transition-opacity duration-300 text-accent">
           <span className="type-metadata text-[0.4rem] tracking-[0.4em] font-mono">
             REF_0{index + 1}
           </span>
@@ -50,8 +50,8 @@ export default function SystemModule({ project, index }: SystemModuleProps) {
           </div>
           
           {project.authority && (
-            <div className="flex items-center gap-4">
-              <div className="flex gap-1 opacity-40 group-hover:opacity-100 transition-opacity">
+            <div className="flex items-center gap-sys-16">
+              <div className="flex gap-sys-4 opacity-40 group-hover:opacity-100 transition-opacity duration-300">
                 {[...Array(5)].map((_, i) => (
                   <div 
                     key={i} 
@@ -62,7 +62,7 @@ export default function SystemModule({ project, index }: SystemModuleProps) {
                   />
                 ))}
               </div>
-              <div className="type-metadata text-[0.35rem] px-2 py-0.5 border border-border-dim text-text-muted uppercase tracking-widest bg-bg-primary/30">
+              <div className="type-metadata text-[0.35rem] px-sys-8 py-[2px] border border-border-dim text-text-muted uppercase tracking-widest bg-bg-primary/30">
                 {project.authority.architectureDepth}
               </div>
             </div>
@@ -70,7 +70,7 @@ export default function SystemModule({ project, index }: SystemModuleProps) {
         </div>
 
         <div className="mb-sys-32">
-          <div className="type-metadata text-[0.35rem] text-accent/60 mb-3 tracking-[0.3em] font-mono whitespace-nowrap overflow-hidden text-ellipsis">NODE_{index + 1} {'//'} {formatLabel(project.authority?.primaryDomain || "CORE")}</div>
+          <div className="type-metadata text-[0.35rem] text-accent/60 mb-sys-12 tracking-[0.3em] font-mono whitespace-nowrap overflow-hidden text-ellipsis">NODE_{index + 1} {'//'} {formatLabel(project.authority?.primaryDomain || "CORE")}</div>
           <h3 className="type-h2 text-text-primary group-hover:text-accent transition-colors break-words [text-wrap:balance]">
             {project.name.toLowerCase()}
           </h3>
@@ -82,7 +82,7 @@ export default function SystemModule({ project, index }: SystemModuleProps) {
 
         {/* Technical Depth Metadata Area */}
         {project.authority && (
-          <div className="mb-sys-64 space-y-sys-16 pt-8 border-t border-border-dim">
+          <div className="mb-sys-64 space-y-sys-16 pt-sys-32 border-t border-border-dim">
              <div>
                 <div className="type-metadata text-[0.35rem] text-text-muted mb-sys-12 uppercase tracking-widest font-mono">Inquiry_Vector</div>
                 <div className="type-body text-[0.6rem] text-text-secondary/60 italic font-medium">&quot;{project.authority.researchFocus}&quot;</div>
@@ -91,7 +91,7 @@ export default function SystemModule({ project, index }: SystemModuleProps) {
         )}
 
         <div className="mt-auto">
-          <div className="flex flex-wrap gap-2 mb-sys-48">
+          <div className="flex flex-wrap gap-sys-8 mb-sys-48">
             {project.techStack.slice(0, 4).map(tech => (
               <span key={tech} className="type-metadata text-[0.4rem] text-text-muted group-hover:text-accent transition-colors font-mono tracking-widest uppercase">
                 {tech}
@@ -101,7 +101,7 @@ export default function SystemModule({ project, index }: SystemModuleProps) {
 
           <div className="flex items-center justify-between pt-sys-24 border-t border-border-dim">
             <span className="type-nav text-[0.45rem] tracking-[0.4em] text-text-muted group-hover:text-text-primary transition-colors">DIAGNOSTIC_SPEC</span>
-            <span className="text-xs text-text-muted group-hover:text-accent transition-all font-mono tracking-widest uppercase">READ_NODE &rarr;</span>
+            <span className="text-xs text-text-muted group-hover:text-accent transition-all duration-300 font-mono tracking-widest uppercase">READ_NODE &rarr;</span>
           </div>
         </div>
       </motion.div>

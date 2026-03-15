@@ -13,7 +13,7 @@ export default function ProjectNetwork({ currentSlug }: ProjectNetworkProps) {
   
   return (
     <section className="mt-sys-128 pt-sys-96 border-t border-border-dim">
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 mb-sys-64">
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-sys-32 mb-sys-64">
         <div>
            <div className="type-metadata text-[0.5rem] text-accent mb-2">SYSTEM_NETWORKING</div>
            <h2 className="type-h1 text-4xl uppercase tracking-tighter break-words hyphens-auto">Engineering Exploration_</h2>
@@ -28,16 +28,16 @@ export default function ProjectNetwork({ currentSlug }: ProjectNetworkProps) {
           <Link key={project.slug} href={`/${project.slug}`} className="col-span-full md:col-span-6">
             <motion.div
               whileHover={{ y: -5 }}
-              className="group p-8 border border-border-dim bg-bg-secondary/20 hover:border-accent/30 transition-all relative overflow-hidden"
+              className="group p-sys-32 border border-border-dim bg-bg-secondary/20 hover:border-accent/30 transition-all relative overflow-hidden"
             >
-              <div className="flex justify-between items-start mb-6">
+              <div className="flex justify-between items-start mb-sys-24">
                 <span className="type-metadata text-[0.4rem] opacity-30">SYSTEM_NODE_0{idx + 1}</span>
-                <span className="type-metadata text-[0.4rem] text-accent px-2 py-0.5 border border-accent/20">
+                <span className="type-metadata text-[0.4rem] text-accent px-sys-8 py-[2px] border border-accent/20">
                   {project.technicalMeta?.systemType.toUpperCase()}
                 </span>
               </div>
               
-              <h3 className="type-emphasis text-xl mb-4 group-hover:text-accent transition-colors">
+              <h3 className="type-emphasis text-xl mb-sys-16 group-hover:text-accent transition-colors">
                 {project.name.toUpperCase()}
               </h3>
               
@@ -46,9 +46,9 @@ export default function ProjectNetwork({ currentSlug }: ProjectNetworkProps) {
               </p>
 
               {/* Subtle System Relationship Indicator */}
-              <div className="mt-8 flex items-center gap-4 opacity-[0.05] group-hover:opacity-20 transition-opacity">
+              <div className="mt-sys-32 flex items-center gap-sys-16 opacity-[0.05] group-hover:opacity-20 transition-opacity duration-300">
                 <div className="h-[1px] w-12 bg-white" />
-                <div className="w-1.5 h-1.5 rounded-full bg-white transition-transform group-hover:scale-150 group-hover:bg-accent" />
+                <div className="w-1.5 h-1.5 rounded-full bg-white transition-all duration-300 group-hover:scale-150 group-hover:bg-accent" />
                 <div className="h-[2px] w-2 bg-white" />
                 <div className="h-[1px] flex-grow bg-white" />
               </div>
