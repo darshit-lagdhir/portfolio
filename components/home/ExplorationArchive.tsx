@@ -14,7 +14,7 @@ export default function ExplorationArchive() {
     <div className="w-full">
       <div className="flex items-center gap-3 mb-12 opacity-30">
         <div className="w-1.5 h-1.5 border border-accent rotate-45" />
-        <span className="type-metadata text-[0.45rem] tracking-[0.4em] font-mono uppercase">Completed_Investigation_Archive</span>
+        <span className="type-metadata text-[0.45rem] tracking-[0.4em] font-mono uppercase break-words hyphens-auto max-w-[250px] leading-tight">Completed_Investigation_Archive</span>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-sys-32">
@@ -25,7 +25,7 @@ export default function ExplorationArchive() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.1 }}
-            className="module-frame group hover:border-accent/30 transition-all flex flex-col h-full"
+            className="module-frame group hover:border-accent/30 transition-all flex flex-col h-full min-h-[460px] !p-8"
           >
             <div className="flex justify-between items-start mb-6">
               <span className="type-metadata text-[0.35rem] opacity-30 uppercase font-mono">
@@ -50,9 +50,9 @@ export default function ExplorationArchive() {
                 </p>
               </div>
 
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-x-3 gap-y-2">
                 {item.related_domains.map(domain => (
-                  <span key={domain} className="type-metadata text-[0.3rem] opacity-20 border border-border-dim/50 px-2 py-0.5 uppercase">
+                  <span key={domain} className="type-metadata text-[0.3rem] opacity-20 border border-border-dim/50 px-2 py-1 uppercase tracking-tighter">
                     {unslugify(domain)}
                   </span>
                 ))}

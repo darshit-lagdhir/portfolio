@@ -34,7 +34,7 @@ export default function SystemLaboratory() {
               <div className="w-1 h-1 bg-accent/40 rounded-full" />
               <span className="type-metadata text-[0.4rem] tracking-[0.3em] font-mono">ACTIVE_EXPLORATION_BOARD</span>
            </div>
-           <h2 className="type-h1 uppercase tracking-tighter mb-6 break-words hyphens-auto">Systems_Laboratory_</h2>
+           <h2 className="type-h1 text-4xl md:text-5xl lg:text-6xl uppercase tracking-tighter mb-6 break-words hyphens-auto leading-[1.05]">Systems_Laboratory_</h2>
            <p className="type-body text-sm text-text-secondary max-w-2xl opacity-50">
              Current investigations into system behavior and low-level architectural mechanics. 
              These active research tracks represent the front-line of my technical learning process.
@@ -58,7 +58,7 @@ export default function SystemLaboratory() {
               )}
             >
               <div className="flex justify-between items-start mb-3">
-                 <span className="type-metadata text-[0.35rem] opacity-40">{unslugify(item.related_domains[0])}</span>
+                 <span className="type-metadata text-[0.35rem] opacity-40 uppercase tracking-widest">{item.investigation_id.split('-').join('_')}</span>
                  <div className={cn(
                    "arch-marker scale-[0.4] transition-all",
                    activeId === item.investigation_id ? "opacity-100" : "opacity-20 group-hover:opacity-100"
@@ -71,11 +71,6 @@ export default function SystemLaboratory() {
                 {formatLabel(item.title)}
               </h3>
               
-              <div className="flex flex-wrap gap-2 mt-4">
-                {item.related_domains.map(domainId => (
-                  <span key={domainId} className="type-metadata text-[0.3rem] opacity-30 uppercase">{unslugify(domainId)}</span>
-                ))}
-              </div>
 
               {activeId === item.investigation_id && (
                 <motion.div 
@@ -85,6 +80,7 @@ export default function SystemLaboratory() {
               )}
             </button>
           ))}
+          <div className="h-24 lg:hidden" /> {/* MOBILE_NAV_CLEARANCE */}
         </div>
 
         {/* EXPLORATION VIEWPORT */}
@@ -186,7 +182,7 @@ export default function SystemLaboratory() {
         </div>
       </div>
 
-      <div className="mt-sys-128">
+      <div className="mt-sys-128 pb-sys-96 lg:pb-0">
         <ExplorationArchive />
       </div>
 
