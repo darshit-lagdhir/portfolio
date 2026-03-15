@@ -97,8 +97,8 @@ export default function Home() {
         <TerminalContact />
       </SectionContainer>
 
-      <footer className="system-container py-sys-96 md:py-sys-128 border-t border-border-dim/20">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-12 text-center md:text-left">
+      <footer className="system-container py-sys-96 md:py-sys-128 border-t border-border-dim/20 pb-sys-128 md:pb-sys-128">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-12 text-center md:text-left mb-sys-64 md:mb-0">
            <div className="space-y-2 opacity-30">
               <span className="type-metadata text-[0.6rem] font-mono tracking-[0.4em]">© 2026 DARSHIT_LAGDHIR_SYSTEMS</span>
               <p className="type-metadata text-[0.45rem] opacity-50">Exploration of Architectural Rigor & Systems Thinking</p>
@@ -118,9 +118,9 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* Visual Anchor Metadata */}
-      <div className="fixed bottom-sys-32 left-sys-32 pointer-events-none z-50">
-        <div className="type-metadata opacity-10 text-[0.5rem] bg-bg-primary/80 backdrop-blur-sm p-1 eng-bracket">
+      {/* Visual Anchor Metadata - Repositioned to avoid dock overlap on mobile */}
+      <div className="fixed top-sys-32 right-sys-32 md:top-auto md:right-auto md:bottom-sys-32 md:left-sys-32 pointer-events-none z-[60]">
+        <div className="type-metadata opacity-20 text-[0.45rem] md:text-[0.5rem] bg-bg-primary/80 backdrop-blur-md p-2 eng-bracket border border-border-dim/30">
           COORDS: 12.97°N 77.59°E // BENGALURU_SYSTEMS
         </div>
       </div>

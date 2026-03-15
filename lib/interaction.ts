@@ -162,12 +162,25 @@ export function useActiveSection(sectionIds: string[], offsetMargin = "-30% 0px 
       });
     }, { rootMargin: offsetMargin, threshold: [0, 0.1] });
 
+    // Force first section if at the very top of the page
+    const handleScroll = () => {
+      if (window.scrollY < 50) {
+        setActiveSection(sectionIds[0]);
+      }
+    };
+
     sectionIds.forEach(id => {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
     });
 
-    return () => observer.disconnect();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, [sectionIds, offsetMargin]);
 
   return activeSection;
