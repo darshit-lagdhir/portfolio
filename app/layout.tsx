@@ -45,7 +45,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       suppressHydrationWarning 
       className={`${fornire.variable} ${ranade.variable} ${panchang.variable} ${hkGroteskWide.variable}`}
     >
-      <body className="antialiased bg-bg-primary text-text-primary overflow-x-hidden selection:bg-accent selection:text-white">
+      <body 
+        suppressHydrationWarning
+        className="antialiased bg-bg-primary text-text-primary overflow-x-hidden selection:bg-accent selection:text-white"
+      >
         <SceneProvider>
           {/* BACKGROUND LAYER: visual backdrop for the portal */}
           <SystemBackground />

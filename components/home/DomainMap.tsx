@@ -79,8 +79,8 @@ export default function DomainMap({ activeDomainId, onDomainClick, simplified = 
               key={domain.domain_id} 
               className="cursor-pointer"
               onClick={() => onDomainClick(domain.domain_id)}
-              onMouseEnter={() => !useScene().isMobile && setHoveredId(domain.domain_id)}
-              onMouseLeave={() => !useScene().isMobile && setHoveredId(null)}
+              onMouseEnter={() => !isMobile && setHoveredId(domain.domain_id)}
+              onMouseLeave={() => !isMobile && setHoveredId(null)}
             >
               <motion.circle
                 cx={pos.x}

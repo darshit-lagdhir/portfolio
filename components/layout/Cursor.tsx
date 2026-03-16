@@ -73,13 +73,13 @@ export default function Cursor() {
       scale: isLowPerf ? 1.5 : 2.5,
       backgroundColor: "var(--color-accent)",
       opacity: isLowPerf ? 0.3 : 0.15,
-      borderColor: "transparent",
+      borderColor: "rgba(255, 255, 255, 0)",
     },
     active: {
       scale: isLowPerf ? 1.2 : 1.8,
       backgroundColor: "var(--color-accent)",
       opacity: 0.3,
-      borderColor: "transparent",
+      borderColor: "rgba(255, 255, 255, 0)",
     }
   };
 

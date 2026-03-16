@@ -12,14 +12,14 @@ interface SystemModuleProps {
 }
 
 export default function SystemModule({ project, index }: SystemModuleProps) {
-  const { isLowPerf } = useScene();
+  const { isLowPerf, isMobile } = useScene();
   const statusMeta = getStatusMetadata(project.status);
 
   return (
     <Link href={getProjectUrl(project.slug)} className="focus:outline-none focus-visible:ring-1 focus-visible:ring-accent flex flex-col h-full">
       <motion.div
         whileTap={{ scale: 0.985 }}
-        whileHover={!useScene().isMobile ? { 
+        whileHover={!isMobile ? { 
           scale: 1.015,
           transition: { duration: 0.2, ease: "easeOut" }
         } : {}}
